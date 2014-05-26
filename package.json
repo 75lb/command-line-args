@@ -1,0 +1,13 @@
+{
+  "name": "command-line-args",
+  "version": "0.0.0",
+  "description": "Parse command lines",
+  "main": "index.js",
+  "scripts": {
+    "test": ""
+  },
+  "author": "Lloyd Brookes",
+  "devDependencies": {
+    "tap": "^0.4.9"
+  }
+}
