@@ -9,6 +9,6 @@ var expectArgs = [
     { name: "files", defaultOption: true }
 ];
 
-test("boolean flag option doesn't exist", function(t){
-    var argv = [ "-verbose" ];
-});
+// test("boolean flag option doesn't exist", function(t){
+//     var argv = [ "-verbose" ];
+// });

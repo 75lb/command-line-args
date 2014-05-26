@@ -4,7 +4,7 @@
   "description": "Parse command lines",
   "main": "index.js",
   "scripts": {
-    "test": ""
+    "test": "tap test/*.js"
   },
   "author": "Lloyd Brookes",
   "devDependencies": {
