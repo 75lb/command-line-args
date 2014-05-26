@@ -9,19 +9,13 @@ var optionDefinitions = [
     { name: "files", defaultOption: true }
 ];
 
-test("one boolean", function(t){
-    var argv = [ "--verbose" ];
-    t.deepEqual(parse(optionDefinitions, argv), {
-        verbose: true
-    });
-    t.end();
-});
-
-test("one boolean, one string", function(t){
-    var argv = [ "--verbose", "--colour", "red" ];
+test("one of each", function(t){
+    var argv = [ "--verbose", "-d", "--colour", "red", "--number", 3 ];
     t.deepEqual(parse(optionDefinitions, argv), {
         verbose: true,
-        colour: "red"
+        dry: true,
+        colour: "red",
+        number: 3
     });
     t.end();
 });
