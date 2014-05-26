@@ -1,17 +1,17 @@
 {
   "name": "command-line-args",
   "version": "0.0.0",
-  "description": "Parse command lines",
-  "main": "index.js",
+  "description": "Parse command line options",
+  "repository": "https://github.com/75lb/command-line-args.git",
+  "main": "lib/command-line-args",
   "scripts": {
     "test": "tap test/*.js"
   },
   "author": "Lloyd Brookes",
   "devDependencies": {
-    "tap": "^0.4.9",
-    "traceur": "~0.0.42"
+    "tap": "^0.4.9"
   },
   "dependencies": {
-    "wodge": "^0.6.8"
+    "wodge": "~0.6.8"
   }
 }
