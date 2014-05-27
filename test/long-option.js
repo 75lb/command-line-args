@@ -25,3 +25,12 @@ test("one boolean, one string", function(t){
     });
     t.end();
 });
+
+test("one boolean, one string, one number", function(t){
+    var argv = [ "--verbose", "--colour", "red", "--number", "3" ];
+    var result = parse(optionDefinitions, argv);
+    t.equal(result.verbose, true);
+    t.equal(result.colour, "red");
+    t.equal(result.number, 3);
+    t.end();
+});
