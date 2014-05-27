@@ -11,11 +11,10 @@ var optionDefinitions = [
 
 test("one of each", function(t){
     var argv = [ "--verbose", "-d", "--colour", "red", "--number", 3 ];
-    t.deepEqual(parse(optionDefinitions, argv), {
-        verbose: true,
-        dry: true,
-        colour: "red",
-        number: 3
-    });
+    var result = parse(optionDefinitions, argv);
+    t.equal(result.verbose, true);
+    t.equal(result.dry, true);
+    t.equal(result.colour, "red");
+    t.equal(result.number, 3);
     t.end();
 });
