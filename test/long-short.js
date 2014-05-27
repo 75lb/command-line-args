@@ -2,7 +2,7 @@ var test = require("tap").test;
 var parse = require("../lib/command-line-args");
 
 var optionDefinitions = [
-    { name: "verbose", alias: "v", type: "boolean" },
+    { name: "verbose", alias: "v", type: Boolean },
     { name: "dry", alias: "d", type: Boolean },
     { name: "colour", alias: "c" },
     { name: "number", alias: "n", type: Number },
