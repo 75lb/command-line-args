@@ -1,14 +1,24 @@
 var test = require("tap").test;
 var parse = require("../lib/command-line-args");
 
-var expectArgs = [
+var optionDefinitions = [
     { name: "verbose", alias: "v", type: Boolean },
     { name: "dry", alias: "d", type: Boolean },
     { name: "colour", alias: "c" },
     { name: "number", alias: "n", type: Number },
-    { name: "files", defaultOption: true }
+    { name: "files", defaultOption: true },
+    { name: "colours", type: Array },
+    { name: "tramps", type: Array }
 ];
 
-// test("boolean flag option doesn't exist", function(t){
-//     var argv = [ "-verbose" ];
-// });
+test("throws on unrecognised option", function(t){
+    var argv = [ "-files", "clive" ];
+    t.throws(
+        function(){
+            parse(optionDefinitions, argv)
+        }, 
+        new Error("Unexpected option: f"), 
+        "throw test"
+    );
+    t.end();
+});
