@@ -1,5 +1,5 @@
 var test = require("tap").test;
-var parse = require("../lib/command-line-args");
+var parse = require("../lib/command-line-args").parse;
 
 
 test("default option", function(t){
