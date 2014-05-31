@@ -1,5 +1,5 @@
 var test = require("tape");
-var parse = require("../lib/command-line-args").parse;
+var cliArgs = require("../lib/command-line-args");
 
 var optionDefinitions = [
     {
@@ -23,7 +23,7 @@ var optionDefinitions = [
 
 test.only("grouping, one boolean", function(t){
     var argv = [ "--verbose" ];
-    t.deepEqual(parse(optionDefinitions, argv), {
+    t.deepEqual(cliArgs(optionDefinitions).parse(argv)), {
         group1: {
             verbose: true
         }
@@ -33,7 +33,7 @@ test.only("grouping, one boolean", function(t){
 
 test("one boolean, one string", function(t){
     var argv = [ "--verbose", "--colour", "red" ];
-    t.deepEqual(parse(optionDefinitions, argv), {
+    t.deepEqual(cliArgs(optionDefinitions).parse(argv), {
         group1: {
             verbose: true,
             colour: "red"
@@ -44,7 +44,7 @@ test("one boolean, one string", function(t){
 
 test("one boolean, one string, one number", function(t){
     var argv = [ "--verbose", "--colour", "red", "--number", "3" ];
-    var result = parse(optionDefinitions, argv);
+    var result = cliArgs(optionDefinitions).parse(argv);
     t.equal(result.group1.verbose, true);
     t.equal(result.group1.colour, "red");
     t.equal(result.group2.number, 3);
@@ -53,7 +53,7 @@ test("one boolean, one string, one number", function(t){
 
 test("one array", function(t){
     var argv = [ "--colours", "green", "red", "yellow" ];
-    var result = parse(optionDefinitions, argv);
+    var result = cliArgs(optionDefinitions).parse(argv);
     t.deepEqual(result, {
         group2: {
             colours: [ "green", "red", "yellow" ]
@@ -64,7 +64,7 @@ test("one array", function(t){
 
 test("two arrays", function(t){
     var argv = [ "--colours", "green", "red", "yellow", "--tramps", "mike", "colin" ];
-    var result = parse(optionDefinitions, argv);
+    var result = cliArgs(optionDefinitions).parse(argv);
     t.deepEqual(result, {
         group2: {
             colours: [ "green", "red", "yellow" ],
@@ -73,3 +73,4 @@ test("two arrays", function(t){
     });
     t.end();
 });
+

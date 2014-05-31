@@ -1,5 +1,5 @@
 var test = require("tap").test;
-var usage = require("../lib/command-line-args").usage;
+var cliArgs = require("../lib/command-line-args");
 
 var optionDefinitions = [
     { name: "verbose", alias: "v", type: Boolean },
@@ -10,6 +10,6 @@ var optionDefinitions = [
 ];
 
 test("usage", function(t){
-    t.equal(typeof usage(optionDefinitions), "string");
+    t.equal(typeof cliArgs(optionDefinitions).usage, "string");
     t.end();
 });
