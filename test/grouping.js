@@ -1,4 +1,4 @@
-var test = require("tap").test;
+var test = require("tape");
 var parse = require("../lib/command-line-args").parse;
 
 var optionDefinitions = [
@@ -21,7 +21,7 @@ var optionDefinitions = [
     }
 ];
 
-test("grouping, one boolean", function(t){
+test.only("grouping, one boolean", function(t){
     var argv = [ "--verbose" ];
     t.deepEqual(parse(optionDefinitions, argv), {
         group1: {
