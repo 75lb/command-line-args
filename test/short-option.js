@@ -1,5 +1,5 @@
 var test = require("tap").test;
-var parse = require("../lib/command-line-args").parse;
+var cliArgs = require("../lib/command-line-args");
 
 var optionDefinitions = [
     { name: "verbose", alias: "v", type: Boolean },
@@ -11,7 +11,7 @@ var optionDefinitions = [
 
 test("short: one boolean", function(t){
     var argv = [ "-v" ];
-    t.deepEqual(parse(optionDefinitions, argv), {
+    t.deepEqual(cliArgs(optionDefinitions).parse(argv), {
         verbose: true
     });
     t.end();
@@ -19,7 +19,7 @@ test("short: one boolean", function(t){
 
 test("short: one boolean, one string", function(t){
     var argv = [ "-v", "-c", "red" ];
-    t.deepEqual(parse(optionDefinitions, argv), {
+    t.deepEqual(cliArgs(optionDefinitions).parse(argv), {
         verbose: true,
         colour: "red"
     });

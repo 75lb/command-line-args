@@ -1,5 +1,5 @@
 var test = require("tap").test;
-var parse = require("../lib/command-line-args").parse;
+var cliArgs = require("../lib/command-line-args");
 
 var optionDefinitions = [
     { name: "verbose", alias: "v", type: Boolean },
@@ -13,7 +13,7 @@ var optionDefinitions = [
 
 test("default colour", function(t){
     var argv = [ "--verbose" ];
-    t.deepEqual(parse(optionDefinitions, argv), {
+    t.deepEqual(cliArgs(optionDefinitions).parse(argv), {
         verbose: true,
         colour: "orange"
     });

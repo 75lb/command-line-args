@@ -10,6 +10,6 @@ var optionDefinitions = [
 ];
 
 test("usage", function(t){
-    t.equal(typeof cliArgs(optionDefinitions).usage, "string");
+    t.equal(typeof cliArgs(optionDefinitions).usage(), "string");
     t.end();
 });

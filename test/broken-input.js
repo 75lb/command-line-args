@@ -1,5 +1,5 @@
 var test = require("tap").test;
-var parse = require("../lib/command-line-args").parse;
+var cliArgs = require("../lib/command-line-args");
 
 var optionDefinitions = [
     { name: "verbose", alias: "v", type: Boolean },
@@ -15,10 +15,9 @@ test("throws on unrecognised option", function(t){
     var argv = [ "-files", "clive" ];
     t.throws(
         function(){
-            parse(optionDefinitions, argv)
+            cliArgs(optionDefinitions).parse(argv);
         }, 
-        new Error("Unexpected option: f"), 
-        "throw test"
+        new Error("Unexpected option: f")
     );
     t.end();
 });
