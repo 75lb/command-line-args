@@ -9,11 +9,10 @@
   },
   "author": "Lloyd Brookes",
   "devDependencies": {
-    "tap": "^0.4.9",
-    "tape": "^2.13.1"
+    "tap": "^0.4.9"
   },
   "dependencies": {
-    "nature": "^0.4.3",
-    "wodge": "~0.6.8"
+    "nature": "~0.5",
+    "wodge": "~0.7"
   }
 }
