@@ -13,6 +13,7 @@
     "tape": "^2.13.1"
   },
   "dependencies": {
+    "nature": "^0.4.3",
     "wodge": "~0.6.8"
   }
 }

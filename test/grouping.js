@@ -3,7 +3,7 @@ var cliArgs = require("../lib/command-line-args");
 
 var optionDefinitions = [
     {
-        group: "group1",
+        groups: "group1",
         options: [
             { name: "verbose", alias: "v", type: Boolean },
             { name: "dry", alias: "d", type: Boolean },
@@ -11,7 +11,7 @@ var optionDefinitions = [
         ]
     },
     {
-        group: "group2",
+        groups: "group2",
         options: [
             { name: "number", alias: "n", type: Number },
             { name: "files", defaultOption: true },
@@ -21,12 +21,13 @@ var optionDefinitions = [
     }
 ];
 
-test.only("grouping, one boolean", function(t){
+test("grouping, one boolean", function(t){
     var argv = [ "--verbose" ];
-    t.deepEqual(cliArgs(optionDefinitions).parse(argv)), {
+    t.deepEqual(cliArgs(optionDefinitions).parse(argv), {
         group1: {
             verbose: true
-        }
+        },
+        group2: {}
     });
     t.end();
 });
@@ -37,7 +38,8 @@ test("one boolean, one string", function(t){
         group1: {
             verbose: true,
             colour: "red"
-        }
+        },
+        group2: {}
     });
     t.end();
 });
@@ -55,6 +57,7 @@ test("one array", function(t){
     var argv = [ "--colours", "green", "red", "yellow" ];
     var result = cliArgs(optionDefinitions).parse(argv);
     t.deepEqual(result, {
+        group1: {},
         group2: {
             colours: [ "green", "red", "yellow" ]
         }
@@ -66,6 +69,7 @@ test("two arrays", function(t){
     var argv = [ "--colours", "green", "red", "yellow", "--tramps", "mike", "colin" ];
     var result = cliArgs(optionDefinitions).parse(argv);
     t.deepEqual(result, {
+        group1: {},
         group2: {
             colours: [ "green", "red", "yellow" ],
             tramps: [ "mike", "colin" ]
@@ -73,4 +77,3 @@ test("two arrays", function(t){
     });
     t.end();
 });
-
