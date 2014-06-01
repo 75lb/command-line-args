@@ -6,7 +6,8 @@ var optionDefinitions = [
     { name: "colour", alias: "c" },
     { name: "number", alias: "n", type: Number },
     { name: "colours", type: Array },
-    { name: "tramps", type: Array }
+    { name: "tramps", type: Array },
+    { name: "dry-run", type: Boolean }
 ];
 
 test("one boolean", function(t){
@@ -53,6 +54,15 @@ test("two arrays", function(t){
     t.deepEqual(result, {
         colours: [ "green", "red", "yellow" ],
         tramps: [ "mike", "colin" ]
+    });
+    t.end();
+});
+
+test("--this-option", function(t){
+    var argv = [ "--dry-run" ];
+    var result = cliArgs(optionDefinitions).parse(argv);
+    t.deepEqual(result, {
+        "dry-run": true
     });
     t.end();
 });
