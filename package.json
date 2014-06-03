@@ -7,6 +7,7 @@
   "scripts": {
     "test": "tap test/*.js"
   },
+  "keywords": [ "argv", "parse", "argument", "args", "option", "parser", "parsing", "cli", "command"],
   "author": "Lloyd Brookes",
   "devDependencies": {
     "tap": "^0.4.9"
