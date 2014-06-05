@@ -21,3 +21,20 @@ test("throws on unrecognised option", function(t){
     );
     t.end();
 });
+
+test("handles missing option value", function(t){
+    var argv = [ "--colour" ];
+    t.deepEqual(cliArgs(optionDefinitions).parse(argv), {
+    	colour: null
+    });
+    t.end();
+});
+
+test("handles missing option value", function(t){
+    var argv = [ "--colour", "--number", "2" ];
+    t.deepEqual(cliArgs(optionDefinitions).parse(argv), {
+    	colour: null,
+		number: 2
+    });
+    t.end();
+});
