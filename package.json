@@ -23,7 +23,8 @@
     "tap": "^0.4.9"
   },
   "dependencies": {
+    "array-ting": "^0.2.0",
     "nature": "~0.5",
-    "wodge": "~0.7"
+    "object-ting": "^0.1.1"
   }
 }
