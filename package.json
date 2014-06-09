@@ -23,8 +23,8 @@
     "tap": "^0.4.9"
   },
   "dependencies": {
-    "array-ting": "^0.2.0",
+    "array-ting": "^1.0.0",
     "nature": "~0.5",
-    "object-ting": "^0.1.1"
+    "object-ting": "^1.0.0"
   }
 }
