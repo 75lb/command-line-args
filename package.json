@@ -1,6 +1,6 @@
 {
   "name": "command-line-args",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Parse command line options",
   "repository": "https://github.com/75lb/command-line-args.git",
   "main": "lib/command-line-args",
