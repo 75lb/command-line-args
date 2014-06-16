@@ -7,9 +7,9 @@
   {{/each}}
   {{~#if groups}}{{#each groups}}
   {{{ansi-underline name}}}
-  {{#columns options nameAndAlias=../columns.[0] description=../columns.[1] }}{{nameAndAlias}}{{{description}}}
+  {{#columns options column1=../columns.[0] description=../columns.[1] }}{{{column1}}}{{{description}}}
   {{/columns}}{{/each}}{{else}}
-  {{#columns options nameAndAlias=../columns.[0] description=../columns.[1] }}{{nameAndAlias}}{{{description}}}
+  {{#columns options column1=../columns.[0] description=../columns.[1] }}{{{column1}}}{{{description}}}
   {{/columns}}{{/if~}}
 
 {{#if footer}}

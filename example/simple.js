@@ -17,16 +17,14 @@ var optionDefinitions = [
     {
         name: "files", type: Array, defaultOption: true,
         description: "The default option, a list of files to do nothing about or with"
-    },
-    { form: "basic", description: "$ test <options> <files>" },
-    { form: "colour-only", description: "$ test --colour" }
+    }
 ];
 
 var cli = cliArgs(optionDefinitions);
 var argv = cli.parse();
 var usage = cli.usage({
     header: require("../package.json").description,
-    columns: [ 15, 15 ]
+    columns: [ 24, 15 ]
 });
 
 if (argv.help) console.log(usage); else console.dir(argv);

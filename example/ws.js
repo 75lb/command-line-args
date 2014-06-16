@@ -47,7 +47,7 @@ var usage = cli.usage({
     title: "local-web-server",
     header: "Lightweight static web server, zero configuration. Perfect for front-end devs.",
     footer: "for more detailed instructions, visit https://github.com/75lb/local-web-server",
-    columns: [ 18, 15 ],
+    columns: [ 27, 15 ],
     forms: [ 
         "$ ws <server options>",  
         "$ ws --config"
