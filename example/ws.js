@@ -38,20 +38,20 @@ var optionDefinitions = [
                 description: "prints the stored config"
             }
         ]
-    },
-
-    { form: "one", description: "$ ws <server options>"}
+    }
 ];
 
 var cli = cliArgs(optionDefinitions);
 var argv = cli.parse();
 var usage = cli.usage({
-    // header: "Lightweight static web server, zero configuration. Perfect for front-end devs.",
+    title: "local-web-server",
+    header: "Lightweight static web server, zero configuration. Perfect for front-end devs.",
     footer: "for more detailed instructions, visit https://github.com/75lb/local-web-server",
-    columns: [
-        { width: 18 },
-        { width: 15 }
-    ]
+    columns: [ 18, 15 ],
+    forms: [ 
+        "$ ws <server options>",  
+        "$ ws --config"
+    ],
 });
 
 if (argv.Misc.help) console.log(usage); else console.dir(argv);

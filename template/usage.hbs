@@ -1,14 +1,15 @@
-{{#if header}}
-{{{header}}}
+
+  {{#if title}}{{{ansi-underline title}}}
+  {{/if}}{{#if header}}{{{header}}}
 {{/if}}
-  Usage:
-  {{#each forms}}{{{description}}}
+  {{{ansi-underline "Usage"}}}
+  {{#each forms}}{{{this}}}
   {{/each}}
   {{~#if groups}}{{#each groups}}
-  {{{name}}}
-  {{#columns options nameAndAlias=../columns.[0].width description=../columns.[1].width }}{{nameAndAlias}}{{{description}}}
+  {{{ansi-underline name}}}
+  {{#columns options nameAndAlias=../columns.[0] description=../columns.[1] }}{{nameAndAlias}}{{{description}}}
   {{/columns}}{{/each}}{{else}}
-  {{#columns options nameAndAlias=../columns.[0].width description=../columns.[1].width }}{{nameAndAlias}}{{{description}}}
+  {{#columns options nameAndAlias=../columns.[0] description=../columns.[1] }}{{nameAndAlias}}{{{description}}}
   {{/columns}}{{/if~}}
 
 {{#if footer}}{{{footer}}}
