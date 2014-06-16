@@ -1,8 +1,11 @@
-{{{description}}}
+
+{{{header}}}
 
   Usage:
   {{#each forms}}{{{description}}}
   {{/each}}
-  {{#each options}}{{#if alias}}-{{{alias}}}, {{/if}}--{{{name}}} {{{description}}}
-  {{/each}}  
-for more detailed instructions, visit https://github.com/75lb/renamer
+
+  {{#columns options nameAndAlias=columns.[0].width description=columns.[1].width }}{{nameAndAlias}}{{{description}}}
+  {{/columns}}
+
+{{{footer}}}
