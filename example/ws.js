@@ -50,7 +50,8 @@ var usage = cli.usage({
     columns: [ 27, 15 ],
     forms: [ 
         "$ ws <server options>",  
-        "$ ws --config"
+        "$ ws --config",
+        "$ ws --help"
     ],
 });
 
