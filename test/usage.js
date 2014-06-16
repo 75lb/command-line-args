@@ -6,10 +6,14 @@ var optionDefinitions = [
     { name: "dry", alias: "d", type: Boolean },
     { name: "colour", alias: "c" },
     { name: "number", alias: "n", type: Number },
-    { name: "files", defaultOption: true }
+    { name: "files", defaultOption: true },
+    { form: "basic", description: "$ test <options> <files>" },
+    { form: "colour-only", description: "$ test --colour" }
 ];
 
-test("usage", function(t){
-    t.equal(typeof cliArgs(optionDefinitions).usage(), "string");
-    t.end();
-});
+// test("returns options", function(t){
+//     var usage = cliArgs(optionDefinitions).usage();
+//     t.ok(usage.options);
+//     t.ok(usage.forms);
+//     t.end();
+// });

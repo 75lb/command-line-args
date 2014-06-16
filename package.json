@@ -1,7 +1,7 @@
 {
   "name": "command-line-args",
   "version": "0.2.4",
-  "description": "Parse command line options",
+  "description": "Command-line parser, usage string producer",
   "repository": "https://github.com/75lb/command-line-args.git",
   "main": "lib/command-line-args",
   "scripts": {
@@ -23,7 +23,8 @@
     "tap": "^0.4.9"
   },
   "dependencies": {
-    "array-tools": "^1.0.0",
+    "array-tools": "^1.1.0",
+    "handlebars": "^2.0.0-alpha.4",
     "nature": "~0.5",
     "object-tools": "^1.0.0"
   }
