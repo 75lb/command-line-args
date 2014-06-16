@@ -26,10 +26,7 @@ var cli = cliArgs(optionDefinitions);
 var argv = cli.parse();
 var usage = cli.usage({
     header: require("../package.json").description,
-    columns: [
-        { width: 15 },
-        { width: 15 }
-    ]
+    columns: [ 15, 15 ]
 });
 
 if (argv.help) console.log(usage); else console.dir(argv);

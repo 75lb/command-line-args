@@ -1,8 +1,8 @@
 
   {{#if title}}{{{ansi-underline title}}}
   {{/if}}{{#if header}}{{{header}}}
-{{/if}}
-  {{{ansi-underline "Usage"}}}
+  
+  {{/if}}{{{ansi-underline "Usage"}}}
   {{#each forms}}{{{this}}}
   {{/each}}
   {{~#if groups}}{{#each groups}}
@@ -12,5 +12,6 @@
   {{#columns options nameAndAlias=../columns.[0] description=../columns.[1] }}{{nameAndAlias}}{{{description}}}
   {{/columns}}{{/if~}}
 
-{{#if footer}}{{{footer}}}
+{{#if footer}}
+  {{{footer}}}
 {{/if}}
