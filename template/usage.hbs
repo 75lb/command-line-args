@@ -1,11 +1,15 @@
-
+{{#if header}}
 {{{header}}}
-
+{{/if}}
   Usage:
   {{#each forms}}{{{description}}}
   {{/each}}
+  {{~#if groups}}{{#each groups}}
+  {{{name}}}
+  {{#columns options nameAndAlias=../columns.[0].width description=../columns.[1].width }}{{nameAndAlias}}{{{description}}}
+  {{/columns}}{{/each}}{{else}}
+  {{#columns options nameAndAlias=../columns.[0].width description=../columns.[1].width }}{{nameAndAlias}}{{{description}}}
+  {{/columns}}{{/if~}}
 
-  {{#columns options nameAndAlias=columns.[0].width description=columns.[1].width }}{{nameAndAlias}}{{{description}}}
-  {{/columns}}
-
-{{{footer}}}
+{{#if footer}}{{{footer}}}
+{{/if}}

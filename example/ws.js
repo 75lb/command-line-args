@@ -1,40 +1,52 @@
 var cliArgs = require("../");
 
 var optionDefinitions = [
-    { 
-        name: "port", alias: "p", type: Number, defaultOption: true,
-        description: "the web server port"
+    {
+        groups: "Server",
+        options: [
+            {
+                name: "port", alias: "p", type: Number, defaultOption: true,
+                description: "the web server port"
+            },
+            {
+                name: "log-format", alias: "f", type: String,
+                description: "The access log format, written to stdout."
+            },
+            {
+                name: "directory", alias: "d", type: String,
+                description: "the root directory, defaults to the current directory"
+            },
+            {
+                name: "compress", alias: "c", type: Boolean,
+                description: "enables compression"
+            },
+            {
+                name: "refreshRate", alias: "r", type: Number,
+                description: "refresh rate of the statistics view in ms. Defaults to 500."
+            }
+        ]
     },
-    { 
-        name: "log-format", alias: "f", type: String,
-        description: "The access log format, written to stdout."
+    {
+        groups: "Misc",
+        options: [
+            {
+                name: "help", alias: "h", type: Boolean,
+                description: "print these usage instructions"
+            },
+            {
+                name: "config", type: Boolean,
+                description: "prints the stored config"
+            }
+        ]
     },
-    { 
-        name: "help", alias: "h", type: Boolean,
-        description: "print these usage instructions"
-    },
-    { 
-        name: "directory", alias: "d", type: String,
-        description: "the root directory, defaults to the current directory"
-    },
-    { 
-        name: "config", type: Boolean,
-        description: "the web server port"
-    },
-    { 
-        name: "compress", alias: "c", type: Boolean,
-        description: "the web server port"
-    },
-    { 
-        name: "refreshRate", alias: "r", type: Number,
-        description: "the web server port"
-    }
+
+    { form: "one", description: "$ ws <server options>"}
 ];
 
 var cli = cliArgs(optionDefinitions);
 var argv = cli.parse();
-var usage = cli.usage({ 
-    header: "Lightweight static web server, zero configuration. Perfect for front-end devs.",
+var usage = cli.usage({
+    // header: "Lightweight static web server, zero configuration. Perfect for front-end devs.",
     footer: "for more detailed instructions, visit https://github.com/75lb/local-web-server",
     columns: [
         { width: 18 },
@@ -42,4 +54,4 @@ var usage = cli.usage({
     ]
 });
 
-if (argv.help) console.log(usage); else console.dir(argv);
+if (argv.Misc.help) console.log(usage); else console.dir(argv);
