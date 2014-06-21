@@ -10,9 +10,13 @@
 Command-line parser, usage-guide producer.
 
   
+####Example
+var cli = require("command-line-args");
 <a name="module_command-line-args.CliArgs"></a>
 
 ##class: CliArgs
+the command-line tools class
+
 **Extends**: `Design`  
 **Scope**: inner class of [command-line-args](#module_command-line-args)  
 <a name="module_command-line-args.CliArgs#parse"></a>
