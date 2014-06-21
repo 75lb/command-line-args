@@ -10,3 +10,18 @@
 Command-line parser, usage-guide producer.
 
   
+<a name="module_command-line-args.CliArgs"></a>
+
+##class: CliArgs
+**Extends**: `Design`  
+**Scope**: inner class of [command-line-args](#module_command-line-args)  
+<a name="module_command-line-args.CliArgs#parse"></a>
+###cliArgs.parse([argv])
+
+- [argv] `object` - optional argv array
+
+<a name="module_command-line-args.CliArgs#usage"></a>
+###cliArgs.usage()
+
+-  `object` - usage options
+
