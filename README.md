@@ -19,13 +19,19 @@ the command-line tools class
 
 **Extends**: `Design`  
 **Scope**: inner class of [command-line-args](#module_command-line-args)  
+<a name="module_command-line-args.CliArgs"></a>
+###new CliArgs(options)
+
+- options `object` - list of option definitions
+
+**Scope**: inner class of [command-line-args](#module_command-line-args)  
 <a name="module_command-line-args.CliArgs#parse"></a>
 ###cliArgs.parse([argv])
 
 - [argv] `object` - optional argv array
 
 <a name="module_command-line-args.CliArgs#usage"></a>
-###cliArgs.usage()
+###cliArgs.usage(data)
 
--  `object` - usage options
+- data `object` - usage options
 
