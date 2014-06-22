@@ -44,7 +44,7 @@ Supply a list of option definitions and get an instance of `command-line-args` b
 Command-line parser, usage-guide producer.
 
 
-- options `object` - list of option definitions
+- options `Array.<module:command-line-args~OptionDefinition>` - list of option definitions
 
   
 ####Example
@@ -66,3 +66,13 @@ var argv = cli.parse();
 
 - data `object` - usage options
 
+<a name="module_command-line-args.OptionDefinition"></a>
+###type: OptionDefinition
+
+
+Defines an option
+
+**Scope**: inner typedef of [command-line-args](#module_command-line-args)  
+**Type**: `object`  
+name - the option name  
+type - an optional type contructor function  
