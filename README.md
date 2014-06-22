@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/75lb/command-line-args.svg?branch=master)](https://travis-ci.org/75lb/command-line-args)
 [![Dependency Status](https://david-dm.org/75lb/command-line-args.svg)](https://david-dm.org/75lb/command-line-args)
 
-**work in progress, not quite ready**
+**work in progress, draft documentation.. not quite ready**
 
 #command-line-args
 A command-line parser and usage-guide producer.. Particularly good at organising large sets of options. 
