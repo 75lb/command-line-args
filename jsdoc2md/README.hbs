@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/75lb/command-line-args.svg?branch=master)](https://travis-ci.org/75lb/command-line-args)
 [![Dependency Status](https://david-dm.org/75lb/command-line-args.svg)](https://david-dm.org/75lb/command-line-args)
 
-**work in progress, not quite ready**
+**work in progress, draft documentation, not ready**
 
 #command-line-args
 A command-line parser and usage-guide producer.. Particularly good at organising large sets of options. 
@@ -14,9 +14,9 @@ $ npm install command-line-args --save
 ```
 
 ##Synopsis
-`app.js`: 
+With this `app.js`: 
 ```js
-var cliArgs = require("../");
+var cliArgs = require("command-line-args");
 
 var cli = cliArgs([
     { name: "verbose", type: Boolean, alias: "v", description: "Write plenty output" },
@@ -24,15 +24,15 @@ var cli = cliArgs([
     { name: "files", type: Array, defaultOption: true, description: "The input files" }
 ]);
 
-var options = cli.parse(),
-    usage = cli.usage({
-        header: "A synopsis application.",
-        footer: "For more information, visit http://example.com"
-    });
+var options = cli.parse();
+var usage = cli.usage({
+    header: "A synopsis application.",
+    footer: "For more information, visit http://example.com"
+});
     
 console.log(options.help ? usage : options);
 ```
-
+Shell commands:
 ```sh
 $ node app.js
 {}
@@ -75,5 +75,5 @@ var argv = cli.parse();
 ##Parse command line args
 Supply a list of option definitions and get an instance of `command-line-args` back, complete with `parse` and `usage` methods. 
 
-
+#API Reference
 {{>docs}}
