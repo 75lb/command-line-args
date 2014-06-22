@@ -8,13 +8,18 @@
 #command-line-args
 A command-line parser and usage-guide producer.. Particularly good at organising large sets of options. 
 
-##Install 
+##Install
 ```sh
 $ npm install command-line-args --save
 ```
 
-##Parse command line args
-Supply a list of option definitions and get an instance of `command-line-args` back, complete with `parse` and `usage` methods. 
+##Usage
+1. Define your command line options
+2. Parse the supplied command line args
+3. Get a usage-guide
+
+###Define
+Pass the `command-line-args` constructor an array of OptionDefinitions. 
 
 ```js
 var cliArgs = require("command-line-args");
@@ -22,8 +27,17 @@ var cli = cliArgs([
     { name: "verbose", type: Boolean, alias: "v" },
     { name: "files", type: Array, defaultOption: true}
 ]);
+```
+
+###Parse
+```js
 var argv = cli.parse();
 ```
+
+
+##Parse command line args
+Supply a list of option definitions and get an instance of `command-line-args` back, complete with `parse` and `usage` methods. 
+
 
 <a name="module_command-line-args"></a>
 ##command-line-args(options)
