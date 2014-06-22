@@ -6,32 +6,24 @@
 **work in progress**
 
 <a name="module_command-line-args"></a>
-#command-line-args
+##command-line-args(options)
 Command-line parser, usage-guide producer.
 
-  
-####Example
-var cli = require("command-line-args");
-<a name="module_command-line-args.CliArgs"></a>
-
-##class: CliArgs
-the command-line tools class
-
-**Extends**: `Design`  
-**Scope**: inner class of [command-line-args](#module_command-line-args)  
-<a name="module_command-line-args.CliArgs"></a>
-###new CliArgs(options)
 
 - options `object` - list of option definitions
 
-**Scope**: inner class of [command-line-args](#module_command-line-args)  
-<a name="module_command-line-args.CliArgs#parse"></a>
-###cliArgs.parse([argv])
+  
+####Example
+```js
+var cli = require("command-line-args");
+```
+<a name="module_command-line-args#parse"></a>
+###command-line-args.parse([argv])
 
 - [argv] `object` - optional argv array
 
-<a name="module_command-line-args.CliArgs#usage"></a>
-###cliArgs.usage(data)
+<a name="module_command-line-args#usage"></a>
+###command-line-args.usage(data)
 
 - data `object` - usage options
 
