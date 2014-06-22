@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/75lb/command-line-args.svg?branch=master)](https://travis-ci.org/75lb/command-line-args)
 [![Dependency Status](https://david-dm.org/75lb/command-line-args.svg)](https://david-dm.org/75lb/command-line-args)
 
-**work in progress, draft documentation.. not quite ready**
+**work in progress, not quite ready**
 
 #command-line-args
 A command-line parser and usage-guide producer.. Particularly good at organising large sets of options. 
@@ -13,6 +13,50 @@ A command-line parser and usage-guide producer.. Particularly good at organising
 $ npm install command-line-args --save
 ```
 
+##Synopsis
+`app.js`: 
+```js
+var cliArgs = require("../");
+
+var cli = cliArgs([
+    { name: "verbose", type: Boolean, alias: "v", description: "Write plenty output" },
+    { name: "help", type: Boolean, description: "Print usage instructions" },
+    { name: "files", type: Array, defaultOption: true, description: "The input files" }
+]);
+
+var options = cli.parse(),
+    usage = cli.usage({
+        header: "A synopsis application.",
+        footer: "For more information, visit http://example.com"
+    });
+    
+console.log(options.help ? usage : options);
+```
+
+```sh
+$ node app.js
+{}
+$ node app.js -v
+{ verbose: true }
+$ node app.js README.md package.json
+{ files: [ 'README.md', 'package.json' ] }
+$ node app.js README.md package.json -v
+{ verbose: true, files: [ 'README.md', 'package.json' ] }
+$ node app.js --help
+
+  A synopsis application.
+
+  Usage
+
+  -v, --verbose    Write plenty output
+  --help           Print usage instructions
+  --files <array>  The input files
+
+  For more information, visit http://example.com
+
+```
+
+
 ##Usage
 1. Define your command line options
 2. Parse the supplied command line args
@@ -21,13 +65,6 @@ $ npm install command-line-args --save
 ###Define
 Pass the `command-line-args` constructor an array of OptionDefinitions. 
 
-```js
-var cliArgs = require("command-line-args");
-var cli = cliArgs([
-    { name: "verbose", type: Boolean, alias: "v" },
-    { name: "files", type: Array, defaultOption: true}
-]);
-```
 
 ###Parse
 ```js
@@ -51,7 +88,7 @@ Command-line parser, usage-guide producer.
 ```js
 var cliArgs = require("command-line-args");
 var cli = cliArgs([
-    { name: "verbose", type: Boolean, alias: "v" },
+    { name: "help", type: Boolean, alias: "h" },
     { name: "files", type: Array, defaultOption: true}
 ]);
 var argv = cli.parse();
