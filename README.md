@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/75lb/command-line-args.svg?branch=master)](https://travis-ci.org/75lb/command-line-args)
 [![Dependency Status](https://david-dm.org/75lb/command-line-args.svg)](https://david-dm.org/75lb/command-line-args)
 
-**work in progress, draft documentation, not ready**
+**work in progress, draft documentation**
 
 #command-line-args
 A command-line parser and usage-guide producer.. Particularly good at organising large sets of options. 
@@ -14,17 +14,21 @@ $ npm install command-line-args --save
 ```
 
 ##Synopsis
-With this `app.js`: 
+this `app.js`: 
 ```js
 var cliArgs = require("command-line-args");
 
+/* define the command-line options */
 var cli = cliArgs([
     { name: "verbose", type: Boolean, alias: "v", description: "Write plenty output" },
     { name: "help", type: Boolean, description: "Print usage instructions" },
     { name: "files", type: Array, defaultOption: true, description: "The input files" }
 ]);
 
+/* parse the supplied command-line values */
 var options = cli.parse();
+
+/* generate a usage guide */
 var usage = cli.usage({
     header: "A synopsis application.",
     footer: "For more information, visit http://example.com"
@@ -32,7 +36,7 @@ var usage = cli.usage({
     
 console.log(options.help ? usage : options);
 ```
-Shell commands:
+results in this output at the command line:
 ```sh
 $ node app.js
 {}
@@ -56,25 +60,6 @@ $ node app.js --help
 
 ```
 
-
-##Usage
-1. Define your command line options
-2. Parse the supplied command line args
-3. Get a usage-guide
-
-###Define
-Pass the `command-line-args` constructor an array of OptionDefinitions. 
-
-
-###Parse
-```js
-var argv = cli.parse();
-```
-
-
-##Parse command line args
-Supply a list of option definitions and get an instance of `command-line-args` back, complete with `parse` and `usage` methods. 
-
 #API Reference
 <a name="module_command-line-args"></a>
 ##command-line-args(options)
@@ -96,12 +81,12 @@ var argv = cli.parse();
 <a name="module_command-line-args#parse"></a>
 ###cli.parse([argv])
 
-- [argv] `object` - optional argv array
+- [argv] `object` - Optional argv array, pass to override `process.argv`.
 
 <a name="module_command-line-args#usage"></a>
 ###cli.usage(data)
 
-- data `object` - usage options
+- data `object` - options for template
 
 <a name="module_command-line-args.OptionDefinition"></a>
 ###type: OptionDefinition

@@ -18,13 +18,17 @@ this `app.js`:
 ```js
 var cliArgs = require("command-line-args");
 
+/* define the command-line options */
 var cli = cliArgs([
     { name: "verbose", type: Boolean, alias: "v", description: "Write plenty output" },
     { name: "help", type: Boolean, description: "Print usage instructions" },
     { name: "files", type: Array, defaultOption: true, description: "The input files" }
 ]);
 
+/* parse the supplied command-line values */
 var options = cli.parse();
+
+/* generate a usage guide */
 var usage = cli.usage({
     header: "A synopsis application.",
     footer: "For more information, visit http://example.com"
@@ -55,25 +59,6 @@ $ node app.js --help
   For more information, visit http://example.com
 
 ```
-
-
-##Usage
-1. Define your command line options
-2. Parse the supplied command line args
-3. Get a usage-guide
-
-###Define
-Pass the `command-line-args` constructor an array of OptionDefinitions. 
-
-
-###Parse
-```js
-var argv = cli.parse();
-```
-
-
-##Parse command line args
-Supply a list of option definitions and get an instance of `command-line-args` back, complete with `parse` and `usage` methods. 
 
 #API Reference
 {{>docs}}
