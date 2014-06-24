@@ -91,10 +91,17 @@ var argv = cli.parse();
 <a name="module_command-line-args.OptionDefinition"></a>
 ###type: OptionDefinition
 
-
 Defines an option
 
 **Scope**: inner typedef of [command-line-args](#module_command-line-args)  
 **Type**: `object`  
-name - the option name  
-type - an optional type contructor function  
+<a name=""></a>
+###name
+the option name
+
+**Type**: `string`  
+<a name=""></a>
+###type
+an optional type contructor function
+
+**Type**: `function`  
