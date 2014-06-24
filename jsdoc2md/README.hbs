@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/75lb/command-line-args.svg?branch=master)](https://travis-ci.org/75lb/command-line-args)
 [![Dependency Status](https://david-dm.org/75lb/command-line-args.svg)](https://david-dm.org/75lb/command-line-args)
 
-**work in progress, draft documentation, not ready**
+**work in progress, draft documentation**
 
 #command-line-args
 A command-line parser and usage-guide producer.. Particularly good at organising large sets of options. 
@@ -14,7 +14,7 @@ $ npm install command-line-args --save
 ```
 
 ##Synopsis
-With this `app.js`: 
+this `app.js`: 
 ```js
 var cliArgs = require("command-line-args");
 
@@ -32,7 +32,7 @@ var usage = cli.usage({
     
 console.log(options.help ? usage : options);
 ```
-Shell commands:
+results in this output at the command line:
 ```sh
 $ node app.js
 {}
