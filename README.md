@@ -80,9 +80,32 @@ var argv = cli.parse();
 ```
 <a name="module_command-line-args#parse"></a>
 ###cli.parse([argv])
+Returns a flat, or grouped object containing the values set at the command-line
+
 
 - [argv] `object` - Optional argv array, pass to override `process.argv`.
 
+**Returns**: `object`  
+####Example
+```js
+{
+    delete: "thisfile.txt",
+    force: true
+}
+```
+
+or, if the option definitions are grouped:
+```js
+{
+    standard: {
+        delete: "thisfile.txt",
+        force: true
+    },
+    extra: {
+        intentions: "bad"
+    }
+}
+```
 <a name="module_command-line-args#usage"></a>
 ###cli.usage(data)
 
@@ -97,11 +120,26 @@ Defines an option
 **Type**: `object`  
 <a name=""></a>
 ###name
-the option name
+the option name, used as the long option (e.g. `--name`)
 
 **Type**: `string`  
 <a name=""></a>
 ###type
-an optional type contructor function
+an optional function (e.g. `Number` or a custom function) used to enforce type.
 
 **Type**: `function`  
+<a name=""></a>
+###alias
+a single character alias, used as the short option (e.g. `-n`)
+
+**Type**: `string`  
+<a name=""></a>
+###defaultOption
+if values are specified without an option name, they are assigned to the defaultOption
+
+**Type**: `boolean`  
+<a name=""></a>
+###description
+used in the usage guide
+
+**Type**: `string`  
