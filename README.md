@@ -14,7 +14,7 @@ $ npm install command-line-args --save
 ```
 
 ##Synopsis
-this `app.js`: 
+the following `app.js`...
 ```js
 var cliArgs = require("command-line-args");
 
@@ -36,7 +36,7 @@ var usage = cli.usage({
     
 console.log(options.help ? usage : options);
 ```
-results in this output at the command line:
+...returns this output at the command line:
 ```sh
 $ node app.js
 {}
@@ -63,7 +63,7 @@ $ node app.js --help
 #API Reference
 <a name="module_command-line-args"></a>
 ##command-line-args(options)
-Command-line parser, usage-guide producer.
+A constructor function, taking your desired command-line option definitions as input, returning an instance of `command-line-args` which you can `parse()` or `getUsage()`.
 
 
 - options [Array.&lt;OptionDefinition&gt;](#module_command-line-args.OptionDefinition) - list of option definitions
@@ -106,8 +106,8 @@ or, if the option definitions are grouped:
     }
 }
 ```
-<a name="module_command-line-args#usage"></a>
-###cli.usage(options)
+<a name="module_command-line-args#getUsage"></a>
+###cli.getUsage(options)
 
 - options `object` - options for template
 - options.title `string` - a title

@@ -10,7 +10,7 @@ var optionDefinitions = [
 ];
 
 test("returns string", function(t){
-    var usage = cliArgs(optionDefinitions).usage();
+    var usage = cliArgs(optionDefinitions).getUsage();
     t.equal(typeof usage, "string");
     t.end();
 });
