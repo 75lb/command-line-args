@@ -107,11 +107,13 @@ or, if the option definitions are grouped:
 }
 ```
 <a name="module_command-line-args#usage"></a>
-###cli.usage(data, data.header, data.footer)
+###cli.usage(data, data.title, data.header, data.footer, data.forms)
 
 - data `object` - options for template
+- data.title `string` - a title
 - data.header `string` - a header
 - data.footer `string` - a footer
+- data.forms `array` - the invocation forms
 
 **Returns**: `string`  
 <a name="module_command-line-args.OptionDefinition"></a>
