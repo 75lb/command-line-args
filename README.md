@@ -83,7 +83,7 @@ var argv = cli.parse();
 Returns a flat, or grouped object containing the values set at the command-line
 
 
-- [argv=process.argv] `object` - Optional argv array, pass to override `process.argv`.
+- [argv=process.argv] `object` - Optional argv array, pass to override the default `process.argv`.
 
 **Returns**: `object`  
 ####Example
@@ -131,7 +131,7 @@ the option name, used as the long option (e.g. `--name`)
 **Type**: `string`  
 <a name=""></a>
 ###type
-an optional function (e.g. `Number` or a custom function) used to enforce type.
+an optional function (e.g. `Number` or a custom function) used as a setter to enforce type.
 
 **Type**: `function`  
 <a name=""></a>
