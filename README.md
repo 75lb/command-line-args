@@ -66,7 +66,7 @@ $ node app.js --help
 Command-line parser, usage-guide producer.
 
 
-- options `Array.<module:command-line-args~OptionDefinition>` - list of option definitions
+- options [Array.<OptionDefinition>](#module_command-line-args.OptionDefinition) - list of option definitions
 
   
 ####Example
@@ -107,13 +107,13 @@ or, if the option definitions are grouped:
 }
 ```
 <a name="module_command-line-args#usage"></a>
-###cli.usage(data)
+###cli.usage(options)
 
-- data `object` - options for template
-- data.title `string` - a title
-- data.header `string` - a header
-- data.footer `string` - a footer
-- data.forms `array` - the invocation forms
+- options `object` - options for template
+- options.title `string` - a title
+- options.header `string` - a header
+- options.footer `string` - a footer
+- options.forms `array` - the invocation forms
 
 **Returns**: `string`  
 <a name="module_command-line-args.OptionDefinition"></a>
