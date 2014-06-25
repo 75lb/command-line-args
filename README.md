@@ -83,7 +83,7 @@ var argv = cli.parse();
 Returns a flat, or grouped object containing the values set at the command-line
 
 
-- [argv] &#x60;object&#x60; - Optional argv array, pass to override `process.argv`.
+- [argv] `object` - Optional argv array, pass to override `process.argv`.
 
 **Returns**: `object`  
 ####Example
@@ -109,11 +109,11 @@ or, if the option definitions are grouped:
 <a name="module_command-line-args#usage"></a>
 ###cli.usage(options)
 
-- options &#x60;object&#x60; - options for template
-- options.title &#x60;string&#x60; - a title
-- options.header &#x60;string&#x60; - a header
-- options.footer &#x60;string&#x60; - a footer
-- options.forms &#x60;array&#x60; - the invocation forms
+- options `object` - options for template
+- options.title `string` - a title
+- options.header `string` - a header
+- options.footer `string` - a footer
+- options.forms `array` - the invocation forms
 
 **Returns**: `string`  
 <a name="module_command-line-args.OptionDefinition"></a>
