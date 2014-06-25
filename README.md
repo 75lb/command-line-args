@@ -66,7 +66,7 @@ $ node app.js --help
 A constructor function, taking your desired command-line option definitions as input, returning an instance of `command-line-args` which you can `parse()` or `getUsage()`.
 
 
-- options [Array.&lt;OptionDefinition&gt;](#module_command-line-args.OptionDefinition) - list of option definitions
+-options [Array.&lt;OptionDefinition&gt;](#module_command-line-args.OptionDefinition) - list of option definitions
 
   
 ####Example
@@ -83,10 +83,11 @@ var argv = cli.parse();
 Returns a flat, or grouped object containing the values set at the command-line
 
 
-- [argv] `object` - Optional argv array, pass to override `process.argv`.
+-[argv=process.argv] `object` - Optional argv array, pass to override `process.argv`.
 
 **Returns**: `object`  
 ####Example
+Output from `parse()` looks something like this:
 ```js
 {
     delete: "thisfile.txt",
@@ -109,11 +110,11 @@ or, if the option definitions are grouped:
 <a name="module_command-line-args#getUsage"></a>
 ###cli.getUsage(options)
 
-- options `object` - options for template
-- options.title `string` - a title
-- options.header `string` - a header
-- options.footer `string` - a footer
-- options.forms `array` - the invocation forms
+-options `object` - options for template
+-options.title `string` - a title
+-options.header `string` - a header
+-options.footer `string` - a footer
+-options.forms `array` - the invocation forms
 
 **Returns**: `string`  
 <a name="module_command-line-args.OptionDefinition"></a>
