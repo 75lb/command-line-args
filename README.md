@@ -77,7 +77,7 @@ var argv = cli.parse();
 **Symbols**  
   * [cli.parse([argv])](#module_command-line-args#parse)
   * [cli.getUsage(options)](#module_command-line-args#getUsage)
-  * [\~type: OptionDefinition](#module_command-line-args.OptionDefinition) <sub>typedef</sub>
+  * [\~type: OptionDefinition](#module_command-line-args.OptionDefinition)
 
 <a name="module_command-line-args#parse"></a>
 ###cli.parse([argv])
