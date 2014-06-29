@@ -75,10 +75,9 @@ var cli = cliArgs([
 var argv = cli.parse();
 ```
 **Symbols**  
-
-* [parse([argv])](#module_command-line-args#parse)
-* [getUsage(options)](#module_command-line-args#getUsage)
-
+  * [cli.parse([argv])](#module_command-line-args#parse)
+  * [cli.getUsage(options)](#module_command-line-args#getUsage)
+  * [type: OptionDefinition](#module_command-line-args.OptionDefinition) <sub>typedef</sub>
 <a name="module_command-line-args#parse"></a>
 ###cli.parse([argv])
 Returns a flat, or grouped object containing the values set at the command-line
