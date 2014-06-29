@@ -6,7 +6,7 @@
   "main": "lib/command-line-args",
   "scripts": {
     "test": "tap test/*.js",
-    "docs": "jsdoc2md -t jsdoc2md/README.hbs lib/command-line-args.js > README.md"
+    "docs": "jsdoc2md --index -t jsdoc2md/README.hbs lib/command-line-args.js > README.md"
   },
   "keywords": [
     "argv",

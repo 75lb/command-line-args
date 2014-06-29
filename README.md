@@ -62,14 +62,10 @@ $ node app.js --help
 
 #API Reference
 <a name="module_command-line-args"></a>
-##command-line-args(options)
-A constructor function, taking your desired command-line option definitions as input, returning an instance of `command-line-args` which you can `parse()` or `getUsage()`.
-
-
-- options [Array.&lt;OptionDefinition&gt;](#module_command-line-args.OptionDefinition) - list of option definitions
+##command-line-args
 
   
-####Example
+**Example**  
 ```js
 var cliArgs = require("command-line-args");
 var cli = cliArgs([
@@ -78,15 +74,21 @@ var cli = cliArgs([
 ]);
 var argv = cli.parse();
 ```
+**Symbols**  
+
+* [parse([argv])](#module_command-line-args#parse)
+* [getUsage(options)](#module_command-line-args#getUsage)
+
 <a name="module_command-line-args#parse"></a>
 ###cli.parse([argv])
 Returns a flat, or grouped object containing the values set at the command-line
 
+**Params**
 
 - [argv=process.argv] `object` - Optional argv array, pass to override the default `process.argv`.
 
 **Returns**: `object`  
-####Example
+**Example**  
 Output from `parse()` looks something like this:
 ```js
 {
@@ -109,17 +111,17 @@ or, if the option definitions are grouped:
 ```
 <a name="module_command-line-args#getUsage"></a>
 ###cli.getUsage(options)
+**Params**
 
 - options `object` - options for template
-- options.title `string` - a title
-- options.header `string` - a header
-- options.footer `string` - a footer
-- options.forms `array` - the invocation forms
+  - title `string` - a title
+  - header `string` - a header
+  - footer `string` - a footer
+  - forms `array` - the invocation forms
 
 **Returns**: `string`  
 <a name="module_command-line-args.OptionDefinition"></a>
 ###type: OptionDefinition
-
 Defines an option
 
 **Scope**: inner typedef of [command-line-args](#module_command-line-args)  
