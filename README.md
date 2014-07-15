@@ -61,8 +61,6 @@ $ node app.js --help
 ```
 
 #API Reference
-<a name="module_command-line-args"></a>
-#command-line-args
 **Example**  
 ```js
 var cliArgs = require("command-line-args");
@@ -138,3 +136,6 @@ Defines an option
 
 **Scope**: inner typedef of [command-line-args](#module_command-line-args)  
 **Type**: `object`  
+
+
+*documented by [jsdoc-to-markdown](https://github.com/75lb/jsdoc-to-markdown)*.
