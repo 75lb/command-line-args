@@ -40,12 +40,16 @@ console.log(options.help ? usage : options);
 ```sh
 $ node app.js
 {}
+
 $ node app.js -v
 { verbose: true }
+
 $ node app.js README.md package.json
 { files: [ 'README.md', 'package.json' ] }
+
 $ node app.js README.md package.json -v
 { verbose: true, files: [ 'README.md', 'package.json' ] }
+
 $ node app.js --help
 
   A synopsis application.
