@@ -62,9 +62,7 @@ $ node app.js --help
 
 #API Reference
 <a name="module_command-line-args"></a>
-##command-line-args
-
-  
+#command-line-args
 **Example**  
 ```js
 var cliArgs = require("command-line-args");
@@ -74,10 +72,23 @@ var cli = cliArgs([
 ]);
 var argv = cli.parse();
 ```
-**Symbols**  
-  * [cli.parse([argv])](#module_command-line-args#parse)
-  * [cli.getUsage(options)](#module_command-line-args#getUsage)
-  * [\~type: OptionDefinition](#module_command-line-args.OptionDefinition)
+
+<a name="module_command-line-args"></a>
+##class: CliArgs ⏏
+**Members**
+
+* [new CliArgs(options)](#module_command-line-args)
+* [cli.parse([argv])](#module_command-line-args#parse)
+* [cli.getUsage(options)](#module_command-line-args#getUsage)
+* [type: cli~OptionDefinition](#module_command-line-args.OptionDefinition)
+
+<a name="module_command-line-args"></a>
+###new CliArgs(options)
+A constructor function, taking your desired command-line option definitions as input, returning an instance of `command-line-args` which you can `parse()` or `getUsage()`.
+
+**Params**
+
+- options [Array.&lt;OptionDefinition&gt;](#module_command-line-args.OptionDefinition) - list of option definitions
 
 <a name="module_command-line-args#parse"></a>
 ###cli.parse([argv])
@@ -109,6 +120,7 @@ or, if the option definitions are grouped:
     }
 }
 ```
+
 <a name="module_command-line-args#getUsage"></a>
 ###cli.getUsage(options)
 **Params**
@@ -121,33 +133,8 @@ or, if the option definitions are grouped:
 
 **Returns**: `string`  
 <a name="module_command-line-args.OptionDefinition"></a>
-###\~type: OptionDefinition
+###type: cli~OptionDefinition
 Defines an option
 
 **Scope**: inner typedef of [command-line-args](#module_command-line-args)  
 **Type**: `object`  
-<a name=""></a>
-###name
-the option name, used as the long option (e.g. `--name`)
-
-**Type**: `string`  
-<a name=""></a>
-###type
-an optional function (e.g. `Number` or a custom function) used as a setter to enforce type.
-
-**Type**: `function`  
-<a name=""></a>
-###alias
-a single character alias, used as the short option (e.g. `-n`)
-
-**Type**: `string`  
-<a name=""></a>
-###defaultOption
-if values are specified without an option name, they are assigned to the defaultOption
-
-**Type**: `boolean`  
-<a name=""></a>
-###description
-used in the usage guide
-
-**Type**: `string`  
