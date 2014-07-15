@@ -30,6 +30,7 @@
     "handlebars-ansi": "0.0.2",
     "nature": "~0.5",
     "object-tools": "^1.0.0",
-    "string-tools": "^0.1.4"
+    "string-tools": "^0.1.4",
+    "typical": "^1.0.0"
   }
 }
