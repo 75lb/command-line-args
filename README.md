@@ -79,10 +79,11 @@ var argv = cli.parse();
 ##class: CliArgs ⏏
 **Members**
 
-* [new CliArgs(options)](#module_command-line-args)
-* [cli.parse([argv])](#module_command-line-args#parse)
-* [cli.getUsage(options)](#module_command-line-args#getUsage)
-* [type: cli~OptionDefinition](#module_command-line-args.OptionDefinition)
+* [class: CliArgs ⏏](#module_command-line-args)
+  * [new CliArgs(options)](#module_command-line-args)
+  * [cli.parse([argv])](#module_command-line-args#parse)
+  * [cli.getUsage(options)](#module_command-line-args#getUsage)
+  * [type: cli~OptionDefinition](#module_command-line-args.OptionDefinition)
 
 <a name="module_command-line-args"></a>
 ###new CliArgs(options)
