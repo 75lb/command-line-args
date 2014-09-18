@@ -38,3 +38,11 @@ test("handles missing option value", function(t){
     });
     t.end();
 });
+
+test("handles arrays with relative paths", function(t){
+    var argv = [ "--colours", "../what", "../ever" ];
+    t.deepEqual(cliArgs(optionDefinitions).parse(argv), {
+    	colours: [ "../what", "../ever" ]
+    });
+    t.end();
+});
