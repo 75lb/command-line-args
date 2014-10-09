@@ -29,7 +29,7 @@
     "handlebars": "^2.0.0-alpha.4",
     "handlebars-ansi": "~0.1.0",
     "nature": "~0.5",
-    "object-tools": "^1.0.0",
+    "object-tools": "^1.2.0",
     "string-tools": "^0.1.4",
     "typical": "^1.0.0"
   }
