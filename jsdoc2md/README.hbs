@@ -29,7 +29,7 @@ var cli = cliArgs([
 var options = cli.parse();
 
 /* generate a usage guide */
-var usage = cli.usage({
+var usage = cli.getUsage({
     header: "A synopsis application.",
     footer: "For more information, visit http://example.com"
 });

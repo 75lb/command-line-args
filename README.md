@@ -29,7 +29,7 @@ var cli = cliArgs([
 var options = cli.parse();
 
 /* generate a usage guide */
-var usage = cli.usage({
+var usage = cli.getUsage({
     header: "A synopsis application.",
     footer: "For more information, visit http://example.com"
 });
@@ -75,23 +75,23 @@ var cli = cliArgs([
 var argv = cli.parse();
 ```
 
-<a name="module_command-line-args"></a>
+<a name="exp_module_command-line-args"></a>
 ##class: CliArgs ⏏
 **Members**
 
-* [class: CliArgs ⏏](#module_command-line-args)
-  * [new CliArgs(options)](#module_command-line-args)
+* [class: CliArgs ⏏](#exp_module_command-line-args)
+  * [new CliArgs(options)](#exp_new_module_command-line-args)
   * [cli.parse([argv])](#module_command-line-args#parse)
   * [cli.getUsage(options)](#module_command-line-args#getUsage)
-  * [type: cli~OptionDefinition](#module_command-line-args.OptionDefinition)
+  * [type: cli~OptionDefinition](#module_command-line-args..OptionDefinition)
 
-<a name="module_command-line-args"></a>
+<a name="exp_new_module_command-line-args"></a>
 ###new CliArgs(options)
 A constructor function, taking your desired command-line option definitions as input, returning an instance of `command-line-args` which you can `parse()` or `getUsage()`.
 
 **Params**
 
-- options [Array.&lt;OptionDefinition&gt;](#module_command-line-args.OptionDefinition) - list of option definitions
+- options <code>[Array.&lt;OptionDefinition&gt;](#module_command-line-args..OptionDefinition)</code> - list of option definitions  
 
 <a name="module_command-line-args#parse"></a>
 ###cli.parse([argv])
@@ -99,7 +99,7 @@ Returns a flat, or grouped object containing the values set at the command-line
 
 **Params**
 
-- [argv=process.argv] `object` - Optional argv array, pass to override the default `process.argv`.
+- \[argv=process.argv\] `object` - Optional argv array, pass to override the default `process.argv`.  
 
 **Returns**: `object`  
 **Example**  
@@ -128,16 +128,24 @@ or, if the option definitions are grouped:
 ###cli.getUsage(options)
 **Params**
 
-- options `object` - options for template
-  - title `string` - a title
-  - header `string` - a header
-  - footer `string` - a footer
-  - forms `array` - the invocation forms
+- options `object` - options for template  
+  - title `string` - a title  
+  - header `string` - a header  
+  - footer `string` - a footer  
+  - forms `array` - the invocation forms  
 
 **Returns**: `string`  
-<a name="module_command-line-args.OptionDefinition"></a>
+<a name="module_command-line-args..OptionDefinition"></a>
 ###type: cli~OptionDefinition
 Defines an option
+
+**Properties**
+
+- name `string` - the option name, used as the long option (e.g. `--name`)  
+- type `function` - an optional function (e.g. `Number` or a custom function) used as a setter to enforce type.  
+- alias `string` - a single character alias, used as the short option (e.g. `-n`)  
+- defaultOption `boolean` - if values are specified without an option name, they are assigned to the defaultOption  
+- description `string` - used in the usage guide  
 
 **Scope**: inner typedef of [command-line-args](#module_command-line-args)  
 **Type**: `object`  
