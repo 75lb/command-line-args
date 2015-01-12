@@ -10,7 +10,7 @@ var optionDefinitions = [
         description: "Set this option to display the usage information"
     },
     {
-        name: "colour", alias: "c",
+        name: "colour", alias: "c", value: "red",
         description: "you can specify a colour which will be displayed appropriately"
     },
     { name: "number", alias: "n", type: Number },
@@ -22,7 +22,7 @@ var optionDefinitions = [
 
 var cli = cliArgs(optionDefinitions);
 var argv = cli.parse();
-var usage = cli.usage({
+var usage = cli.getUsage({
     header: require("../package.json").description,
     columns: [ 24, 15 ]
 });

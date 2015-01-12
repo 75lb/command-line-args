@@ -43,7 +43,7 @@ var optionDefinitions = [
 
 var cli = cliArgs(optionDefinitions);
 var argv = cli.parse();
-var usage = cli.usage({
+var usage = cli.getUsage({
     title: "local-web-server",
     header: "Lightweight static web server, zero configuration. Perfect for front-end devs.",
     footer: "for more detailed instructions, visit https://github.com/75lb/local-web-server",

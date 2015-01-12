@@ -7,7 +7,7 @@ var cli = cliArgs([
 ]);
 
 var options = cli.parse(),
-    usage = cli.usage({
+    usage = cli.getUsage({
         header: "A synopsis application.",
         footer: "For more information, visit http://example.com"
     });
