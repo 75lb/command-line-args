@@ -85,22 +85,22 @@ var argv = cli.parse();
       * [type: ~OptionDefinition](#module_command-line-args--CliArgs..OptionDefinition) → <code>object</code>
 
 <a name="exp_module_command-line-args--CliArgs"></a>
-###class: CliArgs ⏏
+### class: CliArgs ⏏
 <a name="new_module_command-line-args--CliArgs_new"></a>
-####new CliArgs(options)
+#### new CliArgs(options)
 A constructor function, taking your desired command-line option definitions as input, returning an instance of `command-line-args` which you can `parse()` or `getUsage()`.
 
 | Param | Type | Description |
-| ----- | ---- | ----------- |
+| --- | --- | --- |
 | options | <code>[Array.&lt;OptionDefinition&gt;](#module_command-line-args--CliArgs..OptionDefinition)</code> | list of option definitions |
 
 <a name="module_command-line-args--CliArgs#parse"></a>
-####cliArgs.parse([argv]) ⇒ <code>object</code>
+#### cliArgs.parse([argv]) ⇒ <code>object</code>
 Returns a flat, or grouped object containing the values set at the command-line
 
-| Param | Type | Description |
-| ----- | ---- | ----------- |
-| \[argv=<code>process.argv</code>\] | <code>object</code> | Optional argv array, pass to override the default `process.argv`. |
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| [argv] | <code>object</code> | <code>process.argv</code> | Optional argv array, pass to override the default `process.argv`. |
 
 **Example**  
 Output from `parse()` looks something like this:
@@ -124,9 +124,9 @@ or, if the option definitions are grouped:
 }
 ```
 <a name="module_command-line-args--CliArgs#getUsage"></a>
-####cliArgs.getUsage(options) ⇒ <code>string</code>
+#### cliArgs.getUsage(options) ⇒ <code>string</code>
 | Param | Type | Description |
-| ----- | ---- | ----------- |
+| --- | --- | --- |
 | options | <code>object</code> | options for template |
 | options.title | <code>string</code> | a title |
 | options.header | <code>string</code> | a header |
@@ -134,18 +134,18 @@ or, if the option definitions are grouped:
 | options.forms | <code>array</code> | the invocation forms |
 
 <a name="module_command-line-args--CliArgs..OptionDefinition"></a>
-####type: CliArgs~OptionDefinition → <code>object</code>
+#### type: CliArgs~OptionDefinition → <code>object</code>
 Defines an option
 
 **Properties**
 
-| Name | Type | Default | Description |
-| ---- | ---- | ------- |----------- |
-| name | <code>string</code> |  | the option name, used as the long option (e.g. `--name`) |
-| type | <code>function</code> |  | an optional function (e.g. `Number` or a custom function) used as a setter to enforce type. |
-| alias | <code>string</code> |  | a single character alias, used as the short option (e.g. `-n`) |
-| defaultOption | <code>boolean</code> |  | if values are specified without an option name, they are assigned to the defaultOption |
-| description | <code>string</code> |  | used in the usage guide |
+| Name | Type | Description |
+| --- | --- | --- |
+| name | <code>string</code> | the option name, used as the long option (e.g. `--name`) |
+| type | <code>function</code> | an optional function (e.g. `Number` or a custom function) used as a setter to enforce type. |
+| alias | <code>string</code> | a single character alias, used as the short option (e.g. `-n`) |
+| defaultOption | <code>boolean</code> | if values are specified without an option name, they are assigned to the defaultOption |
+| description | <code>string</code> | used in the usage guide |
 
 
 
