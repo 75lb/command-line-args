@@ -5,15 +5,15 @@
 
 **work in progress, draft documentation**
 
-#command-line-args
+# command-line-args
 A command-line parser and usage-guide producer.. Particularly good at organising large sets of options. 
 
-##Install
+## Install
 ```sh
 $ npm install command-line-args --save
 ```
 
-##Synopsis
+## Synopsis
 the following `app.js`...
 ```js
 var cliArgs = require("command-line-args");
@@ -64,7 +64,7 @@ $ node app.js --help
 
 ```
 
-#API Reference
+# API Reference
 **Example**  
 ```js
 var cliArgs = require("command-line-args");
