@@ -65,6 +65,8 @@ $ node app.js --help
 ```
 
 # API Reference
+  <a name="module_command-line-args"></a>
+## command-line-args
 **Example**  
 ```js
 var cliArgs = require("command-line-args");
@@ -76,19 +78,21 @@ var argv = cli.parse();
 ```
 
 * [command-line-args](#module_command-line-args)
-  * [class: CliArgs](#exp_module_command-line-args--CliArgs) ⏏
+  * [CliArgs](#exp_module_command-line-args--CliArgs) ⏏
     * [new CliArgs(options)](#new_module_command-line-args--CliArgs_new)
     * _instance_
       * [.parse([argv])](#module_command-line-args--CliArgs#parse) ⇒ <code>object</code>
       * [.getUsage(options)](#module_command-line-args--CliArgs#getUsage) ⇒ <code>string</code>
     * _inner_
-      * [type: ~OptionDefinition](#module_command-line-args--CliArgs..OptionDefinition) → <code>object</code>
+      * [~OptionDefinition](#module_command-line-args--CliArgs..OptionDefinition) : <code>object</code>
 
 <a name="exp_module_command-line-args--CliArgs"></a>
-### class: CliArgs ⏏
+### CliArgs ⏏
+**Kind**: Exported class  
 <a name="new_module_command-line-args--CliArgs_new"></a>
 #### new CliArgs(options)
 A constructor function, taking your desired command-line option definitions as input, returning an instance of `command-line-args` which you can `parse()` or `getUsage()`.
+
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -97,6 +101,8 @@ A constructor function, taking your desired command-line option definitions as i
 <a name="module_command-line-args--CliArgs#parse"></a>
 #### cliArgs.parse([argv]) ⇒ <code>object</code>
 Returns a flat, or grouped object containing the values set at the command-line
+
+**Kind**: instance method of <code>[CliArgs](#exp_module_command-line-args--CliArgs)</code>  
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -125,6 +131,8 @@ or, if the option definitions are grouped:
 ```
 <a name="module_command-line-args--CliArgs#getUsage"></a>
 #### cliArgs.getUsage(options) ⇒ <code>string</code>
+**Kind**: instance method of <code>[CliArgs](#exp_module_command-line-args--CliArgs)</code>  
+
 | Param | Type | Description |
 | --- | --- | --- |
 | options | <code>object</code> | options for template |
@@ -134,9 +142,10 @@ or, if the option definitions are grouped:
 | options.forms | <code>array</code> | the invocation forms |
 
 <a name="module_command-line-args--CliArgs..OptionDefinition"></a>
-#### type: CliArgs~OptionDefinition → <code>object</code>
+#### CliArgs~OptionDefinition : <code>object</code>
 Defines an option
 
+**Kind**: inner typedef of <code>[CliArgs](#exp_module_command-line-args--CliArgs)</code>  
 **Properties**
 
 | Name | Type | Description |
@@ -146,8 +155,6 @@ Defines an option
 | alias | <code>string</code> | a single character alias, used as the short option (e.g. `-n`) |
 | defaultOption | <code>boolean</code> | if values are specified without an option name, they are assigned to the defaultOption |
 | description | <code>string</code> | used in the usage guide |
-
-
 
 
 *documented by [jsdoc-to-markdown](https://github.com/75lb/jsdoc-to-markdown)*.

@@ -1,4 +1,4 @@
-var test = require("tap").test;
+var test = require("tape");
 var cliArgs = require("../lib/command-line-args");
 
 

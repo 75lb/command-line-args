@@ -5,7 +5,7 @@
   "repository": "https://github.com/75lb/command-line-args.git",
   "main": "lib/command-line-args",
   "scripts": {
-    "test": "tap test/*.js",
+    "test": "tape test/*.js",
     "docs": "jsdoc2md -t jsdoc2md/README.hbs lib/command-line-args.js > README.md; echo"
   },
   "keywords": [
@@ -20,17 +20,18 @@
     "command"
   ],
   "author": "Lloyd Brookes",
+  "license": "MIT",
   "devDependencies": {
-    "jsdoc-to-markdown": "^0.5",
-    "tap": "^0.4.9"
+    "tape": "^3.5.0"
   },
   "dependencies": {
     "array-tools": "^1.1.0",
-    "handlebars": "^2.0.0-alpha.4",
-    "handlebars-ansi": "~0.1.0",
+    "handlebars": "^3",
+    "handlebars-ansi": "~0.2.0",
     "nature": "~0.5",
     "object-tools": "^1.2.0",
     "string-tools": "^0.1.4",
-    "typical": "^1.0.0"
+    "typical": "^1.0.0",
+    "word-wrap": "^1.0.2"
   }
 }
