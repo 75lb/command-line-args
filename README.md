@@ -65,7 +65,7 @@ $ node app.js --help
 ```
 
 # API Reference
-  <a name="module_command-line-args"></a>
+<a name="module_command-line-args"></a>
 ## command-line-args
 **Example**  
 ```js
@@ -82,7 +82,7 @@ var argv = cli.parse();
     * [new CliArgs(options)](#new_module_command-line-args--CliArgs_new)
     * _instance_
       * [.parse([argv])](#module_command-line-args--CliArgs#parse) ⇒ <code>object</code>
-      * [.getUsage(options)](#module_command-line-args--CliArgs#getUsage) ⇒ <code>string</code>
+      * [.getUsage([options])](#module_command-line-args--CliArgs#getUsage) ⇒ <code>string</code>
     * _inner_
       * [~OptionDefinition](#module_command-line-args--CliArgs..OptionDefinition) : <code>object</code>
 
@@ -130,16 +130,17 @@ or, if the option definitions are grouped:
 }
 ```
 <a name="module_command-line-args--CliArgs#getUsage"></a>
-#### cliArgs.getUsage(options) ⇒ <code>string</code>
+#### cliArgs.getUsage([options]) ⇒ <code>string</code>
 **Kind**: instance method of <code>[CliArgs](#exp_module_command-line-args--CliArgs)</code>  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| options | <code>object</code> | options for template |
-| options.title | <code>string</code> | a title |
-| options.header | <code>string</code> | a header |
-| options.footer | <code>string</code> | a footer |
-| options.forms | <code>array</code> | the invocation forms |
+| [options] | <code>object</code> | options for template |
+| [options.title] | <code>string</code> | a title |
+| [options.header] | <code>string</code> | a header |
+| [options.footer] | <code>string</code> | a footer |
+| [options.forms] | <code>array</code> | the invocation forms |
+| [options.groups] | <code>array</code> | the groups to display in usage |
 
 <a name="module_command-line-args--CliArgs..OptionDefinition"></a>
 #### CliArgs~OptionDefinition : <code>object</code>
@@ -159,4 +160,4 @@ Defines an option
 
 * * *
 
-&copy; 2015 Lloyd Brookes <75pound@gmail.com>. Documented by [jsdoc-to-markdown](https://github.com/75lb/jsdoc-to-markdown).
+&copy; 2015 Lloyd Brookes \<75pound@gmail.com\>. Documented by [jsdoc-to-markdown](https://github.com/75lb/jsdoc-to-markdown).
