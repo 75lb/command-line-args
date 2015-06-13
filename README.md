@@ -81,8 +81,8 @@ var argv = cli.parse();
   * [CliArgs](#exp_module_command-line-args--CliArgs) ⏏
     * [new CliArgs(options)](#new_module_command-line-args--CliArgs_new)
     * _instance_
-      * [.parse([argv])](#module_command-line-args--CliArgs#parse) ⇒ <code>object</code>
-      * [.getUsage([options])](#module_command-line-args--CliArgs#getUsage) ⇒ <code>string</code>
+      * [.parse([argv])](#module_command-line-args--CliArgs+parse) ⇒ <code>object</code>
+      * [.getUsage([options])](#module_command-line-args--CliArgs+getUsage) ⇒ <code>string</code>
     * _inner_
       * [~OptionDefinition](#module_command-line-args--CliArgs..OptionDefinition) : <code>object</code>
 
@@ -98,7 +98,7 @@ A constructor function, taking your desired command-line option definitions as i
 | --- | --- | --- |
 | options | <code>[Array.&lt;OptionDefinition&gt;](#module_command-line-args--CliArgs..OptionDefinition)</code> | list of option definitions |
 
-<a name="module_command-line-args--CliArgs#parse"></a>
+<a name="module_command-line-args--CliArgs+parse"></a>
 #### cliArgs.parse([argv]) ⇒ <code>object</code>
 Returns a flat, or grouped object containing the values set at the command-line
 
@@ -129,7 +129,7 @@ or, if the option definitions are grouped:
     }
 }
 ```
-<a name="module_command-line-args--CliArgs#getUsage"></a>
+<a name="module_command-line-args--CliArgs+getUsage"></a>
 #### cliArgs.getUsage([options]) ⇒ <code>string</code>
 **Kind**: instance method of <code>[CliArgs](#exp_module_command-line-args--CliArgs)</code>  
 

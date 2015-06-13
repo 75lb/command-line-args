@@ -22,16 +22,16 @@
   "author": "Lloyd Brookes",
   "license": "MIT",
   "devDependencies": {
-    "tape": "^3.5.0"
+    "jsdoc-to-markdown": "^1.1.1",
+    "tape": "^4"
   },
   "dependencies": {
-    "array-tools": "^1.1.0",
+    "array-tools": "^1.8.6",
     "handlebars": "^3",
-    "handlebars-ansi": "~0.2.0",
-    "nature": "~0.5",
-    "object-tools": "^1.2.0",
-    "string-tools": "^0.1.4",
-    "typical": "^1.0.0",
-    "word-wrap": "^1.0.2"
+    "handlebars-ansi": "^1",
+    "object-tools": "^1.6.7",
+    "string-tools": "^0.1.8",
+    "typical": "^2.2",
+    "word-wrap": "^1.0.3"
   }
 }
