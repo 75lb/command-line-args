@@ -1,5 +1,5 @@
 var test = require("tape");
-var cliArgs = require("../lib/command-line-args");
+var parse = require("../");
 
 var optionDefinitions = [
     { name: "verbose", alias: "v", type: Boolean },
@@ -7,15 +7,15 @@ var optionDefinitions = [
     { name: "colour", alias: "c" },
     { name: "number", alias: "n", type: Number },
     { name: "files", defaultOption: true },
-    { name: "colours", type: Array },
-    { name: "tramps", type: Array }
+    { name: "colours", type: String, multiple: true },
+    { name: "tramps", type: String, multiple: true }
 ];
 
 test("throws on unrecognised option", function(t){
     var argv = [ "-files", "clive" ];
     t.throws(
         function(){
-            cliArgs(optionDefinitions).parse(argv);
+            parse(optionDefinitions, argv);
         }, 
         new Error("Unexpected option: f")
     );
@@ -24,7 +24,7 @@ test("throws on unrecognised option", function(t){
 
 test("handles missing option value", function(t){
     var argv = [ "--colour" ];
-    t.deepEqual(cliArgs(optionDefinitions).parse(argv), {
+    t.deepEqual(parse(optionDefinitions, argv), {
     	colour: null
     });
     t.end();
@@ -32,7 +32,7 @@ test("handles missing option value", function(t){
 
 test("handles missing option value", function(t){
     var argv = [ "--colour", "--number", "2" ];
-    t.deepEqual(cliArgs(optionDefinitions).parse(argv), {
+    t.deepEqual(parse(optionDefinitions, argv), {
     	colour: null,
 		number: 2
     });
@@ -41,7 +41,7 @@ test("handles missing option value", function(t){
 
 test("handles arrays with relative paths", function(t){
     var argv = [ "--colours", "../what", "../ever" ];
-    t.deepEqual(cliArgs(optionDefinitions).parse(argv), {
+    t.deepEqual(parse(optionDefinitions, argv), {
     	colours: [ "../what", "../ever" ]
     });
     t.end();

@@ -1,5 +1,5 @@
 var test = require("tape");
-var cliArgs = require("../lib/command-line-args");
+var parse = require("../");
 
 
 test("default option", function(t){
