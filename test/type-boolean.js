@@ -5,7 +5,7 @@ var optionDefinitions = [
     { name: "one", type: Boolean }
 ];
 
-test("different values", function(t){
+test("type-boolean: different values", function(t){
     t.deepEqual(
         parse(optionDefinitions, [ "--one" ]),
         { one: true }
@@ -16,7 +16,7 @@ test("different values", function(t){
     );
     t.deepEqual(
         parse(optionDefinitions, [ "--one false" ]),
-        { one: false }
+        { one: true }
     );
     t.deepEqual(
         parse(optionDefinitions, [ "--one sfsgf" ]),

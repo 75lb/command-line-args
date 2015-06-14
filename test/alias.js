@@ -25,10 +25,10 @@ test("alias: one --this-type boolean", function(t){
 });
 
 test("alias: one boolean, one string", function(t){
-    var argv = [ "-v", "-c", "red" ];
+    var argv = [ "-v", "-c" ];
     t.deepEqual(parse(optionDefinitions, argv), {
         verbose: true,
-        colour: "red"
+        colour: true
     });
     t.end();
 });

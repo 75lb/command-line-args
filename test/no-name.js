@@ -6,7 +6,7 @@ var optionDefinitions = [
     { something: "two" },
 ];
 
-test("no name specified", function(t){
+test("no name: no name specified", function(t){
     var argv = [ "--one", "--two" ];
     t.throws(function(){
         var result = parse(optionDefinitions, argv);

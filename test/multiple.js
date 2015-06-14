@@ -8,7 +8,7 @@ var optionDefinitions = [
 
 var argv = [ "-v", "--array", "1", "2", "3" ];
 
-test(".parse(optionDefinitions, argv)", function(t){
+test("multiple: true", function(t){
     var result = parse(optionDefinitions, argv);
     t.deepEqual(result, {
         verbose: true,

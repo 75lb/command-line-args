@@ -8,7 +8,7 @@ var optionDefinitions = [
     { name: "four", alias: "4" }
 ];
 
-test("one of each", function(t){
+test("name-alias-mix: one of each", function(t){
     var argv = [ "--one", "-2", "--three" ];
     var result = parse(optionDefinitions, argv);
     t.strictEqual(result.one, true);
