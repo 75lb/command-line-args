@@ -3,7 +3,7 @@ var parse = require("../");
 
 var optionDefinitions = [
     { name: "one" },
-    { name: "two" },
+    { name: "two" }
 ];
 
 test("just names, no values", function(t){
