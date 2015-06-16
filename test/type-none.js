@@ -32,13 +32,3 @@ test("name: just names, no values, unpassed value", function(t){
     });
     t.end();
 });
-
-test("name: value passed but no option definition", function(t){
-    var argv = [ "--one", "one", "--two", "two", "--four", "four" ];
-    var result = parse(optionDefinitions, argv);
-    t.deepEqual(result, {
-        one: true,
-        two: true
-    });
-    t.end();
-});

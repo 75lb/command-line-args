@@ -16,10 +16,6 @@ test("type-other: different values", function(t){
         parse(optionDefinitions, [ "--file" ]),
         { file: null }
     );
-    t.deepEqual(
-        parse(optionDefinitions, [ "--file", "--two" ]),
-        { file: null }
-    );
 
     t.end();
 });

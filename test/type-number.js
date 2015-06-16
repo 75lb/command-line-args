@@ -14,14 +14,6 @@ test("type-number: different values", function(t){
         parse(optionDefinitions, [ "--one" ]),
         { one: null }
     );
-    t.deepEqual(
-        parse(optionDefinitions, [ "--one", "--two" ]),
-        { one: null }
-    );
-    t.deepEqual(
-        parse(optionDefinitions, [ "--one", "3" ]),
-        { one: 3 }
-    );
 
     t.end();
 });

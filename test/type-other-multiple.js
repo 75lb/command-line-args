@@ -20,10 +20,6 @@ test("type-other-multiple: different values", function(t){
         parse(optionDefinitions, [ "--file" ]),
         { file: [] }
     );
-    t.deepEqual(
-        parse(optionDefinitions, [ "--file", "--two" ]),
-        { file: [] }
-    );
 
     t.end();
 });

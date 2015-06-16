@@ -15,10 +15,6 @@ test("type-string: different values", function(t){
         { one: null }
     );
     t.deepEqual(
-        parse(optionDefinitions, [ "--one", "--two" ]),
-        { one: null }
-    );
-    t.deepEqual(
         parse(optionDefinitions, [ "--one", "3" ]),
         { one: "3" }
     );
