@@ -4,6 +4,7 @@
   "description": "Command-line parser, usage text producer",
   "repository": "https://github.com/75lb/command-line-args.git",
   "main": "lib/command-line-args",
+  "cla": "bin.cli.js",
   "scripts": {
     "test": "tape test/*.js",
     "docs": "jsdoc2md -t jsdoc2md/README.hbs lib/command-line-args.js > README.md; echo"
@@ -26,12 +27,6 @@
     "tape": "^4"
   },
   "dependencies": {
-    "array-tools": "^2",
-    "handlebars": "^3",
-    "handlebars-ansi": "^1",
-    "object-tools": "^1.6.7",
-    "string-tools": "^0.1.8",
-    "typical": "^2.2",
-    "word-wrap": "^1.0.3"
+    "array-tools": "^2.0.0-0"
   }
 }
