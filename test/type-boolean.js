@@ -1,5 +1,5 @@
 var test = require("tape");
-var parse = require("../");
+var cliArgs = require("../");
 
 var optionDefinitions = [
     { name: "one", type: Boolean }
@@ -7,19 +7,19 @@ var optionDefinitions = [
 
 test("type-boolean: different values", function(t){
     t.deepEqual(
-        parse(optionDefinitions, [ "--one" ]),
+        cliArgs(optionDefinitions).parse([ "--one" ]),
         { one: true }
     );
     t.deepEqual(
-        parse(optionDefinitions, [ "--one true" ]),
+        cliArgs(optionDefinitions).parse([ "--one true" ]),
         { one: true }
     );
     t.deepEqual(
-        parse(optionDefinitions, [ "--one false" ]),
+        cliArgs(optionDefinitions).parse([ "--one false" ]),
         { one: true }
     );
     t.deepEqual(
-        parse(optionDefinitions, [ "--one sfsgf" ]),
+        cliArgs(optionDefinitions).parse([ "--one sfsgf" ]),
         { one: true }
     );
 

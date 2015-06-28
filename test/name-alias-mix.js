@@ -1,5 +1,5 @@
 var test = require("tape");
-var parse = require("../");
+var cliArgs = require("../");
 
 var optionDefinitions = [
     { name: "one", alias: "1" },
@@ -10,7 +10,8 @@ var optionDefinitions = [
 
 test("name-alias-mix: one of each", function(t){
     var argv = [ "--one", "-2", "--three" ];
-    var result = parse(optionDefinitions, argv);
+    var cli = cliArgs(optionDefinitions);
+    var result = cli.parse(argv);
     t.strictEqual(result.one, true);
     t.strictEqual(result.two, true);
     t.strictEqual(result.three, true);

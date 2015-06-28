@@ -1,5 +1,5 @@
 var test = require("tape");
-var parse = require("../");
+var cliArgs = require("../");
 
 var optionDefinitions = [
     { name: "file", multiple: true, type: function(file){
@@ -9,15 +9,15 @@ var optionDefinitions = [
 
 test("type-other-multiple: different values", function(t){
     t.deepEqual(
-        parse(optionDefinitions, [ "--file", "one.js" ]),
+        cliArgs(optionDefinitions).parse([ "--file", "one.js" ]),
         { file: [ "one.js" ] }
     );
     t.deepEqual(
-        parse(optionDefinitions, [ "--file", "one.js", "two.js" ]),
+        cliArgs(optionDefinitions).parse([ "--file", "one.js", "two.js" ]),
         { file: [ "one.js", "two.js" ] }
     );
     t.deepEqual(
-        parse(optionDefinitions, [ "--file" ]),
+        cliArgs(optionDefinitions).parse([ "--file" ]),
         { file: [] }
     );
 

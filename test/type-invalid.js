@@ -1,24 +1,24 @@
 var test = require("tape");
-var parse = require("../");
+var cliArgs = require("../");
 
 var optionDefinitions = [ { name: "one", type: "string" } ];
 
 test("type-invalid: invalid type values", function(t){
     var argv = [ "--one", "something" ];
     t.throws(function(){
-        parse([ { name: "one", type: "string" } ], argv)
+        cliArgs([ { name: "one", type: "string" } ]).parse(argv)
     }, /invalid/i);
     
     t.throws(function(){
-        parse([ { name: "one", type: 234 } ], argv)
+        cliArgs([ { name: "one", type: 234 } ]).parse(argv)
     }, /invalid/i);
 
     t.throws(function(){
-        parse([ { name: "one", type: {} } ], argv)
+        cliArgs([ { name: "one", type: {} } ]).parse(argv)
     }, /invalid/i);
 
     t.doesNotThrow(function(){
-        parse([ { name: "one", type: function(){} } ], argv)
+        cliArgs([ { name: "one", type: function(){} } ]).parse(argv)
     }, /invalid/i);
 
     t.end();

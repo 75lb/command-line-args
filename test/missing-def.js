@@ -1,5 +1,5 @@
 var test = require("tape");
-var parse = require("../");
+var cliArgs = require("../");
 
 var optionDefinitions = [
     { name: "one", type: Number }
@@ -7,20 +7,20 @@ var optionDefinitions = [
 
 test("missing def: set a value without option definition", function(t){
     t.deepEqual(
-        parse(optionDefinitions, [ "--one", "1" ]),
+        cliArgs(optionDefinitions).parse([ "--one", "1" ]),
         { one: 1 }
     );
 
     t.throws(function(){
-        parse(optionDefinitions, [ "--one", "--two" ]);
+        cliArgs(optionDefinitions).parse([ "--one", "--two" ]);
     }, /invalid/i);
 
     t.throws(function(){
-        parse(optionDefinitions, [ "--one", "2", "--two", "two" ]);
+        cliArgs(optionDefinitions).parse([ "--one", "2", "--two", "two" ]);
     }, /invalid/i);
 
     t.throws(function(){
-        parse(optionDefinitions, [ "-a", "2" ]);
+        cliArgs(optionDefinitions).parse([ "-a", "2" ]);
     }, /invalid/i);
 
     t.end();

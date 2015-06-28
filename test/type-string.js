@@ -1,5 +1,5 @@
 var test = require("tape");
-var parse = require("../");
+var cliArgs = require("../");
 
 var optionDefinitions = [
     { name: "one", type: String }
@@ -7,15 +7,15 @@ var optionDefinitions = [
 
 test("type-string: different values", function(t){
     t.deepEqual(
-        parse(optionDefinitions, [ "--one", "yeah" ]),
+        cliArgs(optionDefinitions).parse([ "--one", "yeah" ]),
         { one: "yeah" }
     );
     t.deepEqual(
-        parse(optionDefinitions, [ "--one" ]),
+        cliArgs(optionDefinitions).parse([ "--one" ]),
         { one: null }
     );
     t.deepEqual(
-        parse(optionDefinitions, [ "--one", "3" ]),
+        cliArgs(optionDefinitions).parse([ "--one", "3" ]),
         { one: "3" }
     );
 

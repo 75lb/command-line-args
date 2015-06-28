@@ -1,5 +1,5 @@
 var test = require("tape");
-var parse = require("../");
+var cliArgs = require("../");
 
 
 test("bad input: throws when no definition.name specified", function(t){
@@ -9,7 +9,7 @@ test("bad input: throws when no definition.name specified", function(t){
     ];
     var argv = [ "--one", "--two" ];
     t.throws(function(){
-        var result = parse(optionDefinitions, argv);
+        var result = cliArgs(optionDefinitions).parse(argv);
     }, /invalid/i);
     t.end();
 });
@@ -20,7 +20,7 @@ test("bad input: throws on malformed option", function(t){
     ];
     var argv = [ "-files", "clive" ];
     t.throws(function(){
-        parse(optionDefinitions, argv);
+        cliArgs(optionDefinitions).parse(argv);
     }, /invalid/i);
     t.end();
 });
@@ -30,10 +30,10 @@ test("bad input: handles missing option value", function(t){
         { name: "colour", type: String },
         { name: "files" }
     ];
-    t.deepEqual(parse(optionDefinitions, [ "--colour" ]), {
+    t.deepEqual(cliArgs(optionDefinitions).parse([ "--colour" ]), {
     	colour: null
     });
-    t.deepEqual(parse(optionDefinitions, [ "--colour", "--files", "yeah" ]), {
+    t.deepEqual(cliArgs(optionDefinitions).parse([ "--colour", "--files", "yeah" ]), {
     	colour: null,
         files: "yeah"
     });
@@ -45,7 +45,7 @@ test("handles arrays with relative paths", function(t){
         { name: "colours", type: String, multiple: true }
     ];
     var argv = [ "--colours", "../what", "../ever" ];
-    t.deepEqual(parse(optionDefinitions, argv), {
+    t.deepEqual(cliArgs(optionDefinitions).parse(argv), {
     	colours: [ "../what", "../ever" ]
     });
     t.end();

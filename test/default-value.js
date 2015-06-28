@@ -1,21 +1,21 @@
 var test = require("tape");
-var parse = require("../");
+var cliArgs = require("../");
 
 test("default colour", function(t){
-    t.deepEqual(parse([ { name: "one" }, { name: "two", value: "two" } ], [ "--one", "1" ]), {
+    t.deepEqual(cliArgs([ { name: "one" }, { name: "two", value: "two" } ]).parse([ "--one", "1" ]), {
         one: "1",
         two: "two"
     });
-    t.deepEqual(parse([{ name: "two", value: "two" }], []), {
+    t.deepEqual(cliArgs([{ name: "two", value: "two" }]).parse([]), {
         two: "two"
     });
-    t.deepEqual(parse([{ name: "two", value: "two" }], [ "--two", "zwei" ]), {
+    t.deepEqual(cliArgs([{ name: "two", value: "two" }]).parse([ "--two", "zwei" ]), {
         two: "zwei"
     });
-    t.deepEqual(parse([{ name: "two", multiple: true, value: ["two", "zwei"] }], [ ]), {
+    t.deepEqual(cliArgs([{ name: "two", multiple: true, value: ["two", "zwei"] }]).parse([ ]), {
         two: [ "two", "zwei" ]
     });
-    t.deepEqual(parse([{ name: "two", multiple: true, value: ["two", "zwei"] }], [ "--two", "zwei" ]), {
+    t.deepEqual(cliArgs([{ name: "two", multiple: true, value: ["two", "zwei"] }]).parse([ "--two", "zwei" ]), {
         two: [ "zwei" ]
     });
     t.end();

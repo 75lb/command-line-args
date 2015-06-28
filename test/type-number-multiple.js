@@ -1,5 +1,5 @@
 var test = require("tape");
-var parse = require("../");
+var cliArgs = require("../");
 
 var optionDefinitions = [
     { name: "array", type: Number, multiple: true },
@@ -8,7 +8,7 @@ var optionDefinitions = [
 var argv = [ "--array", "1", "2", "3" ];
 
 test("multiple: true", function(t){
-    var result = parse(optionDefinitions, argv);
+    var result = cliArgs(optionDefinitions).parse(argv);
     t.deepEqual(result, {
         array: [ 1, 2, 3 ]
     });
