@@ -7,8 +7,7 @@ var optionDefinitions = [
 
 test("type-boolean: different values", function(t){
     var cli = cliArgs(optionDefinitions);
-    cli.parse()
-    // cli.getUsage();
-
+    var usage = cli.getUsage({ title: "test" });
+    t.ok(/test/.test(usage));
     t.end();
 });
