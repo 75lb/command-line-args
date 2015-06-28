@@ -27,7 +27,7 @@
     "tape": "^4"
   },
   "dependencies": {
-    "array-tools": "^2.0.0-0",
+    "array-tools": "^2.0.0-5",
     "command-line-usage": "^1.0.0-0"
   }
 }
