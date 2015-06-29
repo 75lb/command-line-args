@@ -1,7 +1,7 @@
 var test = require("tape");
 var cliArgs = require("../");
 
-test("default colour", function(t){
+test("default value", function(t){
     t.deepEqual(cliArgs([ { name: "one" }, { name: "two", value: "two" } ]).parse([ "--one", "1" ]), {
         one: "1",
         two: "two"

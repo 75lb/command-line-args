@@ -9,7 +9,7 @@ var optionDefinitions = [
 
 test("groups", function(t){
     var cli = cliArgs(optionDefinitions);
-    t.deepEqual(cli.parse([ "--one", "1", "--two", "2", "three", "3" ]), { 
+    t.deepEqual(cli.parse([ "--one", "1", "--two", "2", "--three", "3" ]), { 
         a: {
             one: "1",
             two: "2"
@@ -17,6 +17,7 @@ test("groups", function(t){
         b: {
             three: "3"
         },
+        _none: {},
         _all: {
             one: "1",
             two: "2",
