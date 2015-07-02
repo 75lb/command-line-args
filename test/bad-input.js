@@ -14,17 +14,6 @@ test("bad input: throws when no definition.name specified", function(t){
     t.end();
 });
 
-test("bad input: throws on malformed option", function(t){
-    var optionDefinitions = [
-        { name: "files" }
-    ];
-    var argv = [ "-files", "clive" ];
-    t.throws(function(){
-        cliArgs(optionDefinitions).parse(argv);
-    }, /invalid/i);
-    t.end();
-});
-
 test("bad input: handles missing option value", function(t){
     var optionDefinitions = [
         { name: "colour", type: String },
