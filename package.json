@@ -30,6 +30,7 @@
     "array-tools": "^2.0.0-5",
     "command-line-usage": "^1.0.0-0",
     "find-replace": "~0.2.0",
-    "object-tools": "^2"
+    "object-tools": "^2",
+    "typical": "^2.3.0"
   }
 }

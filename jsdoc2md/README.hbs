@@ -4,63 +4,23 @@
 [![Dependency Status](https://david-dm.org/75lb/command-line-args.svg)](https://david-dm.org/75lb/command-line-args)
 
 # command-line-args
-A command-line parser and usage-guide producer.. Particularly good at organising large sets of options. 
+Collect command-line options, generate a usage guide..
+
+- Support most option notation styles
+    - long options (`--find lib.js`)
+    - short options (`-f lib.js`)
+    - getopt-style combinations (`-xvf  lib.js`)
+    - option=val style (`--find=lib.js`)
+- Customisable usage guide generator
+- Modular - define reusage option sets.
+- Split options into groups, for apps with a large set of options.
+- Fine control over validation, type
 
 ## Install
 ```sh
 $ npm install command-line-args --save
 ```
 
-## Synopsis
-the following `app.js`...
-```js
-var cliArgs = require("command-line-args");
-
-/* define the command-line options */
-var cli = cliArgs([
-    { name: "verbose", type: Boolean, alias: "v", description: "Write plenty output" },
-    { name: "help", type: Boolean, description: "Print usage instructions" },
-    { name: "files", type: Array, defaultOption: true, description: "The input files" }
-]);
-
-/* parse the supplied command-line values */
-var options = cli.parse();
-
-/* generate a usage guide */
-var usage = cli.getUsage({
-    header: "A synopsis application.",
-    footer: "For more information, visit http://example.com"
-});
-    
-console.log(options.help ? usage : options);
-```
-...returns this output at the command line:
-```sh
-$ node app.js
-{}
-
-$ node app.js -v
-{ verbose: true }
-
-$ node app.js README.md package.json
-{ files: [ 'README.md', 'package.json' ] }
-
-$ node app.js README.md package.json -v
-{ verbose: true, files: [ 'README.md', 'package.json' ] }
-
-$ node app.js --help
-
-  A synopsis application.
-
-  Usage
-
-  -v, --verbose    Write plenty output
-  --help           Print usage instructions
-  --files <array>  The input files
-
-  For more information, visit http://example.com
-
-```
 
 ## API Reference
 {{#module name="command-line-args"}}
