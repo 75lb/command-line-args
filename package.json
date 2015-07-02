@@ -29,6 +29,7 @@
   "dependencies": {
     "array-tools": "^2.0.0-5",
     "command-line-usage": "^1.0.0-0",
-    "object-tools": "^1.6.7"
+    "find-replace": "~0.2.0",
+    "object-tools": "^2"
   }
 }
