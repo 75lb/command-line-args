@@ -22,3 +22,18 @@ test("defaultOption: multiple string", function(t){
     });
     t.end();
 });
+
+test("defaultOption: multiple defaultOption values between other arg/value pairs", function(t){
+    var optionDefinitions = [
+        { name: "one" },
+        { name: "two" },
+        { name: "files", defaultOption: true, multiple: true }
+    ];
+    var argv = [ "one", "1", "file1", "file2", "two", "2" ];
+    t.deepEqual(cliArgs(optionDefinitions).parse(argv), {
+        one: "1",
+        two: "2",
+        files: [ "file1", "file2" ]
+    });
+    t.end();
+});
