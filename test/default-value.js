@@ -15,8 +15,9 @@ test("default value", function(t){
     t.deepEqual(cliArgs([{ name: "two", multiple: true, value: ["two", "zwei"] }]).parse([ ]), {
         two: [ "two", "zwei" ]
     });
-    t.deepEqual(cliArgs([{ name: "two", multiple: true, value: ["two", "zwei"] }]).parse([ "--two", "zwei" ]), {
-        two: [ "zwei" ]
-    });
+    t.deepEqual(
+        cliArgs([{ name: "two", multiple: true, value: ["two", "zwei"] }]).parse([ "--two", "duo" ]), 
+        { two: [ "two", "zwei", "duo" ] }
+    );
     t.end();
 });

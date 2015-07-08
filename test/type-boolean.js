@@ -6,20 +6,21 @@ var optionDefinitions = [
 ];
 
 test("type-boolean: different values", function(t){
+    var cli = cliArgs(optionDefinitions);
     t.deepEqual(
-        cliArgs(optionDefinitions).parse([ "--one" ]),
+        cli.parse([ "--one" ]),
         { one: true }
     );
     t.deepEqual(
-        cliArgs(optionDefinitions).parse([ "--one true" ]),
+        cli.parse([ "--one", "true" ]),
         { one: true }
     );
     t.deepEqual(
-        cliArgs(optionDefinitions).parse([ "--one false" ]),
+        cli.parse([ "--one", "false" ]),
         { one: true }
     );
     t.deepEqual(
-        cliArgs(optionDefinitions).parse([ "--one sfsgf" ]),
+        cli.parse([ "--one", "sfsgf" ]),
         { one: true }
     );
 
