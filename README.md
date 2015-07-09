@@ -22,7 +22,7 @@ $ npm install command-line-args --save
 ```
 
 
-## API Reference
+# API Reference
 ## Modules
 <dl>
 <dt><a href="#module_command-line-args">command-line-args</a></dt>
@@ -52,11 +52,12 @@ $ npm install command-line-args --save
   * [Definition](#exp_module_definition--Definition) ⏏
     * [.name](#module_definition--Definition+name) : <code>string</code>
     * [.type](#module_definition--Definition+type) : <code>function</code>
+    * [.description](#module_definition--Definition+description) : <code>string</code>
     * [.alias](#module_definition--Definition+alias) : <code>string</code>
     * [.multiple](#module_definition--Definition+multiple) : <code>boolean</code>
-    * [.value](#module_definition--Definition+value) : <code>boolean</code>
     * [.defaultOption](#module_definition--Definition+defaultOption) : <code>boolean</code>
     * [.group](#module_definition--Definition+group) : <code>string</code> &#124; <code>Array.&lt;string&gt;</code>
+    * [.value](#module_definition--Definition+value) : <code>boolean</code>
 
 <a name="exp_module_definition--Definition"></a>
 ### Definition ⏏
@@ -69,6 +70,9 @@ Option Definition
 <a name="module_definition--Definition+type"></a>
 #### definition.type : <code>function</code>
 **Kind**: instance property of <code>[Definition](#exp_module_definition--Definition)</code>  
+<a name="module_definition--Definition+description"></a>
+#### definition.description : <code>string</code>
+**Kind**: instance property of <code>[Definition](#exp_module_definition--Definition)</code>  
 <a name="module_definition--Definition+alias"></a>
 #### definition.alias : <code>string</code>
 a single character
@@ -77,14 +81,14 @@ a single character
 <a name="module_definition--Definition+multiple"></a>
 #### definition.multiple : <code>boolean</code>
 **Kind**: instance property of <code>[Definition](#exp_module_definition--Definition)</code>  
-<a name="module_definition--Definition+value"></a>
-#### definition.value : <code>boolean</code>
-**Kind**: instance property of <code>[Definition](#exp_module_definition--Definition)</code>  
 <a name="module_definition--Definition+defaultOption"></a>
 #### definition.defaultOption : <code>boolean</code>
 **Kind**: instance property of <code>[Definition](#exp_module_definition--Definition)</code>  
 <a name="module_definition--Definition+group"></a>
 #### definition.group : <code>string</code> &#124; <code>Array.&lt;string&gt;</code>
+**Kind**: instance property of <code>[Definition](#exp_module_definition--Definition)</code>  
+<a name="module_definition--Definition+value"></a>
+#### definition.value : <code>boolean</code>
 **Kind**: instance property of <code>[Definition](#exp_module_definition--Definition)</code>  
 <a name="module_definitions"></a>
 ## definitions
