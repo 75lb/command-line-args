@@ -1,6 +1,6 @@
 {
   "name": "command-line-args",
-  "version": "1.0.0-0",
+  "version": "1.0.0-1",
   "description": "Command-line parser, usage text producer",
   "repository": "https://github.com/75lb/command-line-args.git",
   "main": "lib/command-line-args",
