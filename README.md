@@ -4,7 +4,7 @@
 [![Dependency Status](https://david-dm.org/75lb/command-line-args.svg)](https://david-dm.org/75lb/command-line-args)
 
 # command-line-args
-Collect command-line options, generate a usage guide..
+A library for collecting command-line options and generating a usage guide.
 
 - Support most option notation styles
     - long options (`--find lib.js`)
@@ -15,6 +15,50 @@ Collect command-line options, generate a usage guide..
 - Modular - define reusage option sets.
 - Split options into groups, for apps with a large set of options.
 - Fine control over validation, type
+
+## Synopsis
+You supply an array of option definitions. Typically example.
+
+```
+
+```
+
+
+You call the parse method and get an object back looking something like this.
+
+A usage guide can be generated using .getUsage(). It looks something like this.
+
+
+
+
+## Walk-through
+Say you wrote an app while hungry. You specify possible options using an array of Definition objects. The only required Definition property is `name`, so the simplest example is
+```jsdoc
+[
+  { name: "main" },
+  { name: "dessert" }
+]
+```
+
+If you install command-line-args globally you can use it as a test harness. Here we set the flags.
+
+```
+$ cat example/one.js | command-line-args --main
+{ main: true }
+
+$ cat example/one.js | command-line-args --main --dessert
+{ main: true, dessert: true }
+```
+
+If you supply values to the option, it will return it as a string.
+
+```
+$ cat example/one.js | command-line-args --main beef --dessert trifle
+{ main: 'beef', dessert: 'trifle' }
+```
+
+## Tips
+To validate the collected options, use `test-value`.
 
 ## Install
 ```sh
@@ -42,8 +86,8 @@ $ npm install command-line-args --save
 
 | Param | Type |
 | --- | --- |
-| definitions | <code>module:command-line-args.argDefType</code> | 
-| argv | <code>Array.&lt;string&gt;</code> | 
+| definitions | <code>module:command-line-args.argDefType</code> |
+| argv | <code>Array.&lt;string&gt;</code> |
 
 <a name="module_definition"></a>
 ## definition

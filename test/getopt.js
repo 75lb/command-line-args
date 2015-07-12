@@ -16,3 +16,11 @@ test("getOpts: two flags, one option", function(t){
     });
     t.end();
 });
+
+test("getOpts: non-existent options", function(t){
+    var argv = [ "-sdf" ];
+    t.throws(function(){
+        cliArgs(optionDefinitions).parse(argv);
+    }, /invalid/i);
+    t.end();
+});
