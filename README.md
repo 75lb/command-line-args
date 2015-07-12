@@ -6,27 +6,58 @@
 # command-line-args
 A library for collecting command-line options and generating a usage guide.
 
-- Support most option notation styles
+- Supports the most common notation styles
     - long options (`--find lib.js`)
     - short options (`-f lib.js`)
     - getopt-style combinations (`-xvf  lib.js`)
     - option=val style (`--find=lib.js`)
+    - `--file one two` or `--file one --file two`
 - Customisable usage guide generator
 - Modular - define reusage option sets.
 - Split options into groups, for apps with a large set of options.
 - Fine control over validation, type
 
 ## Synopsis
-You supply an array of option definitions. Typically example.
+You create and supply an array of option definitions. Typically, this looks something like:
 
-```
-
+```js
+module.exports = [
+    { name: "help", alias: "h", type: Boolean, description: "Display this usage guide." },
+    { name: "files", alias: "f", type: String, multiple: true, defaultOption: true, description: "The input files to process" },
+    { name: "timeout", alias: "t", type: Number, description: "Timeout value in ms" }
+];
 ```
 
 
 You call the parse method and get an object back looking something like this.
+```js
+{ files:
+   [ 'lib/command-line-args.js',
+     'lib/definition.js',
+     'lib/definitions.js',
+     'lib/option.js' ],
+  verbose: true,
+  timeout: 1000  }
+ ```
 
 A usage guide can be generated using .getUsage(). It looks something like this.
+```
+  a typical app
+  Generates something useful
+
+  Usage
+  $ cat input.json | my-app [<options>]
+  $ my-app <files>
+
+  Main options
+  This group contains the most important options.
+
+  -h, --help               Display this usage guide.
+  -f, --files <string[]>   The input files to process
+  -t, --timeout <number>   Timeout value in ms
+
+  Project home: https://github.com/me/my-app
+```
 
 
 
@@ -58,7 +89,8 @@ $ cat example/one.js | command-line-args --main beef --dessert trifle
 ```
 
 ## Tips
-To validate the collected options, use `test-value`.
+- To validate the collected options, use `test-value`.
+- multiples can be `--file one two` or `--file one --file two`
 
 ## Install
 ```sh

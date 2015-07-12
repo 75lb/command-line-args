@@ -20,7 +20,7 @@ function parseCla(){
     try {
         console.log(cli.parse());
     } catch(err){
-        halt(err.stack);
+        halt(err.message);
     }
 }
 
