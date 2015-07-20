@@ -4,21 +4,21 @@
 [![Dependency Status](https://david-dm.org/75lb/command-line-args.svg)](https://david-dm.org/75lb/command-line-args)
 
 # command-line-args
-A library for collecting command-line options and generating a usage guide.
+A library to collect command-line options and generate a usage guide.
 
-- Supports the most common notation styles
+- Supports the most common option notation styles
     - long options (`--find lib.js`)
     - short options (`-f lib.js`)
     - getopt-style combinations (`-xvf  lib.js`)
     - option=val style (`--find=lib.js`)
-    - `--file one two` or `--file one --file two`
+    - Two ways to specify a list (`--file one two` or `--file one --file two`)
 - Customisable usage guide generator
-- Modular - define reusage option sets.
+- Modular - define common option sets and reuse in multiple projects.
 - Split options into groups, for apps with a large set of options.
-- Fine control over validation, type
+- Control over the type and value received from each option
 
 ## Synopsis
-You create and supply an array of option definitions. Typically, this looks something like:
+You create and supply an array of option definitions. Typically, it looks something like:
 
 ```js
 module.exports = [
@@ -28,8 +28,12 @@ module.exports = [
 ];
 ```
 
+If your app was run with a command like this:
+```sh
+$ my-app -vt 1000 lib/*.js
+```
 
-You call the parse method and get an object back looking something like this.
+.. parsing the command-line args would return an object like this:
 ```js
 { files:
    [ 'lib/command-line-args.js',
@@ -40,7 +44,7 @@ You call the parse method and get an object back looking something like this.
   timeout: 1000  }
  ```
 
-A usage guide can be generated using .getUsage(). It looks something like this.
+A usage guide (created by `.getUsage()`) looks something like this:
 ```
   a typical app
   Generates something useful
@@ -59,19 +63,22 @@ A usage guide can be generated using .getUsage(). It looks something like this.
   Project home: https://github.com/me/my-app
 ```
 
-
+If you don't like the built-in template, you can fork [command-line-usage]() and edit as required. Or write your own.
 
 
 ## Walk-through
-Say you wrote an app while hungry. You specify possible options using an array of Definition objects. The only required Definition property is `name`, so the simplest example is
+
+### Simplest case
+Options are defined as an array of Definition objects. The only required Definition property is `name`, so the simplest example is
 ```jsdoc
 [
   { name: "main" },
-  { name: "dessert" }
+  { name: "dessert" },
+  { name: "courses" }
 ]
 ```
 
-If you install command-line-args globally you can use it as a test harness. Here we set the flags.
+Using the command-line-args test harness (install globally) you can see how the `.parse()` output looks:
 
 ```
 $ cat example/one.js | command-line-args --main
@@ -81,7 +88,7 @@ $ cat example/one.js | command-line-args --main --dessert
 { main: true, dessert: true }
 ```
 
-If you supply values to the option, it will return it as a string.
+In this case, `--main` and `--dessert` were interpreted as flags, and set to `true` as no values were passing. If you supply values, they will be set as a string.
 
 ```
 $ cat example/one.js | command-line-args --main beef --dessert trifle

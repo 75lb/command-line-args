@@ -1,4 +1,5 @@
 module.exports = [
     { name: "main" },
-    { name: "dessert" }
+    { name: "dessert" },
+    { name: "courses" }
 ];
