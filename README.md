@@ -165,13 +165,12 @@ $ npm install command-line-args --save
 <a name="module_command-line-args"></a>
 ## command-line-args
 <a name="exp_module_command-line-args--CliArgs"></a>
-### CliArgs(definitions, argv) ⇒ <code>object</code> ⏏
+### CliArgs(definitions) ⇒ <code>object</code> ⏏
 **Kind**: Exported function  
 
 | Param | Type |
 | --- | --- |
-| definitions | <code>module:command-line-args.argDefType</code> |
-| argv | <code>Array.&lt;string&gt;</code> |
+| definitions | <code>module:command-line-args.argDefType</code> | 
 
 <a name="module_definition"></a>
 ## definition
