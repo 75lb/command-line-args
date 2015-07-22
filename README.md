@@ -6,13 +6,13 @@
 # command-line-args
 A library to collect command-line options and generate a usage guide.
 
+## Features
 - Supports the most common option notation styles
     - long options (`--find lib.js`)
     - short options (`-f lib.js`)
     - getopt-style combinations (`-xvf  lib.js`)
     - option=val style (`--find=lib.js`)
     - Two ways to specify a list (`--file one two` or `--file one --file two`)
-- Customisable usage guide generator
 - Modular - define common option sets and reuse in multiple projects.
 - Split options into groups, for apps with a large set of options.
 - Control over the type and value received from each option
@@ -44,7 +44,7 @@ $ my-app -vt 1000 lib/*.js
   timeout: 1000  }
  ```
 
-A usage guide (created by `.getUsage()`) looks something like this:
+and the usage guide would look like:
 ```
   a typical app
   Generates something useful
@@ -66,11 +66,11 @@ A usage guide (created by `.getUsage()`) looks something like this:
 If you don't like the built-in template, you can fork [command-line-usage]() and edit as required. Or write your own.
 
 
-## Walk-through
+## Walk-through via example
 
 ### Simplest case
 Options are defined as an array of Definition objects. The only required Definition property is `name`, so the simplest example is
-```jsdoc
+```js
 [
   { name: "main" },
   { name: "dessert" },
@@ -80,7 +80,7 @@ Options are defined as an array of Definition objects. The only required Definit
 
 Using the command-line-args test harness (install globally) you can see how the `.parse()` output looks:
 
-```
+```sh
 $ cat example/one.js | command-line-args --main
 { main: true }
 
@@ -90,14 +90,59 @@ $ cat example/one.js | command-line-args --main --dessert
 
 In this case, `--main` and `--dessert` were interpreted as flags, and set to `true` as no values were passing. If you supply values, they will be set as a string.
 
-```
+```sh
 $ cat example/one.js | command-line-args --main beef --dessert trifle
 { main: 'beef', dessert: 'trifle' }
 ```
 
+## Examples
+
+| # | Command line | parse output |
+| - | ------------ | ------------ |
+| 1 | `$ meal --main` | `{ main: true }` |
+| 2 | `$ meal --main --dessert` | `{ main: true, dessert: true }` |
+| 3 | `$ meal --main beef --dessert trifle` | `{ main: "beef", dessert: "trifle" }` |
+| 4 | `$ meal --main beef --courses 1` | `{ main: "beef", courses: "1" }` |
+
+## Take control of type
+
+### Setter
+```js
+[
+    { name: "main", type: String },
+    { name: "dessert", type: String },
+    { name: "courses", type: Number }
+]
+```
+
+| # | Command line | parse output |
+| - | ------------ | ------------ |
+| 5 | `$ meal --main --courses 3` | `{ main: null, courses: 3 }` |
+
+in 1, main was passed but is set to null (not true, as before) meaning "no value was specified".
+
+### class
+
+```js
+function Dessert(name){
+    if (!(this instanceof Dessert)) return new Dessert(name);
+    this.name = name;
+}
+
+module.exports = [
+    { name: "main", type: String },
+    { name: "dessert", type: Dessert },
+    { name: "courses", type: Number }
+];
+```
+
+| # | Command line | parse output |
+| - | ------------ | ------------ |
+| 5 | `$ meal --main Beef --dessert "Spotted Dick"` | `{ main: 'Beef', dessert: { name: 'Spotted Dick' } }` |
+
+
 ## Tips
 - To validate the collected options, use `test-value`.
-- multiples can be `--file one two` or `--file one --file two`
 
 ## Install
 ```sh
