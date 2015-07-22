@@ -8,10 +8,9 @@ A library to collect command-line options and generate a usage guide.
 
 ## Features
 - Supports the most common option notation styles
-    - long options (`--find lib.js`)
+    - long options (`--find lib.js` or `--find=lib.js`)
     - short options (`-f lib.js`)
     - getopt-style combinations (`-xvf  lib.js`)
-    - option=val style (`--find=lib.js`)
     - Two ways to specify a list (`--file one two` or `--file one --file two`)
 - Modular - define common option sets and reuse in multiple projects.
 - Split options into groups, for apps with a large set of options.
@@ -170,7 +169,7 @@ $ npm install command-line-args --save
 
 | Param | Type |
 | --- | --- |
-| definitions | <code>module:command-line-args.argDefType</code> | 
+| definitions | <code>module:command-line-args.argDefType</code> |
 
 <a name="module_definition"></a>
 ## definition
