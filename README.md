@@ -96,12 +96,12 @@ $ cat example/one.js | command-line-args --main beef --dessert trifle
 
 ## Examples
 
-| # | Command line | parse output |
-| - | ------------ | ------------ |
-| 1 | `$ meal --main` | `{ main: true }` |
-| 2 | `$ meal --main --dessert` | `{ main: true, dessert: true }` |
-| 3 | `$ meal --main beef --dessert trifle` | `{ main: "beef", dessert: "trifle" }` |
-| 4 | `$ meal --main beef --courses 1` | `{ main: "beef", courses: "1" }` |
+| #   | Command line | parse output |
+| --- | ------------ | ------------ |
+| 1   | `$ meal --main` | `{ main: true }` |
+| 2   | `$ meal --main --dessert` | `{ main: true, dessert: true }` |
+| 3   | `$ meal --main beef --dessert trifle` | `{ main: "beef", dessert: "trifle" }` |
+| 4   | `$ meal --main beef --courses 1` | `{ main: "beef", courses: "1" }` |
 
 ## Take control of type
 
@@ -114,9 +114,9 @@ $ cat example/one.js | command-line-args --main beef --dessert trifle
 ]
 ```
 
-| # | Command line | parse output |
-| - | ------------ | ------------ |
-| 5 | `$ meal --main --courses 3` | `{ main: null, courses: 3 }` |
+| #   | Command line | parse output |
+| --- | ------------ | ------------ |
+| 5   | `$ meal --main --courses 3` | `{ main: null, courses: 3 }` |
 
 in 1, main was passed but is set to null (not true, as before) meaning "no value was specified".
 
@@ -135,9 +135,9 @@ module.exports = [
 ];
 ```
 
-| # | Command line | parse output |
-| - | ------------ | ------------ |
-| 5 | `$ meal --main Beef --dessert "Spotted Dick"` | `{ main: 'Beef', dessert: { name: 'Spotted Dick' } }` |
+| #   | Command line | parse output |
+| --- | ------------ | ------------ |
+| 5   | `$ meal --main Beef --dessert "Spotted Dick"` | `{ main: 'Beef', dessert: { name: 'Spotted Dick' } }` |
 
 
 ## Tips
@@ -169,7 +169,7 @@ $ npm install command-line-args --save
 
 | Param | Type |
 | --- | --- |
-| definitions | <code>module:command-line-args.argDefType</code> |
+| definitions | <code>module:command-line-args.argDefType</code> | 
 
 <a name="module_definition"></a>
 ## definition
