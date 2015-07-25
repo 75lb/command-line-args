@@ -67,7 +67,7 @@ If you don't like the built-in template, you can fork [command-line-usage]() and
 
 ## Walk-through via example
 
-### Simplest case
+### Long option names
 Options are defined as an array of Definition objects. The only required Definition property is `name`, so the simplest example is
 ```js
 [
@@ -94,34 +94,18 @@ $ cat example/one.js | command-line-args --main beef --dessert trifle
 { main: 'beef', dessert: 'trifle' }
 ```
 
-## Examples
+#### Examples
 
-| #   | Command line | parse output |
-| --- | ------------ | ------------ |
-| 1   | `$ meal --main` | `{ main: true }` |
-| 2   | `$ meal --main --dessert` | `{ main: true, dessert: true }` |
-| 3   | `$ meal --main beef --dessert trifle` | `{ main: "beef", dessert: "trifle" }` |
-| 4   | `$ meal --main beef --courses 1` | `{ main: "beef", courses: "1" }` |
+| #   | Command line args | parse output |
+| --- | -------------------- | ------------ |
+| 1   | `--main` | `{ main: true }` |
+| 2   | `--main --dessert` | `{ main: true, dessert: true }` |
+| 3   | `--main beef --dessert trifle` | `{ main: "beef", dessert: "trifle" }` |
+| 4   | `--main beef --courses 1` | `{ main: "beef", courses: "1" }` |
 
-## Take control of type
+### Take control of type
 
-### Setter
-```js
-[
-    { name: "main", type: String },
-    { name: "dessert", type: String },
-    { name: "courses", type: Number }
-]
-```
-
-| #   | Command line | parse output |
-| --- | ------------ | ------------ |
-| 5   | `$ meal --main --courses 3` | `{ main: null, courses: 3 }` |
-
-in 1, main was passed but is set to null (not true, as before) meaning "no value was specified".
-
-### class
-
+#### Setter
 ```js
 function Dessert(name){
     if (!(this instanceof Dessert)) return new Dessert(name);
@@ -135,9 +119,70 @@ module.exports = [
 ];
 ```
 
+| #   | Command line args| parse output |
+| --- | ----------------- | ------------ |
+| 5   | `--main --courses 3` | `{ main: null, courses: 3 }` |
+
+in 1, main was passed but is set to null (not true, as before) meaning "no value was specified".
+
+| #   | Command line args | parse output |
+| --- | ----------------- | ------------ |
+| 6   | `--main Beef --dessert "Spotted Dick"` | `{ main: 'Beef', dessert: { name: 'Spotted Dick' } }` |
+
+### Short option names
+```js
+[
+  { name: "hot", alias: "h", type: Boolean },
+  { name: "discount", alias: "d", type: Boolean },
+  { name: "courses", alias: "c" , type: Number }
+]
+```
+
 | #   | Command line | parse output |
 | --- | ------------ | ------------ |
-| 5   | `$ meal --main Beef --dessert "Spotted Dick"` | `{ main: 'Beef', dessert: { name: 'Spotted Dick' } }` |
+| 7   | `-hdc 3` | `{ hot: true, discount: true, courses: 3 }` |
+
+### Multiple option values
+
+```js
+module.exports = [
+    { name: "files", type: String, multiple: true }
+];
+```
+
+| #   | Command line | parse output |
+| --- | ------------ | ------------ |
+| 8   | `--files one.js two.js` | `{ files: [ 'one.js', 'two.js' ] }` |
+| 9   | `--files one.js --files two.js` | `{ files: [ 'one.js', 'two.js' ] }` |
+| 10   | `--files *` | `{ files: [ 'one.js', 'two.js' ] }` |
+
+### Default option
+
+```js
+module.exports = [
+    { name: "files", type: String, multiple: true, defaultOption: true }
+];
+```
+
+| #   | Command line | parse output |
+| --- | ------------ | ------------ |
+| 11   | `one.js two.js` | `{ files: [ 'one.js', 'two.js' ] }` |
+| 12   | `*` | `{ files: [ 'one.js', 'two.js' ] }` |
+
+### Default option value
+
+```js
+module.exports = [
+    { name: "files", type: String, multiple: true, defaultValue: [ "one.js" ] },
+    { name: "max", type: Number, defaultValue: 3 }
+];
+```
+
+| #   | Command line | parse output |
+| --- | ------------ | ------------ |
+| 13   | `` | `{ files: [ 'one.js' ], max: 3 }` |
+| 14   | `--files two.js` | `{ files: [ 'one.js', 'two.js' ], max: 3 }` |
+| 15   | `--max 4` | `{ files: [ 'one.js' ], max: 4 }` |
 
 
 ## Tips
@@ -147,7 +192,6 @@ module.exports = [
 ```sh
 $ npm install command-line-args --save
 ```
-
 
 # API Reference
 {{>main~}}
