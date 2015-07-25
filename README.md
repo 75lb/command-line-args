@@ -65,7 +65,18 @@ and the usage guide would look like:
 If you don't like the built-in template, you can fork [command-line-usage]() and edit as required. Or write your own.
 
 
-## Walk-through via example
+## Walk-through
+All the following examples can be sampled by installing the command-line-args test harness (install globally). Usage:
+
+```sh
+$ cat example/one.js | command-line-args --main
+{ main: true }
+
+$ cat example/one.js | command-line-args --main --dessert
+{ main: true, dessert: true }
+```
+
+On with the examples..
 
 ### Long option names
 Options are defined as an array of Definition objects. The only required Definition property is `name`, so the simplest example is
@@ -77,24 +88,9 @@ Options are defined as an array of Definition objects. The only required Definit
 ]
 ```
 
-Using the command-line-args test harness (install globally) you can see how the `.parse()` output looks:
-
-```sh
-$ cat example/one.js | command-line-args --main
-{ main: true }
-
-$ cat example/one.js | command-line-args --main --dessert
-{ main: true, dessert: true }
-```
+#### Examples
 
 In this case, `--main` and `--dessert` were interpreted as flags, and set to `true` as no values were passing. If you supply values, they will be set as a string.
-
-```sh
-$ cat example/one.js | command-line-args --main beef --dessert trifle
-{ main: 'beef', dessert: 'trifle' }
-```
-
-#### Examples
 
 | #   | Command line args | parse output |
 | --- | -------------------- | ------------ |
@@ -105,7 +101,6 @@ $ cat example/one.js | command-line-args --main beef --dessert trifle
 
 ### Take control of type
 
-#### Setter
 ```js
 function Dessert(name){
     if (!(this instanceof Dessert)) return new Dessert(name);
@@ -185,8 +180,8 @@ module.exports = [
 | 15   | `--max 4` | `{ files: [ 'one.js' ], max: 4 }` |
 
 
-## Tips
-- To validate the collected options, use `test-value`.
+### Validate
+Command-line args collects values *only*. Validation is the job of another module, your module maybe. For this examples we'll use `test-value`.
 
 ## Install
 ```sh

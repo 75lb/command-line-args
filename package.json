@@ -24,7 +24,8 @@
   "license": "MIT",
   "devDependencies": {
     "jsdoc-to-markdown": "^1.1.1",
-    "tape": "^4"
+    "tape": "^4",
+    "test-value": "^1.0.0"
   },
   "dependencies": {
     "array-tools": "^2",
