@@ -7,10 +7,17 @@ var fs = require("fs");
 var cli = cliArgs(cliOptions);
 var options = cli.parse();
 
-function validFiles(files){
-    return files.every(fs.existsSync);
-}
+var validMainForm = {
+    files: function(files){
+        return files && files.every(fs.existsSync);
+    },
+    "log-level": [ "info", "warn", "error", null, undefined ]
+};
 
-var valid = testValue(options, { files: validFiles });
+var validHelpForm = {
+    help: true
+};
 
-console.log(valid);
+var valid = testValue(options, [ validMainForm, validHelpForm ]);
+
+console.log(valid, options);

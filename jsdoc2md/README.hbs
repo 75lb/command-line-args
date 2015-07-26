@@ -102,16 +102,16 @@ In this case, `--main` and `--dessert` were interpreted as flags, and set to `tr
 ### Take control of type
 
 ```js
-function Dessert(name){
-    if (!(this instanceof Dessert)) return new Dessert(name);
-    this.name = name;
-}
-
 module.exports = [
     { name: "main", type: String },
     { name: "dessert", type: Dessert },
     { name: "courses", type: Number }
 ];
+
+function Dessert(name){
+    if (!(this instanceof Dessert)) return new Dessert(name);
+    this.name = name;
+}
 ```
 
 | #   | Command line args| parse output |
@@ -135,6 +135,7 @@ in 1, main was passed but is set to null (not true, as before) meaning "no value
 
 | #   | Command line | parse output |
 | --- | ------------ | ------------ |
+| 7   | `-hcd` | `{ hot: true, courses: null, discount: true }` |
 | 7   | `-hdc 3` | `{ hot: true, discount: true, courses: 3 }` |
 
 ### Multiple option values
@@ -182,6 +183,33 @@ module.exports = [
 
 ### Validate
 Command-line args collects values *only*. Validation is the job of another module, your module maybe. For this examples we'll use `test-value`.
+
+```js
+"use strict";
+var cliOptions = require("./typical");
+var cliArgs = require("../");
+var testValue = require("test-value");
+var fs = require("fs");
+
+var cli = cliArgs(cliOptions);
+var options = cli.parse();
+
+var validMainForm = {
+    files: function(files){
+        return files && files.every(fs.existsSync);
+    },
+    "log-level": [ "info", "warn", "error", null, undefined ]
+};
+
+var validHelpForm = {
+    help: true
+};
+
+var valid = testValue(options, [ validMainForm, validHelpForm ]);
+
+console.log(valid, options);
+
+```
 
 ## Install
 ```sh
