@@ -7,7 +7,7 @@
   "bin": "bin/cli.js",
   "scripts": {
     "test": "tape test/*.js",
-    "docs": "jsdoc2md -t jsdoc2md/README.hbs lib/*.js > README.md; echo"
+    "docs": "jsdoc2md -t jsdoc2md/README.hbs lib/*.js node_modules/command-line-usage/lib/usage-options.js > README.md; echo"
   },
   "keywords": [
     "argv",

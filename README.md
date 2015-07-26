@@ -226,16 +226,43 @@ $ npm install command-line-args --save
 <dd></dd>
 <dt><a href="#module_definition">definition</a></dt>
 <dd></dd>
+<dt><a href="#module_usage-options">usage-options</a></dt>
+<dd></dd>
 </dl>
 <a name="module_command-line-args"></a>
 ## command-line-args
+
+* [command-line-args](#module_command-line-args)
+  * [CliArgs](#exp_module_command-line-args--CliArgs) ⏏
+    * [new CliArgs(definitions)](#new_module_command-line-args--CliArgs_new)
+    * [.parse([argv])](#module_command-line-args--CliArgs+parse) ⇒ <code>object</code>
+    * [.getUsage([options])](#module_command-line-args--CliArgs+getUsage) ⇒ <code>string</code>
+
 <a name="exp_module_command-line-args--CliArgs"></a>
-### CliArgs(definitions) ⇒ <code>object</code> ⏏
-**Kind**: Exported function  
+### CliArgs ⏏
+**Kind**: Exported class  
+<a name="new_module_command-line-args--CliArgs_new"></a>
+#### new CliArgs(definitions)
 
 | Param | Type |
 | --- | --- |
-| definitions | <code>module:command-line-args.argDefType</code> | 
+| definitions | <code>[Array.&lt;definition&gt;](#module_definition)</code> | 
+
+<a name="module_command-line-args--CliArgs+parse"></a>
+#### cliArgs.parse([argv]) ⇒ <code>object</code>
+**Kind**: instance method of <code>[CliArgs](#exp_module_command-line-args--CliArgs)</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| [argv] | <code>Array.&lt;string&gt;</code> | parses `process.argv` by default, unless you pass this |
+
+<a name="module_command-line-args--CliArgs+getUsage"></a>
+#### cliArgs.getUsage([options]) ⇒ <code>string</code>
+**Kind**: instance method of <code>[CliArgs](#exp_module_command-line-args--CliArgs)</code>  
+
+| Param | Type |
+| --- | --- |
+| [options] | <code>[usage-options](#module_usage-options)</code> | 
 
 <a name="module_definition"></a>
 ## definition
@@ -282,6 +309,41 @@ a single character
 <a name="module_definition--Definition+defaultValue"></a>
 #### definition.defaultValue : <code>\*</code>
 **Kind**: instance property of <code>[Definition](#exp_module_definition--Definition)</code>  
+<a name="module_usage-options"></a>
+## usage-options
+
+* [usage-options](#module_usage-options)
+  * [UsageOptions](#exp_module_usage-options--UsageOptions) ⏏
+    * [.title](#module_usage-options--UsageOptions+title) : <code>string</code>
+    * [.description](#module_usage-options--UsageOptions+description) : <code>string</code>
+    * [.forms](#module_usage-options--UsageOptions+forms) : <code>string</code> &#124; <code>Array.&lt;string&gt;</code>
+    * [.groups](#module_usage-options--UsageOptions+groups) : <code>object</code>
+    * [.footer](#module_usage-options--UsageOptions+footer) : <code>string</code>
+    * [.hide](#module_usage-options--UsageOptions+hide) : <code>string</code> &#124; <code>Array.&lt;string&gt;</code>
+
+<a name="exp_module_usage-options--UsageOptions"></a>
+### UsageOptions ⏏
+**Kind**: Exported class  
+<a name="module_usage-options--UsageOptions+title"></a>
+#### usageOptions.title : <code>string</code>
+**Kind**: instance property of <code>[UsageOptions](#exp_module_usage-options--UsageOptions)</code>  
+<a name="module_usage-options--UsageOptions+description"></a>
+#### usageOptions.description : <code>string</code>
+**Kind**: instance property of <code>[UsageOptions](#exp_module_usage-options--UsageOptions)</code>  
+<a name="module_usage-options--UsageOptions+forms"></a>
+#### usageOptions.forms : <code>string</code> &#124; <code>Array.&lt;string&gt;</code>
+**Kind**: instance property of <code>[UsageOptions](#exp_module_usage-options--UsageOptions)</code>  
+<a name="module_usage-options--UsageOptions+groups"></a>
+#### usageOptions.groups : <code>object</code>
+if you have groups, only names specified here will appear in the output
+
+**Kind**: instance property of <code>[UsageOptions](#exp_module_usage-options--UsageOptions)</code>  
+<a name="module_usage-options--UsageOptions+footer"></a>
+#### usageOptions.footer : <code>string</code>
+**Kind**: instance property of <code>[UsageOptions](#exp_module_usage-options--UsageOptions)</code>  
+<a name="module_usage-options--UsageOptions+hide"></a>
+#### usageOptions.hide : <code>string</code> &#124; <code>Array.&lt;string&gt;</code>
+**Kind**: instance property of <code>[UsageOptions](#exp_module_usage-options--UsageOptions)</code>  
 * * *
 
 &copy; 2015 Lloyd Brookes \<75pound@gmail.com\>. Documented by [jsdoc-to-markdown](https://github.com/75lb/jsdoc-to-markdown).
