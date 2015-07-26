@@ -185,30 +185,33 @@ module.exports = [
 Command-line args collects values *only*. Validation is the job of another module, your module maybe. For this examples we'll use `test-value`.
 
 ```js
-"use strict";
-var cliOptions = require("./typical");
-var cliArgs = require("../");
+var cliArgs = require("command-line-args");
 var testValue = require("test-value");
 var fs = require("fs");
 
-var cli = cliArgs(cliOptions);
-var options = cli.parse();
+var cli = cliArgs([
+    { name: "help", type: Boolean },
+    { name: "files", type: String, multiple: true, defaultOption: true },
+    { name: "log-level", type: String }
+]);
 
-var validMainForm = {
+var options = cli.parse();
+var validForms = {};
+
+validForms.main = {
     files: function(files){
         return files && files.every(fs.existsSync);
     },
     "log-level": [ "info", "warn", "error", null, undefined ]
 };
 
-var validHelpForm = {
+validForms.help = {
     help: true
 };
 
-var valid = testValue(options, [ validMainForm, validHelpForm ]);
+var valid = testValue(options, [ validForms.main, validForms.help ]);
 
 console.log(valid, options);
-
 ```
 
 ## Install
@@ -222,10 +225,6 @@ $ npm install command-line-args --save
 <dt><a href="#module_command-line-args">command-line-args</a></dt>
 <dd></dd>
 <dt><a href="#module_definition">definition</a></dt>
-<dd></dd>
-<dt><a href="#module_definitions">definitions</a></dt>
-<dd></dd>
-<dt><a href="#module_option">option</a></dt>
 <dd></dd>
 </dl>
 <a name="module_command-line-args"></a>
@@ -250,7 +249,7 @@ $ npm install command-line-args --save
     * [.multiple](#module_definition--Definition+multiple) : <code>boolean</code>
     * [.defaultOption](#module_definition--Definition+defaultOption) : <code>boolean</code>
     * [.group](#module_definition--Definition+group) : <code>string</code> &#124; <code>Array.&lt;string&gt;</code>
-    * [.value](#module_definition--Definition+value) : <code>boolean</code>
+    * [.defaultValue](#module_definition--Definition+defaultValue) : <code>\*</code>
 
 <a name="exp_module_definition--Definition"></a>
 ### Definition ⏏
@@ -280,13 +279,9 @@ a single character
 <a name="module_definition--Definition+group"></a>
 #### definition.group : <code>string</code> &#124; <code>Array.&lt;string&gt;</code>
 **Kind**: instance property of <code>[Definition](#exp_module_definition--Definition)</code>  
-<a name="module_definition--Definition+value"></a>
-#### definition.value : <code>boolean</code>
+<a name="module_definition--Definition+defaultValue"></a>
+#### definition.defaultValue : <code>\*</code>
 **Kind**: instance property of <code>[Definition](#exp_module_definition--Definition)</code>  
-<a name="module_definitions"></a>
-## definitions
-<a name="module_option"></a>
-## option
 * * *
 
 &copy; 2015 Lloyd Brookes \<75pound@gmail.com\>. Documented by [jsdoc-to-markdown](https://github.com/75lb/jsdoc-to-markdown).

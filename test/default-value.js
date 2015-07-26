@@ -2,21 +2,21 @@ var test = require("tape");
 var cliArgs = require("../");
 
 test("default value", function(t){
-    t.deepEqual(cliArgs([ { name: "one" }, { name: "two", value: "two" } ]).parse([ "--one", "1" ]), {
+    t.deepEqual(cliArgs([ { name: "one" }, { name: "two", defaultValue: "two" } ]).parse([ "--one", "1" ]), {
         one: "1",
         two: "two"
     });
-    t.deepEqual(cliArgs([{ name: "two", value: "two" }]).parse([]), {
+    t.deepEqual(cliArgs([{ name: "two", defaultValue: "two" }]).parse([]), {
         two: "two"
     });
-    t.deepEqual(cliArgs([{ name: "two", value: "two" }]).parse([ "--two", "zwei" ]), {
+    t.deepEqual(cliArgs([{ name: "two", defaultValue: "two" }]).parse([ "--two", "zwei" ]), {
         two: "zwei"
     });
-    t.deepEqual(cliArgs([{ name: "two", multiple: true, value: ["two", "zwei"] }]).parse([ ]), {
+    t.deepEqual(cliArgs([{ name: "two", multiple: true, defaultValue: ["two", "zwei"] }]).parse([ ]), {
         two: [ "two", "zwei" ]
     });
     t.deepEqual(
-        cliArgs([{ name: "two", multiple: true, value: ["two", "zwei"] }]).parse([ "--two", "duo" ]), 
+        cliArgs([{ name: "two", multiple: true, defaultValue: ["two", "zwei"] }]).parse([ "--two", "duo" ]), 
         { two: [ "two", "zwei", "duo" ] }
     );
     t.end();
