@@ -4,7 +4,7 @@
 [![Dependency Status](https://david-dm.org/75lb/command-line-args.svg)](https://david-dm.org/75lb/command-line-args)
 
 # command-line-args
-A library to collect command-line options and generate a usage guide.
+A library to collect command-line args and generate a usage guide.
 
 ## Synopsis
 If your app was run with a command like this:
@@ -53,14 +53,15 @@ The option definitions for this particular case look like:
 ```
 
 ## Option definitions
-Options are defined as an array of Definition objects.
+Options are defined as an array of Definition objects. You can walk through all these files yourself by piping each example into the test harness.
 
 ### Name
 The only required definition property is `name`, so the simplest working example is
 ```js
 [
-  { name: "file" },
-  { name: "verbose" }
+    { name: "file" },
+    { name: "verbose" },
+    { name: "depth"}
 ]
 ```
 
@@ -72,35 +73,41 @@ In this case, the value of each option will be either a Boolean or string.
 | --- | -------------------- | ------------ |
 | 1   | `--file` | `{ file: true }` |
 | 2   | `--file lib.js --verbose` | `{ file: "lib.js", verbose: true }` |
-| 3   | `--file lib.js --verbose very` | `{ file: "lib.js", verbose: "very" }` |
+| 3   | `--verbose very` | `{ verbose: "very" }` |
+| 4   | `--depth 2` | `{ depth: "2" }` |
 
 ### Type
 Take control and be more specific about type..
 
 ```js
-module.exports = [
-    { name: "main", type: String },
-    { name: "dessert", type: Dessert },
-    { name: "courses", type: Number }
-];
+var fs = require("fs");
 
-function FileDetails(file){
-    if (!(this instanceof FileDetails)) return new FileDetails(name);
-    this.name = name;
+function FileDetails(filename){
+    if (!(this instanceof FileDetails)) return new FileDetails(filename);
+    this.filename = filename;
+    this.exists = fs.existsSync(filename);
 }
+
+module.exports = [
+    { name: "file", type: FileDetails },
+    { name: "depth", type: Number }
+];
 ```
 
 | #   | Command line args| parse output |
 | --- | ----------------- | ------------ |
-| 5   | `--main --courses 3` | `{ main: null, courses: 3 }` |
+| 5   | `--file asdf.txt` | `{ file: { filename: 'asdf.txt', exists: false } }` |
 
 in 1, main was passed but is set to null (not true, as before) meaning "no value was specified".
 
 | #   | Command line args | parse output |
 | --- | ----------------- | ------------ |
-| 6   | `--main Beef --dessert "Spotted Dick"` | `{ main: 'Beef', dessert: { name: 'Spotted Dick' } }` |
+| 6   | `--depth` | `{ depth: null }` |
+| 6   | `--depth 2` | `{ depth: 2 }` |
 
-### Short option names
+### Alias
+Short option names.
+
 ```js
 [
   { name: "hot", alias: "h", type: Boolean },
@@ -138,6 +145,7 @@ module.exports = [
 
 | #   | Command line | parse output |
 | --- | ------------ | ------------ |
+| 11   | `--files one.js two.js` | `{ files: [ 'one.js', 'two.js' ] }` |
 | 11   | `one.js two.js` | `{ files: [ 'one.js', 'two.js' ] }` |
 | 12   | `*` | `{ files: [ 'one.js', 'two.js' ] }` |
 
@@ -152,9 +160,11 @@ module.exports = [
 
 | #   | Command line | parse output |
 | --- | ------------ | ------------ |
-| 13   | `` | `{ files: [ 'one.js' ], max: 3 }` |
+| 13   |  | `{ files: [ 'one.js' ], max: 3 }` |
 | 14   | `--files two.js` | `{ files: [ 'one.js', 'two.js' ], max: 3 }` |
 | 15   | `--max 4` | `{ files: [ 'one.js' ], max: 4 }` |
+
+### Group
 
 
 ### Validate

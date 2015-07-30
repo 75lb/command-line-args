@@ -28,6 +28,7 @@
     "test-value": "^1.0.0"
   },
   "dependencies": {
+    "ansi-escape-sequences": "^2.1.1",
     "array-tools": "^2",
     "command-line-usage": "^1",
     "find-replace": "^1",
