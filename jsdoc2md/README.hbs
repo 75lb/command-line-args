@@ -6,33 +6,13 @@
 # command-line-args
 A library to collect command-line options and generate a usage guide.
 
-## Features
-- Supports the most common option notation styles
-    - long options (`--find lib.js` or `--find=lib.js`)
-    - short options (`-f lib.js`)
-    - getopt-style combinations (`-xvf  lib.js`)
-    - Two ways to specify a list (`--file one two` or `--file one --file two`)
-- Modular - define common option sets and reuse in multiple projects.
-- Split options into groups, for apps with a large set of options.
-- Control over the type and value received from each option
-
 ## Synopsis
-You create and supply an array of option definitions. Typically, it looks something like:
-
-```js
-module.exports = [
-    { name: "help", alias: "h", type: Boolean, description: "Display this usage guide." },
-    { name: "files", alias: "f", type: String, multiple: true, defaultOption: true, description: "The input files to process" },
-    { name: "timeout", alias: "t", type: Number, description: "Timeout value in ms" }
-];
-```
-
 If your app was run with a command like this:
 ```sh
 $ my-app -vt 1000 lib/*.js
 ```
 
-.. parsing the command-line args would return an object like this:
+command-line-args would parse and return the values like this:
 ```js
 { files:
    [ 'lib/command-line-args.js',
@@ -62,44 +42,40 @@ and the usage guide would look like:
   Project home: https://github.com/me/my-app
 ```
 
-If you don't like the built-in template, you can fork [command-line-usage]() and edit as required. Or write your own.
+The option definitions for this particular case look like:
 
-
-## Walk-through
-All the following examples can be sampled by installing the command-line-args test harness (install globally). Usage:
-
-```sh
-$ cat example/one.js | command-line-args --main
-{ main: true }
-
-$ cat example/one.js | command-line-args --main --dessert
-{ main: true, dessert: true }
-```
-
-On with the examples..
-
-### Long option names
-Options are defined as an array of Definition objects. The only required Definition property is `name`, so the simplest example is
 ```js
 [
-  { name: "main" },
-  { name: "dessert" },
-  { name: "courses" }
+    { name: "help", alias: "h", type: Boolean, description: "Display this usage guide." },
+    { name: "files", alias: "f", type: String, multiple: true, defaultOption: true, description: "The input files to process" },
+    { name: "timeout", alias: "t", type: Number, description: "Timeout value in ms" }
 ]
 ```
 
-#### Examples
+## Option definitions
+Options are defined as an array of Definition objects.
 
-In this case, `--main` and `--dessert` were interpreted as flags, and set to `true` as no values were passing. If you supply values, they will be set as a string.
+### Name
+The only required definition property is `name`, so the simplest working example is
+```js
+[
+  { name: "file" },
+  { name: "verbose" }
+]
+```
+
+In this case, the value of each option will be either a Boolean or string.
+
+#### Examples
 
 | #   | Command line args | parse output |
 | --- | -------------------- | ------------ |
-| 1   | `--main` | `{ main: true }` |
-| 2   | `--main --dessert` | `{ main: true, dessert: true }` |
-| 3   | `--main beef --dessert trifle` | `{ main: "beef", dessert: "trifle" }` |
-| 4   | `--main beef --courses 1` | `{ main: "beef", courses: "1" }` |
+| 1   | `--file` | `{ file: true }` |
+| 2   | `--file lib.js --verbose` | `{ file: "lib.js", verbose: true }` |
+| 3   | `--file lib.js --verbose very` | `{ file: "lib.js", verbose: "very" }` |
 
-### Take control of type
+### Type
+Take control and be more specific about type..
 
 ```js
 module.exports = [
@@ -108,8 +84,8 @@ module.exports = [
     { name: "courses", type: Number }
 ];
 
-function Dessert(name){
-    if (!(this instanceof Dessert)) return new Dessert(name);
+function FileDetails(file){
+    if (!(this instanceof FileDetails)) return new FileDetails(name);
     this.name = name;
 }
 ```
@@ -182,7 +158,7 @@ module.exports = [
 
 
 ### Validate
-Command-line args collects values *only*. Validation is the job of another module, your module maybe. For this examples we'll use `test-value`.
+Validation is out of scope for this library, which collects values only. Validate using another module or some code of your own. This example uses [test-value](https://github.com/75lb/test-value).
 
 ```js
 var cliArgs = require("command-line-args");
@@ -215,9 +191,30 @@ console.log(valid, options);
 ```
 
 ## Install
+
+### as a library
 ```sh
 $ npm install command-line-args --save
 ```
+
+### as a command-line tool
+```sh
+$ npm install -g command-line-args
+```
+
+If you install globally you get the `command-line-args` test-harness. You test by piping in a module exporting an option definitions array,
+
+All the following examples can be sampled by installing the command-line-args test harness (install globally). Usage:
+
+```sh
+$ cat example/one.js | command-line-args --main
+{ main: true }
+
+$ cat example/one.js | command-line-args --main --dessert
+{ main: true, dessert: true }
+```
+
+
 
 # API Reference
 {{>main~}}
