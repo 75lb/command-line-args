@@ -165,7 +165,7 @@ module.exports = [
 | 15   | `--max 4` | `{ files: [ 'one.js' ], max: 4 }` |
 
 ### Group
-When your app has a large amount of options it makes sense to organise them in groups.
+When your app has a large amount of options it makes sense to organise them in groups. For example, you may want to delegate the `video`and `audio` options to separate 3rd party libraries.
 
 ```js
 module.exports = [
@@ -253,6 +253,8 @@ $ cat example/one.js | command-line-args --main --dessert
 <dd></dd>
 <dt><a href="#module_definition">definition</a></dt>
 <dd></dd>
+<dt><a href="#module_usage-options">usage-options</a></dt>
+<dd></dd>
 </dl>
 <a name="module_command-line-args"></a>
 ## command-line-args
@@ -287,7 +289,7 @@ $ cat example/one.js | command-line-args --main --dessert
 
 | Param | Type |
 | --- | --- |
-| [options] | <code>module:usage-options</code> | 
+| [options] | <code>[usage-options](#module_usage-options)</code> | 
 
 <a name="module_definition"></a>
 ## definition
@@ -334,6 +336,41 @@ a single character
 <a name="module_definition--Definition+description"></a>
 #### definition.description : <code>string</code>
 **Kind**: instance property of <code>[Definition](#exp_module_definition--Definition)</code>  
+<a name="module_usage-options"></a>
+## usage-options
+
+* [usage-options](#module_usage-options)
+  * [UsageOptions](#exp_module_usage-options--UsageOptions) ⏏
+    * [.title](#module_usage-options--UsageOptions+title) : <code>string</code>
+    * [.description](#module_usage-options--UsageOptions+description) : <code>string</code>
+    * [.forms](#module_usage-options--UsageOptions+forms) : <code>string</code> &#124; <code>Array.&lt;string&gt;</code>
+    * [.groups](#module_usage-options--UsageOptions+groups) : <code>object</code>
+    * [.footer](#module_usage-options--UsageOptions+footer) : <code>string</code>
+    * [.hide](#module_usage-options--UsageOptions+hide) : <code>string</code> &#124; <code>Array.&lt;string&gt;</code>
+
+<a name="exp_module_usage-options--UsageOptions"></a>
+### UsageOptions ⏏
+**Kind**: Exported class  
+<a name="module_usage-options--UsageOptions+title"></a>
+#### usageOptions.title : <code>string</code>
+**Kind**: instance property of <code>[UsageOptions](#exp_module_usage-options--UsageOptions)</code>  
+<a name="module_usage-options--UsageOptions+description"></a>
+#### usageOptions.description : <code>string</code>
+**Kind**: instance property of <code>[UsageOptions](#exp_module_usage-options--UsageOptions)</code>  
+<a name="module_usage-options--UsageOptions+forms"></a>
+#### usageOptions.forms : <code>string</code> &#124; <code>Array.&lt;string&gt;</code>
+**Kind**: instance property of <code>[UsageOptions](#exp_module_usage-options--UsageOptions)</code>  
+<a name="module_usage-options--UsageOptions+groups"></a>
+#### usageOptions.groups : <code>object</code>
+if you have groups, only names specified here will appear in the output
+
+**Kind**: instance property of <code>[UsageOptions](#exp_module_usage-options--UsageOptions)</code>  
+<a name="module_usage-options--UsageOptions+footer"></a>
+#### usageOptions.footer : <code>string</code>
+**Kind**: instance property of <code>[UsageOptions](#exp_module_usage-options--UsageOptions)</code>  
+<a name="module_usage-options--UsageOptions+hide"></a>
+#### usageOptions.hide : <code>string</code> &#124; <code>Array.&lt;string&gt;</code>
+**Kind**: instance property of <code>[UsageOptions](#exp_module_usage-options--UsageOptions)</code>  
 * * *
 
 &copy; 2015 Lloyd Brookes \<75pound@gmail.com\>. Documented by [jsdoc-to-markdown](https://github.com/75lb/jsdoc-to-markdown).

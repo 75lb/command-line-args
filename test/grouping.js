@@ -17,7 +17,6 @@ test("groups", function(t){
         b: {
             three: "3"
         },
-        _none: {},
         _all: {
             one: "1",
             two: "2",
