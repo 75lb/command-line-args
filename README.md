@@ -165,13 +165,30 @@ module.exports = [
 | 15   | `--max 4` | `{ files: [ 'one.js' ], max: 4 }` |
 
 ### Group
+When your app has a large amount of options it makes sense to organise them in groups.
 
+```js
+module.exports = [
+    { name: "verbose", group: "standard" },
+    { name: "help", group: [ "standard", "main" ] },
+    { name: "compress", group: [ "server", "main" ] },
+    { name: "static", group: "server" },
+    { name: "debug" }
+];
+```
+
+| #   | Command line | parse output |
+| --- | ------------ | ------------ |
+| 13   | `--verbose` | `{ _all: { verbose: true }, standard: { verbose: true } }` |
+| 14   | `--debug` | `{ _all: { debug: true }, _none: { debug: true } }` |
+| 15   | `--verbose --debug --compress` | `{ _all: { verbose: true, debug: true, compress: true }, standard: { verbose: true }, server: { compress: true }, main: { compress: true }, _none: { debug: true } }` |
+| 15   | `--compress` | `{ _all: { compress: true }, server: { compress: true }, main: { compress: true } }` |
 
 ### Validate
 Validation is out of scope for this library, which collects values only. Validate using another module or some code of your own. This example uses [test-value](https://github.com/75lb/test-value).
 
 ```js
-var cliArgs = require("command-line-args");
+var cliArgs = require("../");
 var testValue = require("test-value");
 var fs = require("fs");
 
@@ -182,22 +199,25 @@ var cli = cliArgs([
 ]);
 
 var options = cli.parse();
-var validForms = {};
 
-validForms.main = {
+var usageForm = {};
+
+usageForm.main = {
     files: function(files){
         return files && files.every(fs.existsSync);
     },
-    "log-level": [ "info", "warn", "error", null, undefined ]
+    "log-level": [ "info", "warn", "error", undefined ]
 };
 
-validForms.help = {
+usageForm.help = {
     help: true
 };
 
-var valid = testValue(options, [ validForms.main, validForms.help ]);
+var valid = testValue(options, [ usageForm.main, usageForm.help ]);
 
-console.log(valid, options);
+if (!valid){
+    // exit here
+}
 ```
 
 ## Install

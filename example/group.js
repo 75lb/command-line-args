@@ -1,4 +1,7 @@
 module.exports = [
-    { name: "verbose", alias: "v", type: Boolean, group: "standard" },
-    { name: "help", alias: "h", type: Boolean, group: "standard" }
+    { name: "verbose", group: "standard" },
+    { name: "help", group: [ "standard", "main" ] },
+    { name: "compress", group: [ "server", "main" ] },
+    { name: "static", group: "server" },
+    { name: "debug" }
 ];

@@ -10,19 +10,23 @@ var cli = cliArgs([
 
 var options = cli.parse();
 
-var validForms = {};
+var usageForm = {};
 
-validForms.main = {
+usageForm.main = {
     files: function(files){
         return files && files.every(fs.existsSync);
     },
-    "log-level": [ "info", "warn", "error", null, undefined ]
+    "log-level": [ "info", "warn", "error", undefined ]
 };
 
-validForms.help = {
+usageForm.help = {
     help: true
 };
 
-var valid = testValue(options, [ validForms.main, validForms.help ]);
+var valid = testValue(options, [ usageForm.main, usageForm.help ]);
+
+if (!valid){
+    // exit here
+}
 
 console.log(valid, options);
