@@ -1,7 +1,7 @@
 {
   "name": "command-line-args",
   "version": "1.0.0-3",
-  "description": "Command-line parser, usage text producer",
+  "description": "A library to collect command-line args and generate a usage guide.",
   "repository": "https://github.com/75lb/command-line-args.git",
   "main": "lib/command-line-args",
   "bin": "bin/cli.js",
@@ -18,7 +18,8 @@
     "parser",
     "parsing",
     "cli",
-    "command"
+    "command",
+    "line"
   ],
   "author": "Lloyd Brookes",
   "license": "MIT",
