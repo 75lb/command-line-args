@@ -7,23 +7,48 @@
 A library to collect command-line args and generate a usage guide.
 
 ## Synopsis
-If your app was run with a command like this:
+First, create a command-line-args instance passing the option definitions your app accepts.
+```js
+var cliArgs = require("command-line-args");
+
+var cli = cliArgs([
+    {
+        name: "help", description: "Display this usage guide.",
+        alias: "h", type: Boolean
+    },
+    {
+        name: "files", description: "The input files to process",
+        alias: "f", type: String, multiple: true, defaultOption: true
+    },
+    {
+        name: "timeout", description: "Timeout value in ms",
+        alias: "t", type: Number,  
+    }
+]);
+```
+
+Now, the `cli` instance above has two main operations - `.parse()` and `.getUsage()`.
+
+So if your app was run with a command like this:
 ```sh
 $ my-app -vt 1000 lib/*.js
 ```
 
-command-line-args would parse and return the values like this:
+..then `cli.parse()` would return the command-line options and values in a stucture like this:
 ```js
-{ files:
-   [ 'lib/command-line-args.js',
-     'lib/definition.js',
-     'lib/definitions.js',
-     'lib/option.js' ],
-  verbose: true,
-  timeout: 1000  }
+{
+    files: [
+        "lib/command-line-args.js",
+        "lib/definition.js",
+        "lib/definitions.js",
+        "lib/option.js"
+    ],
+    verbose: true,
+    timeout: 1000  
+}
  ```
 
-and the usage guide would look like:
+and `cli.getUsage(options)` would return:
 ```
   a typical app
   Generates something useful
@@ -40,16 +65,6 @@ and the usage guide would look like:
   -t, --timeout <number>   Timeout value in ms
 
   Project home: https://github.com/me/my-app
-```
-
-The option definitions for this particular case look like:
-
-```js
-[
-    { name: "help", alias: "h", type: Boolean, description: "Display this usage guide." },
-    { name: "files", alias: "f", type: String, multiple: true, defaultOption: true, description: "The input files to process" },
-    { name: "timeout", alias: "t", type: Number, description: "Timeout value in ms" }
-]
 ```
 
 ## Option definitions

@@ -7,23 +7,48 @@
 A library to collect command-line args and generate a usage guide.
 
 ## Synopsis
-If your app was run with a command like this:
+First, create a command-line-args instance passing the option definitions your app accepts.
+```js
+var cliArgs = require("command-line-args");
+
+var cli = cliArgs([
+    {
+        name: "help", description: "Display this usage guide.",
+        alias: "h", type: Boolean
+    },
+    {
+        name: "files", description: "The input files to process",
+        alias: "f", type: String, multiple: true, defaultOption: true
+    },
+    {
+        name: "timeout", description: "Timeout value in ms",
+        alias: "t", type: Number,  
+    }
+]);
+```
+
+Now, the `cli` instance above has two main operations - `.parse()` and `.getUsage()`.
+
+So if your app was run with a command like this:
 ```sh
 $ my-app -vt 1000 lib/*.js
 ```
 
-command-line-args would parse and return the values like this:
+..then `cli.parse()` would return the command-line options and values in a stucture like this:
 ```js
-{ files:
-   [ 'lib/command-line-args.js',
-     'lib/definition.js',
-     'lib/definitions.js',
-     'lib/option.js' ],
-  verbose: true,
-  timeout: 1000  }
+{
+    files: [
+        "lib/command-line-args.js",
+        "lib/definition.js",
+        "lib/definitions.js",
+        "lib/option.js"
+    ],
+    verbose: true,
+    timeout: 1000  
+}
  ```
 
-and the usage guide would look like:
+and `cli.getUsage(options)` would return:
 ```
   a typical app
   Generates something useful
@@ -40,16 +65,6 @@ and the usage guide would look like:
   -t, --timeout <number>   Timeout value in ms
 
   Project home: https://github.com/me/my-app
-```
-
-The option definitions for this particular case look like:
-
-```js
-[
-    { name: "help", alias: "h", type: Boolean, description: "Display this usage guide." },
-    { name: "files", alias: "f", type: String, multiple: true, defaultOption: true, description: "The input files to process" },
-    { name: "timeout", alias: "t", type: Number, description: "Timeout value in ms" }
-]
 ```
 
 ## Option definitions
@@ -341,36 +356,101 @@ a single character
 
 * [usage-options](#module_usage-options)
   * [UsageOptions](#exp_module_usage-options--UsageOptions) ⏏
-    * [.title](#module_usage-options--UsageOptions+title) : <code>string</code>
-    * [.description](#module_usage-options--UsageOptions+description) : <code>string</code>
-    * [.forms](#module_usage-options--UsageOptions+forms) : <code>string</code> &#124; <code>Array.&lt;string&gt;</code>
-    * [.groups](#module_usage-options--UsageOptions+groups) : <code>object</code>
-    * [.footer](#module_usage-options--UsageOptions+footer) : <code>string</code>
-    * [.hide](#module_usage-options--UsageOptions+hide) : <code>string</code> &#124; <code>Array.&lt;string&gt;</code>
+    * _instance_
+      * [.title](#module_usage-options--UsageOptions+title) : <code>string</code> &#124; <code>[textObject](#module_usage-options--UsageOptions..textObject)</code>
+      * [.description](#module_usage-options--UsageOptions+description) : <code>string</code> &#124; <code>[textObject](#module_usage-options--UsageOptions..textObject)</code>
+      * [.usage](#module_usage-options--UsageOptions+usage) : <code>object</code>
+      * [.groups](#module_usage-options--UsageOptions+groups) : <code>object</code>
+      * [.footer](#module_usage-options--UsageOptions+footer) : <code>string</code> &#124; <code>[textObject](#module_usage-options--UsageOptions..textObject)</code>
+      * [.hide](#module_usage-options--UsageOptions+hide) : <code>string</code> &#124; <code>Array.&lt;string&gt;</code>
+    * _inner_
+      * [~textObject](#module_usage-options--UsageOptions..textObject)
 
 <a name="exp_module_usage-options--UsageOptions"></a>
 ### UsageOptions ⏏
+The class describes all valid options for the `getUsage` function. Inline formatting can be used within any text string supplied using valid [ansi-escape-sequences formatting syntax](https://github.com/75lb/ansi-escape-sequences#module_ansi-escape-sequences.format).
+
 **Kind**: Exported class  
 <a name="module_usage-options--UsageOptions+title"></a>
-#### usageOptions.title : <code>string</code>
-**Kind**: instance property of <code>[UsageOptions](#exp_module_usage-options--UsageOptions)</code>  
-<a name="module_usage-options--UsageOptions+description"></a>
-#### usageOptions.description : <code>string</code>
-**Kind**: instance property of <code>[UsageOptions](#exp_module_usage-options--UsageOptions)</code>  
-<a name="module_usage-options--UsageOptions+forms"></a>
-#### usageOptions.forms : <code>string</code> &#124; <code>Array.&lt;string&gt;</code>
-**Kind**: instance property of <code>[UsageOptions](#exp_module_usage-options--UsageOptions)</code>  
-<a name="module_usage-options--UsageOptions+groups"></a>
-#### usageOptions.groups : <code>object</code>
-if you have groups, only names specified here will appear in the output
+#### options.title : <code>string</code> &#124; <code>[textObject](#module_usage-options--UsageOptions..textObject)</code>
+The title line at the top of the usage, typically the name of the app. By default it is underlined but this formatting can be overridden by passing a [textObject](#module_usage-options--UsageOptions..textObject).
 
 **Kind**: instance property of <code>[UsageOptions](#exp_module_usage-options--UsageOptions)</code>  
+**Example**  
+```js
+{
+    title: {
+       text: "my-app",
+       format: [ "bold", "underline" ]
+    }
+}
+```
+<a name="module_usage-options--UsageOptions+description"></a>
+#### options.description : <code>string</code> &#124; <code>[textObject](#module_usage-options--UsageOptions..textObject)</code>
+A description to go underneath the title. For example, some words about what the app is for.
+
+**Kind**: instance property of <code>[UsageOptions](#exp_module_usage-options--UsageOptions)</code>  
+<a name="module_usage-options--UsageOptions+usage"></a>
+#### options.usage : <code>object</code>
+An array of strings highlighting the main usage forms of the app.
+
+**Kind**: instance property of <code>[UsageOptions](#exp_module_usage-options--UsageOptions)</code>  
+**Properties**
+
+| Name | Type | Default |
+| --- | --- | --- |
+| title | <code>string</code> &#124; <code>[textObject](#module_usage-options--UsageOptions..textObject)</code> | <code>&quot;Usage&quot;</code> | 
+| format | <code>string</code> &#124; <code>Array.&lt;string&gt;</code> |  | 
+
+**Example**  
+```js
+{
+    usage: {
+        title: "Synopsis",
+        forms: [
+            "$ my-app <options> <files>",
+            "$ my-app [-cvh]"
+        ]
+    }
+}
+```
+<a name="module_usage-options--UsageOptions+groups"></a>
+#### options.groups : <code>object</code>
+Specify which groups to display in the output by supplying an object of key/value pairs, where the key is the name of the group to include and the value is a string or textObject. If the value is a string it is used as the group title. Alternatively supply an object containing a `title` and `description` string.
+
+**Kind**: instance property of <code>[UsageOptions](#exp_module_usage-options--UsageOptions)</code>  
+**Example**  
+```js
+{
+    main: { 
+        title: "Main options",
+        description: "This group contains the most important options."
+    },
+    misc: "Miscellaneous"
+}
+```
 <a name="module_usage-options--UsageOptions+footer"></a>
-#### usageOptions.footer : <code>string</code>
+#### options.footer : <code>string</code> &#124; <code>[textObject](#module_usage-options--UsageOptions..textObject)</code>
+Displayed at the foot of the usage output.
+
 **Kind**: instance property of <code>[UsageOptions](#exp_module_usage-options--UsageOptions)</code>  
 <a name="module_usage-options--UsageOptions+hide"></a>
-#### usageOptions.hide : <code>string</code> &#124; <code>Array.&lt;string&gt;</code>
+#### options.hide : <code>string</code> &#124; <code>Array.&lt;string&gt;</code>
+If you want to hide certain options from the output, specify their names here.
+
 **Kind**: instance property of <code>[UsageOptions](#exp_module_usage-options--UsageOptions)</code>  
+<a name="module_usage-options--UsageOptions..textObject"></a>
+#### options~textObject
+Contains text and formatting information.
+
+**Kind**: inner typedef of <code>[UsageOptions](#exp_module_usage-options--UsageOptions)</code>  
+**Properties**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| text | <code>string</code> |  |
+| format | <code>string</code> &#124; <code>Array.&lt;string&gt;</code> | one or more ansi style names from [this list](https://github.com/75lb/ansi-escape-sequences#module_ansi-escape-sequences.style). |
+
 * * *
 
 &copy; 2015 Lloyd Brookes \<75pound@gmail.com\>. Documented by [jsdoc-to-markdown](https://github.com/75lb/jsdoc-to-markdown).
