@@ -7,7 +7,16 @@
 A library to collect command-line args and generate a usage guide.
 
 ## Synopsis
-First, create a command-line-args instance passing the option definitions your app accepts.
+Say your app was run with one of these commands (they are all equalivalent and parse the same)
+```
+$ my-app --verbose --timeout 1000 --src one.js --src two.js 
+$ my-app --verbose --timeout 1000 --src one.js two.js 
+$ my-app -vt 1000 one.js two.js 
+```
+
+then your app can access the values like this:
+
+1. create a `command-line-args` instance, passing your [option definitions](#option-definitions) (an array of objects describing the options your accept accepts).
 ```js
 var cliArgs = require("command-line-args");
 
@@ -17,7 +26,7 @@ var cli = cliArgs([
         alias: "h", type: Boolean
     },
     {
-        name: "files", description: "The input files to process",
+        name: "src", description: "The input files to process",
         alias: "f", type: String, multiple: true, defaultOption: true
     },
     {
@@ -27,41 +36,47 @@ var cli = cliArgs([
 ]);
 ```
 
-Now, the `cli` instance above has two main operations - `.parse()` and `.getUsage()`.
-
-So if your app was run with a command like this:
-```sh
-$ my-app -vt 1000 lib/*.js
+2. Parse the values using `.parse()`
+```js
+var options = cli.parse();
 ```
 
-..then `cli.parse()` would return the command-line options and values in a stucture like this:
+`options` now looks like this:
 ```js
 {
     files: [
-        "lib/command-line-args.js",
-        "lib/definition.js",
-        "lib/definitions.js",
-        "lib/option.js"
+        "one.js",
+        "two.js"
     ],
     verbose: true,
     timeout: 1000  
 }
- ```
-
-and `cli.getUsage(options)` would return:
 ```
-  a typical app
+
+if you would like the `--help` option to print a usage guide, then this example:
+```js
+if (options.help){
+    console.error(cli.usage({
+        title: "my-app",
+        description: "Generates something useful",
+        footer: "Project home: [underline]{https://github.com/me/my-app}"
+    }));
+    process.exit(0);
+}
+```
+
+would output this to the console: 
+```
+  my-app
   Generates something useful
 
   Usage
   $ cat input.json | my-app [<options>]
   $ my-app <files>
 
-  Main options
-  This group contains the most important options.
-
   -h, --help               Display this usage guide.
-  -f, --files <string[]>   The input files to process
+  -v, --verbose            Display this usage guide.
+  -f, --src <string[]>     The input files to process
   -t, --timeout <number>   Timeout value in ms
 
   Project home: https://github.com/me/my-app
