@@ -9,14 +9,15 @@ A library to collect command-line args and generate a usage guide.
 ## Synopsis
 Say your app was run with one of these commands (they are all equalivalent and parse the same)
 ```
-$ my-app --verbose --timeout 1000 --src one.js --src two.js 
-$ my-app --verbose --timeout 1000 --src one.js two.js 
-$ my-app -vt 1000 one.js two.js 
+$ my-app --verbose --timeout 1000 --src one.js --src two.js
+$ my-app --verbose --timeout 1000 --src one.js two.js
+$ my-app -vt 1000 --src one.js two.js
+$ my-app -vt 1000 one.js two.js # (--src is the defaultOption and can be omitted)
 ```
 
 then your app can access the values like this:
 
-1. create a `command-line-args` instance, passing your [option definitions](#option-definitions) (an array of objects describing the options your accept accepts).
+1\. create a `command-line-args` instance, passing your [option definitions](#option-definitions) (an array of objects describing the options your accept accepts).
 ```js
 var cliArgs = require("command-line-args");
 
@@ -36,7 +37,7 @@ var cli = cliArgs([
 ]);
 ```
 
-2. Parse the values using `.parse()`
+2\. Parse the values using `.parse()`
 ```js
 var options = cli.parse();
 ```
@@ -53,7 +54,7 @@ var options = cli.parse();
 }
 ```
 
-if you would like the `--help` option to print a usage guide, then this example:
+if you would like the `--help` option to print a usage guide, then this example..
 ```js
 if (options.help){
     console.error(cli.usage({
@@ -65,7 +66,7 @@ if (options.help){
 }
 ```
 
-would output this to the console: 
+..would output this to the console: (for more info, see [.getUsage()](#module_command-line-args--CliArgs+getUsage))
 ```
   my-app
   Generates something useful
