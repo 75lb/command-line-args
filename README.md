@@ -121,26 +121,30 @@ A class encapsulating operations you can perform using the command-line argument
 
 | Param | Type | Description |
 | --- | --- | --- |
-| definitions | <code>[Array.&lt;definition&gt;](#module_definition)</code> | An array of [definition](#module_definition) objects |
+| definitions | <code>[Array.&lt;definition&gt;](#module_definition)</code> | An array of [OptionDefinition](#exp_module_definition--OptionDefinition) objects |
 
 **Example**  
+```js
 var cliArgs = require("command-line-args");
 var cli = cliArgs([
     { name: "file" },
     { name: "verbose" },
     { name: "depth"}
 ]);
+```
 <a name="module_command-line-args--CommandLineArgs+parse"></a>
 #### cli.parse([argv]) ⇒ <code>object</code>
+Returns an object containing all the values and flags set on the command. By default it parses the global [`process.argv`](https://nodejs.org/api/process.html#process_process_argv) array.
+
 **Kind**: instance method of <code>[CommandLineArgs](#exp_module_command-line-args--CommandLineArgs)</code>  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| [argv] | <code>Array.&lt;string&gt;</code> | parses `process.argv` by default, unless you pass this |
+| [argv] | <code>Array.&lt;string&gt;</code> | An array of strings, which if passed will be parsed instead of `process.argv`. |
 
 <a name="module_command-line-args--CommandLineArgs+getUsage"></a>
 #### cli.getUsage([options]) ⇒ <code>string</code>
-By default, this module uses [command-line-usage](https://github.com/75lb/command-line-usage) to generate a usage guide.
+Generates a usage guide. Please see [command-line-usage](https://github.com/75lb/command-line-usage) for full instructions of how to use.
 
 **Kind**: instance method of <code>[CommandLineArgs](#exp_module_command-line-args--CommandLineArgs)</code>  
 
