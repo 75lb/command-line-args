@@ -47,7 +47,7 @@ var options = cli.parse();
 
 When dealing with large amounts of options it often makes sense to [group](#module_definition--Definition+group) them.
 
-The [.getUsage()](#module_command-line-args--CliArgs+getUsage) method generates a usage guide. You'll need to provide some extra information, see [command-line-usage](https://github.com/75lb/command-line-usage).
+The [.getUsage()](#module_command-line-args--CliArgs+getUsage) method generates a usage guide. 
 ```js
 var usage = cli.getUsage({
     title: "my-app",
@@ -56,7 +56,7 @@ var usage = cli.getUsage({
 });
 ```
 
-where `usage` looks like:
+`usage` looks like:
 ```
   my-app
   Generates something useful
@@ -85,20 +85,23 @@ $ npm install command-line-args --save
 $ npm install -g command-line-args
 ```
 
-If you install globally you get the `command-line-args` test-harness. You test by piping in a module exporting an option definitions array,
+If you install globally you get the `command-line-args` test-harness. You test by piping in a module which exports an option definitions array. You can then view `.parse()` output for the arg you pass.
 
-All the following examples can be sampled by installing the command-line-args test harness (install globally). Usage:
+For example:
 
 ```sh
-$ cat example/one.js | command-line-args --main
-{ main: true }
-
-$ cat example/one.js | command-line-args --main --dessert
-{ main: true, dessert: true }
+$ cat example/typical.js | command-line-args lib/* --timeout=1000
+{ src:
+   [ 'lib/command-line-args.js',
+     'lib/definition.js',
+     'lib/definitions.js',
+     'lib/option.js' ],
+  timeout: 1000 }
 ```
 
 # API Reference
-{{>main~}}
+{{#module name="command-line-args"}}{{>docs}}{{/module}}
+{{#class name="OptionDefinition"}}{{>docs}}{{/class}}
 
 * * *
 

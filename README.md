@@ -47,7 +47,7 @@ var options = cli.parse();
 
 When dealing with large amounts of options it often makes sense to [group](#module_definition--Definition+group) them.
 
-The [.getUsage()](#module_command-line-args--CliArgs+getUsage) method generates a usage guide. You'll need to provide some extra information, see [command-line-usage](https://github.com/75lb/command-line-usage).
+The [.getUsage()](#module_command-line-args--CliArgs+getUsage) method generates a usage guide. 
 ```js
 var usage = cli.getUsage({
     title: "my-app",
@@ -56,7 +56,7 @@ var usage = cli.getUsage({
 });
 ```
 
-where `usage` looks like:
+`usage` looks like:
 ```
   my-app
   Generates something useful
@@ -85,27 +85,21 @@ $ npm install command-line-args --save
 $ npm install -g command-line-args
 ```
 
-If you install globally you get the `command-line-args` test-harness. You test by piping in a module exporting an option definitions array,
+If you install globally you get the `command-line-args` test-harness. You test by piping in a module which exports an option definitions array. You can then view `.parse()` output for the arg you pass.
 
-All the following examples can be sampled by installing the command-line-args test harness (install globally). Usage:
+For example:
 
 ```sh
-$ cat example/one.js | command-line-args --main
-{ main: true }
-
-$ cat example/one.js | command-line-args --main --dessert
-{ main: true, dessert: true }
+$ cat example/typical.js | command-line-args lib/* --timeout=1000
+{ src:
+   [ 'lib/command-line-args.js',
+     'lib/definition.js',
+     'lib/definitions.js',
+     'lib/option.js' ],
+  timeout: 1000 }
 ```
 
 # API Reference
-## Modules
-<dl>
-<dt><a href="#module_command-line-args">command-line-args</a></dt>
-<dd><p>A library to collect command-line args and generate a usage guide.</p>
-</dd>
-<dt><a href="#module_definition">definition</a></dt>
-<dd></dd>
-</dl>
 <a name="module_command-line-args"></a>
 ## command-line-args
 A library to collect command-line args and generate a usage guide.
@@ -125,10 +119,17 @@ A class encapsulating operations you can perform using the command-line argument
 <a name="new_module_command-line-args--CommandLineArgs_new"></a>
 #### new CommandLineArgs(definitions)
 
-| Param | Type |
-| --- | --- |
-| definitions | <code>[Array.&lt;definition&gt;](#module_definition)</code> | 
+| Param | Type | Description |
+| --- | --- | --- |
+| definitions | <code>[Array.&lt;definition&gt;](#module_definition)</code> | An array of [definition](#module_definition) objects |
 
+**Example**  
+var cliArgs = require("command-line-args");
+var cli = cliArgs([
+    { name: "file" },
+    { name: "verbose" },
+    { name: "depth"}
+]);
 <a name="module_command-line-args--CommandLineArgs+parse"></a>
 #### cli.parse([argv]) ⇒ <code>object</code>
 **Kind**: instance method of <code>[CommandLineArgs](#exp_module_command-line-args--CommandLineArgs)</code>  
@@ -139,32 +140,31 @@ A class encapsulating operations you can perform using the command-line argument
 
 <a name="module_command-line-args--CommandLineArgs+getUsage"></a>
 #### cli.getUsage([options]) ⇒ <code>string</code>
+By default, this module uses [command-line-usage](https://github.com/75lb/command-line-usage) to generate a usage guide.
+
 **Kind**: instance method of <code>[CommandLineArgs](#exp_module_command-line-args--CommandLineArgs)</code>  
 
-| Param | Type |
-| --- | --- |
-| [options] | <code>module:usage-options</code> | 
+| Param | Type | Description |
+| --- | --- | --- |
+| [options] | <code>object</code> | the options to pass to [command-line-usage](https://github.com/75lb/command-line-usage) |
 
-<a name="module_definition"></a>
-## definition
-
-* [definition](#module_definition)
-  * [OptionDefinition](#exp_module_definition--OptionDefinition) ⏏
-    * [.name](#module_definition--OptionDefinition+name) : <code>string</code>
-    * [.type](#module_definition--OptionDefinition+type) : <code>function</code>
-    * [.alias](#module_definition--OptionDefinition+alias) : <code>string</code>
-    * [.multiple](#module_definition--OptionDefinition+multiple) : <code>boolean</code>
-    * [.defaultOption](#module_definition--OptionDefinition+defaultOption) : <code>boolean</code>
-    * [.defaultValue](#module_definition--OptionDefinition+defaultValue) : <code>\*</code>
-    * [.group](#module_definition--OptionDefinition+group) : <code>string</code> &#124; <code>Array.&lt;string&gt;</code>
 
 <a name="exp_module_definition--OptionDefinition"></a>
-### OptionDefinition ⏏
+## OptionDefinition ⏏
 Describes an command-line option
 
 **Kind**: Exported class  
+* [OptionDefinition](#exp_module_definition--OptionDefinition) ⏏
+  * [.name](#module_definition--OptionDefinition+name) : <code>string</code>
+  * [.type](#module_definition--OptionDefinition+type) : <code>function</code>
+  * [.alias](#module_definition--OptionDefinition+alias) : <code>string</code>
+  * [.multiple](#module_definition--OptionDefinition+multiple) : <code>boolean</code>
+  * [.defaultOption](#module_definition--OptionDefinition+defaultOption) : <code>boolean</code>
+  * [.defaultValue](#module_definition--OptionDefinition+defaultValue) : <code>\*</code>
+  * [.group](#module_definition--OptionDefinition+group) : <code>string</code> &#124; <code>Array.&lt;string&gt;</code>
+
 <a name="module_definition--OptionDefinition+name"></a>
-#### option.name : <code>string</code>
+### option.name : <code>string</code>
 The only required definition property is `name`, so the simplest working example is
 ```js
 [
@@ -185,7 +185,7 @@ In this case, the value of each option will be either a Boolean or string.
 
 **Kind**: instance property of <code>[OptionDefinition](#exp_module_definition--OptionDefinition)</code>  
 <a name="module_definition--OptionDefinition+type"></a>
-#### option.type : <code>function</code>
+### option.type : <code>function</code>
 Take control and be more specific about type..
 
 ```js
@@ -216,7 +216,7 @@ in 1, main was passed but is set to null (not true, as before) meaning "no value
 
 **Kind**: instance property of <code>[OptionDefinition](#exp_module_definition--OptionDefinition)</code>  
 <a name="module_definition--OptionDefinition+alias"></a>
-#### option.alias : <code>string</code>
+### option.alias : <code>string</code>
 Short option names. Must be a single character.
 
 ```js
@@ -234,7 +234,7 @@ Short option names. Must be a single character.
 
 **Kind**: instance property of <code>[OptionDefinition](#exp_module_definition--OptionDefinition)</code>  
 <a name="module_definition--OptionDefinition+multiple"></a>
-#### option.multiple : <code>boolean</code>
+### option.multiple : <code>boolean</code>
 ```js
 module.exports = [
     { name: "files", type: String, multiple: true }
@@ -249,7 +249,7 @@ module.exports = [
 
 **Kind**: instance property of <code>[OptionDefinition](#exp_module_definition--OptionDefinition)</code>  
 <a name="module_definition--OptionDefinition+defaultOption"></a>
-#### option.defaultOption : <code>boolean</code>
+### option.defaultOption : <code>boolean</code>
 ```js
 module.exports = [
     { name: "files", type: String, multiple: true, defaultOption: true }
@@ -264,7 +264,7 @@ module.exports = [
 
 **Kind**: instance property of <code>[OptionDefinition](#exp_module_definition--OptionDefinition)</code>  
 <a name="module_definition--OptionDefinition+defaultValue"></a>
-#### option.defaultValue : <code>\*</code>
+### option.defaultValue : <code>\*</code>
 ```js
 module.exports = [
     { name: "files", type: String, multiple: true, defaultValue: [ "one.js" ] },
@@ -280,7 +280,7 @@ module.exports = [
 
 **Kind**: instance property of <code>[OptionDefinition](#exp_module_definition--OptionDefinition)</code>  
 <a name="module_definition--OptionDefinition+group"></a>
-#### option.group : <code>string</code> &#124; <code>Array.&lt;string&gt;</code>
+### option.group : <code>string</code> &#124; <code>Array.&lt;string&gt;</code>
 When your app has a large amount of options it makes sense to organise them in groups. For example, you may want to delegate the `video`and `audio` options to separate 3rd party libraries.
 
 ```js
@@ -340,6 +340,8 @@ module.exports = [
 </table>
 
 **Kind**: instance property of <code>[OptionDefinition](#exp_module_definition--OptionDefinition)</code>  
+
+
 * * *
 
 &copy; 2015 Lloyd Brookes \<75pound@gmail.com\>. Documented by [jsdoc-to-markdown](https://github.com/75lb/jsdoc-to-markdown).
