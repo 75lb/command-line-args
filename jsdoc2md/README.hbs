@@ -7,7 +7,7 @@
 A library to collect command-line args and generate a usage guide.
 
 ## Synopsis
-Say your app was run with one of these commands (they are all equalivalent and parse the same)
+If your app was run with one of these commands (they are all equalivalent and set the same values)..
 ```
 $ my-app --verbose --timeout=1000 --src one.js --src two.js
 $ my-app --verbose --timeout 1000 --src one.js two.js
@@ -15,9 +15,9 @@ $ my-app -vt 1000 --src one.js two.js
 $ my-app -vt 1000 one.js two.js
 ```
 
-then your app can access the values like this:
+..then your app can access the values like this:
 
-1\. First describe the options your app accepts (see [option definitions](#option-definitions)).
+First, describe the options your app accepts (see [option definitions](#option-definitions)).
 ```js
 var cliArgs = require("command-line-args");
 
@@ -28,7 +28,7 @@ var cli = cliArgs([
 ]);
 ```
 
-2\. then collect the command line args using `.parse()`
+Next, collect the command line args using [.parse()](#module_command-line-args--CommandLineArgs+parse):
 ```js
 var options = cli.parse();
 ```
@@ -71,42 +71,6 @@ where `usage` looks like:
   -t, --timeout <number>   Timeout value in ms
 
   Project home: https://github.com/me/my-app
-```
-
-### Validation
-Validation is out of scope for this library (which collects values only) but is worth mentioning. Validate using another module or some code of your own. This example uses [test-value](https://github.com/75lb/test-value).
-
-```js
-var cliArgs = require("../");
-var testValue = require("test-value");
-var fs = require("fs");
-
-var cli = cliArgs([
-    { name: "help", type: Boolean },
-    { name: "files", type: String, multiple: true, defaultOption: true },
-    { name: "log-level", type: String }
-]);
-
-var options = cli.parse();
-
-var usageForm = {};
-
-usageForm.main = {
-    files: function(files){
-        return files && files.every(fs.existsSync);
-    },
-    "log-level": [ "info", "warn", "error", undefined ]
-};
-
-usageForm.help = {
-    help: true
-};
-
-var valid = testValue(options, [ usageForm.main, usageForm.help ]);
-
-if (!valid){
-    // exit here
-}
 ```
 
 ## Install
