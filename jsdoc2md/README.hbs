@@ -45,6 +45,8 @@ var options = cli.parse();
 }
 ```
 
+When dealing with large amounts of options it often makes sense to [group](#module_definition--Definition+group) them.
+
 The [.getUsage()](#module_command-line-args--CliArgs+getUsage) method generates a usage guide. You'll need to provide some extra information, see [command-line-usage](https://github.com/75lb/command-line-usage).
 ```js
 var usage = cli.getUsage({

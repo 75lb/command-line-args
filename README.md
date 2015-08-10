@@ -45,6 +45,8 @@ var options = cli.parse();
 }
 ```
 
+When dealing with large amounts of options it often makes sense to [group](#module_definition--Definition+group) them.
+
 The [.getUsage()](#module_command-line-args--CliArgs+getUsage) method generates a usage guide. You'll need to provide some extra information, see [command-line-usage](https://github.com/75lb/command-line-usage).
 ```js
 var usage = cli.getUsage({
@@ -322,12 +324,51 @@ module.exports = [
 ];
 ```
 
-| #   | Command line | parse output |
-| --- | ------------ | ------------ |
-| 13   | `--verbose` | `{ _all: { verbose: true }, standard: { verbose: true } }` |
-| 14   | `--debug` | `{ _all: { debug: true }, _none: { debug: true } }` |
-| 15   | `--verbose --debug --compress` | `{ _all: { verbose: true, debug: true, compress: true }, standard: { verbose: true }, server: { compress: true }, main: { compress: true }, _none: { debug: true } }` |
-| 15   | `--compress` | `{ _all: { compress: true }, server: { compress: true }, main: { compress: true } }` |
+<table>
+ <tr>
+   <th>#</th><th>Command Line</th><th>parse output</th>
+ </tr>
+ <tr>
+   <td>13</td><td><code>--verbose</code></td><td><pre><code>
+{ 
+ _all: { verbose: true }, 
+ standard: { verbose: true } 
+}
+</code></pre></td>
+ </tr>
+ <tr>
+   <td>14</td><td><code>--debug</code></td><td><pre><code>
+{ 
+ _all: { debug: true }, 
+ _none: { debug: true } 
+}
+</code></pre></td>
+ </tr>
+ <tr>
+   <td>15</td><td><code>--verbose --debug --compress</code></td><td><pre><code>
+{ 
+ _all: { 
+   verbose: true, 
+   debug: true, 
+   compress: true 
+ }, 
+ standard: { verbose: true }, 
+ server: { compress: true }, 
+ main: { compress: true }, 
+ _none: { debug: true } 
+}
+</code></pre></td>
+ </tr>
+ <tr>
+   <td>16</td><td><code>--compress</code></td><td><pre><code>
+{ 
+ _all: { compress: true }, 
+ server: { compress: true }, 
+ main: { compress: true } 
+}
+</code></pre></td>
+ </tr>
+</table>
 
 **Kind**: instance property of <code>[Definition](#exp_module_definition--Definition)</code>  
 * * *
