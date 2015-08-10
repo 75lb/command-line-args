@@ -56,22 +56,9 @@ var usage = cli.getUsage({
 });
 ```
 
-`usage` looks like:
-```
-  my-app
-  Generates something useful
+`usage`, written to the terminal, looks like:
 
-  Usage
-  $ cat input.json | my-app [<options>]
-  $ my-app <files>
-
-  -h, --help               Display this usage guide.
-  -v, --verbose            Display this usage guide.
-  -f, --src <string[]>     The input files to process
-  -t, --timeout <number>   Timeout value in ms
-
-  Project home: https://github.com/me/my-app
-```
+![usage](https://raw.githubusercontent.com/75lb/command-line-usage/master/example/screens/typical.png)
 
 ## Install
 
