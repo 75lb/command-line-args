@@ -22,18 +22,9 @@ then your app can access the values like this:
 var cliArgs = require("command-line-args");
 
 var cli = cliArgs([
-    {
-        name: "help", description: "Display this usage guide.",
-        alias: "h", type: Boolean
-    },
-    {
-        name: "src", description: "The input files to process",
-        alias: "f", type: String, multiple: true, defaultOption: true
-    },
-    {
-        name: "timeout", description: "Timeout value in ms",
-        alias: "t", type: Number,  
-    }
+    { name: "help", alias: "h", type: Boolean },
+    { name: "src", type: String, multiple: true, defaultOption: true },
+    { name: "timeout", alias: "t", type: Number }
 ]);
 ```
 
@@ -54,16 +45,16 @@ var options = cli.parse();
 }
 ```
 
-The [.getUsage()](#module_command-line-args--CliArgs+getUsage) method generates a usage guide:
+The [.getUsage()](#module_command-line-args--CliArgs+getUsage) method generates a usage guide. You'll need to provide some extra information, see [command-line-usage](https://github.com/75lb/command-line-usage).
 ```js
-var usage = cli.usage({
+var usage = cli.getUsage({
     title: "my-app",
     description: "Generates something useful",
     footer: "Project home: [underline]{https://github.com/me/my-app}"
 });
 ```
 
-..for example:
+where `usage` looks like:
 ```
   my-app
   Generates something useful
@@ -81,7 +72,7 @@ var usage = cli.usage({
 ```
 
 ### Validation
-Validation is out of scope for this library, which collects values only. Validate using another module or some code of your own. This example uses [test-value](https://github.com/75lb/test-value).
+Validation is out of scope for this library (which collects values only) but is worth mentioning. Validate using another module or some code of your own. This example uses [test-value](https://github.com/75lb/test-value).
 
 ```js
 var cliArgs = require("../");
