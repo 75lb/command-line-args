@@ -137,40 +137,47 @@ $ cat example/one.js | command-line-args --main --dessert
 ## Modules
 <dl>
 <dt><a href="#module_command-line-args">command-line-args</a></dt>
-<dd></dd>
+<dd><p>A library to collect command-line args and generate a usage guide.</p>
+</dd>
 <dt><a href="#module_definition">definition</a></dt>
 <dd></dd>
 </dl>
 <a name="module_command-line-args"></a>
 ## command-line-args
+A library to collect command-line args and generate a usage guide.
+
 
 * [command-line-args](#module_command-line-args)
-  * [CliArgs](#exp_module_command-line-args--CliArgs) ⏏
-    * [new CliArgs(definitions)](#new_module_command-line-args--CliArgs_new)
-    * [.parse([argv])](#module_command-line-args--CliArgs+parse) ⇒ <code>object</code>
-    * [.getUsage([options])](#module_command-line-args--CliArgs+getUsage) ⇒ <code>string</code>
+  * [CommandLineArgs](#exp_module_command-line-args--CommandLineArgs) ⏏
+    * [new CommandLineArgs(definitions)](#new_module_command-line-args--CommandLineArgs_new)
+    * [.parse([argv])](#module_command-line-args--CommandLineArgs+parse) ⇒ <code>object</code>
+    * [.getUsage([options])](#module_command-line-args--CommandLineArgs+getUsage) ⇒ <code>string</code>
 
-<a name="exp_module_command-line-args--CliArgs"></a>
-### CliArgs ⏏
+<a name="exp_module_command-line-args--CommandLineArgs"></a>
+### CommandLineArgs ⏏
+A class encapsulating operations you can perform using the command-line arguments as input.
+
 **Kind**: Exported class  
-<a name="new_module_command-line-args--CliArgs_new"></a>
-#### new CliArgs(definitions)
+<a name="new_module_command-line-args--CommandLineArgs_new"></a>
+#### new CommandLineArgs(definitions)
+Create a parsable command-line instance by calling this factory method with a list of [option definitions](module:command-line-args.definition).
+
 
 | Param | Type |
 | --- | --- |
 | definitions | <code>[Array.&lt;definition&gt;](#module_definition)</code> | 
 
-<a name="module_command-line-args--CliArgs+parse"></a>
-#### cliArgs.parse([argv]) ⇒ <code>object</code>
-**Kind**: instance method of <code>[CliArgs](#exp_module_command-line-args--CliArgs)</code>  
+<a name="module_command-line-args--CommandLineArgs+parse"></a>
+#### cli.parse([argv]) ⇒ <code>object</code>
+**Kind**: instance method of <code>[CommandLineArgs](#exp_module_command-line-args--CommandLineArgs)</code>  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | [argv] | <code>Array.&lt;string&gt;</code> | parses `process.argv` by default, unless you pass this |
 
-<a name="module_command-line-args--CliArgs+getUsage"></a>
-#### cliArgs.getUsage([options]) ⇒ <code>string</code>
-**Kind**: instance method of <code>[CliArgs](#exp_module_command-line-args--CliArgs)</code>  
+<a name="module_command-line-args--CommandLineArgs+getUsage"></a>
+#### cli.getUsage([options]) ⇒ <code>string</code>
+**Kind**: instance method of <code>[CommandLineArgs](#exp_module_command-line-args--CommandLineArgs)</code>  
 
 | Param | Type |
 | --- | --- |
