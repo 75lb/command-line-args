@@ -7,7 +7,7 @@
 A library to collect command-line args and generate a usage guide.
 
 ## Synopsis
-If your app was run with one of these commands (they are all equalivalent and set the same values)..
+You can set options using the main notation standards (getopt, getopt_long, etc.). These commands are all equivalent and set the same values:
 ```
 $ my-app --verbose --timeout=1000 --src one.js --src two.js
 $ my-app --verbose --timeout 1000 --src one.js two.js
@@ -15,18 +15,17 @@ $ my-app -vt 1000 --src one.js two.js
 $ my-app -vt 1000 one.js two.js
 ```
 
-..then your app can access the values like this:
-
-First, describe the options your app accepts (see [option definitions](#option-definitions)).
+To access the values, first describe the options your app accepts (see [option definitions](#option-definitions)).
 ```js
 var cliArgs = require("command-line-args");
 
 var cli = cliArgs([
-    { name: "help", alias: "h", type: Boolean },
+    { name: "verbose", alias: "v", type: Boolean },
     { name: "src", type: String, multiple: true, defaultOption: true },
     { name: "timeout", alias: "t", type: Number }
 ]);
 ```
+The `type` property is a setter function, giving you full control over the type and value received.
 
 Next, collect the command line args using [.parse()](#module_command-line-args--CommandLineArgs+parse):
 ```js
@@ -41,13 +40,13 @@ var options = cli.parse();
         "two.js"
     ],
     verbose: true,
-    timeout: 1000  
+    timeout: 1000
 }
 ```
 
 When dealing with large amounts of options it often makes sense to [group](#module_definition--Definition+group) them.
 
-The [.getUsage()](#module_command-line-args--CliArgs+getUsage) method generates a usage guide. 
+The [.getUsage()](#module_command-line-args--CliArgs+getUsage) method generates a usage guide.
 ```js
 var usage = cli.getUsage({
     title: "my-app",
