@@ -25,7 +25,7 @@ var cli = commandLineArgs([
     { name: "timeout", alias: "t", type: Number }
 ]);
 ```
-The `[type](#module_definition--OptionDefinition+type)` property is a setter function (the value you receive is the output of this), giving you full control over the type and value received.
+The [`type`](#module_definition--OptionDefinition+type) property is a setter function (the value you receive is the output of this), giving you full control over the value received.
 
 Next, collect the command line args using [.parse()](#module_command-line-args--CommandLineArgs+parse):
 ```js
@@ -46,7 +46,7 @@ var options = cli.parse();
 
 When dealing with large amounts of options it often makes sense to [group](#module_definition--Definition+group) them.
 
-The [.getUsage()](#module_command-line-args--CliArgs+getUsage) method generates a usage guide. If you add descriptions to each option definition and call `.getUsage()` with some optional template data...
+The [.getUsage()](#module_command-line-args--CliArgs+getUsage) method generates a usage guide. If you add descriptions to each option definition and call `.getUsage()` with some template data, for example:
 ```js
 var usage = cli.getUsage({
     title: "my-app",
@@ -55,7 +55,7 @@ var usage = cli.getUsage({
 });
 ```
 
-..then `usage`, written to the terminal, will look something like:
+..then `usage`, written to the terminal, looks something like:
 
 ![usage](https://raw.githubusercontent.com/75lb/command-line-usage/master/example/screens/typical.png)
 
@@ -66,12 +66,12 @@ var usage = cli.getUsage({
 $ npm install command-line-args --save
 ```
 
-### as a command-line tool
+### as a tool
 ```sh
 $ npm install -g command-line-args
 ```
 
-If you install globally you get the `command-line-args` test-harness. You test by piping in a module which exports an option definitions array. You can then view `.parse()` output for the arg you pass.
+If you install globally you get the `command-line-args` test-harness. You test by piping in a module which exports an option definitions array. You can then view the `.parse()` output for the args you pass.
 
 For example:
 
@@ -141,7 +141,7 @@ Generates a usage guide. Please see [command-line-usage](https://github.com/75lb
 
 <a name="exp_module_definition--OptionDefinition"></a>
 ## OptionDefinition ⏏
-Describes an command-line option
+Describes a command-line option.
 
 **Kind**: Exported class  
 * [OptionDefinition](#exp_module_definition--OptionDefinition) ⏏
@@ -178,6 +178,8 @@ In this case, the value of each option will be either a Boolean or string.
 ### option.type : <code>function</code>
 The `type` value is a setter function (you receive the output from this), enabling you to be specific about the type and value received.
 
+You can use a class, if you like:
+
 ```js
 var fs = require("fs");
 
@@ -195,14 +197,14 @@ module.exports = [
 
 | #   | Command line args| .parse() output |
 | --- | ----------------- | ------------ |
-| 5   | `--file asdf.txt` | `{ file: { filename: 'asdf.txt', exists: false } }` |
+| 1   | `--file asdf.txt` | `{ file: { filename: 'asdf.txt', exists: false } }` |
 
-in 1, main was passed but is set to null (not true, as before) meaning "no value was specified".
+The `--depth` option expects a `Number`. If no value was set, you will receive `null`. 
 
 | #   | Command line args | .parse() output |
 | --- | ----------------- | ------------ |
-| 6   | `--depth` | `{ depth: null }` |
-| 6   | `--depth 2` | `{ depth: 2 }` |
+| 2   | `--depth` | `{ depth: null }` |
+| 3   | `--depth 2` | `{ depth: 2 }` |
 
 **Kind**: instance property of <code>[OptionDefinition](#exp_module_definition--OptionDefinition)</code>  
 <a name="module_definition--OptionDefinition+alias"></a>
@@ -219,13 +221,14 @@ getopt-style short option names. Must be a single character.
 
 | #   | Command line | .parse() output |
 | --- | ------------ | ------------ |
-| 7   | `-hcd` | `{ hot: true, courses: null, discount: true }` |
-| 7   | `-hdc 3` | `{ hot: true, discount: true, courses: 3 }` |
+| 1   | `-hcd` | `{ hot: true, courses: null, discount: true }` |
+| 2   | `-hdc 3` | `{ hot: true, discount: true, courses: 3 }` |
 
 **Kind**: instance property of <code>[OptionDefinition](#exp_module_definition--OptionDefinition)</code>  
 <a name="module_definition--OptionDefinition+multiple"></a>
 ### option.multiple : <code>boolean</code>
 Set this flag if the option takes a list of values. You will receive an array of values passed through the `type` function (if specified).
+
 ```js
 module.exports = [
     { name: "files", type: String, multiple: true }
@@ -234,9 +237,9 @@ module.exports = [
 
 | #   | Command line | .parse() output |
 | --- | ------------ | ------------ |
-| 8   | `--files one.js two.js` | `{ files: [ 'one.js', 'two.js' ] }` |
-| 9   | `--files one.js --files two.js` | `{ files: [ 'one.js', 'two.js' ] }` |
-| 10   | `--files *` | `{ files: [ 'one.js', 'two.js' ] }` |
+| 1   | `--files one.js two.js` | `{ files: [ 'one.js', 'two.js' ] }` |
+| 2   | `--files one.js --files two.js` | `{ files: [ 'one.js', 'two.js' ] }` |
+| 3   | `--files *` | `{ files: [ 'one.js', 'two.js' ] }` |
 
 **Kind**: instance property of <code>[OptionDefinition](#exp_module_definition--OptionDefinition)</code>  
 <a name="module_definition--OptionDefinition+defaultOption"></a>
@@ -251,9 +254,9 @@ module.exports = [
 
 | #   | Command line | .parse() output |
 | --- | ------------ | ------------ |
-| 11   | `--files one.js two.js` | `{ files: [ 'one.js', 'two.js' ] }` |
-| 11   | `one.js two.js` | `{ files: [ 'one.js', 'two.js' ] }` |
-| 12   | `*` | `{ files: [ 'one.js', 'two.js' ] }` |
+| 1   | `--files one.js two.js` | `{ files: [ 'one.js', 'two.js' ] }` |
+| 2   | `one.js two.js` | `{ files: [ 'one.js', 'two.js' ] }` |
+| 3   | `*` | `{ files: [ 'one.js', 'two.js' ] }` |
 
 **Kind**: instance property of <code>[OptionDefinition](#exp_module_definition--OptionDefinition)</code>  
 <a name="module_definition--OptionDefinition+defaultValue"></a>
@@ -269,9 +272,9 @@ module.exports = [
 
 | #   | Command line | .parse() output |
 | --- | ------------ | ------------ |
-| 13   |  | `{ files: [ 'one.js' ], max: 3 }` |
-| 14   | `--files two.js` | `{ files: [ 'one.js', 'two.js' ], max: 3 }` |
-| 15   | `--max 4` | `{ files: [ 'one.js' ], max: 4 }` |
+| 1   |  | `{ files: [ 'one.js' ], max: 3 }` |
+| 2   | `--files two.js` | `{ files: [ 'one.js', 'two.js' ], max: 3 }` |
+| 3   | `--max 4` | `{ files: [ 'one.js' ], max: 4 }` |
 
 **Kind**: instance property of <code>[OptionDefinition](#exp_module_definition--OptionDefinition)</code>  
 <a name="module_definition--OptionDefinition+group"></a>
@@ -293,7 +296,7 @@ module.exports = [
    <th>#</th><th>Command Line</th><th>.parse() output</th>
  </tr>
  <tr>
-   <td>13</td><td><code>--verbose</code></td><td><pre><code>
+   <td>1</td><td><code>--verbose</code></td><td><pre><code>
 { 
  _all: { verbose: true }, 
  standard: { verbose: true } 
@@ -301,7 +304,7 @@ module.exports = [
 </code></pre></td>
  </tr>
  <tr>
-   <td>14</td><td><code>--debug</code></td><td><pre><code>
+   <td>2</td><td><code>--debug</code></td><td><pre><code>
 { 
  _all: { debug: true }, 
  _none: { debug: true } 
@@ -309,7 +312,7 @@ module.exports = [
 </code></pre></td>
  </tr>
  <tr>
-   <td>15</td><td><code>--verbose --debug --compress</code></td><td><pre><code>
+   <td>3</td><td><code>--verbose --debug --compress</code></td><td><pre><code>
 { 
  _all: { 
    verbose: true, 
@@ -324,7 +327,7 @@ module.exports = [
 </code></pre></td>
  </tr>
  <tr>
-   <td>16</td><td><code>--compress</code></td><td><pre><code>
+   <td>4</td><td><code>--compress</code></td><td><pre><code>
 { 
  _all: { compress: true }, 
  server: { compress: true }, 
