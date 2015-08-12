@@ -7,7 +7,7 @@
 A library to collect command-line args and generate a usage guide.
 
 ## Synopsis
-You can set options using the main notation standards (getopt, getopt_long, etc.). These commands are all equivalent and set the same values:
+You can set options using the main notation standards (getopt, getopt_long, etc.). These commands are all equivalent, setting the same values:
 ```
 $ my-app --verbose --timeout=1000 --src one.js --src two.js
 $ my-app --verbose --timeout 1000 --src one.js two.js
@@ -17,15 +17,15 @@ $ my-app -vt 1000 one.js two.js
 
 To access the values, first describe the options your app accepts (see [option definitions](#option-definitions)).
 ```js
-var cliArgs = require("command-line-args");
+var commandLineArgs = require("command-line-args");
 
-var cli = cliArgs([
+var cli = commandLineArgs([
     { name: "verbose", alias: "v", type: Boolean },
     { name: "src", type: String, multiple: true, defaultOption: true },
     { name: "timeout", alias: "t", type: Number }
 ]);
 ```
-The `type` property is a setter function, giving you full control over the type and value received.
+The `[type](#module_definition--OptionDefinition+type)` property is a setter function (the value you receive is the output of this), giving you full control over the type and value received.
 
 Next, collect the command line args using [.parse()](#module_command-line-args--CommandLineArgs+parse):
 ```js
@@ -46,7 +46,7 @@ var options = cli.parse();
 
 When dealing with large amounts of options it often makes sense to [group](#module_definition--Definition+group) them.
 
-The [.getUsage()](#module_command-line-args--CliArgs+getUsage) method generates a usage guide.
+The [.getUsage()](#module_command-line-args--CliArgs+getUsage) method generates a usage guide. If you add descriptions to each option definition and call `.getUsage()` with some optional template data...
 ```js
 var usage = cli.getUsage({
     title: "my-app",
@@ -55,7 +55,7 @@ var usage = cli.getUsage({
 });
 ```
 
-`usage`, written to the terminal, looks like:
+..then `usage`, written to the terminal, will look something like:
 
 ![usage](https://raw.githubusercontent.com/75lb/command-line-usage/master/example/screens/typical.png)
 
@@ -99,7 +99,7 @@ A library to collect command-line args and generate a usage guide.
 
 <a name="exp_module_command-line-args--CommandLineArgs"></a>
 ### CommandLineArgs ⏏
-A class encapsulating operations you can perform using the command-line arguments as input.
+A class encapsulating operations you can perform using an [OptionDefinition](#exp_module_definition--OptionDefinition) array as input.
 
 **Kind**: Exported class  
 <a name="new_module_command-line-args--CommandLineArgs_new"></a>
@@ -107,12 +107,12 @@ A class encapsulating operations you can perform using the command-line argument
 
 | Param | Type | Description |
 | --- | --- | --- |
-| definitions | <code>[Array.&lt;definition&gt;](#module_definition)</code> | An array of [OptionDefinition](#exp_module_definition--OptionDefinition) objects |
+| definitions | <code>[Array.&lt;definition&gt;](#module_definition)</code> | An optional array of [OptionDefinition](#exp_module_definition--OptionDefinition) objects |
 
 **Example**  
 ```js
-var cliArgs = require("command-line-args");
-var cli = cliArgs([
+var commandLineArgs = require("command-line-args");
+var cli = commandLineArgs([
     { name: "file" },
     { name: "verbose" },
     { name: "depth"}
@@ -166,7 +166,7 @@ The only required definition property is `name`, so the simplest working example
 
 In this case, the value of each option will be either a Boolean or string.
 
-| #   | Command line args | parse output |
+| #   | Command line args | .parse() output |
 | --- | -------------------- | ------------ |
 | 1   | `--file` | `{ file: true }` |
 | 2   | `--file lib.js --verbose` | `{ file: "lib.js", verbose: true }` |
@@ -176,7 +176,7 @@ In this case, the value of each option will be either a Boolean or string.
 **Kind**: instance property of <code>[OptionDefinition](#exp_module_definition--OptionDefinition)</code>  
 <a name="module_definition--OptionDefinition+type"></a>
 ### option.type : <code>function</code>
-Take control and be more specific about type..
+The `type` value is a setter function (you receive the output from this), enabling you to be specific about the type and value received.
 
 ```js
 var fs = require("fs");
@@ -193,13 +193,13 @@ module.exports = [
 ];
 ```
 
-| #   | Command line args| parse output |
+| #   | Command line args| .parse() output |
 | --- | ----------------- | ------------ |
 | 5   | `--file asdf.txt` | `{ file: { filename: 'asdf.txt', exists: false } }` |
 
 in 1, main was passed but is set to null (not true, as before) meaning "no value was specified".
 
-| #   | Command line args | parse output |
+| #   | Command line args | .parse() output |
 | --- | ----------------- | ------------ |
 | 6   | `--depth` | `{ depth: null }` |
 | 6   | `--depth 2` | `{ depth: 2 }` |
@@ -207,7 +207,7 @@ in 1, main was passed but is set to null (not true, as before) meaning "no value
 **Kind**: instance property of <code>[OptionDefinition](#exp_module_definition--OptionDefinition)</code>  
 <a name="module_definition--OptionDefinition+alias"></a>
 ### option.alias : <code>string</code>
-Short option names. Must be a single character.
+getopt-style short option names. Must be a single character.
 
 ```js
 [
@@ -217,7 +217,7 @@ Short option names. Must be a single character.
 ]
 ```
 
-| #   | Command line | parse output |
+| #   | Command line | .parse() output |
 | --- | ------------ | ------------ |
 | 7   | `-hcd` | `{ hot: true, courses: null, discount: true }` |
 | 7   | `-hdc 3` | `{ hot: true, discount: true, courses: 3 }` |
@@ -225,13 +225,14 @@ Short option names. Must be a single character.
 **Kind**: instance property of <code>[OptionDefinition](#exp_module_definition--OptionDefinition)</code>  
 <a name="module_definition--OptionDefinition+multiple"></a>
 ### option.multiple : <code>boolean</code>
+Set this flag if the option takes a list of values. You will receive an array of values passed through the `type` function (if specified).
 ```js
 module.exports = [
     { name: "files", type: String, multiple: true }
 ];
 ```
 
-| #   | Command line | parse output |
+| #   | Command line | .parse() output |
 | --- | ------------ | ------------ |
 | 8   | `--files one.js two.js` | `{ files: [ 'one.js', 'two.js' ] }` |
 | 9   | `--files one.js --files two.js` | `{ files: [ 'one.js', 'two.js' ] }` |
@@ -240,13 +241,15 @@ module.exports = [
 **Kind**: instance property of <code>[OptionDefinition](#exp_module_definition--OptionDefinition)</code>  
 <a name="module_definition--OptionDefinition+defaultOption"></a>
 ### option.defaultOption : <code>boolean</code>
+Any unclaimed command-line args will be set on this option. This flag is typically set on the most commonly-used option to make for more concise usage (i.e. `$ myapp *.js` instead of `$ myapp --files *.js`).
+
 ```js
 module.exports = [
     { name: "files", type: String, multiple: true, defaultOption: true }
 ];
 ```
 
-| #   | Command line | parse output |
+| #   | Command line | .parse() output |
 | --- | ------------ | ------------ |
 | 11   | `--files one.js two.js` | `{ files: [ 'one.js', 'two.js' ] }` |
 | 11   | `one.js two.js` | `{ files: [ 'one.js', 'two.js' ] }` |
@@ -255,6 +258,8 @@ module.exports = [
 **Kind**: instance property of <code>[OptionDefinition](#exp_module_definition--OptionDefinition)</code>  
 <a name="module_definition--OptionDefinition+defaultValue"></a>
 ### option.defaultValue : <code>\*</code>
+An initial value for the option.
+
 ```js
 module.exports = [
     { name: "files", type: String, multiple: true, defaultValue: [ "one.js" ] },
@@ -262,7 +267,7 @@ module.exports = [
 ];
 ```
 
-| #   | Command line | parse output |
+| #   | Command line | .parse() output |
 | --- | ------------ | ------------ |
 | 13   |  | `{ files: [ 'one.js' ], max: 3 }` |
 | 14   | `--files two.js` | `{ files: [ 'one.js', 'two.js' ], max: 3 }` |
@@ -285,7 +290,7 @@ module.exports = [
 
 <table>
  <tr>
-   <th>#</th><th>Command Line</th><th>parse output</th>
+   <th>#</th><th>Command Line</th><th>.parse() output</th>
  </tr>
  <tr>
    <td>13</td><td><code>--verbose</code></td><td><pre><code>

@@ -7,7 +7,7 @@
 A library to collect command-line args and generate a usage guide.
 
 ## Synopsis
-You can set options using the main notation standards (getopt, getopt_long, etc.). These commands are all equivalent and set the same values:
+You can set options using the main notation standards (getopt, getopt_long, etc.). These commands are all equivalent, setting the same values:
 ```
 $ my-app --verbose --timeout=1000 --src one.js --src two.js
 $ my-app --verbose --timeout 1000 --src one.js two.js
@@ -17,15 +17,15 @@ $ my-app -vt 1000 one.js two.js
 
 To access the values, first describe the options your app accepts (see [option definitions](#option-definitions)).
 ```js
-var cliArgs = require("command-line-args");
+var commandLineArgs = require("command-line-args");
 
-var cli = cliArgs([
+var cli = commandLineArgs([
     { name: "verbose", alias: "v", type: Boolean },
     { name: "src", type: String, multiple: true, defaultOption: true },
     { name: "timeout", alias: "t", type: Number }
 ]);
 ```
-The `type` property is a setter function, giving you full control over the type and value received.
+The `[type](#module_definition--OptionDefinition+type)` property is a setter function (the value you receive is the output of this), giving you full control over the type and value received.
 
 Next, collect the command line args using [.parse()](#module_command-line-args--CommandLineArgs+parse):
 ```js
@@ -46,7 +46,7 @@ var options = cli.parse();
 
 When dealing with large amounts of options it often makes sense to [group](#module_definition--Definition+group) them.
 
-The [.getUsage()](#module_command-line-args--CliArgs+getUsage) method generates a usage guide.
+The [.getUsage()](#module_command-line-args--CliArgs+getUsage) method generates a usage guide. If you add descriptions to each option definition and call `.getUsage()` with some optional template data...
 ```js
 var usage = cli.getUsage({
     title: "my-app",
@@ -55,7 +55,7 @@ var usage = cli.getUsage({
 });
 ```
 
-`usage`, written to the terminal, looks like:
+..then `usage`, written to the terminal, will look something like:
 
 ![usage](https://raw.githubusercontent.com/75lb/command-line-usage/master/example/screens/typical.png)
 
