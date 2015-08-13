@@ -1,6 +1,6 @@
 {
   "name": "command-line-args",
-  "version": "1.1.0-1",
+  "version": "1.0.0",
   "description": "A library to collect command-line args and generate a usage guide.",
   "repository": "https://github.com/75lb/command-line-args.git",
   "main": "lib/command-line-args",
