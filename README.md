@@ -273,13 +273,13 @@ module.exports = [
 | #   | Command line | .parse() output |
 | --- | ------------ | ------------ |
 | 1   |  | `{ files: [ 'one.js' ], max: 3 }` |
-| 2   | `--files two.js` | `{ files: [ 'one.js', 'two.js' ], max: 3 }` |
+| 2   | `--files two.js` | `{ files: [ 'two.js' ], max: 3 }` |
 | 3   | `--max 4` | `{ files: [ 'one.js' ], max: 4 }` |
 
 **Kind**: instance property of <code>[OptionDefinition](#exp_module_definition--OptionDefinition)</code>  
 <a name="module_definition--OptionDefinition+group"></a>
 ### option.group : <code>string</code> &#124; <code>Array.&lt;string&gt;</code>
-When your app has a large amount of options it makes sense to organise them in groups. For example, you may want to delegate the `video`and `audio` options to separate 3rd party libraries.
+When your app has a large amount of options it makes sense to organise them in groups. 
 
 ```js
 module.exports = [
