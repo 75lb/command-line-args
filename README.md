@@ -46,7 +46,7 @@ var options = cli.parse();
 
 When dealing with large amounts of options it often makes sense to [group](#module_definition--Definition+group) them.
 
-The [.getUsage()](#module_command-line-args--CliArgs+getUsage) method generates a usage guide. If you add descriptions to each option definition and call `.getUsage()` with some template data, for example:
+The [.getUsage()](#module_command-line-args--CommandLineArgs+getUsage) method generates a usage guide. If you add descriptions to each option definition and call `.getUsage()` with some template data, for example:
 ```js
 var usage = cli.getUsage({
     title: "my-app",
