@@ -281,6 +281,8 @@ module.exports = [
 ### option.group : <code>string</code> &#124; <code>Array.&lt;string&gt;</code>
 When your app has a large amount of options it makes sense to organise them in groups. 
 
+There are two automatic groups: `_all` (contains all options) and `_none` (contains options without a `group` specified in their definition).
+
 ```js
 module.exports = [
     { name: "verbose", group: "standard" },
