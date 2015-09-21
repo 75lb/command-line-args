@@ -57,7 +57,7 @@ var usage = cli.getUsage({
 
 ..then `usage`, written to the terminal, looks something like:
 
-![usage](https://raw.githubusercontent.com/75lb/command-line-usage/master/example/screens/typical.png)
+![usage](https://raw.githubusercontent.com/75lb/command-line-usage/master/example/screens/simple.png)
 
 ## Install
 
@@ -123,6 +123,12 @@ var cli = commandLineArgs([
 Returns an object containing all the values and flags set on the command line. By default it parses the global [`process.argv`](https://nodejs.org/api/process.html#process_process_argv) array.
 
 **Kind**: instance method of <code>[CommandLineArgs](#exp_module_command-line-args--CommandLineArgs)</code>  
+**Throws**:
+
+- if the user specifies an unknown option
+- if an option definition is missing the required `name` property
+- if an option definition has a `type` property that's not a function
+
 
 | Param | Type | Description |
 | --- | --- | --- |
