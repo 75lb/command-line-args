@@ -1,3 +1,3 @@
 module.exports = [
-    { name: "files", type: String, multiple: true }
-];
+  { name: 'files', type: String, multiple: true }
+]

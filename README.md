@@ -2,6 +2,7 @@
 [![npm module downloads per month](http://img.shields.io/npm/dm/command-line-args.svg)](https://www.npmjs.org/package/command-line-args)
 [![Build Status](https://travis-ci.org/75lb/command-line-args.svg?branch=rewrite)](https://travis-ci.org/75lb/command-line-args)
 [![Dependency Status](https://david-dm.org/75lb/command-line-args.svg)](https://david-dm.org/75lb/command-line-args)
+[![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](https://github.com/feross/standard)
 
 # command-line-args
 A library to collect command-line args and generate a usage guide.
@@ -111,12 +112,12 @@ A class encapsulating operations you can perform using an [OptionDefinition](#ex
 
 **Example**  
 ```js
-var commandLineArgs = require("command-line-args");
+var commandLineArgs = require("command-line-args")
 var cli = commandLineArgs([
     { name: "file" },
     { name: "verbose" },
     { name: "depth"}
-]);
+])
 ```
 <a name="module_command-line-args--CommandLineArgs+parse"></a>
 #### cli.parse([argv]) ⇒ <code>object</code>
@@ -187,25 +188,25 @@ The `type` value is a setter function (you receive the output from this), enabli
 You can use a class, if you like:
 
 ```js
-var fs = require("fs");
+var fs = require("fs")
 
 function FileDetails(filename){
-    if (!(this instanceof FileDetails)) return new FileDetails(filename);
-    this.filename = filename;
-    this.exists = fs.existsSync(filename);
+    if (!(this instanceof FileDetails)) return new FileDetails(filename)
+    this.filename = filename
+    this.exists = fs.existsSync(filename)
 }
 
 module.exports = [
     { name: "file", type: FileDetails },
     { name: "depth", type: Number }
-];
+]
 ```
 
 | #   | Command line args| .parse() output |
 | --- | ----------------- | ------------ |
 | 1   | `--file asdf.txt` | `{ file: { filename: 'asdf.txt', exists: false } }` |
 
-The `--depth` option expects a `Number`. If no value was set, you will receive `null`. 
+The `--depth` option expects a `Number`. If no value was set, you will receive `null`.
 
 | #   | Command line args | .parse() output |
 | --- | ----------------- | ------------ |
@@ -238,7 +239,7 @@ Set this flag if the option takes a list of values. You will receive an array of
 ```js
 module.exports = [
     { name: "files", type: String, multiple: true }
-];
+]
 ```
 
 | #   | Command line | .parse() output |
@@ -255,7 +256,7 @@ Any unclaimed command-line args will be set on this option. This flag is typical
 ```js
 module.exports = [
     { name: "files", type: String, multiple: true, defaultOption: true }
-];
+]
 ```
 
 | #   | Command line | .parse() output |
@@ -273,7 +274,7 @@ An initial value for the option.
 module.exports = [
     { name: "files", type: String, multiple: true, defaultValue: [ "one.js" ] },
     { name: "max", type: Number, defaultValue: 3 }
-];
+]
 ```
 
 | #   | Command line | .parse() output |
@@ -285,7 +286,7 @@ module.exports = [
 **Kind**: instance property of <code>[OptionDefinition](#exp_module_definition--OptionDefinition)</code>  
 <a name="module_definition--OptionDefinition+group"></a>
 ### option.group : <code>string</code> &#124; <code>Array.&lt;string&gt;</code>
-When your app has a large amount of options it makes sense to organise them in groups. 
+When your app has a large amount of options it makes sense to organise them in groups.
 
 There are two automatic groups: `_all` (contains all options) and `_none` (contains options without a `group` specified in their definition).
 
@@ -296,7 +297,7 @@ module.exports = [
     { name: "compress", group: [ "server", "main" ] },
     { name: "static", group: "server" },
     { name: "debug" }
-];
+]
 ```
 
 <table>
@@ -305,41 +306,41 @@ module.exports = [
  </tr>
  <tr>
    <td>1</td><td><code>--verbose</code></td><td><pre><code>
-{ 
- _all: { verbose: true }, 
- standard: { verbose: true } 
+{
+ _all: { verbose: true },
+ standard: { verbose: true }
 }
 </code></pre></td>
  </tr>
  <tr>
    <td>2</td><td><code>--debug</code></td><td><pre><code>
-{ 
- _all: { debug: true }, 
- _none: { debug: true } 
+{
+ _all: { debug: true },
+ _none: { debug: true }
 }
 </code></pre></td>
  </tr>
  <tr>
    <td>3</td><td><code>--verbose --debug --compress</code></td><td><pre><code>
-{ 
- _all: { 
-   verbose: true, 
-   debug: true, 
-   compress: true 
- }, 
- standard: { verbose: true }, 
- server: { compress: true }, 
- main: { compress: true }, 
- _none: { debug: true } 
+{
+ _all: {
+   verbose: true,
+   debug: true,
+   compress: true
+ },
+ standard: { verbose: true },
+ server: { compress: true },
+ main: { compress: true },
+ _none: { debug: true }
 }
 </code></pre></td>
  </tr>
  <tr>
    <td>4</td><td><code>--compress</code></td><td><pre><code>
-{ 
- _all: { compress: true }, 
- server: { compress: true }, 
- main: { compress: true } 
+{
+ _all: { compress: true },
+ server: { compress: true },
+ main: { compress: true }
 }
 </code></pre></td>
  </tr>
