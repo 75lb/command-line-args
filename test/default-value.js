@@ -35,3 +35,17 @@ test('default value: array as defaultOption', function (t) {
   t.deepEqual(cliArgs(defs).parse(argv), { two: [ 'duo' ] })
   t.end()
 })
+
+test('default value: falsy default values', function (t) {
+  var defs = [
+    { name: 'one', defaultValue: 0 },
+    { name: 'two', defaultValue: false }
+  ]
+
+  var argv = []
+  t.deepEqual(cliArgs(defs).parse(argv), {
+    one: 0,
+    two: false
+  })
+  t.end()
+})
