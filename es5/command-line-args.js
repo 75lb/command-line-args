@@ -10,8 +10,8 @@ var o = require('object-tools');
 var Definitions = require('./definitions');
 var option = require('./option');
 var cliUsage = require('command-line-usage');
-var findReplace = require('find-replace');
 var t = require('typical');
+var Argv = require('./argv');
 
 module.exports = commandLineArgs;
 
@@ -27,37 +27,9 @@ var CommandLineArgs = (function () {
     value: function parse(argv) {
       var _this = this;
 
-      argv = argv || process.argv;
-      if (argv === process.argv) {
-        argv.splice(0, 2);
-      } else {
-        argv = arrayify(argv);
-      }
-
-      var optEquals = option.optEquals;
-      if (argv.some(optEquals.test.bind(optEquals))) {
-        var expandedArgs = [];
-        argv.forEach(function (arg) {
-          var matches = arg.match(optEquals.re);
-          if (matches) {
-            expandedArgs.push(matches[1], matches[2]);
-          } else {
-            expandedArgs.push(arg);
-          }
-        });
-        argv = expandedArgs;
-      }
-
-      var combinedArg = option.combined;
-      var hasGetopt = argv.some(combinedArg.test.bind(combinedArg));
-      if (hasGetopt) {
-        findReplace(argv, combinedArg.re, function (arg) {
-          arg = arg.slice(1);
-          return arg.split('').map(function (letter) {
-            return '-' + letter;
-          });
-        });
-      }
+      argv = new Argv(argv);
+      argv.expandOptionEqualsNotation();
+      argv.expandGetoptNotation();
 
       var invalidMessage = this.definitions.validate(argv);
       if (invalidMessage) {
