@@ -173,7 +173,7 @@ In this case, the value of each option will be either a Boolean or string.
 | 4   | `--depth 2` | `{ depth: "2" }` |
 
 Unicode option names and aliases are valid, for example:
-* ```js
+```js
 [
   { name: 'один' },
   { name: '两' },
@@ -217,7 +217,7 @@ The `--depth` option expects a `Number`. If no value was set, you will receive `
 **Kind**: instance property of <code>[OptionDefinition](#exp_module_definition--OptionDefinition)</code>  
 <a name="module_definition--OptionDefinition+alias"></a>
 ### option.alias : <code>string</code>
-getopt-style short option names. Can be any single character (unicode included) except a digit (`[0-9]`) or hypen (`'-'`).
+getopt-style short option names. Can be any single character (unicode included) except a digit or hypen.
 
 ```js
 [
