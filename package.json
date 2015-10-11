@@ -6,7 +6,7 @@
   "main": "lib/command-line-args",
   "bin": "bin/cli.js",
   "scripts": {
-    "test": "standard && tape test/*.js",
+    "test": "tape test/*.js",
     "docs": "jsdoc2md -l off -t jsdoc2md/README.hbs lib/*.js > README.md; echo",
     "cover": "istanbul cover ./node_modules/.bin/tape test/*.js && cat coverage/lcov.info | ./node_modules/.bin/coveralls && rm -rf coverage; echo"
   },

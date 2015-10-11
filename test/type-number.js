@@ -14,6 +14,12 @@ test('type-number: different values', function (t) {
     cliArgs(optionDefinitions).parse([ '--one' ]),
     { one: null }
   )
+  t.deepEqual(
+    cliArgs(optionDefinitions).parse([ '--one', '-1' ]),
+    { one: -1 }
+  )
+  var result = cliArgs(optionDefinitions).parse([ '--one', 'asdf' ])
+  t.ok(isNaN(result.one))
 
   t.end()
 })

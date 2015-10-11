@@ -2,14 +2,14 @@ var test = require('tape')
 var cliArgs = require('../')
 
 var optionDefinitions = [
-  { name: 'one', alias: '1' },
-  { name: 'two', alias: '2' },
-  { name: 'three', alias: '3' },
-  { name: 'four', alias: '4' }
+  { name: 'one', alias: 'o' },
+  { name: 'two', alias: 't' },
+  { name: 'three', alias: 'h' },
+  { name: 'four', alias: 'f' }
 ]
 
 test('name-alias-mix: one of each', function (t) {
-  var argv = [ '--one', '-2', '--three' ]
+  var argv = [ '--one', '-t', '--three' ]
   var cli = cliArgs(optionDefinitions)
   var result = cli.parse(argv)
   t.strictEqual(result.one, true)

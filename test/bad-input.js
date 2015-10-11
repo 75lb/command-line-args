@@ -38,3 +38,14 @@ test('handles arrays with relative paths', function (t) {
   })
   t.end()
 })
+
+test('bad input: throws if dev set a numeric alias', function (t) {
+  var optionDefinitions = [
+    { name: 'colours', alias: '1' }
+  ]
+  var argv = [ '--colours', 'red' ]
+  t.throws(function () {
+    cliArgs(optionDefinitions).parse(argv)
+  }, /invalid/i)
+  t.end()
+})
