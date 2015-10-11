@@ -38,7 +38,7 @@
     "ansi-escape-sequences": "^2.1.1",
     "array-tools": "^2",
     "command-line-usage": "^1",
-    "feature-detect-es6": "^0.1.1",
+    "feature-detect-es6": "~0.2",
     "find-replace": "^1",
     "object-tools": "^2",
     "typical": "^2.3.0"
