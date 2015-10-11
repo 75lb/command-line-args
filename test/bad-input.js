@@ -49,3 +49,14 @@ test('bad input: throws if dev set a numeric alias', function (t) {
   }, /invalid/i)
   t.end()
 })
+
+test('bad input: throws if dev set an alias of "-"', function (t) {
+  var optionDefinitions = [
+    { name: 'colours', alias: '-' }
+  ]
+  var argv = [ '--colours', 'red' ]
+  t.throws(function () {
+    cliArgs(optionDefinitions).parse(argv)
+  }, /invalid/i)
+  t.end()
+})
