@@ -36,7 +36,7 @@
   },
   "dependencies": {
     "ansi-escape-sequences": "^2.1.1",
-    "array-tools": "^2",
+    "array-back": "^1.0.2",
     "command-line-usage": "^1",
     "feature-detect-es6": "~0.2",
     "find-replace": "^1",

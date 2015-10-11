@@ -4,8 +4,8 @@ var _createClass = (function () { function defineProperties(target, props) { for
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-require("babel/polyfill");
-var a = require('array-tools');
+require('babel/polyfill');
+var arrayify = require('array-back');
 var o = require('object-tools');
 var Definitions = require('./definitions');
 var option = require('./option');
@@ -31,7 +31,7 @@ var CommandLineArgs = (function () {
       if (argv === process.argv) {
         argv.splice(0, 2);
       } else {
-        argv = a.arrayify(argv);
+        argv = arrayify(argv);
       }
 
       var optEquals = option.optEquals;
@@ -100,7 +100,7 @@ var CommandLineArgs = (function () {
         };
 
         this.definitions.whereGrouped().forEach(function (def) {
-          a.arrayify(def.group).forEach(function (groupName) {
+          arrayify(def.group).forEach(function (groupName) {
             grouped[groupName] = grouped[groupName] || {};
             if (t.isDefined(output[def.name])) {
               grouped[groupName][def.name] = output[def.name];

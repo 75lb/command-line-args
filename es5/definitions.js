@@ -8,7 +8,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var a = require('array-tools');
+var arrayify = require('array-back');
 var option = require('./option');
 var Definition = require('./definition');
 var t = require('typical');
@@ -22,7 +22,7 @@ var Definitions = (function (_Array) {
     _classCallCheck(this, Definitions);
 
     _get(Object.getPrototypeOf(Definitions.prototype), 'constructor', this).call(this);
-    a.arrayify(definitions).forEach(function (def) {
+    arrayify(definitions).forEach(function (def) {
       return _this.push(new Definition(def));
     });
   }
@@ -47,7 +47,10 @@ var Definitions = (function (_Array) {
       }
 
       var invalidOption;
-      var optionWithoutDefinition = a(argv).where(option.isOption.bind(option)).exists(function (arg) {
+
+      var optionWithoutDefinition = argv.filter(function (arg) {
+        return option.isOption(arg);
+      }).some(function (arg) {
         if (_this2.get(arg) === undefined) {
           invalidOption = arg;
           return true;
@@ -126,7 +129,7 @@ var Definitions = (function (_Array) {
 })(Array);
 
 function containsValidGroup(def) {
-  return a.arrayify(def.group).some(function (group) {
+  return arrayify(def.group).some(function (group) {
     return group;
   });
 }
