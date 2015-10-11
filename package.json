@@ -3,12 +3,13 @@
   "version": "1.0.2",
   "description": "A library to collect command-line args and generate a usage guide.",
   "repository": "https://github.com/75lb/command-line-args.git",
-  "main": "lib/command-line-args",
+  "main": "index",
   "bin": "bin/cli.js",
   "scripts": {
     "test": "tape test/*.js",
     "docs": "jsdoc2md -l off -t jsdoc2md/README.hbs lib/*.js > README.md; echo",
-    "cover": "istanbul cover ./node_modules/.bin/tape test/*.js && cat coverage/lcov.info | ./node_modules/.bin/coveralls && rm -rf coverage; echo"
+    "cover": "istanbul cover ./node_modules/.bin/tape test/*.js && cat coverage/lcov.info | ./node_modules/.bin/coveralls && rm -rf coverage; echo",
+    "es5": "babel lib --out-dir es5"
   },
   "keywords": [
     "argv",
@@ -36,8 +37,14 @@
     "ansi-escape-sequences": "^2.1.1",
     "array-tools": "^2",
     "command-line-usage": "^1",
+    "feature-detect-es6": "^0.1.1",
     "find-replace": "^1",
     "object-tools": "^2",
     "typical": "^2.3.0"
+  },
+  "standard": {
+    "ignore": [
+      "es5"
+    ]
   }
 }
