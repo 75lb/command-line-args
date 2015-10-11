@@ -48,18 +48,9 @@ var options = cli.parse();
 
 When dealing with large amounts of options it often makes sense to [group](#module_definition--Definition+group) them.
 
-The [.getUsage()](#module_command-line-args--CommandLineArgs+getUsage) method generates a usage guide. If you add descriptions to each option definition and call `.getUsage()` with some template data, for example:
-```js
-var usage = cli.getUsage({
-    title: "my-app",
-    description: "Generates something useful",
-    footer: "Project home: [underline]{https://github.com/me/my-app}"
-});
-```
+The [.getUsage()](#module_command-line-args--CommandLineArgs+getUsage) method generates a usage guide. For example:
 
-..then `usage`, written to the terminal, looks something like:
-
-![usage](https://raw.githubusercontent.com/75lb/command-line-usage/master/example/screens/simple.png)
+![usage](https://raw.githubusercontent.com/75lb/command-line-usage/master/example/screens/medium.png)
 
 ## Install
 
@@ -181,6 +172,15 @@ In this case, the value of each option will be either a Boolean or string.
 | 3   | `--verbose very` | `{ verbose: "very" }` |
 | 4   | `--depth 2` | `{ depth: "2" }` |
 
+Unicode option names and aliases are valid, for example:
+* ```js
+[
+  { name: 'один' },
+  { name: '两' },
+  { name: 'три', alias: 'т' }
+]
+```
+
 **Kind**: instance property of <code>[OptionDefinition](#exp_module_definition--OptionDefinition)</code>  
 <a name="module_definition--OptionDefinition+type"></a>
 ### option.type : <code>function</code>
@@ -217,7 +217,7 @@ The `--depth` option expects a `Number`. If no value was set, you will receive `
 **Kind**: instance property of <code>[OptionDefinition](#exp_module_definition--OptionDefinition)</code>  
 <a name="module_definition--OptionDefinition+alias"></a>
 ### option.alias : <code>string</code>
-getopt-style short option names. Must be a single character.
+getopt-style short option names. Can be any single character (unicode included) except a digit (`[0-9]`) or hypen (`'-'`).
 
 ```js
 [
