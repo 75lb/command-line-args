@@ -36,14 +36,14 @@ var Definitions = (function (_Array) {
         return !def.name;
       });
       if (someHaveNoName) {
-        return 'Invalid option definitions: the `name` property is required on each definition';
+        halt('NAME_MISSING', 'Invalid option definitions: the `name` property is required on each definition');
       }
 
       var someDontHaveFunctionType = this.some(function (def) {
         return def.type && typeof def.type !== 'function';
       });
       if (someDontHaveFunctionType) {
-        return 'Invalid option definitions: the `type` property must be a setter fuction (default: `Boolean`)';
+        halt('INVALID_TYPE', 'Invalid option definitions: the `type` property must be a setter fuction (default: `Boolean`)');
       }
 
       var invalidOption;
@@ -57,15 +57,23 @@ var Definitions = (function (_Array) {
         }
       });
       if (optionWithoutDefinition) {
-        return 'Invalid option: ' + invalidOption;
+        halt('UNKNOWN_OPTION', 'This option is missing a definition: ' + invalidOption);
       }
 
       var numericAlias = this.some(function (def) {
         invalidOption = def;
-        return t.isNumber(def.alias);
+        return t.isDefined(def.alias) && t.isNumber(def.alias);
       });
       if (numericAlias) {
-        return 'Invalid option definition: to avoid ambiguity an alias cannot be numeric [--' + invalidOption.name + ' alias is -' + invalidOption.alias + ']';
+        halt('INVALID_ALIAS', 'Invalid option definition: to avoid ambiguity an alias cannot be numeric [--' + invalidOption.name + ' alias is -' + invalidOption.alias + ']');
+      }
+
+      var multiCharacterAlias = this.some(function (def) {
+        invalidOption = def;
+        return t.isDefined(def.alias) && def.alias.length !== 1;
+      });
+      if (multiCharacterAlias) {
+        halt('INVALID_ALIAS', 'Invalid option definition: an alias must be a single character');
       }
 
       var hypenAlias = this.some(function (def) {
@@ -73,7 +81,21 @@ var Definitions = (function (_Array) {
         return def.alias === '-';
       });
       if (hypenAlias) {
-        return 'Invalid option definition: an alias cannot be "-"';
+        halt('INVALID_ALIAS', 'Invalid option definition: an alias cannot be "-"');
+      }
+
+      var duplicateName = hasDuplicates(this.map(function (def) {
+        return def.name;
+      }));
+      if (duplicateName) {
+        halt('DUPLICATE_NAME', 'Two or more option definitions have the same name');
+      }
+
+      var duplicateAlias = hasDuplicates(this.map(function (def) {
+        return def.alias;
+      }));
+      if (duplicateAlias) {
+        halt('DUPLICATE_ALIAS', 'Two or more option definitions have the same alias');
       }
     }
   }, {
@@ -128,10 +150,28 @@ var Definitions = (function (_Array) {
   return Definitions;
 })(Array);
 
+function halt(name, message) {
+  var err = new Error(message);
+  err.name = name;
+  throw err;
+}
+
 function containsValidGroup(def) {
   return arrayify(def.group).some(function (group) {
     return group;
   });
+}
+
+function hasDuplicates(array) {
+  var items = {};
+  for (var i = 0; i < array.length; i++) {
+    var value = array[i];
+    if (items[value]) {
+      return true;
+    } else {
+      if (t.isDefined(value)) items[value] = true;
+    }
+  }
 }
 
 module.exports = Definitions;

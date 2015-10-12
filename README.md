@@ -118,9 +118,12 @@ Returns an object containing all the values and flags set on the command line. B
 **Kind**: instance method of <code>[CommandLineArgs](#exp_module_command-line-args--CommandLineArgs)</code>  
 **Throws**:
 
-- if the user specifies an unknown option
-- if an option definition is missing the required `name` property
-- if an option definition has a `type` property that's not a function
+- `UNKNOWN_OPTION` if the user sets an option without a definition
+- `NAME_MISSING` if an option definition is missing the required `name` property
+- `INVALID_TYPE` if an option definition has a `type` value that's not a function
+- `INVALID_ALIAS` if an alias is numeric, a hyphen or a length other than 1
+- `DUPLICATE_NAME` if an option definition name was used more than once
+- `DUPLICATE_ALIAS` if an option definition alias was used more than once
 
 
 | Param | Type | Description |

@@ -31,10 +31,7 @@ var CommandLineArgs = (function () {
       argv.expandOptionEqualsNotation();
       argv.expandGetoptNotation();
 
-      var invalidMessage = this.definitions.validate(argv);
-      if (invalidMessage) {
-        throw Error(invalidMessage);
-      }
+      this.definitions.validate(argv);
 
       var output = this.definitions.createOutput();
       var def;

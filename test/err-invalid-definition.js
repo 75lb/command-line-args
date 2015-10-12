@@ -48,6 +48,22 @@ test('err-invalid-definition: throws if dev set an alias of "-"', function (t) {
   t.end()
 })
 
+test('err-invalid-definition: multi-character alias', function (t) {
+  var optionDefinitions = [
+    { name: 'one', alias: 'aa' }
+  ]
+  var argv = [ '--one', 'red' ]
+
+  try {
+    cliArgs(optionDefinitions).parse(argv)
+    t.fail()
+  } catch (err) {
+    t.strictEqual(err.name, 'INVALID_ALIAS')
+  }
+
+  t.end()
+})
+
 test('err-invalid-definition: invalid type values', function (t) {
   var argv = [ '--one', 'something' ]
   try {
@@ -148,22 +164,6 @@ test('err-invalid-definition: duplicate alias', function (t) {
     t.fail()
   } catch (err) {
     t.strictEqual(err.name, 'DUPLICATE_ALIAS')
-  }
-
-  t.end()
-})
-
-test('err-invalid-definition: multi-character alias', function (t) {
-  var optionDefinitions = [
-    { name: 'one', alias: 'aa' }
-  ]
-  var argv = [ '--one', 'red' ]
-
-  try {
-    cliArgs(optionDefinitions).parse(argv)
-    t.fail()
-  } catch (err) {
-    t.strictEqual(err.name, 'INVALID_ALIAS')
   }
 
   t.end()
