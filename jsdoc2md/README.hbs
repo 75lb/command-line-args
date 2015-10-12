@@ -11,10 +11,10 @@ A library to collect command-line args and generate a usage guide.
 ## Synopsis
 You can set options using the main notation standards (getopt, getopt_long, etc.). These commands are all equivalent, setting the same values:
 ```
-$ my-app --verbose --timeout=1000 --src one.js --src two.js
-$ my-app --verbose --timeout 1000 --src one.js two.js
-$ my-app -vt 1000 --src one.js two.js
-$ my-app -vt 1000 one.js two.js
+$ example --verbose --timeout=1000 --src one.js --src two.js
+$ example --verbose --timeout 1000 --src one.js two.js
+$ example -vt 1000 --src one.js two.js
+$ example -vt 1000 one.js two.js
 ```
 
 To access the values, first describe the options your app accepts (see [option definitions](#option-definitions)).
@@ -54,10 +54,10 @@ The [.getUsage()](#module_command-line-args--CommandLineArgs+getUsage) method ge
 
 ### Notation rules
 
-Notation rules for passing command-line args.
+Notation rules for setting command-line options.
 
 * Argument order is insignificant. Whether you set `--example` at the beginning or end of the arg list makes no difference.
-* Options with a [type](#module_definition--OptionDefinition+type) of `Boolean` do not need to pass a value. Setting `--flag` or `-f` will set that option's value to `true`. This is the only [type](#module_definition--OptionDefinition+type) with special behaviour.
+* Options with a [type](#module_definition--OptionDefinition+type) of `Boolean` do not need to supply a value. Setting `--flag` or `-f` will set that option's value to `true`. This is the only [type](#module_definition--OptionDefinition+type) with special behaviour.
 * Three ways to set an option value
   * `--option value`
   * `--option=value`
