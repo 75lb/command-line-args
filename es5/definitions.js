@@ -25,13 +25,12 @@ var Definitions = (function (_Array) {
     arrayify(definitions).forEach(function (def) {
       return _this.push(new Definition(def));
     });
+    this.validate();
   }
 
   _createClass(Definitions, [{
     key: 'validate',
     value: function validate(argv) {
-      var _this2 = this;
-
       var someHaveNoName = this.some(function (def) {
         return !def.name;
       });
@@ -47,18 +46,6 @@ var Definitions = (function (_Array) {
       }
 
       var invalidOption;
-
-      var optionWithoutDefinition = argv.filter(function (arg) {
-        return option.isOption(arg);
-      }).some(function (arg) {
-        if (_this2.get(arg) === undefined) {
-          invalidOption = arg;
-          return true;
-        }
-      });
-      if (optionWithoutDefinition) {
-        halt('UNKNOWN_OPTION', 'This option is missing a definition: ' + invalidOption);
-      }
 
       var numericAlias = this.some(function (def) {
         invalidOption = def;

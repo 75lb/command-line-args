@@ -52,6 +52,23 @@ The [.getUsage()](#module_command-line-args--CommandLineArgs+getUsage) method ge
 
 ![usage](https://raw.githubusercontent.com/75lb/command-line-usage/master/example/screens/medium.png)
 
+### Notation rules
+
+Notation rules for passing command-line args.
+
+* Argument order is insignificant. Whether you set `--example` at the beginning or end of the arg list makes no difference.
+* Options with a [type](#module_definition--OptionDefinition+type) of `Boolean` do not need to pass a value. Setting `--flag` or `-f` will set that option's value to `true`. This is the only [type](#module_definition--OptionDefinition+type) with special behaviour.
+* Three ways to set an option value
+  * `--option value`
+  * `--option=value`
+  * `-o value`
+* Two ways to a set list of values (on options with [multiple](#module_definition--OptionDefinition+multiple) set)
+  * `--list one two three`
+  * `--list one --list two --list three`
+* Short options ([alias](#optionalias--string)) can be set in groups. The following are equivalent:
+  * `-a -b -c`
+  * `-abc`
+
 ## Install
 
 ### as a library

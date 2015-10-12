@@ -23,7 +23,8 @@ var Argv = (function (_Array) {
     if (argv) {
       argv = arrayify(argv);
     } else {
-      argv = process.argv.splice(0, 2);
+      argv = process.argv;
+      argv.splice(0, 2);
     }
 
     this.load(argv);
@@ -75,9 +76,32 @@ var Argv = (function (_Array) {
         });
       }
     }
+  }, {
+    key: 'validate',
+    value: function validate(definitions) {
+      var invalidOption;
+
+      var optionWithoutDefinition = this.filter(function (arg) {
+        return option.isOption(arg);
+      }).some(function (arg) {
+        if (definitions.get(arg) === undefined) {
+          invalidOption = arg;
+          return true;
+        }
+      });
+      if (optionWithoutDefinition) {
+        halt('UNKNOWN_OPTION', 'Unknown option: ' + invalidOption);
+      }
+    }
   }]);
 
   return Argv;
 })(Array);
+
+function halt(name, message) {
+  var err = new Error(message);
+  err.name = name;
+  throw err;
+}
 
 module.exports = Argv;

@@ -30,8 +30,7 @@ var CommandLineArgs = (function () {
       argv = new Argv(argv);
       argv.expandOptionEqualsNotation();
       argv.expandGetoptNotation();
-
-      this.definitions.validate(argv);
+      argv.validate(this.definitions);
 
       var output = this.definitions.createOutput();
       var def;
