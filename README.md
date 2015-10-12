@@ -94,9 +94,19 @@ A library to collect command-line args and generate a usage guide.
 ### CommandLineArgs ⏏
 A class encapsulating operations you can perform using an [OptionDefinition](#exp_module_definition--OptionDefinition) array as input.
 
+The constructor will throw if you pass invalid option definitions. You should fix these issues before proceeding.
+
 **Kind**: Exported class  
 <a name="new_module_command-line-args--CommandLineArgs_new"></a>
 #### new CommandLineArgs(definitions)
+**Throws**:
+
+- `NAME_MISSING` if an option definition is missing the required `name` property
+- `INVALID_TYPE` if an option definition has a `type` value that's not a function
+- `INVALID_ALIAS` if an alias is numeric, a hyphen or a length other than 1
+- `DUPLICATE_NAME` if an option definition name was used more than once
+- `DUPLICATE_ALIAS` if an option definition alias was used more than once
+
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -119,11 +129,6 @@ Returns an object containing all the values and flags set on the command line. B
 **Throws**:
 
 - `UNKNOWN_OPTION` if the user sets an option without a definition
-- `NAME_MISSING` if an option definition is missing the required `name` property
-- `INVALID_TYPE` if an option definition has a `type` value that's not a function
-- `INVALID_ALIAS` if an alias is numeric, a hyphen or a length other than 1
-- `DUPLICATE_NAME` if an option definition name was used more than once
-- `DUPLICATE_ALIAS` if an option definition alias was used more than once
 
 
 | Param | Type | Description |
