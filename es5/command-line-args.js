@@ -4,7 +4,7 @@ var _createClass = (function () { function defineProperties(target, props) { for
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-require('babel/polyfill');
+require('core-js/es6/array');
 var arrayify = require('array-back');
 var o = require('object-tools');
 var Definitions = require('./definitions');

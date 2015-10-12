@@ -31,17 +31,18 @@
     "jsdoc-to-markdown": "^1.1.1",
     "standard": "^5.3.1",
     "tape": "^4",
-    "test-value": "^1.0.0"
+    "test-value": "^1.0.0",
+    "babel": "^5.8.23"
   },
   "dependencies": {
     "ansi-escape-sequences": "^2.1.1",
     "array-back": "^1.0.2",
     "command-line-usage": "^1",
-    "feature-detect-es6": "~0.2",
+    "core-js": "^1.2.1",
+    "feature-detect-es6": "^1",
     "find-replace": "^1",
     "object-tools": "^2",
-    "typical": "^2.3.0",
-    "babel": "^5.8.23"
+    "typical": "^2.3.0"
   },
   "standard": {
     "ignore": [
