@@ -5,7 +5,7 @@ var optionDefinitions = [
   { name: 'array', type: Boolean, multiple: true }
 ]
 
-test('number multiple: 1', function (t) {
+test('type-boolean-multiple: 1', function (t) {
   var argv = [ '--array', '--array', '--array' ]
   var result = cliArgs(optionDefinitions).parse(argv)
   t.deepEqual(result, {

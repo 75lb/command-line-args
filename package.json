@@ -26,13 +26,12 @@
   "author": "Lloyd Brookes",
   "license": "MIT",
   "devDependencies": {
+    "babel": "^5.8.23",
     "coveralls": "^2.11.4",
     "istanbul": "^0.3.21",
     "jsdoc-to-markdown": "^1.1.1",
-    "standard": "^5.3.1",
     "tape": "^4",
-    "test-value": "^1.0.0",
-    "babel": "^5.8.23"
+    "test-value": "^1.0.0"
   },
   "dependencies": {
     "ansi-escape-sequences": "^2.1.1",

@@ -5,9 +5,9 @@ var optionDefinitions = [
   { name: 'one', type: Boolean }
 ]
 
-test('type-boolean: different values', function (t) {
+test('usage: simple', function (t) {
   var cli = cliArgs(optionDefinitions)
   var usage = cli.getUsage({ title: 'test' })
-  t.ok(/test/.test(usage))
+  t.ok(/test/.test(usage), 'title present')
   t.end()
 })
