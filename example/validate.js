@@ -1,8 +1,14 @@
-var cliArgs = require('../')
+/*
+  command-line-args parses the command line but does not validate what was collected.
+  This is one method of testing the values received suit your taste.
+*/
+
+'use strict'
+var commandLineArgs = require('../')
 var testValue = require('test-value')
 var fs = require('fs')
 
-var cli = cliArgs([
+var cli = commandLineArgs([
   { name: 'help', type: Boolean },
   { name: 'files', type: String, multiple: true, defaultOption: true },
   { name: 'log-level', type: String }
@@ -10,23 +16,24 @@ var cli = cliArgs([
 
 var options = cli.parse()
 
-var usageForm = {}
-
-usageForm.main = {
+/* all supplied files should exist and --log-level should be one from the list */
+var correctUsageForm1 = {
   files: function (files) {
-    return files && files.every(fs.existsSync)
+    return files && files.length && files.every(fs.existsSync)
   },
   'log-level': [ 'info', 'warn', 'error', undefined ]
 }
 
-usageForm.help = {
+/* passing a single --help flag is also valid */
+var correctUsageForm2 = {
   help: true
 }
 
-var valid = testValue(options, [ usageForm.main, usageForm.help ])
+/* test the options for usage forms 1 or 2 */
+var valid = testValue(options, [ correctUsageForm1, correctUsageForm2 ])
 
-if (!valid) {
-  // exit here
+if (valid) {
+  console.log("your options are valid", options)
+} else {
+  console.log("your options are invalid", options)
 }
-
-console.log(valid, options)
