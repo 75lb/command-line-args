@@ -1,6 +1,6 @@
 [![view on npm](http://img.shields.io/npm/v/command-line-args.svg)](https://www.npmjs.org/package/command-line-args)
 [![npm module downloads](http://img.shields.io/npm/dt/command-line-args.svg)](https://www.npmjs.org/package/command-line-args)
-[![Build Status](https://travis-ci.org/75lb/command-line-args.svg?branch=rewrite)](https://travis-ci.org/75lb/command-line-args)
+[![Build Status](https://travis-ci.org/75lb/command-line-args.svg?branch=master)](https://travis-ci.org/75lb/command-line-args)
 [![Coverage Status](https://coveralls.io/repos/75lb/command-line-args/badge.svg?branch=master&service=github)](https://coveralls.io/github/75lb/command-line-args?branch=master)
 [![Dependency Status](https://david-dm.org/75lb/command-line-args.svg)](https://david-dm.org/75lb/command-line-args)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](https://github.com/feross/standard)
@@ -19,12 +19,12 @@ $ example -vt 1000 one.js two.js
 
 To access the values, first describe the options your app accepts (see [option definitions](#option-definitions)).
 ```js
-var commandLineArgs = require("command-line-args");
+var commandLineArgs = require('command-line-args');
 
 var cli = commandLineArgs([
-    { name: "verbose", alias: "v", type: Boolean },
-    { name: "src", type: String, multiple: true, defaultOption: true },
-    { name: "timeout", alias: "t", type: Number }
+  { name: 'verbose', alias: 'v', type: Boolean },
+  { name: 'src', type: String, multiple: true, defaultOption: true },
+  { name: 'timeout', alias: 't', type: Number }
 ]);
 ```
 The [`type`](#module_definition--OptionDefinition+type) property is a setter function (the value you receive is the output of this), giving you full control over the value received.
@@ -131,11 +131,11 @@ The constructor will throw if you pass invalid option definitions. You should fi
 
 **Example**  
 ```js
-var commandLineArgs = require("command-line-args")
+var commandLineArgs = require('command-line-args')
 var cli = commandLineArgs([
-    { name: "file" },
-    { name: "verbose" },
-    { name: "depth"}
+  { name: 'file' },
+  { name: 'verbose' },
+  { name: 'depth'}
 ])
 ```
 <a name="module_command-line-args--CommandLineArgs+parse"></a>
@@ -182,9 +182,9 @@ Describes a command-line option.
 The only required definition property is `name`, so the simplest working example is
 ```js
 [
-    { name: "file" },
-    { name: "verbose" },
-    { name: "depth"}
+  { name: "file" },
+  { name: "verbose" },
+  { name: "depth"}
 ]
 ```
 
@@ -222,10 +222,10 @@ function FileDetails(filename){
     this.exists = fs.existsSync(filename)
 }
 
-module.exports = [
+var cli = commandLineArgs([
     { name: "file", type: FileDetails },
     { name: "depth", type: Number }
-]
+])
 ```
 
 | #   | Command line args| .parse() output |
@@ -263,8 +263,8 @@ getopt-style short option names. Can be any single character (unicode included) 
 Set this flag if the option takes a list of values. You will receive an array of values passed through the `type` function (if specified).
 
 ```js
-module.exports = [
-    { name: "files", type: String, multiple: true }
+[
+  { name: "files", type: String, multiple: true }
 ]
 ```
 
@@ -280,8 +280,8 @@ module.exports = [
 Any unclaimed command-line args will be set on this option. This flag is typically set on the most commonly-used option to make for more concise usage (i.e. `$ myapp *.js` instead of `$ myapp --files *.js`).
 
 ```js
-module.exports = [
-    { name: "files", type: String, multiple: true, defaultOption: true }
+[
+  { name: "files", type: String, multiple: true, defaultOption: true }
 ]
 ```
 
@@ -297,9 +297,9 @@ module.exports = [
 An initial value for the option.
 
 ```js
-module.exports = [
-    { name: "files", type: String, multiple: true, defaultValue: [ "one.js" ] },
-    { name: "max", type: Number, defaultValue: 3 }
+[
+  { name: "files", type: String, multiple: true, defaultValue: [ "one.js" ] },
+  { name: "max", type: Number, defaultValue: 3 }
 ]
 ```
 
@@ -317,12 +317,12 @@ When your app has a large amount of options it makes sense to organise them in g
 There are two automatic groups: `_all` (contains all options) and `_none` (contains options without a `group` specified in their definition).
 
 ```js
-module.exports = [
-    { name: "verbose", group: "standard" },
-    { name: "help", group: [ "standard", "main" ] },
-    { name: "compress", group: [ "server", "main" ] },
-    { name: "static", group: "server" },
-    { name: "debug" }
+[
+  { name: "verbose", group: "standard" },
+  { name: "help", group: [ "standard", "main" ] },
+  { name: "compress", group: [ "server", "main" ] },
+  { name: "static", group: "server" },
+  { name: "debug" }
 ]
 ```
 
