@@ -25,13 +25,13 @@ var cli = commandLineArgs([
   { name: 'verbose', alias: 'v', type: Boolean },
   { name: 'src', type: String, multiple: true, defaultOption: true },
   { name: 'timeout', alias: 't', type: Number }
-]);
+])
 ```
 The [`type`](#module_definition--OptionDefinition+type) property is a setter function (the value you receive is the output of this), giving you full control over the value received.
 
 Next, collect the command line args using [.parse()](#module_command-line-args--CommandLineArgs+parse):
 ```js
-var options = cli.parse();
+var options = cli.parse()
 ```
 
 `options` now looks like this:
@@ -214,17 +214,17 @@ The `type` value is a setter function (you receive the output from this), enabli
 You can use a class, if you like:
 
 ```js
-var fs = require("fs")
+var fs = require('fs')
 
 function FileDetails(filename){
-    if (!(this instanceof FileDetails)) return new FileDetails(filename)
-    this.filename = filename
-    this.exists = fs.existsSync(filename)
+  if (!(this instanceof FileDetails)) return new FileDetails(filename)
+  this.filename = filename
+  this.exists = fs.existsSync(filename)
 }
 
 var cli = commandLineArgs([
-    { name: "file", type: FileDetails },
-    { name: "depth", type: Number }
+  { name: 'file', type: FileDetails },
+  { name: 'depth', type: Number }
 ])
 ```
 
