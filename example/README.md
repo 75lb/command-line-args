@@ -24,7 +24,7 @@ $ cat example/typical.js | command-line-args --timeout 100 --src lib/*
 ```
 
 # Validation
-command-line-args parses the command line but does not validate the values received. There's one example (`validate.js`) suggesting how this could be done:
+command-line-args parses the command line but does not validate the values received. There's one example ([validate.js](https://github.com/75lb/command-line-args/blob/master/example/validate.js)) suggesting how this could be done:
 
 ```
 $ node example/validate.js
