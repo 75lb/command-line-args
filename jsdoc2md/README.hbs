@@ -1,6 +1,6 @@
 [![view on npm](http://img.shields.io/npm/v/command-line-args.svg)](https://www.npmjs.org/package/command-line-args)
 [![npm module downloads](http://img.shields.io/npm/dt/command-line-args.svg)](https://www.npmjs.org/package/command-line-args)
-[![Build Status](https://travis-ci.org/75lb/command-line-args.svg?branch=rewrite)](https://travis-ci.org/75lb/command-line-args)
+[![Build Status](https://travis-ci.org/75lb/command-line-args.svg?branch=master)](https://travis-ci.org/75lb/command-line-args)
 [![Coverage Status](https://coveralls.io/repos/75lb/command-line-args/badge.svg?branch=master&service=github)](https://coveralls.io/github/75lb/command-line-args?branch=master)
 [![Dependency Status](https://david-dm.org/75lb/command-line-args.svg)](https://david-dm.org/75lb/command-line-args)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](https://github.com/feross/standard)
@@ -19,12 +19,12 @@ $ example -vt 1000 one.js two.js
 
 To access the values, first describe the options your app accepts (see [option definitions](#option-definitions)).
 ```js
-var commandLineArgs = require("command-line-args");
+var commandLineArgs = require('command-line-args');
 
 var cli = commandLineArgs([
-    { name: "verbose", alias: "v", type: Boolean },
-    { name: "src", type: String, multiple: true, defaultOption: true },
-    { name: "timeout", alias: "t", type: Number }
+  { name: 'verbose', alias: 'v', type: Boolean },
+  { name: 'src', type: String, multiple: true, defaultOption: true },
+  { name: 'timeout', alias: 't', type: Number }
 ]);
 ```
 The [`type`](#module_definition--OptionDefinition+type) property is a setter function (the value you receive is the output of this), giving you full control over the value received.
