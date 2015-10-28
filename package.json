@@ -26,7 +26,6 @@
   "author": "Lloyd Brookes",
   "license": "MIT",
   "devDependencies": {
-    "babel": "^5.8.23",
     "coveralls": "^2.11.4",
     "istanbul": "^0.3.21",
     "jsdoc-to-markdown": "^1.1.1",
