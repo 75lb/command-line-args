@@ -84,6 +84,13 @@ var Definitions = (function (_Array) {
       if (duplicateAlias) {
         halt('DUPLICATE_ALIAS', 'Two or more option definitions have the same alias');
       }
+
+      var duplicateDefaultOption = hasDuplicates(this.map(function (def) {
+        return def.defaultOption;
+      }));
+      if (duplicateDefaultOption) {
+        halt('DUPLICATE_DEFAULT_OPTION', 'Only one option definition can be the defaultOption');
+      }
     }
   }, {
     key: 'createOutput',

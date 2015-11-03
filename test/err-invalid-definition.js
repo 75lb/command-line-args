@@ -168,3 +168,20 @@ test('err-invalid-definition: duplicate alias', function (t) {
 
   t.end()
 })
+
+test('err-invalid-definition: multiple defaultOption', function (t) {
+  var optionDefinitions = [
+    { name: 'one', defaultOption: true },
+    { name: 'two', defaultOption: true }
+  ]
+  var argv = [ '--one', 'red' ]
+
+  try {
+    cliArgs(optionDefinitions).parse(argv)
+    t.fail()
+  } catch (err) {
+    t.strictEqual(err.name, 'DUPLICATE_DEFAULT_OPTION')
+  }
+
+  t.end()
+})

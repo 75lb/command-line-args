@@ -123,6 +123,7 @@ The constructor will throw if you pass invalid option definitions. You should fi
 - `INVALID_ALIAS` if an alias is numeric, a hyphen or a length other than 1
 - `DUPLICATE_NAME` if an option definition name was used more than once
 - `DUPLICATE_ALIAS` if an option definition alias was used more than once
+- `DUPLICATE_DEFAULT_OPTION` if more than one option definition has `defaultOption: true`
 
 
 | Param | Type | Description |

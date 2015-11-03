@@ -27,7 +27,6 @@
   "license": "MIT",
   "devDependencies": {
     "coveralls": "^2.11.4",
-    "istanbul": "^0.3.21",
     "jsdoc-to-markdown": "^1.1.1",
     "tape": "^4",
     "test-value": "^1.0.0"
