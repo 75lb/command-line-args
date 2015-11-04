@@ -50,7 +50,7 @@ When dealing with large amounts of options it often makes sense to [group](#modu
 
 The [.getUsage()](#module_command-line-args--CommandLineArgs+getUsage) method generates a usage guide. For example:
 
-![usage](https://raw.githubusercontent.com/75lb/command-line-usage/master/example/screens/medium.png)
+![usage](https://raw.githubusercontent.com/75lb/command-line-usage/master/example/screens/footer.png)
 
 ### Notation rules
 

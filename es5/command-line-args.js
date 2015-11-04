@@ -9,7 +9,7 @@ var arrayify = require('array-back');
 var o = require('object-tools');
 var Definitions = require('./definitions');
 var option = require('./option');
-var clu = require('command-line-usage');
+var _getUsage = require('command-line-usage');
 var t = require('typical');
 var Argv = require('./argv');
 
@@ -90,7 +90,7 @@ var CommandLineArgs = (function () {
   }, {
     key: 'getUsage',
     value: function getUsage(options) {
-      return clu.getUsage(this.definitions, options);
+      return _getUsage(this.definitions, options);
     }
   }]);
 
