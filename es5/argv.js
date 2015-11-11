@@ -23,7 +23,7 @@ var Argv = (function (_Array) {
     if (argv) {
       argv = arrayify(argv);
     } else {
-      argv = process.argv;
+      argv = process.argv.slice(0);
       argv.splice(0, 2);
     }
 
