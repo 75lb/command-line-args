@@ -32,8 +32,4 @@ var correctUsageForm2 = {
 /* test the options for usage forms 1 or 2 */
 var valid = testValue(options, [ correctUsageForm1, correctUsageForm2 ])
 
-if (valid) {
-  console.log("your options are valid", options)
-} else {
-  console.log("your options are invalid", options)
-}
+console.log('your options are', valid ? 'valid' : 'invalid', options)

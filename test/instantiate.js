@@ -10,7 +10,7 @@ var optionDefinitions = [
 
 test('instatiate: with new', function (t) {
   var argv = [ '-v' ]
-  var cli = new cliArgs(optionDefinitions)
+  var cli = new cliArgs(optionDefinitions) // eslint-disable-line new-cap
   t.deepEqual(cli.parse(argv), {
     verbose: true
   })
