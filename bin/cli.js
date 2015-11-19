@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 'use strict'
-var cliArgs = require('../')
+var commandLineArgs = require('../')
 var os = require('os')
 var fs = require('fs')
 var path = require('path')
@@ -16,7 +16,7 @@ function parseCla () {
   var cliOptions = require(tmpPath)
   fs.unlinkSync(tmpPath)
 
-  var cli = cliArgs(cliOptions)
+  var cli = commandLineArgs(cliOptions)
   try {
     console.log(cli.parse())
   } catch (err) {
