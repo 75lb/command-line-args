@@ -8,7 +8,7 @@
 # command-line-args
 A library to collect command-line args and generate a usage guide.
 
-*Alternatively, this library is extended by [command-line-commands](https://github.com/75lb/command-line-commands), should your app require a git-like command interface.*
+*If your app requires a git-like command interface, consider using [command-line-commands](https://github.com/75lb/command-line-commands).*
 
 ## Synopsis
 You can set options using the main notation standards (getopt, getopt_long, etc.). These commands are all equivalent, setting the same values:
