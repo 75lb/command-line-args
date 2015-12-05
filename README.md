@@ -24,7 +24,7 @@ To access the values, first describe the options your app accepts (see [option d
 var commandLineArgs = require('command-line-args');
 
 var cli = commandLineArgs([
-  { name: 'verbose', alias: 'v', type: Boolean },
+  { name: 'verbose', alias: 'v', type: Boolean, description: 'higher verbosity level for informational and debug messages' },
   { name: 'src', type: String, multiple: true, defaultOption: true },
   { name: 'timeout', alias: 't', type: Number }
 ])
@@ -174,6 +174,7 @@ Describes a command-line option.
 * [OptionDefinition](#exp_module_definition--OptionDefinition) ⏏
   * [.name](#module_definition--OptionDefinition+name) : <code>string</code>
   * [.type](#module_definition--OptionDefinition+type) : <code>function</code>
+  * [.description](#module_definition--OptionDefinition+description) : <code>string</code>
   * [.alias](#module_definition--OptionDefinition+alias) : <code>string</code>
   * [.multiple](#module_definition--OptionDefinition+multiple) : <code>boolean</code>
   * [.defaultOption](#module_definition--OptionDefinition+defaultOption) : <code>boolean</code>
@@ -241,6 +242,16 @@ The `--depth` option expects a `Number`. If no value was set, you will receive `
 | --- | ----------------- | ------------ |
 | 2   | `--depth` | `{ depth: null }` |
 | 3   | `--depth 2` | `{ depth: 2 }` |
+
+**Kind**: instance property of <code>[OptionDefinition](#exp_module_definition--OptionDefinition)</code>  
+<a name="module_definition--OptionDefinition+description"></a>
+### option.description : <code>string</code>
+Optional property is `description`, supports unicode and provides more helpful description for an option when the parsed usage is printed out
+```js
+[
+  { name: "file", description: "specifies the file name from which to read input data" }
+]
+```
 
 **Kind**: instance property of <code>[OptionDefinition](#exp_module_definition--OptionDefinition)</code>  
 <a name="module_definition--OptionDefinition+alias"></a>
