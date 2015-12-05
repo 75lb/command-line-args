@@ -17,6 +17,7 @@
     "argument",
     "args",
     "option",
+    "options",
     "parser",
     "parsing",
     "cli",

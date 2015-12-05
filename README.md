@@ -168,7 +168,7 @@ Generates a usage guide. Please see [command-line-usage](https://github.com/75lb
 
 <a name="exp_module_definition--OptionDefinition"></a>
 ## OptionDefinition ⏏
-Describes a command-line option.
+Describes a command-line option. The additional properties `description` and `typeLabel` used by [.getUsage()](#module_command-line-args--CommandLineArgs+getUsage) are described [here](https://github.com/75lb/command-line-usage#getusagedefinitions-options--string-).
 
 **Kind**: Exported class  
 * [OptionDefinition](#exp_module_definition--OptionDefinition) ⏏

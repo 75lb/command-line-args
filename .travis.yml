@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-- '5.0'
+- 'node'
 - '4.2'
 - 'iojs'
 - '0.12'
