@@ -7,6 +7,8 @@
 [![Join the chat at https://gitter.im/75lb/command-line-args](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/75lb/command-line-args?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 # command-line-args
+
+[![Join the chat at https://gitter.im/75lb/command-line-args](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/75lb/command-line-args?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 A library to collect command-line args and generate a usage guide.
 
 *If your app requires a git-like command interface, consider using [command-line-commands](https://github.com/75lb/command-line-commands).*
