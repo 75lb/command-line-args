@@ -4,6 +4,7 @@
 [![Coverage Status](https://coveralls.io/repos/75lb/command-line-args/badge.svg?branch=master&service=github)](https://coveralls.io/github/75lb/command-line-args?branch=master)
 [![Dependency Status](https://david-dm.org/75lb/command-line-args.svg)](https://david-dm.org/75lb/command-line-args)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](https://github.com/feross/standard)
+[![Join the chat at https://gitter.im/75lb/command-line-args](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/75lb/command-line-args?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 # command-line-args
 A library to collect command-line args and generate a usage guide.
@@ -104,10 +105,10 @@ A library to collect command-line args and generate a usage guide.
 
 
 * [command-line-args](#module_command-line-args)
-  * [CommandLineArgs](#exp_module_command-line-args--CommandLineArgs) ⏏
-    * [new CommandLineArgs(definitions)](#new_module_command-line-args--CommandLineArgs.CommandLineArgs)
-    * [.parse([argv])](#module_command-line-args--CommandLineArgs+parse) ⇒ <code>object</code>
-    * [.getUsage([options])](#module_command-line-args--CommandLineArgs+getUsage) ⇒ <code>string</code>
+    * [CommandLineArgs](#exp_module_command-line-args--CommandLineArgs) ⏏
+        * [new CommandLineArgs(definitions)](#new_module_command-line-args--CommandLineArgs.CommandLineArgs)
+        * [.parse([argv])](#module_command-line-args--CommandLineArgs+parse) ⇒ <code>object</code>
+        * [.getUsage([options])](#module_command-line-args--CommandLineArgs+getUsage) ⇒ <code>string</code>
 
 <a name="exp_module_command-line-args--CommandLineArgs"></a>
 ### CommandLineArgs ⏏
@@ -172,13 +173,13 @@ Describes a command-line option. The additional properties `description` and `ty
 
 **Kind**: Exported class  
 * [OptionDefinition](#exp_module_definition--OptionDefinition) ⏏
-  * [.name](#module_definition--OptionDefinition.OptionDefinition+name) : <code>string</code>
-  * [.type](#module_definition--OptionDefinition.OptionDefinition+type) : <code>function</code>
-  * [.alias](#module_definition--OptionDefinition.OptionDefinition+alias) : <code>string</code>
-  * [.multiple](#module_definition--OptionDefinition.OptionDefinition+multiple) : <code>boolean</code>
-  * [.defaultOption](#module_definition--OptionDefinition.OptionDefinition+defaultOption) : <code>boolean</code>
-  * [.defaultValue](#module_definition--OptionDefinition.OptionDefinition+defaultValue) : <code>\*</code>
-  * [.group](#module_definition--OptionDefinition.OptionDefinition+group) : <code>string</code> &#124; <code>Array.&lt;string&gt;</code>
+    * [.name](#module_definition--OptionDefinition.OptionDefinition+name) : <code>string</code>
+    * [.type](#module_definition--OptionDefinition.OptionDefinition+type) : <code>function</code>
+    * [.alias](#module_definition--OptionDefinition.OptionDefinition+alias) : <code>string</code>
+    * [.multiple](#module_definition--OptionDefinition.OptionDefinition+multiple) : <code>boolean</code>
+    * [.defaultOption](#module_definition--OptionDefinition.OptionDefinition+defaultOption) : <code>boolean</code>
+    * [.defaultValue](#module_definition--OptionDefinition.OptionDefinition+defaultValue) : <code>\*</code>
+    * [.group](#module_definition--OptionDefinition.OptionDefinition+group) : <code>string</code> &#124; <code>Array.&lt;string&gt;</code>
 
 <a name="module_definition--OptionDefinition.OptionDefinition+name"></a>
 ### option.name : <code>string</code>
