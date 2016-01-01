@@ -9,11 +9,17 @@ var OptionDefinition = (function () {
     _classCallCheck(this, OptionDefinition);
 
     this.name = definition.name;
+
     this.type = definition.type;
+
     this.alias = definition.alias;
+
     this.multiple = definition.multiple;
+
     this.defaultOption = definition.defaultOption;
+
     this.defaultValue = definition.defaultValue;
+
     this.group = definition.group;
 
     for (var prop in definition) {

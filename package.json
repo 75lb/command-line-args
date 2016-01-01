@@ -37,8 +37,8 @@
     "ansi-escape-sequences": "^2.1.1",
     "array-back": "^1.0.2",
     "command-line-usage": "^2",
-    "core-js": "^1.2.1",
-    "feature-detect-es6": "^1",
+    "core-js": "^2.0.1",
+    "feature-detect-es6": "^1.2.0",
     "find-replace": "^1",
     "object-tools": "^2",
     "typical": "^2.3.0"

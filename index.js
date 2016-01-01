@@ -1,6 +1,6 @@
 var detect = require('feature-detect-es6')
 
-if (detect.class() && detect.arrowFunction() && detect.newArrayFeatures()) {
+if (detect.all('class', 'arrowFunction', 'newArrayFeatures')) {
   module.exports = require('./lib/command-line-args')
 } else {
   require('core-js/es6/array')

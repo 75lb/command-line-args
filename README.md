@@ -106,7 +106,7 @@ A library to collect command-line args and generate a usage guide.
 
 * [command-line-args](#module_command-line-args)
     * [CommandLineArgs](#exp_module_command-line-args--CommandLineArgs) ⏏
-        * [new CommandLineArgs(definitions)](#new_module_command-line-args--CommandLineArgs.CommandLineArgs)
+        * [new CommandLineArgs(definitions)](#new_module_command-line-args--CommandLineArgs_new)
         * [.parse([argv])](#module_command-line-args--CommandLineArgs+parse) ⇒ <code>object</code>
         * [.getUsage([options])](#module_command-line-args--CommandLineArgs+getUsage) ⇒ <code>string</code>
 
@@ -115,7 +115,7 @@ A library to collect command-line args and generate a usage guide.
 A class encapsulating operations you can perform using an [OptionDefinition](#exp_module_definition--OptionDefinition) array as input.
 
 **Kind**: Exported class  
-<a name="new_module_command-line-args--CommandLineArgs.CommandLineArgs"></a>
+<a name="new_module_command-line-args--CommandLineArgs_new"></a>
 #### new CommandLineArgs(definitions)
 The constructor will throw if you pass invalid option definitions. You should fix these issues before proceeding.
 
@@ -264,7 +264,7 @@ getopt-style short option names. Can be any single character (unicode included) 
 **Kind**: instance property of <code>[OptionDefinition](#exp_module_definition--OptionDefinition)</code>  
 <a name="module_definition--OptionDefinition.OptionDefinition+multiple"></a>
 ### option.multiple : <code>boolean</code>
-Set this flag if the option takes a list of values. You will receive an array of values passed through the `type` function (if specified).
+Set this flag if the option takes a list of values. You will receive an array of values, each passed through the `type` function (if specified).
 
 ```js
 [
