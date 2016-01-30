@@ -2,12 +2,15 @@ var test = require('tape')
 var cliArgs = require('../')
 var detect = require('feature-detect-es6')
 var Argv
+var Definitions
 
 if (detect.all('class', 'arrowFunction', 'newArrayFeatures')) {
   Argv = require('../lib/argv')
+  Definitions = require('../lib/definitions')
 } else {
   require('core-js/es6/array')
   Argv = require('../es5/argv')
+  Definitions = require('../es5/definitions')
 }
 
 test('.expandOptionEqualsNotation()', function (t) {
@@ -34,5 +37,33 @@ test('.expandGetoptNotation() with values', function (t) {
   t.deepEqual(argv, [
     '-a', '-b', '-c', '1', '-a', '2', '-b', '-c'
   ])
+  t.end()
+})
+
+test('.validate()', function (t) {
+  var definitions = new Definitions([
+    { name: 'one', type: Number }
+  ])
+
+  t.doesNotThrow(function () {
+    var argv = new Argv([ '--one', '1' ])
+    argv.validate(definitions)
+  })
+
+  t.throws(function () {
+    var argv = new Argv([ '--one', '--two' ])
+    argv.validate(definitions)
+  })
+
+  t.throws(function () {
+    var argv = new Argv([ '--one', '2', '--two', 'two' ])
+    argv.validate(definitions)
+  })
+
+  t.throws(function () {
+    var argv = new Argv([ '-a', '2' ])
+    argv.validate(definitions)
+  })
+
   t.end()
 })
