@@ -1,6 +1,14 @@
 var test = require('tape')
 var cliArgs = require('../')
-var Argv = require('../lib/argv')
+var detect = require('feature-detect-es6')
+var Argv
+
+if (detect.all('class', 'arrowFunction', 'newArrayFeatures')) {
+  Argv = require('../lib/argv')
+} else {
+  require('core-js/es6/array')
+  Argv = require('../es5/argv')
+}
 
 test('.expandOptionEqualsNotation()', function (t) {
   var argv = new Argv([ '--one=1', '--two', '2', '--three=3', '4' ])
