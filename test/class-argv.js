@@ -16,7 +16,7 @@ if (detect.all('class', 'arrowFunction', 'newArrayFeatures')) {
 test('.expandOptionEqualsNotation()', function (t) {
   var argv = new Argv([ '--one=1', '--two', '2', '--three=3', '4' ])
   argv.expandOptionEqualsNotation()
-  t.deepEqual(argv, [
+  t.deepEqual(argv.list, [
     '--one', '1', '--two', '2', '--three', '3', '4'
   ])
   t.end()
@@ -25,7 +25,7 @@ test('.expandOptionEqualsNotation()', function (t) {
 test('.expandGetoptNotation()', function (t) {
   var argv = new Argv([ '-abc' ])
   argv.expandGetoptNotation()
-  t.deepEqual(argv, [
+  t.deepEqual(argv.list, [
     '-a', '-b', '-c'
   ])
   t.end()
@@ -34,7 +34,7 @@ test('.expandGetoptNotation()', function (t) {
 test('.expandGetoptNotation() with values', function (t) {
   var argv = new Argv([ '-abc', '1', '-a', '2', '-bc' ])
   argv.expandGetoptNotation()
-  t.deepEqual(argv, [
+  t.deepEqual(argv.list, [
     '-a', '-b', '-c', '1', '-a', '2', '-b', '-c'
   ])
   t.end()
