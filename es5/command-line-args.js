@@ -34,7 +34,7 @@ var CommandLineArgs = (function () {
       var output = this.definitions.createOutput();
       var def;
 
-      argv.forEach(function (item) {
+      argv.list.forEach(function (item) {
         if (option.isOption(item)) {
           def = _this.definitions.get(item);
           if (!t.isDefined(output[def.name])) outputSet(output, def.name, def.getInitialValue());
