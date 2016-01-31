@@ -30,19 +30,23 @@ var Argv = function () {
   }, {
     key: 'expandOptionEqualsNotation',
     value: function expandOptionEqualsNotation() {
+      var _this = this;
+
       var optEquals = option.optEquals;
       if (this.list.some(optEquals.test.bind(optEquals))) {
-        var expandedArgs = [];
-        this.list.forEach(function (arg) {
-          var matches = arg.match(optEquals.re);
-          if (matches) {
-            expandedArgs.push(matches[1], matches[2]);
-          } else {
-            expandedArgs.push(arg);
-          }
-        });
-        this.clear();
-        this.list = expandedArgs;
+        (function () {
+          var expandedArgs = [];
+          _this.list.forEach(function (arg) {
+            var matches = arg.match(optEquals.re);
+            if (matches) {
+              expandedArgs.push(matches[1], matches[2]);
+            } else {
+              expandedArgs.push(arg);
+            }
+          });
+          _this.clear();
+          _this.list = expandedArgs;
+        })();
       }
     }
   }, {
@@ -62,7 +66,7 @@ var Argv = function () {
   }, {
     key: 'validate',
     value: function validate(definitions) {
-      var invalidOption;
+      var invalidOption = undefined;
 
       var optionWithoutDefinition = this.list.filter(function (arg) {
         return option.isOption(arg);
