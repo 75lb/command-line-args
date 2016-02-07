@@ -135,8 +135,8 @@ The constructor will throw if you pass invalid option definitions. You should fi
 
 **Example**  
 ```js
-var commandLineArgs = require('command-line-args')
-var cli = commandLineArgs([
+const commandLineArgs = require('command-line-args')
+const cli = commandLineArgs([
   { name: 'file' },
   { name: 'verbose' },
   { name: 'depth'}
@@ -218,7 +218,7 @@ The `type` value is a setter function (you receive the output from this), enabli
 You can use a class, if you like:
 
 ```js
-var fs = require('fs')
+const fs = require('fs')
 
 function FileDetails(filename){
   if (!(this instanceof FileDetails)) return new FileDetails(filename)
@@ -226,7 +226,7 @@ function FileDetails(filename){
   this.exists = fs.existsSync(filename)
 }
 
-var cli = commandLineArgs([
+const cli = commandLineArgs([
   { name: 'file', type: FileDetails },
   { name: 'depth', type: Number }
 ])
