@@ -10,7 +10,6 @@ var arrayify = require('array-back');
 var o = require('object-tools');
 var Definitions = require('./definitions');
 var option = require('./option');
-var _getUsage = require('command-line-usage');
 var t = require('typical');
 var Argv = require('./argv');
 
@@ -97,7 +96,8 @@ var CommandLineArgs = function () {
   }, {
     key: 'getUsage',
     value: function getUsage(options) {
-      return _getUsage(this.definitions, options);
+      var getUsage = require('command-line-usage');
+      return getUsage(this.definitions, options);
     }
   }]);
 

@@ -27,7 +27,7 @@
   "author": "Lloyd Brookes <75pound@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "babel-preset-es2015": "^6.3.13",
+    "babel-preset-es2015": "^6.5.0",
     "coveralls": "^2.11.4",
     "jsdoc-to-markdown": "^1.1.1",
     "tape": "^4",
