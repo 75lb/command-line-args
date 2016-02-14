@@ -40,12 +40,12 @@ var options = cli.parse()
 `options` now looks like this:
 ```js
 {
-    files: [
-        "one.js",
-        "two.js"
-    ],
-    verbose: true,
-    timeout: 1000
+  files: [
+    'one.js',
+    'two.js'
+  ],
+  verbose: true,
+  timeout: 1000
 }
 ```
 
