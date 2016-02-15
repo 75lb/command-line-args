@@ -4,7 +4,6 @@ var commandLineArgs = require('../')
 var os = require('os')
 var fs = require('fs')
 var path = require('path')
-var ansi = require('ansi-escape-sequences')
 
 var tmpPath = path.join(os.tmpDir(), Date.now() + '-cla.js')
 
@@ -25,6 +24,6 @@ function parseCla () {
 }
 
 function halt (msg) {
-  console.error(ansi.format(msg, 'red'))
+  console.error(msg)
   process.exit(1)
 }
