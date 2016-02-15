@@ -97,7 +97,7 @@ var CommandLineArgs = function () {
     key: 'getUsage',
     value: function getUsage(options) {
       var getUsage = require('command-line-usage');
-      return getUsage(this.definitions, options);
+      return getUsage(this.definitions.list, options);
     }
   }]);
 
