@@ -66,7 +66,7 @@ var Argv = function () {
   }, {
     key: 'validate',
     value: function validate(definitions) {
-      var invalidOption = undefined;
+      var invalidOption = void 0;
 
       var optionWithoutDefinition = this.list.filter(function (arg) {
         return option.isOption(arg);

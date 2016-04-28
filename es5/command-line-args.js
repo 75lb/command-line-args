@@ -32,7 +32,7 @@ var CommandLineArgs = function () {
       argv.validate(this.definitions);
 
       var output = this.definitions.createOutput();
-      var def = undefined;
+      var def = void 0;
 
       argv.list.forEach(function (item) {
         if (option.isOption(item)) {

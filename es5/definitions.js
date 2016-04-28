@@ -39,7 +39,7 @@ var Definitions = function () {
         halt('INVALID_TYPE', 'Invalid option definitions: the `type` property must be a setter fuction (default: `Boolean`)');
       }
 
-      var invalidOption = undefined;
+      var invalidOption = void 0;
 
       var numericAlias = this.list.some(function (def) {
         invalidOption = def;
