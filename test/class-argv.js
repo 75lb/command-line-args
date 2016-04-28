@@ -1,5 +1,4 @@
 var test = require('tape')
-var cliArgs = require('../')
 var detect = require('feature-detect-es6')
 var Argv
 var Definitions

@@ -1,5 +1,4 @@
 var test = require('tape')
-var cliArgs = require('../')
 var detect = require('feature-detect-es6')
 var Definitions
 
@@ -11,7 +10,7 @@ if (detect.all('class', 'arrowFunction', 'newArrayFeatures')) {
 }
 
 test('.createOutput()', function (t) {
-  var definitions = new Definitions([ { name: 'one', defaultValue: 'eins' }])
+  var definitions = new Definitions([ { name: 'one', defaultValue: 'eins' } ])
   t.deepEqual(definitions.createOutput(), { one: 'eins' })
   t.end()
 })
