@@ -93,12 +93,6 @@ var CommandLineArgs = function () {
         return output;
       }
     }
-  }, {
-    key: 'getUsage',
-    value: function getUsage(options) {
-      var getUsage = require('command-line-usage');
-      return getUsage(this.definitions.list, options);
-    }
   }]);
 
   return CommandLineArgs;

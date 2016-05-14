@@ -35,7 +35,6 @@
   },
   "dependencies": {
     "array-back": "^1.0.3",
-    "command-line-usage": "^2.0.4",
     "core-js": "^2.4.0",
     "feature-detect-es6": "^1.2.0",
     "find-replace": "^1.0.2",
