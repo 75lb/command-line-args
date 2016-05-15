@@ -19,11 +19,7 @@ function parseCla () {
   try {
     console.log(cli.parse())
   } catch (err) {
-    halt(err.message)
+    console.error(err.message)
+    process.exitCode = 1
   }
-}
-
-function halt (msg) {
-  console.error(msg)
-  process.exit(1)
 }

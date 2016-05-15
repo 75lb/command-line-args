@@ -21,3 +21,12 @@ test('type-string: different values', function (t) {
 
   t.end()
 })
+
+/* currently not supported, it would complain --yeah is an invalid option */
+test.skip('type-string: pass a value resembling an option', function (t) {
+  t.deepEqual(
+    cliArgs(optionDefinitions).parse([ '--one', '--yeah' ]),
+    { one: '--yeah' }
+  )
+  t.end()
+})
