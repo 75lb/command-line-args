@@ -20,7 +20,7 @@ $ example -vt 1000 --src one.js two.js
 $ example -vt 1000 one.js two.js
 ```
 
-To access the values, first describe the options your app accepts (see [option definitions](#option-definitions)).
+To access the values, first describe the options your app accepts (see [option definitions](#optiondefinition-)).
 ```js
 const commandLineArgs = require('command-line-args')
 
@@ -30,9 +30,9 @@ const optionDefinitions = [
   { name: 'timeout', alias: 't', type: Number }
 ]
 ```
-The [`type`](#module_definition--OptionDefinition+type) property is a setter function (the value you receive is the output of this), giving you full control over the value received.
+The [`type`](#optiontype--function) property is a setter function (the value you receive is the output of this), giving you full control over the value received.
 
-Next, parse the options using [commandLineArgs()](#t#commandlineargsdefinitions-argv--object-):
+Next, parse the options using [commandLineArgs()](#commandlineargsdefinitions-argv--object-):
 ```js
 const options = commandLineArgs(optionDefinitions)
 ```
@@ -49,7 +49,7 @@ const options = commandLineArgs(optionDefinitions)
 }
 ```
 
-When dealing with large amounts of options it often makes sense to [group](#module_definition--Definition+group) them.
+When dealing with large amounts of options it often makes sense to [group](#optiongroup--string--arraystring) them.
 
 A usage guide can be generated using [command-line-usage](https://github.com/75lb/command-line-usage), for example:
 
@@ -60,12 +60,12 @@ A usage guide can be generated using [command-line-usage](https://github.com/75l
 Notation rules for setting command-line options.
 
 * Argument order is insignificant. Whether you set `--example` at the beginning or end of the arg list makes no difference.
-* Options with a [type](#module_definition--OptionDefinition+type) of `Boolean` do not need to supply a value. Setting `--flag` or `-f` will set that option's value to `true`. This is the only [type](#module_definition--OptionDefinition+type) with special behaviour.
+* Options with a [type](#optiontype--function) of `Boolean` do not need to supply a value. Setting `--flag` or `-f` will set that option's value to `true`. This is the only [type](#optiontype--function) with special behaviour.
 * Three ways to set an option value
   * `--option value`
   * `--option=value`
   * `-o value`
-* Two ways to a set list of values (on options with [multiple](#module_definition--OptionDefinition+multiple) set)
+* Two ways to a set list of values (on options with [multiple](#optionmultiple--boolean) set)
   * `--list one two three`
   * `--list one --list two --list three`
 * Short options ([alias](#optionalias--string)) can be set in groups. The following are equivalent:
