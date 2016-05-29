@@ -104,25 +104,15 @@ $ cat example/typical.js | command-line-args lib/* --timeout=1000
 ## command-line-args
 A library to collect command-line args and generate a usage guide.
 
+<a name="module_command-line-args..commandLineArgs"></a>
 
-* [command-line-args](#module_command-line-args)
-    * [CommandLineArgs](#exp_module_command-line-args--CommandLineArgs) ⏏
-        * [new CommandLineArgs(definitions)](#new_module_command-line-args--CommandLineArgs_new)
-        * [.parse([argv])](#module_command-line-args--CommandLineArgs+parse) ⇒ <code>object</code>
+### command-line-args~commandLineArgs(definitions, [argv]) ⇒ <code>object</code>
+Returns an object containing all options set on the command line. By default it parses the global  [`process.argv`](https://nodejs.org/api/process.html#process_process_argv) array.
 
-<a name="exp_module_command-line-args--CommandLineArgs"></a>
-
-### CommandLineArgs ⏏
-A class encapsulating operations you can perform using an [OptionDefinition](#exp_module_definition--OptionDefinition) array as input.
-
-**Kind**: Exported class  
-<a name="new_module_command-line-args--CommandLineArgs_new"></a>
-
-#### new CommandLineArgs(definitions)
-The constructor will throw if you pass invalid option definitions. You should fix these issues before proceeding.
-
+**Kind**: inner method of <code>[command-line-args](#module_command-line-args)</code>  
 **Throws**:
 
+- `UNKNOWN_OPTION` if the user sets an option without a definition
 - `NAME_MISSING` if an option definition is missing the required `name` property
 - `INVALID_TYPE` if an option definition has a `type` value that's not a function
 - `INVALID_ALIAS` if an alias is numeric, a hyphen or a length other than 1
@@ -134,31 +124,17 @@ The constructor will throw if you pass invalid option definitions. You should fi
 | Param | Type | Description |
 | --- | --- | --- |
 | definitions | <code>[Array.&lt;definition&gt;](#module_definition)</code> | An array of [OptionDefinition](#exp_module_definition--OptionDefinition) objects |
+| [argv] | <code>Array.&lt;string&gt;</code> | An array of strings, which if passed will be parsed instead  of `process.argv`. |
 
 **Example**  
 ```js
 const commandLineArgs = require('command-line-args')
-const cli = commandLineArgs([
+const options = commandLineArgs([
   { name: 'file' },
   { name: 'verbose' },
   { name: 'depth'}
 ])
 ```
-<a name="module_command-line-args--CommandLineArgs+parse"></a>
-
-#### cli.parse([argv]) ⇒ <code>object</code>
-Returns an object containing all the values and flags set on the command line. By default it parses the global [`process.argv`](https://nodejs.org/api/process.html#process_process_argv) array.
-
-**Kind**: instance method of <code>[CommandLineArgs](#exp_module_command-line-args--CommandLineArgs)</code>  
-**Throws**:
-
-- `UNKNOWN_OPTION` if the user sets an option without a definition
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| [argv] | <code>Array.&lt;string&gt;</code> | An array of strings, which if passed will be parsed instead of `process.argv`. |
-
 
 <a name="exp_module_definition--OptionDefinition"></a>
 
