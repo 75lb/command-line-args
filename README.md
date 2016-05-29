@@ -32,7 +32,7 @@ const optionDefinitions = [
 ```
 The [`type`](#module_definition--OptionDefinition+type) property is a setter function (the value you receive is the output of this), giving you full control over the value received.
 
-Next, parse the options using [commandLineArgs()](#module_command-line-args--CommandLineArgs+parse):
+Next, parse the options using [commandLineArgs()](#command-line-args-1):
 ```js
 const options = commandLineArgs(optionDefinitions)
 ```
@@ -102,14 +102,12 @@ $ cat example/typical.js | command-line-args lib/* --timeout=1000
 <a name="module_command-line-args"></a>
 
 ## command-line-args
-A library to collect command-line args and generate a usage guide.
+<a name="exp_module_command-line-args--commandLineArgs"></a>
 
-<a name="module_command-line-args..commandLineArgs"></a>
-
-### command-line-args~commandLineArgs(definitions, [argv]) ⇒ <code>object</code>
+### commandLineArgs(definitions, [argv]) ⇒ <code>object</code> ⏏
 Returns an object containing all options set on the command line. By default it parses the global  [`process.argv`](https://nodejs.org/api/process.html#process_process_argv) array.
 
-**Kind**: inner method of <code>[command-line-args](#module_command-line-args)</code>  
+**Kind**: Exported function  
 **Throws**:
 
 - `UNKNOWN_OPTION` if the user sets an option without a definition
