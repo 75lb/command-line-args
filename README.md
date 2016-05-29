@@ -99,9 +99,6 @@ $ cat example/typical.js | command-line-args lib/* --timeout=1000
 ```
 
 # API Reference
-<a name="module_command-line-args"></a>
-
-## command-line-args
 <a name="exp_module_command-line-args--commandLineArgs"></a>
 
 ### commandLineArgs(definitions, [argv]) ⇒ <code>object</code> ⏏
@@ -133,7 +130,6 @@ const options = commandLineArgs([
   { name: 'depth'}
 ])
 ```
-
 <a name="exp_module_definition--OptionDefinition"></a>
 
 ## OptionDefinition ⏏
