@@ -8,7 +8,7 @@ test('err-invalid-definition: throws when no definition.name specified', functio
   ]
   var argv = [ '--one', '--two' ]
   try {
-    cliArgs(optionDefinitions).parse(argv)
+    cliArgs(optionDefinitions, argv)
     t.fail()
   } catch (err) {
     t.strictEqual(err.name, 'NAME_MISSING')
@@ -23,7 +23,7 @@ test('err-invalid-definition: throws if dev set a numeric alias', function (t) {
   var argv = [ '--colours', 'red' ]
 
   try {
-    cliArgs(optionDefinitions).parse(argv)
+    cliArgs(optionDefinitions, argv)
     t.fail()
   } catch (err) {
     t.strictEqual(err.name, 'INVALID_ALIAS')
@@ -39,7 +39,7 @@ test('err-invalid-definition: throws if dev set an alias of "-"', function (t) {
   var argv = [ '--colours', 'red' ]
 
   try {
-    cliArgs(optionDefinitions).parse(argv)
+    cliArgs(optionDefinitions, argv)
     t.fail()
   } catch (err) {
     t.strictEqual(err.name, 'INVALID_ALIAS')
@@ -55,7 +55,7 @@ test('err-invalid-definition: multi-character alias', function (t) {
   var argv = [ '--one', 'red' ]
 
   try {
-    cliArgs(optionDefinitions).parse(argv)
+    cliArgs(optionDefinitions, argv)
     t.fail()
   } catch (err) {
     t.strictEqual(err.name, 'INVALID_ALIAS')
@@ -67,28 +67,28 @@ test('err-invalid-definition: multi-character alias', function (t) {
 test('err-invalid-definition: invalid type values', function (t) {
   var argv = [ '--one', 'something' ]
   try {
-    cliArgs([ { name: 'one', type: 'string' } ]).parse(argv)
+    cliArgs([ { name: 'one', type: 'string' } ], argv)
     t.fail()
   } catch (err) {
     t.strictEqual(err.name, 'INVALID_TYPE')
   }
 
   try {
-    cliArgs([ { name: 'one', type: 234 } ]).parse(argv)
+    cliArgs([ { name: 'one', type: 234 } ], argv)
     t.fail()
   } catch (err) {
     t.strictEqual(err.name, 'INVALID_TYPE')
   }
 
   try {
-    cliArgs([ { name: 'one', type: {} } ]).parse(argv)
+    cliArgs([ { name: 'one', type: {} } ], argv)
     t.fail()
   } catch (err) {
     t.strictEqual(err.name, 'INVALID_TYPE')
   }
 
   t.doesNotThrow(function () {
-    cliArgs([ { name: 'one', type: function () {} } ]).parse(argv)
+    cliArgs([ { name: 'one', type: function () {} } ], argv)
   }, /invalid/i)
 
   t.end()
@@ -100,33 +100,33 @@ test('err-invalid-definition: value without option definition', function (t) {
   ]
 
   t.deepEqual(
-    cliArgs(optionDefinitions).parse([ '--one', '1' ]),
+    cliArgs(optionDefinitions, [ '--one', '1' ]),
     { one: 1 }
   )
 
   try {
-    cliArgs(optionDefinitions).parse([ '--one', '--two' ])
+    cliArgs(optionDefinitions, [ '--one', '--two' ])
     t.fail()
   } catch (err) {
     t.strictEqual(err.name, 'UNKNOWN_OPTION')
   }
 
   try {
-    cliArgs(optionDefinitions).parse([ '--one', '2', '--two', 'two' ])
+    cliArgs(optionDefinitions, [ '--one', '2', '--two', 'two' ])
     t.fail()
   } catch (err) {
     t.strictEqual(err.name, 'UNKNOWN_OPTION')
   }
 
   try {
-    cliArgs(optionDefinitions).parse([ '-a', '2' ])
+    cliArgs(optionDefinitions, [ '-a', '2' ])
     t.fail()
   } catch (err) {
     t.strictEqual(err.name, 'UNKNOWN_OPTION')
   }
 
   try {
-    cliArgs(optionDefinitions).parse([ '-sdf' ])
+    cliArgs(optionDefinitions, [ '-sdf' ])
     t.fail()
   } catch (err) {
     t.strictEqual(err.name, 'UNKNOWN_OPTION', 'getOpts')
@@ -143,7 +143,7 @@ test('err-invalid-definition: duplicate name', function (t) {
   var argv = [ '--colours', 'red' ]
 
   try {
-    cliArgs(optionDefinitions).parse(argv)
+    cliArgs(optionDefinitions, argv)
     t.fail()
   } catch (err) {
     t.strictEqual(err.name, 'DUPLICATE_NAME')
@@ -160,7 +160,7 @@ test('err-invalid-definition: duplicate alias', function (t) {
   var argv = [ '--one', 'red' ]
 
   try {
-    cliArgs(optionDefinitions).parse(argv)
+    cliArgs(optionDefinitions, argv)
     t.fail()
   } catch (err) {
     t.strictEqual(err.name, 'DUPLICATE_ALIAS')
@@ -177,7 +177,7 @@ test('err-invalid-definition: multiple defaultOption', function (t) {
   var argv = [ '--one', 'red' ]
 
   try {
-    cliArgs(optionDefinitions).parse(argv)
+    cliArgs(optionDefinitions, argv)
     t.fail()
   } catch (err) {
     t.strictEqual(err.name, 'DUPLICATE_DEFAULT_OPTION')

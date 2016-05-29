@@ -10,8 +10,7 @@ var optionDefinitions = [
 
 test('name-alias-mix: one of each', function (t) {
   var argv = [ '--one', '-t', '--three' ]
-  var cli = cliArgs(optionDefinitions)
-  var result = cli.parse(argv)
+  var result = cliArgs(optionDefinitions, argv)
   t.strictEqual(result.one, true)
   t.strictEqual(result.two, true)
   t.strictEqual(result.three, true)

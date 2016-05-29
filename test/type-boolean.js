@@ -6,21 +6,20 @@ var optionDefinitions = [
 ]
 
 test('type-boolean: different values', function (t) {
-  var cli = cliArgs(optionDefinitions)
   t.deepEqual(
-    cli.parse([ '--one' ]),
+    cliArgs(optionDefinitions, [ '--one' ]),
     { one: true }
   )
   t.deepEqual(
-    cli.parse([ '--one', 'true' ]),
+    cliArgs(optionDefinitions, [ '--one', 'true' ]),
     { one: true }
   )
   t.deepEqual(
-    cli.parse([ '--one', 'false' ]),
+    cliArgs(optionDefinitions, [ '--one', 'false' ]),
     { one: true }
   )
   t.deepEqual(
-    cli.parse([ '--one', 'sfsgf' ]),
+    cliArgs(optionDefinitions, [ '--one', 'sfsgf' ]),
     { one: true }
   )
 

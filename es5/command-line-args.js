@@ -1,9 +1,5 @@
 'use strict';
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
 var arrayify = require('array-back');
 var Definitions = require('./definitions');
 var option = require('./option');
@@ -12,64 +8,50 @@ var Argv = require('./argv');
 
 module.exports = commandLineArgs;
 
-var CommandLineArgs = function () {
-  function CommandLineArgs(definitions) {
-    _classCallCheck(this, CommandLineArgs);
+function commandLineArgs(definitions, argv) {
+  definitions = new Definitions(definitions);
+  argv = new Argv(argv);
+  argv.expandOptionEqualsNotation();
+  argv.expandGetoptNotation();
+  argv.validate(definitions);
 
-    this.definitions = new Definitions(definitions);
+  var output = definitions.createOutput();
+  var def = void 0;
+
+  argv.list.forEach(function (item) {
+    if (option.isOption(item)) {
+      def = definitions.get(item);
+      if (!t.isDefined(output[def.name])) outputSet(output, def.name, def.getInitialValue());
+      if (def.isBoolean()) {
+        outputSet(output, def.name, true);
+        def = null;
+      }
+    } else {
+      var value = item;
+      if (!def) {
+        def = definitions.getDefault();
+        if (!def) return;
+        if (!t.isDefined(output[def.name])) outputSet(output, def.name, def.getInitialValue());
+      }
+
+      var outputValue = def.type ? def.type(value) : value;
+      outputSet(output, def.name, outputValue);
+
+      if (!def.multiple) def = null;
+    }
+  });
+
+  for (var key in output) {
+    var value = output[key];
+    if (Array.isArray(value) && value._initial) delete value._initial;
   }
 
-  _createClass(CommandLineArgs, [{
-    key: 'parse',
-    value: function parse(argv) {
-      var _this = this;
-
-      argv = new Argv(argv);
-      argv.expandOptionEqualsNotation();
-      argv.expandGetoptNotation();
-      argv.validate(this.definitions);
-
-      var output = this.definitions.createOutput();
-      var def = void 0;
-
-      argv.list.forEach(function (item) {
-        if (option.isOption(item)) {
-          def = _this.definitions.get(item);
-          if (!t.isDefined(output[def.name])) outputSet(output, def.name, def.getInitialValue());
-          if (def.isBoolean()) {
-            outputSet(output, def.name, true);
-            def = null;
-          }
-        } else {
-          var value = item;
-          if (!def) {
-            def = _this.definitions.getDefault();
-            if (!def) return;
-            if (!t.isDefined(output[def.name])) outputSet(output, def.name, def.getInitialValue());
-          }
-
-          var outputValue = def.type ? def.type(value) : value;
-          outputSet(output, def.name, outputValue);
-
-          if (!def.multiple) def = null;
-        }
-      });
-
-      for (var key in output) {
-        var value = output[key];
-        if (Array.isArray(value) && value._initial) delete value._initial;
-      }
-
-      if (this.definitions.isGrouped()) {
-        return groupOutput(this.definitions, output);
-      } else {
-        return output;
-      }
-    }
-  }]);
-
-  return CommandLineArgs;
-}();
+  if (definitions.isGrouped()) {
+    return groupOutput(definitions, output);
+  } else {
+    return output;
+  }
+}
 
 function outputSet(output, property, value) {
   if (output[property] && output[property]._initial) {
@@ -81,10 +63,6 @@ function outputSet(output, property, value) {
   } else {
     output[property] = value;
   }
-}
-
-function commandLineArgs(definitions) {
-  return new CommandLineArgs(definitions);
 }
 
 function groupOutput(definitions, output) {

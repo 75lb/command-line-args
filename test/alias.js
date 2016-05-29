@@ -10,7 +10,7 @@ var optionDefinitions = [
 
 test('alias: one boolean', function (t) {
   var argv = [ '-v' ]
-  t.deepEqual(cliArgs(optionDefinitions).parse(argv), {
+  t.deepEqual(cliArgs(optionDefinitions, argv), {
     verbose: true
   })
   t.end()
@@ -18,7 +18,7 @@ test('alias: one boolean', function (t) {
 
 test('alias: one --this-type boolean', function (t) {
   var argv = [ '-d' ]
-  t.deepEqual(cliArgs(optionDefinitions).parse(argv), {
+  t.deepEqual(cliArgs(optionDefinitions, argv), {
     'dry-run': true
   })
   t.end()
@@ -26,7 +26,7 @@ test('alias: one --this-type boolean', function (t) {
 
 test('alias: one boolean, one string', function (t) {
   var argv = [ '-v', '-c' ]
-  t.deepEqual(cliArgs(optionDefinitions).parse(argv), {
+  t.deepEqual(cliArgs(optionDefinitions, argv), {
     verbose: true,
     colour: true
   })
