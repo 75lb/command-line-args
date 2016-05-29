@@ -9,11 +9,11 @@ var optionDefinitions = [
 
 test('type-other: different values', function (t) {
   t.deepEqual(
-    cliArgs(optionDefinitions).parse([ '--file', 'one.js' ]),
+    cliArgs(optionDefinitions, [ '--file', 'one.js' ]),
     { file: 'one.js' }
   )
   t.deepEqual(
-    cliArgs(optionDefinitions).parse([ '--file' ]),
+    cliArgs(optionDefinitions, [ '--file' ]),
     { file: null }
   )
 

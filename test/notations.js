@@ -9,7 +9,7 @@ test('getOpt short notation: two flags, one option', function (t) {
   ]
 
   var argv = [ '-abc', 'yeah' ]
-  t.deepEqual(cliArgs(optionDefinitions).parse(argv), {
+  t.deepEqual(cliArgs(optionDefinitions, argv), {
     flagA: true,
     flagB: true,
     three: 'yeah'
@@ -25,8 +25,7 @@ test('option=value notation: two plus a regular notation', function (t) {
   ]
 
   var argv = [ '--one=1', '--two', '2', '--three=3' ]
-  var cli = cliArgs(optionDefinitions)
-  var result = cli.parse(argv)
+  var result = cliArgs(optionDefinitions, argv)
   t.strictEqual(result.one, '1')
   t.strictEqual(result.two, '2')
   t.strictEqual(result.three, '3')

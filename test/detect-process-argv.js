@@ -3,7 +3,7 @@ var cliArgs = require('../')
 
 test('detect process.argv: should automatically remove first two argv items', function (t) {
   process.argv = [ 'node', 'filename', '--one', 'eins' ]
-  t.deepEqual(cliArgs({ name: 'one' }).parse(process.argv), {
+  t.deepEqual(cliArgs({ name: 'one' }, process.argv), {
     one: 'eins'
   })
   t.end()
@@ -11,7 +11,7 @@ test('detect process.argv: should automatically remove first two argv items', fu
 
 test('process.argv is left untouched', function (t) {
   process.argv = [ 'node', 'filename', '--one', 'eins' ]
-  t.deepEqual(cliArgs({ name: 'one' }).parse(), {
+  t.deepEqual(cliArgs({ name: 'one' }), {
     one: 'eins'
   })
   t.deepEqual(process.argv, [ 'node', 'filename', '--one', 'eins' ])

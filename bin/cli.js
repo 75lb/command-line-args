@@ -15,15 +15,10 @@ function parseCla () {
   var cliOptions = require(tmpPath)
   fs.unlinkSync(tmpPath)
 
-  var cli = commandLineArgs(cliOptions)
   try {
-    console.log(cli.parse())
+    console.log(commandLineArgs(cliOptions))
   } catch (err) {
-    halt(err.message)
+    console.error(err.message)
+    process.exitCode = 1
   }
-}
-
-function halt (msg) {
-  console.error(msg)
-  process.exit(1)
 }

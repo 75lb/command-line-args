@@ -7,18 +7,18 @@ var optionDefinitions = [
 
 test('type-number: different values', function (t) {
   t.deepEqual(
-    cliArgs(optionDefinitions).parse([ '--one', '1' ]),
+    cliArgs(optionDefinitions, [ '--one', '1' ]),
     { one: 1 }
   )
   t.deepEqual(
-    cliArgs(optionDefinitions).parse([ '--one' ]),
+    cliArgs(optionDefinitions, [ '--one' ]),
     { one: null }
   )
   t.deepEqual(
-    cliArgs(optionDefinitions).parse([ '--one', '-1' ]),
+    cliArgs(optionDefinitions, [ '--one', '-1' ]),
     { one: -1 }
   )
-  var result = cliArgs(optionDefinitions).parse([ '--one', 'asdf' ])
+  var result = cliArgs(optionDefinitions, [ '--one', 'asdf' ])
   t.ok(isNaN(result.one))
 
   t.end()

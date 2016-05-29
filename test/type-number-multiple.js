@@ -7,7 +7,7 @@ var optionDefinitions = [
 
 test('number multiple: 1', function (t) {
   var argv = [ '--array', '1', '2', '3' ]
-  var result = cliArgs(optionDefinitions).parse(argv)
+  var result = cliArgs(optionDefinitions, argv)
   t.deepEqual(result, {
     array: [ 1, 2, 3 ]
   })
@@ -19,7 +19,7 @@ test('number multiple: 1', function (t) {
 
 test('number multiple: 2', function (t) {
   var argv = [ '--array', '1', '--array', '2', '--array', '3' ]
-  var result = cliArgs(optionDefinitions).parse(argv)
+  var result = cliArgs(optionDefinitions, argv)
   t.deepEqual(result, {
     array: [ 1, 2, 3 ]
   })

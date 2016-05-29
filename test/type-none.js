@@ -8,14 +8,14 @@ var optionDefinitions = [
 
 test('name: no argv values', function (t) {
   var argv = []
-  var result = cliArgs(optionDefinitions).parse(argv)
+  var result = cliArgs(optionDefinitions, argv)
   t.deepEqual(result, {})
   t.end()
 })
 
 test('name: just names, no values', function (t) {
   var argv = [ '--one', '--two' ]
-  var result = cliArgs(optionDefinitions).parse(argv)
+  var result = cliArgs(optionDefinitions, argv)
   t.deepEqual(result, {
     one: true,
     two: true
@@ -25,7 +25,7 @@ test('name: just names, no values', function (t) {
 
 test('name: just names, no values, unpassed value', function (t) {
   var argv = [ '--one', '--two' ]
-  var result = cliArgs(optionDefinitions).parse(argv)
+  var result = cliArgs(optionDefinitions, argv)
   t.deepEqual(result, {
     one: true,
     two: true
@@ -35,7 +35,7 @@ test('name: just names, no values, unpassed value', function (t) {
 
 test('name: just names, one value, one unpassed value', function (t) {
   var argv = [ '--one', 'one', '--two' ]
-  var result = cliArgs(optionDefinitions).parse(argv)
+  var result = cliArgs(optionDefinitions, argv)
   t.deepEqual(result, {
     one: 'one',
     two: true
@@ -45,7 +45,7 @@ test('name: just names, one value, one unpassed value', function (t) {
 
 test('name: just names, two values', function (t) {
   var argv = [ '--one', 'one', '--two', 'two' ]
-  var result = cliArgs(optionDefinitions).parse(argv)
+  var result = cliArgs(optionDefinitions, argv)
   t.deepEqual(result, {
     one: 'one',
     two: 'two'

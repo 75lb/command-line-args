@@ -6,10 +6,10 @@ test('bad-input: handles missing option value', function (t) {
     { name: 'colour', type: String },
     { name: 'files' }
   ]
-  t.deepEqual(cliArgs(optionDefinitions).parse([ '--colour' ]), {
+  t.deepEqual(cliArgs(optionDefinitions, [ '--colour' ]), {
     colour: null
   })
-  t.deepEqual(cliArgs(optionDefinitions).parse([ '--colour', '--files', 'yeah' ]), {
+  t.deepEqual(cliArgs(optionDefinitions, [ '--colour', '--files', 'yeah' ]), {
     colour: null,
     files: 'yeah'
   })
@@ -21,7 +21,7 @@ test('bad-input: handles arrays with relative paths', function (t) {
     { name: 'colours', type: String, multiple: true }
   ]
   var argv = [ '--colours', '../what', '../ever' ]
-  t.deepEqual(cliArgs(optionDefinitions).parse(argv), {
+  t.deepEqual(cliArgs(optionDefinitions, argv), {
     colours: [ '../what', '../ever' ]
   })
   t.end()

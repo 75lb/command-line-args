@@ -7,7 +7,7 @@
 [![Join the chat at https://gitter.im/75lb/command-line-args](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/75lb/command-line-args?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 # command-line-args
-A library to collect command-line args and generate a usage guide.
+A library to parse command-line options.
 
 *If your app requires a git-like command interface, consider using [command-line-commands](https://github.com/75lb/command-line-commands).*
 
@@ -22,19 +22,19 @@ $ example -vt 1000 one.js two.js
 
 To access the values, first describe the options your app accepts (see [option definitions](#option-definitions)).
 ```js
-var commandLineArgs = require('command-line-args');
+const commandLineArgs = require('command-line-args')
 
-var cli = commandLineArgs([
+const optionDefinitions = [
   { name: 'verbose', alias: 'v', type: Boolean },
   { name: 'src', type: String, multiple: true, defaultOption: true },
   { name: 'timeout', alias: 't', type: Number }
-])
+]
 ```
 The [`type`](#module_definition--OptionDefinition+type) property is a setter function (the value you receive is the output of this), giving you full control over the value received.
 
-Next, collect the command line args using [.parse()](#module_command-line-args--CommandLineArgs+parse):
+Next, parse the options using [commandLineArgs()](#t#commandlineargsdefinitions-argv--object-):
 ```js
-var options = cli.parse()
+const options = commandLineArgs(optionDefinitions)
 ```
 
 `options` now looks like this:
@@ -51,7 +51,7 @@ var options = cli.parse()
 
 When dealing with large amounts of options it often makes sense to [group](#module_definition--Definition+group) them.
 
-The [.getUsage()](#module_command-line-args--CommandLineArgs+getUsage) method generates a usage guide. For example:
+A usage guide can be generated using [command-line-usage](https://github.com/75lb/command-line-usage), for example:
 
 ![usage](https://raw.githubusercontent.com/75lb/command-line-usage/master/example/screens/footer.png)
 
@@ -84,7 +84,7 @@ $ npm install command-line-args --save
 $ npm install -g command-line-args
 ```
 
-If you install globally you get the `command-line-args` test-harness. You test by piping in a module which exports an option definitions array. You can then view the `.parse()` output for the args you pass.
+If you install globally you get the `command-line-args` test-harness. You test by piping in a module which exports an option definitions array. You can then view the output for the args you pass.
 
 For example:
 
@@ -99,7 +99,12 @@ $ cat example/typical.js | command-line-args lib/* --timeout=1000
 ```
 
 # API Reference
-{{#module name="command-line-args"}}{{>docs}}{{/module}}
+{{#module name="command-line-args"}}
+{{>body~}}
+{{>member-index~}}
+{{>separator~}}
+{{>members~}}
+{{/module}}
 {{#class name="OptionDefinition"}}{{>docs}}{{/class}}
 
 * * *

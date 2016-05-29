@@ -1,5 +1,5 @@
 # Examples
-Most of these example files are modules exporting an array of [Option Definitions](https://github.com/75lb/command-line-args#optiondefinition-). They are consumed using the command-line-args test harness.
+Most of these example files are modules exporting an array of [Option Definitions](https://github.com/75lb/command-line-args/#optiondefinition-). They are consumed using the command-line-args test harness.
 
 ## Install
 Install the test harness:
