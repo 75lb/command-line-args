@@ -32,7 +32,7 @@ const optionDefinitions = [
 ```
 The [`type`](#module_definition--OptionDefinition+type) property is a setter function (the value you receive is the output of this), giving you full control over the value received.
 
-Next, parse the options using [commandLineArgs()](#command-line-args-1):
+Next, parse the options using [commandLineArgs()](#t#commandlineargsdefinitions-argv--object-):
 ```js
 const options = commandLineArgs(optionDefinitions)
 ```

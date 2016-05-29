@@ -8,13 +8,13 @@ var commandLineArgs = require('../')
 var testValue = require('test-value')
 var fs = require('fs')
 
-var cli = commandLineArgs([
+var optionDefinitions = [
   { name: 'help', type: Boolean },
   { name: 'files', type: String, multiple: true, defaultOption: true },
   { name: 'log-level', type: String }
-])
+]
 
-var options = cli.parse()
+var options = commandLineArgs(optionDefinitions)
 
 /* all supplied files should exist and --log-level should be one from the list */
 var correctUsageForm1 = {
