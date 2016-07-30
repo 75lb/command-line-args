@@ -1,7 +1,7 @@
 'use strict'
 var test = require('test-runner')
 var cliArgs = require('../')
-var a = require('assert')
+var a = require('core-assert')
 
 test('default value', function () {
   a.deepStrictEqual(cliArgs([ { name: 'one' }, { name: 'two', defaultValue: 'two' } ], [ '--one', '1' ]), {

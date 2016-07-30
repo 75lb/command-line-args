@@ -1,7 +1,7 @@
 'use strict'
 var test = require('test-runner')
 var cliArgs = require('../')
-var a = require('assert')
+var a = require('core-assert')
 
 test('err-invalid-definition: throws when no definition.name specified', function () {
   var optionDefinitions = [

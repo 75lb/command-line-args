@@ -1,7 +1,7 @@
 'use strict'
 var test = require('test-runner')
 var detect = require('feature-detect-es6')
-var a = require('assert')
+var a = require('core-assert')
 var Definitions
 
 if (detect.all('class', 'arrowFunction', 'newArrayFeatures')) {

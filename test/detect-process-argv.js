@@ -1,7 +1,7 @@
 'use strict'
 var test = require('test-runner')
 var cliArgs = require('../')
-var a = require('assert')
+var a = require('core-assert')
 
 test('detect process.argv: should automatically remove first two argv items', function () {
   process.argv = [ 'node', 'filename', '--one', 'eins' ]

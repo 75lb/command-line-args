@@ -1,7 +1,7 @@
 'use strict'
 var test = require('test-runner')
 var cliArgs = require('../')
-var a = require('assert')
+var a = require('core-assert')
 
 test('getOpt short notation: two flags, one option', function () {
   var optionDefinitions = [

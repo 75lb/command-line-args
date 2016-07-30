@@ -1,7 +1,7 @@
 'use strict'
 var test = require('test-runner')
 var cliArgs = require('../')
-var a = require('assert')
+var a = require('core-assert')
 
 var optionDefinitions = [
   { name: 'array', type: Boolean, multiple: true }
