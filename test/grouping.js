@@ -1,5 +1,7 @@
-var test = require('tape')
+'use strict'
+var test = require('test-runner')
 var cliArgs = require('../')
+var a = require('assert')
 
 var optionDefinitions = [
   { name: 'one', group: 'a' },
@@ -7,8 +9,8 @@ var optionDefinitions = [
   { name: 'three', group: 'b' }
 ]
 
-test('groups', function (t) {
-  t.deepEqual(cliArgs(optionDefinitions, [ '--one', '1', '--two', '2', '--three', '3' ]), {
+test('groups', function () {
+  a.deepStrictEqual(cliArgs(optionDefinitions, [ '--one', '1', '--two', '2', '--three', '3' ]), {
     a: {
       one: '1',
       two: '2'
@@ -22,18 +24,16 @@ test('groups', function (t) {
       three: '3'
     }
   })
-
-  t.end()
 })
 
-test('groups: multiple and _none', function (t) {
+test('groups: multiple and _none', function () {
   var optionDefinitions = [
     { name: 'one', group: ['a', 'f'] },
     { name: 'two', group: ['a', 'g'] },
     { name: 'three' }
   ]
 
-  t.deepEqual(cliArgs(optionDefinitions, [ '--one', '1', '--two', '2', '--three', '3' ]), {
+  a.deepStrictEqual(cliArgs(optionDefinitions, [ '--one', '1', '--two', '2', '--three', '3' ]), {
     a: {
       one: '1',
       two: '2'
@@ -53,6 +53,4 @@ test('groups: multiple and _none', function (t) {
       three: '3'
     }
   })
-
-  t.end()
 })

@@ -1,51 +1,48 @@
-var test = require('tape')
+'use strict'
+var test = require('test-runner')
 var cliArgs = require('../')
+var a = require('assert')
 
-test('default value', function (t) {
-  t.deepEqual(cliArgs([ { name: 'one' }, { name: 'two', defaultValue: 'two' } ], [ '--one', '1' ]), {
+test('default value', function () {
+  a.deepStrictEqual(cliArgs([ { name: 'one' }, { name: 'two', defaultValue: 'two' } ], [ '--one', '1' ]), {
     one: '1',
     two: 'two'
   })
-  t.deepEqual(cliArgs([{ name: 'two', defaultValue: 'two' }], []), {
+  a.deepStrictEqual(cliArgs([{ name: 'two', defaultValue: 'two' }], []), {
     two: 'two'
   })
-  t.deepEqual(cliArgs([{ name: 'two', defaultValue: 'two' }], [ '--two', 'zwei' ]), {
+  a.deepStrictEqual(cliArgs([{ name: 'two', defaultValue: 'two' }], [ '--two', 'zwei' ]), {
     two: 'zwei'
   })
-  t.deepEqual(
+  a.deepStrictEqual(
     cliArgs([{ name: 'two', multiple: true, defaultValue: ['two', 'zwei'] }], [ '--two', 'duo' ]),
     { two: [ 'duo' ] }
   )
-
-  t.end()
 })
 
-test('default value', function (t) {
+test('default value', function () {
   var defs = [{ name: 'two', multiple: true, defaultValue: ['two', 'zwei'] }]
   var result = cliArgs(defs, [])
-  t.deepEqual(result, { two: [ 'two', 'zwei' ] })
-  t.end()
+  a.deepStrictEqual(result, { two: [ 'two', 'zwei' ] })
 })
 
-test('default value: array as defaultOption', function (t) {
+test('default value: array as defaultOption', function () {
   var defs = [
     { name: 'two', multiple: true, defaultValue: ['two', 'zwei'], defaultOption: true }
   ]
   var argv = [ 'duo' ]
-  t.deepEqual(cliArgs(defs, argv), { two: [ 'duo' ] })
-  t.end()
+  a.deepStrictEqual(cliArgs(defs, argv), { two: [ 'duo' ] })
 })
 
-test('default value: falsy default values', function (t) {
+test('default value: falsy default values', function () {
   var defs = [
     { name: 'one', defaultValue: 0 },
     { name: 'two', defaultValue: false }
   ]
 
   var argv = []
-  t.deepEqual(cliArgs(defs, argv), {
+  a.deepStrictEqual(cliArgs(defs, argv), {
     one: 0,
     two: false
   })
-  t.end()
 })

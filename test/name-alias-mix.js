@@ -1,5 +1,7 @@
-var test = require('tape')
+'use strict'
+var test = require('test-runner')
 var cliArgs = require('../')
+var a = require('assert')
 
 var optionDefinitions = [
   { name: 'one', alias: 'o' },
@@ -8,12 +10,11 @@ var optionDefinitions = [
   { name: 'four', alias: 'f' }
 ]
 
-test('name-alias-mix: one of each', function (t) {
+test('name-alias-mix: one of each', function () {
   var argv = [ '--one', '-t', '--three' ]
   var result = cliArgs(optionDefinitions, argv)
-  t.strictEqual(result.one, true)
-  t.strictEqual(result.two, true)
-  t.strictEqual(result.three, true)
-  t.strictEqual(result.four, undefined)
-  t.end()
+  a.strictEqual(result.one, true)
+  a.strictEqual(result.two, true)
+  a.strictEqual(result.three, true)
+  a.strictEqual(result.four, undefined)
 })

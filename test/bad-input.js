@@ -1,28 +1,28 @@
-var test = require('tape')
+'use strict'
+var test = require('test-runner')
 var cliArgs = require('../')
+var a = require('assert')
 
-test('bad-input: handles missing option value', function (t) {
+test('bad-input: handles missing option value', function () {
   var optionDefinitions = [
     { name: 'colour', type: String },
     { name: 'files' }
   ]
-  t.deepEqual(cliArgs(optionDefinitions, [ '--colour' ]), {
+  a.deepStrictEqual(cliArgs(optionDefinitions, [ '--colour' ]), {
     colour: null
   })
-  t.deepEqual(cliArgs(optionDefinitions, [ '--colour', '--files', 'yeah' ]), {
+  a.deepStrictEqual(cliArgs(optionDefinitions, [ '--colour', '--files', 'yeah' ]), {
     colour: null,
     files: 'yeah'
   })
-  t.end()
 })
 
-test('bad-input: handles arrays with relative paths', function (t) {
+test('bad-input: handles arrays with relative paths', function () {
   var optionDefinitions = [
     { name: 'colours', type: String, multiple: true }
   ]
   var argv = [ '--colours', '../what', '../ever' ]
-  t.deepEqual(cliArgs(optionDefinitions, argv), {
+  a.deepStrictEqual(cliArgs(optionDefinitions, argv), {
     colours: [ '../what', '../ever' ]
   })
-  t.end()
 })

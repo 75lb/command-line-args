@@ -1,7 +1,9 @@
-var test = require('tape')
+'use strict'
+var test = require('test-runner')
 var cliArgs = require('../')
+var a = require('assert')
 
-test('getOpt short notation: two flags, one option', function (t) {
+test('getOpt short notation: two flags, one option', function () {
   var optionDefinitions = [
     { name: 'flagA', alias: 'a' },
     { name: 'flagB', alias: 'b' },
@@ -9,15 +11,14 @@ test('getOpt short notation: two flags, one option', function (t) {
   ]
 
   var argv = [ '-abc', 'yeah' ]
-  t.deepEqual(cliArgs(optionDefinitions, argv), {
+  a.deepStrictEqual(cliArgs(optionDefinitions, argv), {
     flagA: true,
     flagB: true,
     three: 'yeah'
   })
-  t.end()
 })
 
-test('option=value notation: two plus a regular notation', function (t) {
+test('option=value notation: two plus a regular notation', function () {
   var optionDefinitions = [
     { name: 'one' },
     { name: 'two' },
@@ -26,8 +27,7 @@ test('option=value notation: two plus a regular notation', function (t) {
 
   var argv = [ '--one=1', '--two', '2', '--three=3' ]
   var result = cliArgs(optionDefinitions, argv)
-  t.strictEqual(result.one, '1')
-  t.strictEqual(result.two, '2')
-  t.strictEqual(result.three, '3')
-  t.end()
+  a.strictEqual(result.one, '1')
+  a.strictEqual(result.two, '2')
+  a.strictEqual(result.three, '3')
 })

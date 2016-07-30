@@ -1,27 +1,27 @@
-var test = require('tape')
+'use strict'
+var test = require('test-runner')
 var cliArgs = require('../')
+var a = require('assert')
 
 var optionDefinitions = [
   { name: 'one', type: Boolean }
 ]
 
-test('type-boolean: different values', function (t) {
-  t.deepEqual(
+test('type-boolean: different values', function () {
+  a.deepStrictEqual(
     cliArgs(optionDefinitions, [ '--one' ]),
     { one: true }
   )
-  t.deepEqual(
+  a.deepStrictEqual(
     cliArgs(optionDefinitions, [ '--one', 'true' ]),
     { one: true }
   )
-  t.deepEqual(
+  a.deepStrictEqual(
     cliArgs(optionDefinitions, [ '--one', 'false' ]),
     { one: true }
   )
-  t.deepEqual(
+  a.deepStrictEqual(
     cliArgs(optionDefinitions, [ '--one', 'sfsgf' ]),
     { one: true }
   )
-
-  t.end()
 })

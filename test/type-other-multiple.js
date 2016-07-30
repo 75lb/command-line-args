@@ -1,5 +1,7 @@
-var test = require('tape')
+'use strict'
+var test = require('test-runner')
 var cliArgs = require('../')
+var a = require('assert')
 
 var optionDefinitions = [
   { name: 'file', multiple: true, type: function (file) {
@@ -7,19 +9,17 @@ var optionDefinitions = [
   }}
 ]
 
-test('type-other-multiple: different values', function (t) {
-  t.deepEqual(
+test('type-other-multiple: different values', function () {
+  a.deepStrictEqual(
     cliArgs(optionDefinitions, [ '--file', 'one.js' ]),
     { file: [ 'one.js' ] }
   )
-  t.deepEqual(
+  a.deepStrictEqual(
     cliArgs(optionDefinitions, [ '--file', 'one.js', 'two.js' ]),
     { file: [ 'one.js', 'two.js' ] }
   )
-  t.deepEqual(
+  a.deepStrictEqual(
     cliArgs(optionDefinitions, [ '--file' ]),
     { file: [] }
   )
-
-  t.end()
 })

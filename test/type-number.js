@@ -1,25 +1,25 @@
-var test = require('tape')
+'use strict'
+var test = require('test-runner')
 var cliArgs = require('../')
+var a = require('assert')
 
 var optionDefinitions = [
   { name: 'one', type: Number }
 ]
 
-test('type-number: different values', function (t) {
-  t.deepEqual(
+test('type-number: different values', function () {
+  a.deepStrictEqual(
     cliArgs(optionDefinitions, [ '--one', '1' ]),
     { one: 1 }
   )
-  t.deepEqual(
+  a.deepStrictEqual(
     cliArgs(optionDefinitions, [ '--one' ]),
     { one: null }
   )
-  t.deepEqual(
+  a.deepStrictEqual(
     cliArgs(optionDefinitions, [ '--one', '-1' ]),
     { one: -1 }
   )
   var result = cliArgs(optionDefinitions, [ '--one', 'asdf' ])
-  t.ok(isNaN(result.one))
-
-  t.end()
+  a.ok(isNaN(result.one))
 })

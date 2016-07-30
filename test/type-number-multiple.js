@@ -1,30 +1,30 @@
-var test = require('tape')
+'use strict'
+var test = require('test-runner')
 var cliArgs = require('../')
+var a = require('assert')
 
 var optionDefinitions = [
   { name: 'array', type: Number, multiple: true }
 ]
 
-test('number multiple: 1', function (t) {
+test('number multiple: 1', function () {
   var argv = [ '--array', '1', '2', '3' ]
   var result = cliArgs(optionDefinitions, argv)
-  t.deepEqual(result, {
+  a.deepStrictEqual(result, {
     array: [ 1, 2, 3 ]
   })
-  t.notDeepEqual(result, {
+  a.notDeepStrictEqual(result, {
     array: [ '1', '2', '3' ]
   })
-  t.end()
 })
 
-test('number multiple: 2', function (t) {
+test('number multiple: 2', function () {
   var argv = [ '--array', '1', '--array', '2', '--array', '3' ]
   var result = cliArgs(optionDefinitions, argv)
-  t.deepEqual(result, {
+  a.deepStrictEqual(result, {
     array: [ 1, 2, 3 ]
   })
-  t.notDeepEqual(result, {
+  a.notDeepStrictEqual(result, {
     array: [ '1', '2', '3' ]
   })
-  t.end()
 })

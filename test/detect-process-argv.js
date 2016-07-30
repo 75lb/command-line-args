@@ -1,19 +1,19 @@
-var test = require('tape')
+'use strict'
+var test = require('test-runner')
 var cliArgs = require('../')
+var a = require('assert')
 
-test('detect process.argv: should automatically remove first two argv items', function (t) {
+test('detect process.argv: should automatically remove first two argv items', function () {
   process.argv = [ 'node', 'filename', '--one', 'eins' ]
-  t.deepEqual(cliArgs({ name: 'one' }, process.argv), {
+  a.deepStrictEqual(cliArgs({ name: 'one' }, process.argv), {
     one: 'eins'
   })
-  t.end()
 })
 
-test('process.argv is left untouched', function (t) {
+test('process.argv is left untouched', function () {
   process.argv = [ 'node', 'filename', '--one', 'eins' ]
-  t.deepEqual(cliArgs({ name: 'one' }), {
+  a.deepStrictEqual(cliArgs({ name: 'one' }), {
     one: 'eins'
   })
-  t.deepEqual(process.argv, [ 'node', 'filename', '--one', 'eins' ])
-  t.end()
+  a.deepStrictEqual(process.argv, [ 'node', 'filename', '--one', 'eins' ])
 })

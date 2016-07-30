@@ -1,5 +1,7 @@
-var test = require('tape')
+'use strict'
+var test = require('test-runner')
 var detect = require('feature-detect-es6')
+var a = require('assert')
 var Definitions
 
 if (detect.all('class', 'arrowFunction', 'newArrayFeatures')) {
@@ -9,21 +11,18 @@ if (detect.all('class', 'arrowFunction', 'newArrayFeatures')) {
   Definitions = require('../es5/definitions')
 }
 
-test('.createOutput()', function (t) {
+test('.createOutput()', function () {
   var definitions = new Definitions([ { name: 'one', defaultValue: 'eins' } ])
-  t.deepEqual(definitions.createOutput(), { one: 'eins' })
-  t.end()
+  a.deepStrictEqual(definitions.createOutput(), { one: 'eins' })
 })
 
-test('.get()', function (t) {
+test('.get()', function () {
   var definitions = new Definitions([ { name: 'one', defaultValue: 'eins' } ])
-  t.strictEqual(definitions.get('--one').name, 'one')
-  t.end()
+  a.strictEqual(definitions.get('--one').name, 'one')
 })
 
-test('.validate()', function (t) {
-  t.throws(function () {
+test('.validate()', function () {
+  a.throws(function () {
     var definitions = new Definitions([ { name: 'one' }, { name: 'one' } ])
   })
-  t.end()
 })

@@ -1,15 +1,16 @@
-var test = require('tape')
+'use strict'
+var test = require('test-runner')
 var cliArgs = require('../')
+var a = require('assert')
 
 var optionDefinitions = [
   { name: 'array', type: Boolean, multiple: true }
 ]
 
-test('type-boolean-multiple: 1', function (t) {
+test('type-boolean-multiple: 1', function () {
   var argv = [ '--array', '--array', '--array' ]
   var result = cliArgs(optionDefinitions, argv)
-  t.deepEqual(result, {
+  a.deepStrictEqual(result, {
     array: [ true, true, true ]
   })
-  t.end()
 })

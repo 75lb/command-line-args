@@ -1,54 +1,51 @@
-var test = require('tape')
+'use strict'
+var test = require('test-runner')
 var cliArgs = require('../')
+var a = require('assert')
 
 var optionDefinitions = [
   { name: 'one' },
   { name: 'two' }
 ]
 
-test('name: no argv values', function (t) {
+test('name: no argv values', function () {
   var argv = []
   var result = cliArgs(optionDefinitions, argv)
-  t.deepEqual(result, {})
-  t.end()
+  a.deepStrictEqual(result, {})
 })
 
-test('name: just names, no values', function (t) {
+test('name: just names, no values', function () {
   var argv = [ '--one', '--two' ]
   var result = cliArgs(optionDefinitions, argv)
-  t.deepEqual(result, {
+  a.deepStrictEqual(result, {
     one: true,
     two: true
   })
-  t.end()
 })
 
-test('name: just names, no values, unpassed value', function (t) {
+test('name: just names, no values, unpassed value', function () {
   var argv = [ '--one', '--two' ]
   var result = cliArgs(optionDefinitions, argv)
-  t.deepEqual(result, {
+  a.deepStrictEqual(result, {
     one: true,
     two: true
   })
-  t.end()
 })
 
-test('name: just names, one value, one unpassed value', function (t) {
+test('name: just names, one value, one unpassed value', function () {
   var argv = [ '--one', 'one', '--two' ]
   var result = cliArgs(optionDefinitions, argv)
-  t.deepEqual(result, {
+  a.deepStrictEqual(result, {
     one: 'one',
     two: true
   })
-  t.end()
 })
 
-test('name: just names, two values', function (t) {
+test('name: just names, two values', function () {
   var argv = [ '--one', 'one', '--two', 'two' ]
   var result = cliArgs(optionDefinitions, argv)
-  t.deepEqual(result, {
+  a.deepStrictEqual(result, {
     one: 'one',
     two: 'two'
   })
-  t.end()
 })

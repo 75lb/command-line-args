@@ -1,5 +1,7 @@
-var test = require('tape')
+'use strict'
+var test = require('test-runner')
 var cliArgs = require('../')
+var a = require('assert')
 
 var optionDefinitions = [
   { name: 'verbose', alias: 'v' },
@@ -8,27 +10,24 @@ var optionDefinitions = [
   { name: 'dry-run', alias: 'd' }
 ]
 
-test('alias: one boolean', function (t) {
+test('alias: one boolean', function () {
   var argv = [ '-v' ]
-  t.deepEqual(cliArgs(optionDefinitions, argv), {
+  a.deepStrictEqual(cliArgs(optionDefinitions, argv), {
     verbose: true
   })
-  t.end()
 })
 
-test('alias: one --this-type boolean', function (t) {
+test('alias: one --this-type boolean', function () {
   var argv = [ '-d' ]
-  t.deepEqual(cliArgs(optionDefinitions, argv), {
+  a.deepStrictEqual(cliArgs(optionDefinitions, argv), {
     'dry-run': true
   })
-  t.end()
 })
 
-test('alias: one boolean, one string', function (t) {
+test('alias: one boolean, one string', function () {
   var argv = [ '-v', '-c' ]
-  t.deepEqual(cliArgs(optionDefinitions, argv), {
+  a.deepStrictEqual(cliArgs(optionDefinitions, argv), {
     verbose: true,
     colour: true
   })
-  t.end()
 })
