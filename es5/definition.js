@@ -41,7 +41,15 @@ var OptionDefinition = function () {
   }, {
     key: 'isBoolean',
     value: function isBoolean() {
-      return this.type === Boolean;
+      if (!this.type) {
+        return false;
+      } else { // Fall back to ES5 Method
+        var result = /^function\s+([\w\$]+)\s*\(/.exec( this.type.toString() );
+        if (result && result.length>=2 && result[1] == "Boolean") {
+            return true;
+        }
+      }
+      return false;
     }
   }]);
 
