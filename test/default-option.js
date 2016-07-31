@@ -32,7 +32,6 @@ test('defaultOption: after a boolean', function () {
     cliArgs(definitions, [ '--one', 'sfsgf' ]),
     { one: true, two: 'sfsgf' }
   )
-
 })
 
 test('defaultOption: multiple defaultOption values between other arg/value pairs', function () {
@@ -71,5 +70,4 @@ test('defaultOption: floating args present but no defaultOption', function () {
     cliArgs(definitions, [ 'aaa', '--one', 'aaa', 'aaa' ]),
     { one: true }
   )
-
 })

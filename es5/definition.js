@@ -4,6 +4,8 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+var t = require('typical');
+
 var OptionDefinition = function () {
   function OptionDefinition(definition) {
     _classCallCheck(this, OptionDefinition);
@@ -41,15 +43,11 @@ var OptionDefinition = function () {
   }, {
     key: 'isBoolean',
     value: function isBoolean() {
-      if (!this.type) {
+      if (this.type) {
+        return this.type === Boolean || t.isFunction(this.type) && this.type.name === 'Boolean';
+      } else {
         return false;
-      } else { // Fall back to ES5 Method
-        var result = /^function\s+([\w\$]+)\s*\(/.exec( this.type.toString() );
-        if (result && result.length>=2 && result[1] == "Boolean") {
-            return true;
-        }
       }
-      return false;
     }
   }]);
 

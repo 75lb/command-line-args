@@ -29,7 +29,6 @@ test('err-invalid-definition: throws if dev set a numeric alias', function () {
   } catch (err) {
     a.strictEqual(err.name, 'INVALID_ALIAS')
   }
-
 })
 
 test('err-invalid-definition: throws if dev set an alias of "-"', function () {
@@ -44,7 +43,6 @@ test('err-invalid-definition: throws if dev set an alias of "-"', function () {
   } catch (err) {
     a.strictEqual(err.name, 'INVALID_ALIAS')
   }
-
 })
 
 test('err-invalid-definition: multi-character alias', function () {
@@ -59,7 +57,6 @@ test('err-invalid-definition: multi-character alias', function () {
   } catch (err) {
     a.strictEqual(err.name, 'INVALID_ALIAS')
   }
-
 })
 
 test('err-invalid-definition: invalid type values', function () {
@@ -88,7 +85,6 @@ test('err-invalid-definition: invalid type values', function () {
   a.doesNotThrow(function () {
     cliArgs([ { name: 'one', type: function () {} } ], argv)
   }, /invalid/i)
-
 })
 
 test('err-invalid-definition: value without option definition', function () {
@@ -128,7 +124,6 @@ test('err-invalid-definition: value without option definition', function () {
   } catch (err) {
     a.strictEqual(err.name, 'UNKNOWN_OPTION', 'getOpts')
   }
-
 })
 
 test('err-invalid-definition: duplicate name', function () {
@@ -144,7 +139,6 @@ test('err-invalid-definition: duplicate name', function () {
   } catch (err) {
     a.strictEqual(err.name, 'DUPLICATE_NAME')
   }
-
 })
 
 test('err-invalid-definition: duplicate alias', function () {
@@ -160,7 +154,6 @@ test('err-invalid-definition: duplicate alias', function () {
   } catch (err) {
     a.strictEqual(err.name, 'DUPLICATE_ALIAS')
   }
-
 })
 
 test('err-invalid-definition: multiple defaultOption', function () {
@@ -176,5 +169,4 @@ test('err-invalid-definition: multiple defaultOption', function () {
   } catch (err) {
     a.strictEqual(err.name, 'DUPLICATE_DEFAULT_OPTION')
   }
-
 })

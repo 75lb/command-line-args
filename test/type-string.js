@@ -28,5 +28,4 @@ test.skip('type-string: pass a value resembling an option', function () {
     cliArgs(optionDefinitions, [ '--one', '--yeah' ]),
     { one: '--yeah' }
   )
-  t.end()
 })
