@@ -1,5 +1,5 @@
 'use strict'
-var test = require('test-runner')
+var TestRunner = require('test-runner')
 var detect = require('feature-detect-es6')
 var a = require('core-assert')
 var Definitions
@@ -11,17 +11,19 @@ if (detect.all('class', 'arrowFunction', 'newArrayFeatures')) {
   Definitions = require('../es5/definitions')
 }
 
-test('.createOutput()', function () {
+var runner = new TestRunner()
+
+runner.test('.createOutput()', function () {
   var definitions = new Definitions([ { name: 'one', defaultValue: 'eins' } ])
   a.deepStrictEqual(definitions.createOutput(), { one: 'eins' })
 })
 
-test('.get()', function () {
+runner.test('.get()', function () {
   var definitions = new Definitions([ { name: 'one', defaultValue: 'eins' } ])
   a.strictEqual(definitions.get('--one').name, 'one')
 })
 
-test('.validate()', function () {
+runner.test('.validate()', function () {
   a.throws(function () {
     var definitions = new Definitions([ { name: 'one' }, { name: 'one' } ])
   })

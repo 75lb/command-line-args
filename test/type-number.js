@@ -1,5 +1,5 @@
 'use strict'
-var test = require('test-runner')
+var TestRunner = require('test-runner')
 var cliArgs = require('../')
 var a = require('core-assert')
 
@@ -7,7 +7,9 @@ var optionDefinitions = [
   { name: 'one', type: Number }
 ]
 
-test('type-number: different values', function () {
+var runner = new TestRunner()
+
+runner.test('type-number: different values', function () {
   a.deepStrictEqual(
     cliArgs(optionDefinitions, [ '--one', '1' ]),
     { one: 1 }

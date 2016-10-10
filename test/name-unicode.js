@@ -1,7 +1,9 @@
 'use strict'
-var test = require('test-runner')
+var TestRunner = require('test-runner')
 var cliArgs = require('../')
 var a = require('core-assert')
+
+var runner = new TestRunner()
 
 var optionDefinitions = [
   { name: 'один' },
@@ -9,7 +11,7 @@ var optionDefinitions = [
   { name: 'три', alias: 'т' }
 ]
 
-test('name-unicode: unicode names and aliases are permitted', function () {
+runner.test('name-unicode: unicode names and aliases are permitted', function () {
   var argv = [ '--один', '1', '--两', '2', '-т', '3' ]
   var result = cliArgs(optionDefinitions, argv)
   a.strictEqual(result.один, '1')

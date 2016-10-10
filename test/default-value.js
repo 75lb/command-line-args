@@ -1,9 +1,11 @@
 'use strict'
-var test = require('test-runner')
+var TestRunner = require('test-runner')
 var cliArgs = require('../')
 var a = require('core-assert')
 
-test('default value', function () {
+var runner = new TestRunner()
+
+runner.test('default value', function () {
   a.deepStrictEqual(cliArgs([ { name: 'one' }, { name: 'two', defaultValue: 'two' } ], [ '--one', '1' ]), {
     one: '1',
     two: 'two'
@@ -20,13 +22,13 @@ test('default value', function () {
   )
 })
 
-test('default value', function () {
+runner.test('default value 2', function () {
   var defs = [{ name: 'two', multiple: true, defaultValue: ['two', 'zwei'] }]
   var result = cliArgs(defs, [])
   a.deepStrictEqual(result, { two: [ 'two', 'zwei' ] })
 })
 
-test('default value: array as defaultOption', function () {
+runner.test('default value: array as defaultOption', function () {
   var defs = [
     { name: 'two', multiple: true, defaultValue: ['two', 'zwei'], defaultOption: true }
   ]
@@ -34,7 +36,7 @@ test('default value: array as defaultOption', function () {
   a.deepStrictEqual(cliArgs(defs, argv), { two: [ 'duo' ] })
 })
 
-test('default value: falsy default values', function () {
+runner.test('default value: falsy default values', function () {
   var defs = [
     { name: 'one', defaultValue: 0 },
     { name: 'two', defaultValue: false }

@@ -1,9 +1,11 @@
 'use strict'
-var test = require('test-runner')
+var TestRunner = require('test-runner')
 var cliArgs = require('../')
 var a = require('core-assert')
 
-test('getOpt short notation: two flags, one option', function () {
+var runner = new TestRunner()
+
+runner.test('getOpt short notation: two flags, one option', function () {
   var optionDefinitions = [
     { name: 'flagA', alias: 'a' },
     { name: 'flagB', alias: 'b' },
@@ -18,7 +20,7 @@ test('getOpt short notation: two flags, one option', function () {
   })
 })
 
-test('option=value notation: two plus a regular notation', function () {
+runner.test('option=value notation: two plus a regular notation', function () {
   var optionDefinitions = [
     { name: 'one' },
     { name: 'two' },

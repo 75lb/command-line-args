@@ -1,5 +1,5 @@
 'use strict'
-var test = require('test-runner')
+var TestRunner = require('test-runner')
 var cliArgs = require('../')
 var a = require('core-assert')
 
@@ -9,7 +9,9 @@ var optionDefinitions = [
   { name: 'three', group: 'b' }
 ]
 
-test('groups', function () {
+var runner = new TestRunner()
+
+runner.test('groups', function () {
   a.deepStrictEqual(cliArgs(optionDefinitions, [ '--one', '1', '--two', '2', '--three', '3' ]), {
     a: {
       one: '1',
@@ -26,7 +28,7 @@ test('groups', function () {
   })
 })
 
-test('groups: multiple and _none', function () {
+runner.test('groups: multiple and _none', function () {
   var optionDefinitions = [
     { name: 'one', group: ['a', 'f'] },
     { name: 'two', group: ['a', 'g'] },

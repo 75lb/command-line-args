@@ -1,9 +1,11 @@
 'use strict'
-var test = require('test-runner')
+var TestRunner = require('test-runner')
 var cliArgs = require('../')
 var a = require('core-assert')
 
-test('type-other: different values', function () {
+var runner = new TestRunner()
+
+runner.test('type-other: different values', function () {
   var optionDefinitions = [
     { name: 'file', type: function (file) {
       return file
@@ -20,7 +22,7 @@ test('type-other: different values', function () {
   )
 })
 
-test('type-other: broken custom type function', function () {
+runner.test('type-other: broken custom type function', function () {
   var optionDefinitions = [
     { name: 'file', type: function (file) {
       lasdfjsfakn

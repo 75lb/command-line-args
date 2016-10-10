@@ -1,9 +1,11 @@
 'use strict'
-var test = require('test-runner')
+var TestRunner = require('test-runner')
 var cliArgs = require('../')
 var a = require('core-assert')
 
-test('err-invalid-definition: throws when no definition.name specified', function () {
+var runner = new TestRunner()
+
+runner.test('err-invalid-definition: throws when no definition.name specified', function () {
   var optionDefinitions = [
     { something: 'one' },
     { something: 'two' }
@@ -17,7 +19,7 @@ test('err-invalid-definition: throws when no definition.name specified', functio
   }
 })
 
-test('err-invalid-definition: throws if dev set a numeric alias', function () {
+runner.test('err-invalid-definition: throws if dev set a numeric alias', function () {
   var optionDefinitions = [
     { name: 'colours', alias: '1' }
   ]
@@ -31,7 +33,7 @@ test('err-invalid-definition: throws if dev set a numeric alias', function () {
   }
 })
 
-test('err-invalid-definition: throws if dev set an alias of "-"', function () {
+runner.test('err-invalid-definition: throws if dev set an alias of "-"', function () {
   var optionDefinitions = [
     { name: 'colours', alias: '-' }
   ]
@@ -45,7 +47,7 @@ test('err-invalid-definition: throws if dev set an alias of "-"', function () {
   }
 })
 
-test('err-invalid-definition: multi-character alias', function () {
+runner.test('err-invalid-definition: multi-character alias', function () {
   var optionDefinitions = [
     { name: 'one', alias: 'aa' }
   ]
@@ -59,7 +61,7 @@ test('err-invalid-definition: multi-character alias', function () {
   }
 })
 
-test('err-invalid-definition: invalid type values', function () {
+runner.test('err-invalid-definition: invalid type values', function () {
   var argv = [ '--one', 'something' ]
   try {
     cliArgs([ { name: 'one', type: 'string' } ], argv)
@@ -87,7 +89,7 @@ test('err-invalid-definition: invalid type values', function () {
   }, /invalid/i)
 })
 
-test('err-invalid-definition: value without option definition', function () {
+runner.test('err-invalid-definition: value without option definition', function () {
   var optionDefinitions = [
     { name: 'one', type: Number }
   ]
@@ -126,7 +128,7 @@ test('err-invalid-definition: value without option definition', function () {
   }
 })
 
-test('err-invalid-definition: duplicate name', function () {
+runner.test('err-invalid-definition: duplicate name', function () {
   var optionDefinitions = [
     { name: 'colours' },
     { name: 'colours' }
@@ -141,7 +143,7 @@ test('err-invalid-definition: duplicate name', function () {
   }
 })
 
-test('err-invalid-definition: duplicate alias', function () {
+runner.test('err-invalid-definition: duplicate alias', function () {
   var optionDefinitions = [
     { name: 'one', alias: 'a' },
     { name: 'two', alias: 'a' }
@@ -156,7 +158,7 @@ test('err-invalid-definition: duplicate alias', function () {
   }
 })
 
-test('err-invalid-definition: multiple defaultOption', function () {
+runner.test('err-invalid-definition: multiple defaultOption', function () {
   var optionDefinitions = [
     { name: 'one', defaultOption: true },
     { name: 'two', defaultOption: true }

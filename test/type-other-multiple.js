@@ -1,5 +1,5 @@
 'use strict'
-var test = require('test-runner')
+var TestRunner = require('test-runner')
 var cliArgs = require('../')
 var a = require('core-assert')
 
@@ -9,7 +9,9 @@ var optionDefinitions = [
   }}
 ]
 
-test('type-other-multiple: different values', function () {
+var runner = new TestRunner()
+
+runner.test('type-other-multiple: different values', function () {
   a.deepStrictEqual(
     cliArgs(optionDefinitions, [ '--file', 'one.js' ]),
     { file: [ 'one.js' ] }

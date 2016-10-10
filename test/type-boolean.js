@@ -1,9 +1,11 @@
 'use strict'
-var test = require('test-runner')
+var TestRunner = require('test-runner')
 var cliArgs = require('../')
 var a = require('core-assert')
 
-test('type-boolean: different values', function () {
+var runner = new TestRunner()
+
+runner.test('type-boolean: different values', function () {
   var optionDefinitions = [
     { name: 'one', type: Boolean }
   ]
@@ -29,7 +31,7 @@ test('type-boolean: different values', function () {
 var origBoolean = Boolean
 
 /* test in contexts which override the standard global Boolean constructor */
-test('type-boolean: global Boolean overridden', function () {
+runner.test('type-boolean: global Boolean overridden', function () {
   function Boolean () {
     return origBoolean.apply(origBoolean, arguments)
   }

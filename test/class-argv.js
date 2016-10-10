@@ -1,5 +1,5 @@
 'use strict'
-var test = require('test-runner')
+var TestRunner = require('test-runner')
 var detect = require('feature-detect-es6')
 var a = require('core-assert')
 var Argv
@@ -14,7 +14,9 @@ if (detect.all('class', 'arrowFunction', 'newArrayFeatures')) {
   Definitions = require('../es5/definitions')
 }
 
-test('.expandOptionEqualsNotation()', function () {
+var runner = new TestRunner()
+
+runner.test('.expandOptionEqualsNotation()', function () {
   var argv = new Argv([ '--one=1', '--two', '2', '--three=3', '4' ])
   argv.expandOptionEqualsNotation()
   a.deepStrictEqual(argv.list, [
@@ -22,7 +24,7 @@ test('.expandOptionEqualsNotation()', function () {
   ])
 })
 
-test('.expandGetoptNotation()', function () {
+runner.test('.expandGetoptNotation()', function () {
   var argv = new Argv([ '-abc' ])
   argv.expandGetoptNotation()
   a.deepStrictEqual(argv.list, [
@@ -30,7 +32,7 @@ test('.expandGetoptNotation()', function () {
   ])
 })
 
-test('.expandGetoptNotation() with values', function () {
+runner.test('.expandGetoptNotation() with values', function () {
   var argv = new Argv([ '-abc', '1', '-a', '2', '-bc' ])
   argv.expandGetoptNotation()
   a.deepStrictEqual(argv.list, [
@@ -38,7 +40,7 @@ test('.expandGetoptNotation() with values', function () {
   ])
 })
 
-test('.validate()', function () {
+runner.test('.validate()', function () {
   var definitions = new Definitions([
     { name: 'one', type: Number }
   ])

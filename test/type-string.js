@@ -1,5 +1,5 @@
 'use strict'
-var test = require('test-runner')
+var TestRunner = require('test-runner')
 var cliArgs = require('../')
 var a = require('core-assert')
 
@@ -7,7 +7,9 @@ var optionDefinitions = [
   { name: 'one', type: String }
 ]
 
-test('type-string: different values', function () {
+var runner = new TestRunner()
+
+runner.test('type-string: different values', function () {
   a.deepStrictEqual(
     cliArgs(optionDefinitions, [ '--one', 'yeah' ]),
     { one: 'yeah' }
@@ -23,7 +25,7 @@ test('type-string: different values', function () {
 })
 
 /* currently not supported, it would complain --yeah is an invalid option */
-test.skip('type-string: pass a value resembling an option', function () {
+runner.skip('type-string: pass a value resembling an option', function () {
   a.deepStrictEqual(
     cliArgs(optionDefinitions, [ '--one', '--yeah' ]),
     { one: '--yeah' }

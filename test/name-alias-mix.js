@@ -1,7 +1,9 @@
 'use strict'
-var test = require('test-runner')
+var TestRunner = require('test-runner')
 var cliArgs = require('../')
 var a = require('core-assert')
+
+var runner = new TestRunner()
 
 var optionDefinitions = [
   { name: 'one', alias: 'o' },
@@ -10,7 +12,7 @@ var optionDefinitions = [
   { name: 'four', alias: 'f' }
 ]
 
-test('name-alias-mix: one of each', function () {
+runner.test('name-alias-mix: one of each', function () {
   var argv = [ '--one', '-t', '--three' ]
   var result = cliArgs(optionDefinitions, argv)
   a.strictEqual(result.one, true)

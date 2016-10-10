@@ -1,9 +1,11 @@
 'use strict'
-var test = require('test-runner')
+var TestRunner = require('test-runner')
 var cliArgs = require('../')
 var a = require('core-assert')
 
-test('defaultOption: string', function () {
+var runner = new TestRunner()
+
+runner.test('defaultOption: string', function () {
   var optionDefinitions = [
     { name: 'files', defaultOption: true }
   ]
@@ -13,7 +15,7 @@ test('defaultOption: string', function () {
   })
 })
 
-test('defaultOption: multiple string', function () {
+runner.test('defaultOption: multiple string', function () {
   var optionDefinitions = [
     { name: 'files', defaultOption: true, multiple: true }
   ]
@@ -23,7 +25,7 @@ test('defaultOption: multiple string', function () {
   })
 })
 
-test('defaultOption: after a boolean', function () {
+runner.test('defaultOption: after a boolean', function () {
   var definitions = [
     { name: 'one', type: Boolean },
     { name: 'two', defaultOption: true }
@@ -34,7 +36,7 @@ test('defaultOption: after a boolean', function () {
   )
 })
 
-test('defaultOption: multiple defaultOption values between other arg/value pairs', function () {
+runner.test('defaultOption: multiple defaultOption values between other arg/value pairs', function () {
   var optionDefinitions = [
     { name: 'one' },
     { name: 'two' },
@@ -48,7 +50,7 @@ test('defaultOption: multiple defaultOption values between other arg/value pairs
   })
 })
 
-test('defaultOption: multiple defaultOption values between other arg/value pairs 2', function () {
+runner.test('defaultOption: multiple defaultOption values between other arg/value pairs 2', function () {
   var optionDefinitions = [
     { name: 'one', type: Boolean },
     { name: 'two' },
@@ -62,7 +64,7 @@ test('defaultOption: multiple defaultOption values between other arg/value pairs
   })
 })
 
-test('defaultOption: floating args present but no defaultOption', function () {
+runner.test('defaultOption: floating args present but no defaultOption', function () {
   var definitions = [
     { name: 'one', type: Boolean }
   ]
