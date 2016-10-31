@@ -5,7 +5,7 @@ var os = require('os')
 var fs = require('fs')
 var path = require('path')
 
-var tmpPath = path.join(os.tmpDir(), Date.now() + '-cla.js')
+var tmpPath = path.join(os.tmpdir(), Date.now() + '-cla.js')
 
 process.stdin
   .pipe(fs.createWriteStream(tmpPath))
