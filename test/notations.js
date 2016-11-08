@@ -41,9 +41,14 @@ runner.test('option=value notation: value contains "="', function () {
     { name: 'three' }
   ]
 
-  var argv = [ '--url=my-url?q=123', '--two', '2', '--three=3' ]
-  var result = cliArgs(optionDefinitions, argv)
+  var result = cliArgs(optionDefinitions, [ '--url=my-url?q=123', '--two', '2', '--three=3' ])
   a.strictEqual(result.url, 'my-url?q=123')
   a.strictEqual(result.two, '2')
   a.strictEqual(result.three, '3')
+
+  result = cliArgs(optionDefinitions, [ '--url=my-url?q=123=1' ])
+  a.strictEqual(result.url, 'my-url?q=123=1')
+
+  result = cliArgs({ name: 'my-url' }, [ '--my-url=my-url?q=123=1' ])
+  a.strictEqual(result['my-url'], 'my-url?q=123=1')
 })
