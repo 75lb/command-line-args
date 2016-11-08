@@ -33,3 +33,17 @@ runner.test('option=value notation: two plus a regular notation', function () {
   a.strictEqual(result.two, '2')
   a.strictEqual(result.three, '3')
 })
+
+runner.test('option=value notation: value contains "="', function () {
+  var optionDefinitions = [
+    { name: 'url' },
+    { name: 'two' },
+    { name: 'three' }
+  ]
+
+  var argv = [ '--url=my-url?q=123', '--two', '2', '--three=3' ]
+  var result = cliArgs(optionDefinitions, argv)
+  a.strictEqual(result.url, 'my-url?q=123')
+  a.strictEqual(result.two, '2')
+  a.strictEqual(result.three, '3')
+})

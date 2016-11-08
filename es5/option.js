@@ -34,7 +34,7 @@ var option = {
     return this.short.test(arg) || this.long.test(arg);
   },
 
-  optEquals: new Arg(/^(--\S+)=(.*)/)
+  optEquals: new Arg(/^(--\S+?)=(.*)/)
 };
 
 module.exports = option;
