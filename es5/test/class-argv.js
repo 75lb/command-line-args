@@ -4,7 +4,7 @@ var TestRunner = require('test-runner');
 var detect = require('feature-detect-es6');
 var a = require('core-assert');
 var Argv = require('../lib/argv');
-var Definitions = require('../lib/Definitions');
+var Definitions = require('../lib/definitions');
 
 var runner = new TestRunner();
 
