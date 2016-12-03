@@ -4,12 +4,12 @@
   "description": "A library to parse command-line options.",
   "repository": "https://github.com/75lb/command-line-args.git",
   "main": "index",
-  "bin": "bin/cli.js",
+  "bin": "bin.js",
   "scripts": {
-    "test": "test-runner test/*.js",
+    "test": "node test.js",
     "docs": "jsdoc2md -l off -t jsdoc2md/README.hbs lib/*.js > README.md; echo",
-    "cover": "istanbul cover ./node_modules/.bin/test-runner test/*.js && cat coverage/lcov.info | ./node_modules/.bin/coveralls && rm -rf coverage; echo",
-    "es5": "babel --presets babel-preset-es2015 --no-comments lib --out-dir es5"
+    "cover": "istanbul cover ./node_modules/.bin/test-runner src/test/*.js && cat coverage/lcov.info | ./node_modules/.bin/coveralls && rm -rf coverage; echo",
+    "es5": "rm -rf es5 && babel --presets babel-preset-es2015 --no-comments src --out-dir es5"
   },
   "keywords": [
     "argv",
@@ -29,9 +29,9 @@
   "devDependencies": {
     "babel-preset-es2015": "^6.18.0",
     "core-assert": "^0.2.1",
-    "coveralls": "^2.11.14",
+    "coveralls": "^2.11.15",
     "jsdoc-to-markdown": "^2.0.1",
-    "test-runner": "^0.2.5",
+    "test-runner": "^0.3.0",
     "test-value": "^2.1.0"
   },
   "dependencies": {
