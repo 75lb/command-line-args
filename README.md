@@ -30,7 +30,7 @@ const optionDefinitions = [
   { name: 'timeout', alias: 't', type: Number }
 ]
 ```
-The [`type`](#optiontype--function) property is a setter function (the value you receive is the output of this), giving you full control over the value received.
+The [`type`](#optiontype--function) property is a setter function (the value supplied is passed through this), giving you full control over the value received.
 
 Next, parse the options using [commandLineArgs()](#commandlineargsdefinitions-argv--object-):
 ```js
@@ -71,6 +71,20 @@ Notation rules for setting command-line options.
 * Short options ([alias](#optionalias--string)) can be set in groups. The following are equivalent:
   * `-a -b -c`
   * `-abc`
+
+### Ambiguous values
+
+Imagine we are using "grep-tool" to search for the string `'-f'`:
+
+```
+$ grep-tool --search -f
+```
+
+We have an issue here: command-line-args will assume we are setting two options (`--search` and `-f`). In actuality, we are passing one option (`--search`) and one value (`-f`). In cases like this, avoid ambiguity by using `--option=value` notation:
+
+```
+$ grep-tool --search=-f
+```
 
 ## Install
 

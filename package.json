@@ -7,7 +7,7 @@
   "bin": "bin.js",
   "scripts": {
     "test": "node test.js",
-    "docs": "jsdoc2md -l off -t jsdoc2md/README.hbs lib/*.js > README.md; echo",
+    "docs": "jsdoc2md -l off -t jsdoc2md/README.hbs src/lib/*.js > README.md; echo",
     "cover": "istanbul cover ./node_modules/.bin/test-runner src/test/*.js && cat coverage/lcov.info | ./node_modules/.bin/coveralls && rm -rf coverage; echo",
     "es5": "rm -rf es5 && babel --presets babel-preset-es2015 --no-comments src --out-dir es5"
   },
