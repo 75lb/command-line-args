@@ -2,7 +2,7 @@
 const TestRunner = require('test-runner')
 const detect = require('feature-detect-es6')
 const a = require('core-assert')
-const Argv = require('../lib/Argv')
+const Argv = require('../lib/argv')
 const Definitions = require('../lib/Definitions')
 
 const runner = new TestRunner()
