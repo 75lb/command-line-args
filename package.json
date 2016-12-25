@@ -1,6 +1,6 @@
 {
   "name": "command-line-args",
-  "version": "3.0.4",
+  "version": "3.0.5",
   "description": "A library to parse command-line options.",
   "repository": "https://github.com/75lb/command-line-args.git",
   "main": "index",
