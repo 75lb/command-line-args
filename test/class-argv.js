@@ -31,7 +31,8 @@ runner.test('.expandGetoptNotation() with values', function () {
 })
 
 runner.test('.validate()', function () {
-  const definitions = new Definitions([
+  const definitions = new Definitions()
+  definitions.load([
     { name: 'one', type: Number }
   ])
 

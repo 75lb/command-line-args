@@ -48,3 +48,18 @@ runner.test('default value: falsy default values', function () {
     two: false
   })
 })
+
+runner.test('default value: is arrayifed if multiple set', function () {
+  const defs = [
+    { name: 'one', defaultValue: 0, multiple: true }
+  ]
+
+  let argv = []
+  a.deepStrictEqual(cliArgs(defs, argv), {
+    one: [ 0 ]
+  })
+  argv = [ '--one', '2' ]
+  a.deepStrictEqual(cliArgs(defs, argv), {
+    one: [ '2' ]
+  })
+})
