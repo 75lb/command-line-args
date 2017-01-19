@@ -7,9 +7,12 @@ const runner = new TestRunner()
 
 runner.test('type-other: different values', function () {
   const optionDefinitions = [
-    { name: 'file', type: function (file) {
-      return file
-    }}
+    {
+      name: 'file',
+      type: function (file) {
+        return file
+      }
+    }
   ]
 
   a.deepStrictEqual(
@@ -24,9 +27,12 @@ runner.test('type-other: different values', function () {
 
 runner.test('type-other: broken custom type function', function () {
   const optionDefinitions = [
-    { name: 'file', type: function (file) {
-      lasdfjsfakn
-    }}
+    {
+      name: 'file',
+      type: function (file) {
+        lasdfjsfakn // eslint-disable-line
+      }
+    }
   ]
   a.throws(function () {
     cliArgs(optionDefinitions, [ '--file', 'one.js' ])

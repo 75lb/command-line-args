@@ -1,6 +1,5 @@
 'use strict'
 const TestRunner = require('test-runner')
-const detect = require('feature-detect-es6')
 const a = require('assert')
 const Argv = require('../lib/argv')
 const Definitions = require('../lib/definitions')

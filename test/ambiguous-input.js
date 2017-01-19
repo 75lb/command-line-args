@@ -13,14 +13,10 @@ runner.test('ambiguous input: value looks like option', function () {
     colour: 'red'
   })
   a.throws(function () {
-    cliArgs(optionDefinitions, [ '--colour', '--red' ]), {
-      colour: '--red'
-    }
+    cliArgs(optionDefinitions, [ '--colour', '--red' ])
   })
   a.doesNotThrow(function () {
-    cliArgs(optionDefinitions, [ '--colour=--red' ]), {
-      colour: '--red'
-    }
+    cliArgs(optionDefinitions, [ '--colour=--red' ])
   })
   a.deepStrictEqual(cliArgs(optionDefinitions, [ '--colour=--red' ]), {
     colour: '--red'

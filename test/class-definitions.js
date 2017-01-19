@@ -1,6 +1,5 @@
 'use strict'
 const TestRunner = require('test-runner')
-const detect = require('feature-detect-es6')
 const a = require('assert')
 const Definitions = require('../lib/definitions')
 
@@ -18,6 +17,6 @@ runner.test('.get()', function () {
 
 runner.test('.validate()', function () {
   a.throws(function () {
-    const definitions = new Definitions([ { name: 'one' }, { name: 'one' } ])
+    const definitions = new Definitions([ { name: 'one' }, { name: 'one' } ]) // eslint-disable-line no-unused-vars
   })
 })

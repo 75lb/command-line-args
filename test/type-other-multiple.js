@@ -4,9 +4,13 @@ const cliArgs = require('../')
 const a = require('assert')
 
 const optionDefinitions = [
-  { name: 'file', multiple: true, type: function (file) {
-    return file
-  }}
+  {
+    name: 'file',
+    multiple: true,
+    type: function (file) {
+      return file
+    }
+  }
 ]
 
 const runner = new TestRunner()
