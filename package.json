@@ -3,13 +3,12 @@
   "version": "3.0.5",
   "description": "A library to parse command-line options.",
   "repository": "https://github.com/75lb/command-line-args.git",
-  "main": "index",
-  "bin": "bin.js",
+  "main": "lib/command-line-args.js",
+  "bin": "bin/cli.js",
   "scripts": {
-    "test": "node test.js",
-    "docs": "jsdoc2md -l off -t jsdoc2md/README.hbs src/lib/*.js > README.md; echo",
-    "cover": "istanbul cover ./node_modules/.bin/test-runner src/test/*.js && cat coverage/lcov.info | ./node_modules/.bin/coveralls && rm -rf coverage; echo",
-    "es5": "rm -rf es5 && babel --presets babel-preset-es2015 --no-comments src --out-dir es5"
+    "test": "test-runner test/*.js",
+    "docs": "jsdoc2md -l off -t jsdoc2md/README.hbs lib/*.js > README.md; echo",
+    "cover": "istanbul cover ./node_modules/.bin/test-runner test/*.js && cat coverage/lcov.info | ./node_modules/.bin/coveralls && rm -rf coverage; echo"
   },
   "keywords": [
     "argv",
@@ -27,8 +26,6 @@
   "author": "Lloyd Brookes <75pound@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "babel-preset-es2015": "^6.18.0",
-    "core-assert": "^0.2.1",
     "coveralls": "^2.11.15",
     "jsdoc-to-markdown": "^2.0.1",
     "test-runner": "^0.3.0",
@@ -36,13 +33,7 @@
   },
   "dependencies": {
     "array-back": "^1.0.4",
-    "feature-detect-es6": "^1.3.1",
     "find-replace": "^1.0.2",
     "typical": "^2.6.0"
-  },
-  "standard": {
-    "ignore": [
-      "es5"
-    ]
   }
 }
