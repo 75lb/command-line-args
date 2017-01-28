@@ -6,25 +6,25 @@ const a = require('assert')
 const runner = new TestRunner()
 
 runner.test('bad-input: handles missing option value', function () {
-  const optionDefinitions = [
+  const definitions = [
     { name: 'colour', type: String },
     { name: 'files' }
   ]
-  a.deepStrictEqual(commandLineArgs(optionDefinitions, [ '--colour' ]), {
+  a.deepStrictEqual(commandLineArgs(definitions, { argv: [ '--colour' ] }), {
     colour: null
   })
-  a.deepStrictEqual(commandLineArgs(optionDefinitions, [ '--colour', '--files', 'yeah' ]), {
+  a.deepStrictEqual(commandLineArgs(definitions, { argv: [ '--colour', '--files', 'yeah' ] }), {
     colour: null,
     files: 'yeah'
   })
 })
 
 runner.test('bad-input: handles arrays with relative paths', function () {
-  const optionDefinitions = [
+  const definitions = [
     { name: 'colours', type: String, multiple: true }
   ]
   const argv = [ '--colours', '../what', '../ever' ]
-  a.deepStrictEqual(commandLineArgs(optionDefinitions, argv), {
+  a.deepStrictEqual(commandLineArgs(definitions, { argv }), {
     colours: [ '../what', '../ever' ]
   })
 })

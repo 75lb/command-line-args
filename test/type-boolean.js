@@ -6,24 +6,24 @@ const a = require('assert')
 const runner = new TestRunner()
 
 runner.test('type-boolean: different values', function () {
-  const optionDefinitions = [
+  const definitions = [
     { name: 'one', type: Boolean }
   ]
 
   a.deepStrictEqual(
-    commandLineArgs(optionDefinitions, [ '--one' ]),
+    commandLineArgs(definitions, { argv: [ '--one' ] }),
     { one: true }
   )
   a.deepStrictEqual(
-    commandLineArgs(optionDefinitions, [ '--one', 'true' ]),
+    commandLineArgs(definitions, { argv: [ '--one', 'true' ] }),
     { one: true }
   )
   a.deepStrictEqual(
-    commandLineArgs(optionDefinitions, [ '--one', 'false' ]),
+    commandLineArgs(definitions, { argv: [ '--one', 'false' ] }),
     { one: true }
   )
   a.deepStrictEqual(
-    commandLineArgs(optionDefinitions, [ '--one', 'sfsgf' ]),
+    commandLineArgs(definitions, { argv: [ '--one', 'sfsgf' ] }),
     { one: true }
   )
 })
@@ -36,24 +36,24 @@ runner.test('type-boolean: global Boolean overridden', function () {
     return origBoolean.apply(origBoolean, arguments)
   }
 
-  const optionDefinitions = [
+  const definitions = [
     { name: 'one', type: Boolean }
   ]
 
   a.deepStrictEqual(
-    commandLineArgs(optionDefinitions, [ '--one', 'true' ]),
+    commandLineArgs(definitions, { argv: [ '--one', 'true' ] }),
     { one: true }
   )
   a.deepStrictEqual(
-    commandLineArgs(optionDefinitions, [ '--one', 'false' ]),
+    commandLineArgs(definitions, { argv: [ '--one', 'false' ] }),
     { one: true }
   )
   a.deepStrictEqual(
-    commandLineArgs(optionDefinitions, [ '--one', 'sfsgf' ]),
+    commandLineArgs(definitions, { argv: [ '--one', 'sfsgf' ] }),
     { one: true }
   )
   a.deepStrictEqual(
-    commandLineArgs(optionDefinitions, [ '--one' ]),
+    commandLineArgs(definitions, { argv: [ '--one' ] }),
     { one: true }
   )
 })

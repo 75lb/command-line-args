@@ -6,7 +6,7 @@ const a = require('assert')
 const runner = new TestRunner()
 
 runner.test('type-other: different values', function () {
-  const optionDefinitions = [
+  const definitions = [
     {
       name: 'file',
       type: function (file) {
@@ -16,17 +16,17 @@ runner.test('type-other: different values', function () {
   ]
 
   a.deepStrictEqual(
-    commandLineArgs(optionDefinitions, [ '--file', 'one.js' ]),
+    commandLineArgs(definitions, { argv: [ '--file', 'one.js' ] }),
     { file: 'one.js' }
   )
   a.deepStrictEqual(
-    commandLineArgs(optionDefinitions, [ '--file' ]),
+    commandLineArgs(definitions, { argv: [ '--file' ] }),
     { file: null }
   )
 })
 
 runner.test('type-other: broken custom type function', function () {
-  const optionDefinitions = [
+  const definitions = [
     {
       name: 'file',
       type: function (file) {
@@ -35,6 +35,6 @@ runner.test('type-other: broken custom type function', function () {
     }
   ]
   a.throws(function () {
-    commandLineArgs(optionDefinitions, [ '--file', 'one.js' ])
+    commandLineArgs(definitions, { argv: [ '--file', 'one.js' ] })
   })
 })

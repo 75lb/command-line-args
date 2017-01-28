@@ -11,22 +11,22 @@ runner.test('default value', function () {
     { name: 'two', defaultValue: 'two' }
   ]
   let argv = [ '--one', '1' ]
-  a.deepStrictEqual(commandLineArgs(defs, argv), {
+  a.deepStrictEqual(commandLineArgs(defs, { argv }), {
     one: '1',
     two: 'two'
   })
 
   defs = [ { name: 'two', defaultValue: 'two' } ]
   argv = []
-  a.deepStrictEqual(commandLineArgs(defs, argv), { two: 'two' })
+  a.deepStrictEqual(commandLineArgs(defs, { argv }), { two: 'two' })
 
   defs = [ { name: 'two', defaultValue: 'two' } ]
   argv = [ '--two', 'zwei' ]
-  a.deepStrictEqual(commandLineArgs(defs, argv), { two: 'zwei' })
+  a.deepStrictEqual(commandLineArgs(defs, { argv }), { two: 'zwei' })
 
   defs = [ { name: 'two', multiple: true, defaultValue: [ 'two', 'zwei' ] } ]
   argv = [ '--two', 'duo' ]
-  a.deepStrictEqual(commandLineArgs(defs, argv), { two: [ 'duo' ] })
+  a.deepStrictEqual(commandLineArgs(defs, { argv }), { two: [ 'duo' ] })
 })
 
 runner.test('default value 2', function () {
@@ -40,7 +40,7 @@ runner.test('default value: array as defaultOption', function () {
     { name: 'two', multiple: true, defaultValue: ['two', 'zwei'], defaultOption: true }
   ]
   const argv = [ 'duo' ]
-  a.deepStrictEqual(commandLineArgs(defs, argv), { two: [ 'duo' ] })
+  a.deepStrictEqual(commandLineArgs(defs, { argv }), { two: [ 'duo' ] })
 })
 
 runner.test('default value: falsy default values', function () {
@@ -50,7 +50,7 @@ runner.test('default value: falsy default values', function () {
   ]
 
   const argv = []
-  a.deepStrictEqual(commandLineArgs(defs, argv), {
+  a.deepStrictEqual(commandLineArgs(defs, { argv }), {
     one: 0,
     two: false
   })
@@ -62,11 +62,11 @@ runner.test('default value: is arrayifed if multiple set', function () {
   ]
 
   let argv = []
-  a.deepStrictEqual(commandLineArgs(defs, argv), {
+  a.deepStrictEqual(commandLineArgs(defs, { argv }), {
     one: [ 0 ]
   })
   argv = [ '--one', '2' ]
-  a.deepStrictEqual(commandLineArgs(defs, argv), {
+  a.deepStrictEqual(commandLineArgs(defs, { argv }), {
     one: [ '2' ]
   })
 })

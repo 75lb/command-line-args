@@ -3,7 +3,7 @@ const TestRunner = require('test-runner')
 const commandLineArgs = require('../')
 const a = require('assert')
 
-const optionDefinitions = [
+const definitions = [
   {
     name: 'file',
     multiple: true,
@@ -17,15 +17,15 @@ const runner = new TestRunner()
 
 runner.test('type-other-multiple: different values', function () {
   a.deepStrictEqual(
-    commandLineArgs(optionDefinitions, [ '--file', 'one.js' ]),
+    commandLineArgs(definitions, { argv: [ '--file', 'one.js' ] }),
     { file: [ 'one.js' ] }
   )
   a.deepStrictEqual(
-    commandLineArgs(optionDefinitions, [ '--file', 'one.js', 'two.js' ]),
+    commandLineArgs(definitions, { argv: [ '--file', 'one.js', 'two.js' ] }),
     { file: [ 'one.js', 'two.js' ] }
   )
   a.deepStrictEqual(
-    commandLineArgs(optionDefinitions, [ '--file' ]),
+    commandLineArgs(definitions, { argv: [ '--file' ] }),
     { file: [] }
   )
 })

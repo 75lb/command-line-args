@@ -9,16 +9,16 @@ runner.test('ambiguous input: value looks like option', function () {
   const optionDefinitions = [
     { name: 'colour', type: String, alias: 'c' }
   ]
-  a.deepStrictEqual(commandLineArgs(optionDefinitions, [ '-c', 'red' ]), {
+  a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv: [ '-c', 'red' ] }), {
     colour: 'red'
   })
   a.throws(function () {
-    commandLineArgs(optionDefinitions, [ '--colour', '--red' ])
+    commandLineArgs(optionDefinitions, { argv: [ '--colour', '--red' ] })
   })
   a.doesNotThrow(function () {
-    commandLineArgs(optionDefinitions, [ '--colour=--red' ])
+    commandLineArgs(optionDefinitions, { argv: [ '--colour=--red' ] })
   })
-  a.deepStrictEqual(commandLineArgs(optionDefinitions, [ '--colour=--red' ]), {
+  a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv: [ '--colour=--red' ] }), {
     colour: '--red'
   })
 })

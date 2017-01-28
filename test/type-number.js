@@ -11,17 +11,17 @@ const runner = new TestRunner()
 
 runner.test('type-number: different values', function () {
   a.deepStrictEqual(
-    commandLineArgs(optionDefinitions, [ '--one', '1' ]),
+    commandLineArgs(optionDefinitions, { argv: [ '--one', '1' ] }),
     { one: 1 }
   )
   a.deepStrictEqual(
-    commandLineArgs(optionDefinitions, [ '--one' ]),
+    commandLineArgs(optionDefinitions, { argv: [ '--one' ] }),
     { one: null }
   )
   a.deepStrictEqual(
-    commandLineArgs(optionDefinitions, [ '--one', '-1' ]),
+    commandLineArgs(optionDefinitions, { argv: [ '--one', '-1' ] }),
     { one: -1 }
   )
-  const result = commandLineArgs(optionDefinitions, [ '--one', 'asdf' ])
+  const result = commandLineArgs(optionDefinitions, { argv: [ '--one', 'asdf' ] })
   a.ok(isNaN(result.one))
 })

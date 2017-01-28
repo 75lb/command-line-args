@@ -5,13 +5,13 @@ const a = require('assert')
 
 const runner = new TestRunner()
 
-const optionDefinitions = [
+const definitions = [
   { name: 'array', type: Boolean, multiple: true }
 ]
 
 runner.test('type-boolean-multiple: 1', function () {
   const argv = [ '--array', '--array', '--array' ]
-  const result = commandLineArgs(optionDefinitions, argv)
+  const result = commandLineArgs(definitions, { argv })
   a.deepStrictEqual(result, {
     array: [ true, true, true ]
   })

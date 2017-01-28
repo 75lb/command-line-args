@@ -3,7 +3,7 @@ const TestRunner = require('test-runner')
 const commandLineArgs = require('../')
 const a = require('assert')
 
-const optionDefinitions = [
+const definitions = [
   { name: 'one', group: 'a' },
   { name: 'two', group: 'a' },
   { name: 'three', group: 'b' }
@@ -12,7 +12,7 @@ const optionDefinitions = [
 const runner = new TestRunner()
 
 runner.test('groups', function () {
-  a.deepStrictEqual(commandLineArgs(optionDefinitions, [ '--one', '1', '--two', '2', '--three', '3' ]), {
+  a.deepStrictEqual(commandLineArgs(definitions, { argv: [ '--one', '1', '--two', '2', '--three', '3' ] }), {
     a: {
       one: '1',
       two: '2'
@@ -29,13 +29,13 @@ runner.test('groups', function () {
 })
 
 runner.test('groups: multiple and _none', function () {
-  const optionDefinitions = [
+  const definitions = [
     { name: 'one', group: ['a', 'f'] },
     { name: 'two', group: ['a', 'g'] },
     { name: 'three' }
   ]
 
-  a.deepStrictEqual(commandLineArgs(optionDefinitions, [ '--one', '1', '--two', '2', '--three', '3' ]), {
+  a.deepStrictEqual(commandLineArgs(definitions, { argv: [ '--one', '1', '--two', '2', '--three', '3' ] }), {
     a: {
       one: '1',
       two: '2'
