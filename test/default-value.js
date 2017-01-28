@@ -1,30 +1,37 @@
 'use strict'
 const TestRunner = require('test-runner')
-const cliArgs = require('../')
+const commandLineArgs = require('../')
 const a = require('assert')
 
 const runner = new TestRunner()
 
 runner.test('default value', function () {
-  a.deepStrictEqual(cliArgs([ { name: 'one' }, { name: 'two', defaultValue: 'two' } ], [ '--one', '1' ]), {
+  let defs = [
+    { name: 'one' },
+    { name: 'two', defaultValue: 'two' }
+  ]
+  let argv = [ '--one', '1' ]
+  a.deepStrictEqual(commandLineArgs(defs, argv), {
     one: '1',
     two: 'two'
   })
-  a.deepStrictEqual(cliArgs([{ name: 'two', defaultValue: 'two' }], []), {
-    two: 'two'
-  })
-  a.deepStrictEqual(cliArgs([{ name: 'two', defaultValue: 'two' }], [ '--two', 'zwei' ]), {
-    two: 'zwei'
-  })
-  a.deepStrictEqual(
-    cliArgs([{ name: 'two', multiple: true, defaultValue: ['two', 'zwei'] }], [ '--two', 'duo' ]),
-    { two: [ 'duo' ] }
-  )
+
+  defs = [ { name: 'two', defaultValue: 'two' } ]
+  argv = []
+  a.deepStrictEqual(commandLineArgs(defs, argv), { two: 'two' })
+
+  defs = [ { name: 'two', defaultValue: 'two' } ]
+  argv = [ '--two', 'zwei' ]
+  a.deepStrictEqual(commandLineArgs(defs, argv), { two: 'zwei' })
+
+  defs = [ { name: 'two', multiple: true, defaultValue: [ 'two', 'zwei' ] } ]
+  argv = [ '--two', 'duo' ]
+  a.deepStrictEqual(commandLineArgs(defs, argv), { two: [ 'duo' ] })
 })
 
 runner.test('default value 2', function () {
   const defs = [{ name: 'two', multiple: true, defaultValue: ['two', 'zwei'] }]
-  const result = cliArgs(defs, [])
+  const result = commandLineArgs(defs, [])
   a.deepStrictEqual(result, { two: [ 'two', 'zwei' ] })
 })
 
@@ -33,7 +40,7 @@ runner.test('default value: array as defaultOption', function () {
     { name: 'two', multiple: true, defaultValue: ['two', 'zwei'], defaultOption: true }
   ]
   const argv = [ 'duo' ]
-  a.deepStrictEqual(cliArgs(defs, argv), { two: [ 'duo' ] })
+  a.deepStrictEqual(commandLineArgs(defs, argv), { two: [ 'duo' ] })
 })
 
 runner.test('default value: falsy default values', function () {
@@ -43,7 +50,7 @@ runner.test('default value: falsy default values', function () {
   ]
 
   const argv = []
-  a.deepStrictEqual(cliArgs(defs, argv), {
+  a.deepStrictEqual(commandLineArgs(defs, argv), {
     one: 0,
     two: false
   })
@@ -55,11 +62,11 @@ runner.test('default value: is arrayifed if multiple set', function () {
   ]
 
   let argv = []
-  a.deepStrictEqual(cliArgs(defs, argv), {
+  a.deepStrictEqual(commandLineArgs(defs, argv), {
     one: [ 0 ]
   })
   argv = [ '--one', '2' ]
-  a.deepStrictEqual(cliArgs(defs, argv), {
+  a.deepStrictEqual(commandLineArgs(defs, argv), {
     one: [ '2' ]
   })
 })

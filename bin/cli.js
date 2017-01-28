@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 'use strict'
 const commandLineArgs = require('../')
 const os = require('os')

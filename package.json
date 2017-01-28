@@ -33,7 +33,7 @@
   },
   "dependencies": {
     "array-back": "^1.0.4",
-    "find-replace": "^1.0.2",
+    "find-replace": "^1.0.3",
     "typical": "^2.6.0"
   }
 }

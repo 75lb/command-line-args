@@ -1,6 +1,6 @@
 'use strict'
 const TestRunner = require('test-runner')
-const cliArgs = require('../')
+const commandLineArgs = require('../')
 const a = require('assert')
 
 const runner = new TestRunner()
@@ -16,11 +16,11 @@ runner.test('type-other: different values', function () {
   ]
 
   a.deepStrictEqual(
-    cliArgs(optionDefinitions, [ '--file', 'one.js' ]),
+    commandLineArgs(optionDefinitions, [ '--file', 'one.js' ]),
     { file: 'one.js' }
   )
   a.deepStrictEqual(
-    cliArgs(optionDefinitions, [ '--file' ]),
+    commandLineArgs(optionDefinitions, [ '--file' ]),
     { file: null }
   )
 })
@@ -35,6 +35,6 @@ runner.test('type-other: broken custom type function', function () {
     }
   ]
   a.throws(function () {
-    cliArgs(optionDefinitions, [ '--file', 'one.js' ])
+    commandLineArgs(optionDefinitions, [ '--file', 'one.js' ])
   })
 })

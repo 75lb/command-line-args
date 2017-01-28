@@ -1,6 +1,6 @@
 'use strict'
 const TestRunner = require('test-runner')
-const cliArgs = require('../')
+const commandLineArgs = require('../')
 const a = require('assert')
 
 const runner = new TestRunner()
@@ -14,9 +14,9 @@ const optionDefinitions = [
 
 runner.test('name-alias-mix: one of each', function () {
   const argv = [ '--one', '-t', '--three' ]
-  const result = cliArgs(optionDefinitions, argv)
-  a.strictEqual(result.one, true)
-  a.strictEqual(result.two, true)
-  a.strictEqual(result.three, true)
+  const result = commandLineArgs(optionDefinitions, argv)
+  a.strictEqual(result.one, null)
+  a.strictEqual(result.two, null)
+  a.strictEqual(result.three, null)
   a.strictEqual(result.four, undefined)
 })

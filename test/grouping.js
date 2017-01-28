@@ -1,6 +1,6 @@
 'use strict'
 const TestRunner = require('test-runner')
-const cliArgs = require('../')
+const commandLineArgs = require('../')
 const a = require('assert')
 
 const optionDefinitions = [
@@ -12,7 +12,7 @@ const optionDefinitions = [
 const runner = new TestRunner()
 
 runner.test('groups', function () {
-  a.deepStrictEqual(cliArgs(optionDefinitions, [ '--one', '1', '--two', '2', '--three', '3' ]), {
+  a.deepStrictEqual(commandLineArgs(optionDefinitions, [ '--one', '1', '--two', '2', '--three', '3' ]), {
     a: {
       one: '1',
       two: '2'
@@ -35,7 +35,7 @@ runner.test('groups: multiple and _none', function () {
     { name: 'three' }
   ]
 
-  a.deepStrictEqual(cliArgs(optionDefinitions, [ '--one', '1', '--two', '2', '--three', '3' ]), {
+  a.deepStrictEqual(commandLineArgs(optionDefinitions, [ '--one', '1', '--two', '2', '--three', '3' ]), {
     a: {
       one: '1',
       two: '2'

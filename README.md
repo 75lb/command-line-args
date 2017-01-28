@@ -115,7 +115,7 @@ $ cat example/typical.js | command-line-args lib/* --timeout=1000
 # API Reference
 <a name="exp_module_command-line-args--commandLineArgs"></a>
 
-### commandLineArgs(definitions, [argv]) ⇒ <code>object</code> ⏏
+### commandLineArgs(optionDefinitions, [argv]) ⇒ <code>object</code> ⏏
 Returns an object containing all options set on the command line. By default it parses the global  [`process.argv`](https://nodejs.org/api/process.html#process_process_argv) array.
 
 **Kind**: Exported function  
@@ -132,7 +132,7 @@ Returns an object containing all options set on the command line. By default it 
 
 | Param | Type | Description |
 | --- | --- | --- |
-| definitions | <code>[Array.&lt;definition&gt;](#module_definition)</code> | An array of [OptionDefinition](#exp_module_definition--OptionDefinition) objects |
+| optionDefinitions | <code>[Array.&lt;definition&gt;](#module_definition)</code> | An array of [OptionDefinition](#exp_module_definition--OptionDefinition) objects |
 | [argv] | <code>Array.&lt;string&gt;</code> | An array of strings, which if passed will be parsed instead  of `process.argv`. |
 
 **Example**  
@@ -224,6 +224,7 @@ The `--depth` option expects a `Number`. If no value was set, you will receive `
 | 3   | `--depth 2` | `{ depth: 2 }` |
 
 **Kind**: instance property of <code>[OptionDefinition](#exp_module_definition--OptionDefinition)</code>  
+**Default**: <code>String</code>  
 <a name="module_definition--OptionDefinition.OptionDefinition+alias"></a>
 
 ### option.alias : <code>string</code>

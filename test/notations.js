@@ -1,6 +1,6 @@
 'use strict'
 const TestRunner = require('test-runner')
-const cliArgs = require('../')
+const commandLineArgs = require('../')
 const a = require('assert')
 
 const runner = new TestRunner()
@@ -13,9 +13,9 @@ runner.test('getOpt short notation: two flags, one option', function () {
   ]
 
   const argv = [ '-abc', 'yeah' ]
-  a.deepStrictEqual(cliArgs(optionDefinitions, argv), {
-    flagA: true,
-    flagB: true,
+  a.deepStrictEqual(commandLineArgs(optionDefinitions, argv), {
+    flagA: null,
+    flagB: null,
     three: 'yeah'
   })
 })
@@ -28,7 +28,7 @@ runner.test('option=value notation: two plus a regular notation', function () {
   ]
 
   const argv = [ '--one=1', '--two', '2', '--three=3' ]
-  const result = cliArgs(optionDefinitions, argv)
+  const result = commandLineArgs(optionDefinitions, argv)
   a.strictEqual(result.one, '1')
   a.strictEqual(result.two, '2')
   a.strictEqual(result.three, '3')
@@ -41,14 +41,14 @@ runner.test('option=value notation: value contains "="', function () {
     { name: 'three' }
   ]
 
-  let result = cliArgs(optionDefinitions, [ '--url=my-url?q=123', '--two', '2', '--three=3' ])
+  let result = commandLineArgs(optionDefinitions, [ '--url=my-url?q=123', '--two', '2', '--three=3' ])
   a.strictEqual(result.url, 'my-url?q=123')
   a.strictEqual(result.two, '2')
   a.strictEqual(result.three, '3')
 
-  result = cliArgs(optionDefinitions, [ '--url=my-url?q=123=1' ])
+  result = commandLineArgs(optionDefinitions, [ '--url=my-url?q=123=1' ])
   a.strictEqual(result.url, 'my-url?q=123=1')
 
-  result = cliArgs({ name: 'my-url' }, [ '--my-url=my-url?q=123=1' ])
+  result = commandLineArgs({ name: 'my-url' }, [ '--my-url=my-url?q=123=1' ])
   a.strictEqual(result['my-url'], 'my-url?q=123=1')
 })

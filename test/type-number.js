@@ -1,6 +1,6 @@
 'use strict'
 const TestRunner = require('test-runner')
-const cliArgs = require('../')
+const commandLineArgs = require('../')
 const a = require('assert')
 
 const optionDefinitions = [
@@ -11,17 +11,17 @@ const runner = new TestRunner()
 
 runner.test('type-number: different values', function () {
   a.deepStrictEqual(
-    cliArgs(optionDefinitions, [ '--one', '1' ]),
+    commandLineArgs(optionDefinitions, [ '--one', '1' ]),
     { one: 1 }
   )
   a.deepStrictEqual(
-    cliArgs(optionDefinitions, [ '--one' ]),
+    commandLineArgs(optionDefinitions, [ '--one' ]),
     { one: null }
   )
   a.deepStrictEqual(
-    cliArgs(optionDefinitions, [ '--one', '-1' ]),
+    commandLineArgs(optionDefinitions, [ '--one', '-1' ]),
     { one: -1 }
   )
-  const result = cliArgs(optionDefinitions, [ '--one', 'asdf' ])
+  const result = commandLineArgs(optionDefinitions, [ '--one', 'asdf' ])
   a.ok(isNaN(result.one))
 })

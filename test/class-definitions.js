@@ -5,12 +5,6 @@ const Definitions = require('../lib/definitions')
 
 const runner = new TestRunner()
 
-runner.test('.createOutput()', function () {
-  const definitions = new Definitions()
-  definitions.load([ { name: 'one', defaultValue: 'eins' } ])
-  a.deepStrictEqual(definitions.createOutput(), { one: 'eins' })
-})
-
 runner.test('.get()', function () {
   const definitions = new Definitions()
   definitions.load([ { name: 'one', defaultValue: 'eins' } ])

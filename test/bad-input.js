@@ -1,6 +1,6 @@
 'use strict'
 const TestRunner = require('test-runner')
-const cliArgs = require('../')
+const commandLineArgs = require('../')
 const a = require('assert')
 
 const runner = new TestRunner()
@@ -10,10 +10,10 @@ runner.test('bad-input: handles missing option value', function () {
     { name: 'colour', type: String },
     { name: 'files' }
   ]
-  a.deepStrictEqual(cliArgs(optionDefinitions, [ '--colour' ]), {
+  a.deepStrictEqual(commandLineArgs(optionDefinitions, [ '--colour' ]), {
     colour: null
   })
-  a.deepStrictEqual(cliArgs(optionDefinitions, [ '--colour', '--files', 'yeah' ]), {
+  a.deepStrictEqual(commandLineArgs(optionDefinitions, [ '--colour', '--files', 'yeah' ]), {
     colour: null,
     files: 'yeah'
   })
@@ -24,7 +24,7 @@ runner.test('bad-input: handles arrays with relative paths', function () {
     { name: 'colours', type: String, multiple: true }
   ]
   const argv = [ '--colours', '../what', '../ever' ]
-  a.deepStrictEqual(cliArgs(optionDefinitions, argv), {
+  a.deepStrictEqual(commandLineArgs(optionDefinitions, argv), {
     colours: [ '../what', '../ever' ]
   })
 })

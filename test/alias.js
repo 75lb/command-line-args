@@ -1,6 +1,6 @@
 'use strict'
 const TestRunner = require('test-runner')
-const cliArgs = require('../')
+const commandLineArgs = require('../')
 const a = require('assert')
 
 const runner = new TestRunner()
@@ -14,22 +14,22 @@ const optionDefinitions = [
 
 runner.test('alias: one boolean', function () {
   const argv = [ '-v' ]
-  a.deepStrictEqual(cliArgs(optionDefinitions, argv), {
-    verbose: true
+  a.deepStrictEqual(commandLineArgs(optionDefinitions, argv), {
+    verbose: null
   })
 })
 
 runner.test('alias: one --this-type boolean', function () {
   const argv = [ '-d' ]
-  a.deepStrictEqual(cliArgs(optionDefinitions, argv), {
-    'dry-run': true
+  a.deepStrictEqual(commandLineArgs(optionDefinitions, argv), {
+    'dry-run': null
   })
 })
 
 runner.test('alias: one boolean, one string', function () {
   const argv = [ '-v', '-c' ]
-  a.deepStrictEqual(cliArgs(optionDefinitions, argv), {
-    verbose: true,
-    colour: true
+  a.deepStrictEqual(commandLineArgs(optionDefinitions, argv), {
+    verbose: null,
+    colour: null
   })
 })
