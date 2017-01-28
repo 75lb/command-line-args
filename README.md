@@ -115,13 +115,13 @@ $ cat example/typical.js | command-line-args lib/* --timeout=1000
 # API Reference
 <a name="exp_module_command-line-args--commandLineArgs"></a>
 
-### commandLineArgs(optionDefinitions, [argv]) ⇒ <code>object</code> ⏏
+### commandLineArgs(optionDefinitions, [argv], [options]) ⇒ <code>object</code> ⏏
 Returns an object containing all options set on the command line. By default it parses the global  [`process.argv`](https://nodejs.org/api/process.html#process_process_argv) array.
 
 **Kind**: Exported function  
 **Throws**:
 
-- `UNKNOWN_OPTION` if the user sets an option without a definition
+- `UNKNOWN_OPTION` if `options.partial` is false and the user set an option without a definition
 - `NAME_MISSING` if an option definition is missing the required `name` property
 - `INVALID_TYPE` if an option definition has a `type` value that's not a function
 - `INVALID_ALIAS` if an alias is numeric, a hyphen or a length other than 1
@@ -134,6 +134,8 @@ Returns an object containing all options set on the command line. By default it 
 | --- | --- | --- |
 | optionDefinitions | <code>[Array.&lt;definition&gt;](#module_definition)</code> | An array of [OptionDefinition](#exp_module_definition--OptionDefinition) objects |
 | [argv] | <code>Array.&lt;string&gt;</code> | An array of strings, which if passed will be parsed instead  of `process.argv`. |
+| [options] | <code>object</code> |  |
+| [options.partial] | <code>boolean</code> | If `true`, unknown and unwanted arguments are returned in the `_unknown` property. |
 
 **Example**  
 ```js
