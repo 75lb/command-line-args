@@ -58,3 +58,19 @@ runner.test('unknown option: multiple', function () {
     _unknown: [ 'file1', '-t', '--two', '3', 'file3', '-a', '-b' ]
   })
 })
+
+runner.test('unknown options: rejected defaultOption values end up in _unknown', function () {
+  const definitions = [
+    { name: 'foo', type: String },
+    { name: 'verbose', alias: 'v', type: Boolean },
+    { name: 'libs', type: String, defaultOption: true }
+  ]
+  const argv = [ '--foo', 'bar', '-v', 'libfn', '--libarg', 'val1', '-r' ]
+  const options = commandLineArgs(definitions, { argv, partial: true })
+  a.deepStrictEqual(options, {
+    foo: 'bar',
+    verbose: true,
+    libs: 'libfn',
+    _unknown: [ '--libarg', 'val1', '-r' ]
+  })
+})

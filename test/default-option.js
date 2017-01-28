@@ -11,7 +11,7 @@ runner.test('defaultOption: string', function () {
   ]
   const argv = [ 'file1', 'file2' ]
   a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv }), {
-    files: 'file2'
+    files: 'file1'
   })
 })
 
@@ -72,4 +72,28 @@ runner.test('defaultOption: floating args present but no defaultOption', functio
     commandLineArgs(definitions, { argv: [ 'aaa', '--one', 'aaa', 'aaa' ] }),
     { one: true }
   )
+})
+
+runner.test('defaultOption: non-multiple should take first value', function () {
+  const optionDefinitions = [
+    { name: 'file', defaultOption: true }
+  ]
+  const argv = [ 'file1', 'file2' ]
+  a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv }), {
+    file: 'file1'
+  })
+})
+
+runner.test('defaultOption: non-multiple should take first value 2', function () {
+  const optionDefinitions = [
+    { name: 'file', defaultOption: true },
+    { name: 'one', type: Boolean },
+    { name: 'two', type: Boolean }
+  ]
+  const argv = [ '--two', 'file1', '--one', 'file2' ]
+  a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv }), {
+    file: 'file1',
+    two: true,
+    one: true
+  })
 })
