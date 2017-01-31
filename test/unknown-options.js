@@ -33,7 +33,7 @@ runner.test('unknown option: defaultOption 2', function () {
   const definitions = [
     { name: 'files', type: String, defaultOption: true, multiple: true },
     { name: 'one', type: Boolean },
-    { name: 'two', alias: 't', defaultValue: 2 },
+    { name: 'two', alias: 't', defaultValue: 2 }
   ]
   const argv = [ 'file1', '--one', 'file2', '-t', '--two=3', 'file3', '-ab' ]
   const options = commandLineArgs(definitions, { argv, partial: true })
