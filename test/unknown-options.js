@@ -45,8 +45,6 @@ runner.test('unknown option: defaultOption 2', function () {
   })
 })
 
-runner.test('unknown option: groups')
-
 runner.test('unknown option: multiple', function () {
   const definitions = [
     { name: 'files', type: String, multiple: true }
@@ -72,5 +70,59 @@ runner.test('unknown options: rejected defaultOption values end up in _unknown',
     verbose: true,
     libs: 'libfn',
     _unknown: [ '--libarg', 'val1', '-r' ]
+  })
+})
+
+runner.test('unknown option: groups', function () {
+  const definitions = [
+    { name: 'one', group: 'a' },
+    { name: 'two', group: 'a' },
+    { name: 'three', group: 'b' }
+  ]
+  const argv = [ '--one', '1', '--two', '2', '--three', '3', 'ham', '--cheese' ]
+  a.deepStrictEqual(commandLineArgs(definitions, { argv, partial: true }), {
+    a: {
+      one: '1',
+      two: '2'
+    },
+    b: {
+      three: '3'
+    },
+    _all: {
+      one: '1',
+      two: '2',
+      three: '3'
+    },
+    _unknown: [ 'ham', '--cheese' ]
+  })
+})
+
+runner.test('unknown option: multiple groups and _none', function () {
+  const definitions = [
+    { name: 'one', group: ['a', 'f'] },
+    { name: 'two', group: ['a', 'g'] },
+    { name: 'three' }
+  ]
+  const argv = [ '--cheese', '--one', '1', 'ham', '--two', '2', '--three', '3', '-c' ]
+  a.deepStrictEqual(commandLineArgs(definitions, { argv, partial: true }), {
+    a: {
+      one: '1',
+      two: '2'
+    },
+    f: {
+      one: '1'
+    },
+    g: {
+      two: '2'
+    },
+    _none: {
+      three: '3'
+    },
+    _all: {
+      one: '1',
+      two: '2',
+      three: '3'
+    },
+    _unknown: [ '--cheese', 'ham', '-c' ]
   })
 })
