@@ -1,12 +1,36 @@
-var fs = require('fs')
+'use strict'
+const commandLineArgs = require('../')
 
-function FileDetails (filename) {
-  if (!(this instanceof FileDetails)) return new FileDetails(filename)
-  this.filename = filename
-  this.exists = fs.existsSync(filename)
+/* demonstrates a custom `type` function which returns a class instance */
+
+class FileDetails {
+  constructor (filename) {
+    const fs = require('fs')
+    this.filename = filename
+    this.exists = fs.existsSync(filename)
+  }
 }
 
-module.exports = [
-  { name: 'file', type: FileDetails },
+const optionDefinitions = [
+  {
+    name: 'file',
+    multiple: true,
+    defaultOption: true,
+    type: filename => new FileDetails(filename)
+  },
   { name: 'depth', type: Number }
 ]
+
+const options = commandLineArgs(optionDefinitions)
+
+console.log(options)
+
+/*
+Example output:
+
+$ node example/type.js package.json nothing.js
+{ file:
+   [ FileDetails { filename: 'package.json', exists: true },
+     FileDetails { filename: 'nothing.js', exists: false } ] }
+ */
+ 

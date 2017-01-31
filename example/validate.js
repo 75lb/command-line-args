@@ -1,6 +1,6 @@
 /*
   command-line-args parses the command line but does not validate what was collected.
-  This is an example of how values collected can be validated.
+  This example demonstrates how the values collected can be validated.
 */
 
 'use strict'
