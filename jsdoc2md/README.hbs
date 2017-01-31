@@ -7,7 +7,7 @@
 [![Join the chat at https://gitter.im/75lb/command-line-args](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/75lb/command-line-args?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 # command-line-args
-A library to parse command-line options.
+A mature, feature-complete library to parse command-line options.
 
 *If your app requires a git-like command interface, consider using [command-line-commands](https://github.com/75lb/command-line-commands).*
 
@@ -88,28 +88,8 @@ $ grep-tool --search=-f
 
 ## Install
 
-### as a library
 ```sh
 $ npm install command-line-args --save
-```
-
-### as a tool
-```sh
-$ npm install -g command-line-args
-```
-
-If you install globally you get the `command-line-args` test-harness. You test by piping in a module which exports an option definitions array. You can then view the output for the args you pass.
-
-For example:
-
-```sh
-$ cat example/typical.js | command-line-args lib/* --timeout=1000
-{ src:
-   [ 'lib/command-line-args.js',
-     'lib/definition.js',
-     'lib/definitions.js',
-     'lib/option.js' ],
-  timeout: 1000 }
 ```
 
 # API Reference

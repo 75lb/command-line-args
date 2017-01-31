@@ -7,7 +7,7 @@
 [![Join the chat at https://gitter.im/75lb/command-line-args](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/75lb/command-line-args?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 # command-line-args
-A library to parse command-line options.
+A mature, feature-complete library to parse command-line options.
 
 *If your app requires a git-like command interface, consider using [command-line-commands](https://github.com/75lb/command-line-commands).*
 
@@ -88,28 +88,8 @@ $ grep-tool --search=-f
 
 ## Install
 
-### as a library
 ```sh
 $ npm install command-line-args --save
-```
-
-### as a tool
-```sh
-$ npm install -g command-line-args
-```
-
-If you install globally you get the `command-line-args` test-harness. You test by piping in a module which exports an option definitions array. You can then view the output for the args you pass.
-
-For example:
-
-```sh
-$ cat example/typical.js | command-line-args lib/* --timeout=1000
-{ src:
-   [ 'lib/command-line-args.js',
-     'lib/definition.js',
-     'lib/definitions.js',
-     'lib/option.js' ],
-  timeout: 1000 }
 ```
 
 # API Reference
@@ -118,10 +98,12 @@ $ cat example/typical.js | command-line-args lib/* --timeout=1000
 ### commandLineArgs(optionDefinitions, [options]) ⇒ <code>object</code> ⏏
 Returns an object containing all options set on the command line. By default it parses the global  [`process.argv`](https://nodejs.org/api/process.html#process_process_argv) array.
 
+By default, an exception is thrown if the user sets an unknown option (one without a valid [definition](#exp_module_definition--OptionDefinition)). To enable __partial parsing__, invoke `commandLineArgs` with the `partial` option - all unknown arguments will be returned in the additional `_unknown` property of the output.
+
 **Kind**: Exported function  
 **Throws**:
 
-- `UNKNOWN_OPTION` if `options.partial` is false and the user set an option without a definition
+- `UNKNOWN_OPTION` if `options.partial` is false and the user set an undefined option
 - `NAME_MISSING` if an option definition is missing the required `name` property
 - `INVALID_TYPE` if an option definition has a `type` value that's not a function
 - `INVALID_ALIAS` if an alias is numeric, a hyphen or a length other than 1
@@ -134,22 +116,13 @@ Returns an object containing all options set on the command line. By default it 
 | --- | --- | --- |
 | optionDefinitions | <code>[Array.&lt;definition&gt;](#module_definition)</code> | An array of [OptionDefinition](#exp_module_definition--OptionDefinition) objects |
 | [options] | <code>object</code> | Options. |
-| [options.partial] | <code>boolean</code> | If `true`, unknown and unwanted arguments are returned in the `_unknown` property. |
 | [options.argv] | <code>Array.&lt;string&gt;</code> | An array of strings, which if passed will be parsed instead  of `process.argv`. |
+| [options.partial] | <code>boolean</code> | If `true`, an array of unknown arguments is returned in the `_unknown` property of the output. |
 
-**Example**  
-```js
-const commandLineArgs = require('command-line-args')
-const options = commandLineArgs([
-  { name: 'file' },
-  { name: 'verbose' },
-  { name: 'depth'}
-])
-```
 <a name="exp_module_definition--OptionDefinition"></a>
 
 ## OptionDefinition ⏏
-Describes a command-line option. Additionally, you can add `description` and `typeLabel` propeties and make use of [command-line-usage](https://github.com/75lb/command-line-usage).
+Describes a command-line option. Additionally, you can add `description` and `typeLabel` properties and make use of [command-line-usage](https://github.com/75lb/command-line-usage).
 
 **Kind**: Exported class  
 * [OptionDefinition](#exp_module_definition--OptionDefinition) ⏏
