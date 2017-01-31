@@ -25,4 +25,13 @@ const valid =
     [ 'info', 'warn', 'error', undefined ].includes(options['log-level'])
   )
 
-console.log('your options are', valid ? 'valid' : 'invalid', options)
+console.log('Your options are', valid ? 'valid' : 'invalid')
+console.log(options)
+
+/*
+Example output:
+
+$ node example/validate.js package.json README.md
+Your options are valid
+{ files: [ 'package.json', 'README.md' ] }
+*/

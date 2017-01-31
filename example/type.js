@@ -32,5 +32,4 @@ $ node example/type.js package.json nothing.js
 { file:
    [ FileDetails { filename: 'package.json', exists: true },
      FileDetails { filename: 'nothing.js', exists: false } ] }
- */
- 
+*/

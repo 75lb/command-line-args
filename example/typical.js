@@ -8,10 +8,31 @@ const commandLineUsage = require('command-line-usage')
 */
 
 const optionDefinitions = [
-  { name: 'help', alias: 'h', type: Boolean, description: 'Display this usage guide.' },
-  { name: 'src', type: String, multiple: true, defaultOption: true, description: 'The input files to process', typeLabel: '<files>' },
-  { name: 'timeout', alias: 't', type: Number, description: 'Timeout value in ms', typeLabel: '<ms>' },
-  { name: 'log', alias: 'l', type: Boolean, description: 'info, warn or error' }
+  {
+    name: 'help',
+    alias: 'h',
+    type: Boolean,
+    description: 'Display this usage guide.'
+  },
+  {
+    name: 'src',
+    type: String,
+    multiple: true,
+    defaultOption: true,
+    description: 'The input files to process',
+    typeLabel: '<files>' },
+  {
+    name: 'timeout',
+    alias: 't',
+    type: Number,
+    description: 'Timeout value in ms',
+    typeLabel: '<ms>' },
+  {
+    name: 'log',
+    alias: 'l',
+    type: Boolean,
+    description: 'info, warn or error'
+  }
 ]
 
 const options = commandLineArgs(optionDefinitions)
@@ -33,8 +54,6 @@ if (options.help) {
   console.log(usage)
 }
 
-console.log(options)
-
 /*
 
 Example output:
@@ -54,5 +73,4 @@ Options
 
   Project home: https://github.com/me/example
 
-{ help: true }
 */
