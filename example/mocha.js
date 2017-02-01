@@ -6,8 +6,8 @@ const assert = require('assert')
 const commandLineArgs = require('../')
 
 /*
-enable partial parsing to prevent exceptions being thrown
-if the user sets undefined, mocha-specific options (e.g. --no-colors)
+enable partial parsing to prevent `UNKNOWN_OPTION` exceptions being thrown
+if the user sets mocha-specific options (e.g. --no-colors)
 */
 const options = commandLineArgs({ name: 'value', type: Number }, { partial: true })
 

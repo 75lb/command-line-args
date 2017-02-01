@@ -86,6 +86,35 @@ We have an issue here: command-line-args will assume we are setting two options 
 $ grep-tool --search=-f
 ```
 
+### Partial parsing
+
+By default, if the user sets an option without a valid [definition](#exp_module_definition--OptionDefinition) an `UNKNOWN_OPTION` exception is thrown. However, in some cases you may only be interested in a subset of the options wishing to pass the remainder to another library. See [here](https://github.com/75lb/command-line-args/blob/master/example/mocha.js) for a example showing where this might be necessary.
+
+To enable partial parsing, set `partial: true` in the method options:
+
+```js
+const optionDefinitions = [
+  { name: 'value', type: Number }
+]
+const options = commandLineArgs(optionDefinitions, { partial: true })
+```
+
+Now, should any unknown args be passed at the command line:
+
+```
+$ example --milk --value 2 --bread cheese
+```
+
+They will be returned in the `_unknown` property of the `commandLineArgs` output with no exceptions thrown:
+
+```js
+{
+  value: 2,
+  _unknown: [ '--milk', '--bread', 'cheese']
+}
+```
+
+
 ## Install
 
 ```sh
@@ -98,7 +127,7 @@ $ npm install command-line-args --save
 ### commandLineArgs(optionDefinitions, [options]) ⇒ <code>object</code> ⏏
 Returns an object containing all options set on the command line. By default it parses the global  [`process.argv`](https://nodejs.org/api/process.html#process_process_argv) array.
 
-By default, an exception is thrown if the user sets an unknown option (one without a valid [definition](#exp_module_definition--OptionDefinition)). To enable __partial parsing__, invoke `commandLineArgs` with the `partial` option - all unknown arguments will be returned in the additional `_unknown` property of the output.
+By default, an exception is thrown if the user sets an unknown option (one without a valid [definition](#exp_module_definition--OptionDefinition)). To enable __partial parsing__, invoke `commandLineArgs` with the `partial` option - all unknown arguments will be returned in the `_unknown` property.
 
 **Kind**: Exported function  
 **Throws**:
