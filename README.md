@@ -147,7 +147,7 @@ By default, an exception is thrown if the user sets an unknown option (one witho
 | [options] | <code>object</code> | Options. |
 | [options.argv] | <code>Array.&lt;string&gt;</code> | An array of strings, which if passed will be parsed instead  of `process.argv`. |
 | [options.partial] | <code>boolean</code> | If `true`, an array of unknown arguments is returned in the `_unknown` property of the output. |
-| [options.validateIfRunFrom] | <code>string</code> | A filename. Only validates unknown arguments if the script is run from this filename. Mostly used for when you have multiple scripts you want to run, and they require each other. Without this, you can see unexpected "unknown argument" errors.  |
+| [options.validateIfRunFrom] | <code>string</code> | A filename. Only validates unknown arguments if the script is run from this filename. Typical usage is `commandLineArgs(myDefinitions, {validateIfRunFrom: __filename})`. Useful when you have multiple scripts using commandLineArgs, and they require each other. Without this, you might see unexpected "unknown argument" errors.  |
 
 <a name="exp_module_definition--OptionDefinition"></a>
 
