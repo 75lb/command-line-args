@@ -5,7 +5,7 @@ const a = require('assert')
 
 const runner = new TestRunner()
 
-runner.test('unknown option: simple', function () {
+runner.test('partial: simple', function () {
   const definitions = [
     { name: 'one', type: Boolean }
   ]
@@ -17,7 +17,7 @@ runner.test('unknown option: simple', function () {
   })
 })
 
-runner.test('unknown option: defaultOption', function () {
+runner.test('partial: defaultOption', function () {
   const definitions = [
     { name: 'files', type: String, defaultOption: true, multiple: true }
   ]
@@ -29,7 +29,7 @@ runner.test('unknown option: defaultOption', function () {
   })
 })
 
-runner.test('unknown option: defaultOption 2', function () {
+runner.test('partial: defaultOption 2', function () {
   const definitions = [
     { name: 'files', type: String, defaultOption: true, multiple: true },
     { name: 'one', type: Boolean },
@@ -45,7 +45,7 @@ runner.test('unknown option: defaultOption 2', function () {
   })
 })
 
-runner.test('unknown option: multiple', function () {
+runner.test('partial: multiple', function () {
   const definitions = [
     { name: 'files', type: String, multiple: true }
   ]
@@ -53,7 +53,7 @@ runner.test('unknown option: multiple', function () {
   const options = commandLineArgs(definitions, { argv, partial: true })
   a.deepStrictEqual(options, {
     files: [ 'file2', 'file4' ],
-    _unknown: [ 'file1', '-t', '--two', '3', 'file3', '-a', '-b' ]
+    _unknown: [ 'file1', '-t', '--two=3', 'file3', '-a', '-b' ]
   })
 })
 
@@ -73,7 +73,7 @@ runner.test('unknown options: rejected defaultOption values end up in _unknown',
   })
 })
 
-runner.test('unknown option: groups', function () {
+runner.test('partial: groups', function () {
   const definitions = [
     { name: 'one', group: 'a' },
     { name: 'two', group: 'a' },
@@ -97,7 +97,7 @@ runner.test('unknown option: groups', function () {
   })
 })
 
-runner.test('unknown option: multiple groups and _none', function () {
+runner.test('partial: multiple groups and _none', function () {
   const definitions = [
     { name: 'one', group: ['a', 'f'] },
     { name: 'two', group: ['a', 'g'] },
@@ -124,5 +124,53 @@ runner.test('unknown option: multiple groups and _none', function () {
       three: '3'
     },
     _unknown: [ '--cheese', 'ham', '-c' ]
+  })
+})
+
+runner.test('partial: defaultOption with --option=value notation', function () {
+  const definitions = [
+    { name: 'files', type: String, multiple: true, defaultOption: true }
+  ]
+  const argv = [ 'file1', 'file2', '--unknown=something' ]
+  const options = commandLineArgs(definitions, { argv, partial: true })
+  a.deepStrictEqual(options, {
+    files: [ 'file1', 'file2' ],
+    _unknown: [ '--unknown=something' ]
+  })
+})
+
+runner.test('partial: defaultOption with --option=value notation 2', function () {
+  const definitions = [
+    { name: 'files', type: String, multiple: true, defaultOption: true }
+  ]
+  const argv = [ 'file1', 'file2', '--unknown=something', '--files', 'file3', '--files=file4' ]
+  const options = commandLineArgs(definitions, { argv, partial: true })
+  a.deepStrictEqual(options, {
+    files: [ 'file1', 'file2', 'file3', 'file4' ],
+    _unknown: [ '--unknown=something' ]
+  })
+})
+
+runner.test('partial: defaultOption with --option=value notation 3', function () {
+  const definitions = [
+    { name: 'files', type: String, multiple: true, defaultOption: true }
+  ]
+  const argv = [ '--unknown', 'file1', '--another', 'something', 'file2', '--unknown=something', '--files', 'file3', '--files=file4' ]
+  const options = commandLineArgs(definitions, { argv, partial: true })
+  a.deepStrictEqual(options, {
+    files: [ 'file1', 'something', 'file2', 'file3', 'file4' ],
+    _unknown: [ '--unknown', '--another', '--unknown=something' ]
+  })
+})
+
+runner.test('partial: mulitple unknowns with same name', function () {
+  const definitions = [
+    { name: 'file' }
+  ]
+  const argv = [ '--unknown', '--unknown=something', '--file=file1', '--unknown' ]
+  const options = commandLineArgs(definitions, { argv, partial: true })
+  a.deepStrictEqual(options, {
+    file: 'file1',
+    _unknown: [ '--unknown', '--unknown=something', '--unknown' ]
   })
 })
