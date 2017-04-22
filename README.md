@@ -161,7 +161,7 @@ Describes a command-line option. Additionally, you can add `description` and `ty
     * [.multiple](#module_definition--OptionDefinition.OptionDefinition+multiple) : <code>boolean</code>
     * [.defaultOption](#module_definition--OptionDefinition.OptionDefinition+defaultOption) : <code>boolean</code>
     * [.defaultValue](#module_definition--OptionDefinition.OptionDefinition+defaultValue) : <code>\*</code>
-    * [.group](#module_definition--OptionDefinition.OptionDefinition+group) : <code>string</code> &#124; <code>Array.&lt;string&gt;</code>
+    * [.group](#module_definition--OptionDefinition.OptionDefinition+group) : <code>string</code> \| <code>Array.&lt;string&gt;</code>
 
 <a name="module_definition--OptionDefinition.OptionDefinition+name"></a>
 
@@ -305,7 +305,7 @@ An initial value for the option.
 **Kind**: instance property of <code>[OptionDefinition](#exp_module_definition--OptionDefinition)</code>  
 <a name="module_definition--OptionDefinition.OptionDefinition+group"></a>
 
-### option.group : <code>string</code> &#124; <code>Array.&lt;string&gt;</code>
+### option.group : <code>string</code> \| <code>Array.&lt;string&gt;</code>
 When your app has a large amount of options it makes sense to organise them in groups.
 
 There are two automatic groups: `_all` (contains all options) and `_none` (contains options without a `group` specified in their definition).

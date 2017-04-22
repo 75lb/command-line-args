@@ -70,3 +70,22 @@ runner.test('default value: is arrayifed if multiple set', function () {
     one: [ '2' ]
   })
 })
+
+runner.test('default value: combined with defaultOption', function () {
+  const defs = [
+    { name: 'path', defaultOption: true, defaultValue: './' },
+  ]
+
+  let argv = [ '--path', 'test' ]
+  a.deepStrictEqual(commandLineArgs(defs, { argv }), {
+    path: 'test'
+  })
+  argv = [ 'test' ]
+  a.deepStrictEqual(commandLineArgs(defs, { argv }), {
+    path: 'test'
+  })
+  argv = [ ]
+  a.deepStrictEqual(commandLineArgs(defs, { argv }), {
+    path: './'
+  })
+})

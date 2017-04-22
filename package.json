@@ -26,8 +26,8 @@
   "author": "Lloyd Brookes <75pound@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "coveralls": "^2.11.15",
-    "jsdoc-to-markdown": "^2.0.1",
+    "coveralls": "^2.13.0",
+    "jsdoc-to-markdown": "^3.0.0",
     "test-runner": "^0.3.0"
   },
   "dependencies": {
