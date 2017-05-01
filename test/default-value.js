@@ -73,7 +73,7 @@ runner.test('default value: is arrayifed if multiple set', function () {
 
 runner.test('default value: combined with defaultOption', function () {
   const defs = [
-    { name: 'path', defaultOption: true, defaultValue: './' },
+    { name: 'path', defaultOption: true, defaultValue: './' }
   ]
 
   let argv = [ '--path', 'test' ]
@@ -92,7 +92,7 @@ runner.test('default value: combined with defaultOption', function () {
 
 runner.test('default value: combined with multiple and defaultOption', function () {
   const defs = [
-    { name: 'path', multiple: true, defaultOption: true, defaultValue: './' },
+    { name: 'path', multiple: true, defaultOption: true, defaultValue: './' }
   ]
 
   let argv = [ '--path', 'test1', 'test2' ]
@@ -119,7 +119,7 @@ runner.test('default value: combined with multiple and defaultOption', function 
 
 runner.test('default value: array default combined with multiple and defaultOption', function () {
   const defs = [
-    { name: 'path', multiple: true, defaultOption: true, defaultValue: [ './' ] },
+    { name: 'path', multiple: true, defaultOption: true, defaultValue: [ './' ] }
   ]
 
   let argv = [ '--path', 'test1', 'test2' ]

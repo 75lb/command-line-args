@@ -12,7 +12,8 @@ const definitions = [
 const runner = new TestRunner()
 
 runner.test('groups', function () {
-  a.deepStrictEqual(commandLineArgs(definitions, { argv: [ '--one', '1', '--two', '2', '--three', '3' ] }), {
+  const output = commandLineArgs(definitions, { argv: [ '--one', '1', '--two', '2', '--three', '3' ] })
+  a.deepStrictEqual(output, {
     a: {
       one: '1',
       two: '2'

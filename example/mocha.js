@@ -24,11 +24,9 @@ Example output:
 
 $ mocha example/mocha.js --value 3 --no-colors
 
-
   Array
     #indexOf()
       ✓ should pass when the supplied value is between 1 and 3
-
 
   1 passing (7ms)
 

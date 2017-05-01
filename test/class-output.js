@@ -2,21 +2,23 @@
 const TestRunner = require('test-runner')
 const a = require('assert')
 const Output = require('../lib/output')
+const Definitions = require('../lib/definitions')
 
 const runner = new TestRunner()
 
 runner.test('output.set(name): initial value', function () {
-  let definitions = [
+  let definitions = new Definitions()
+  definitions.load([
     { name: 'one', type: Number }
-  ]
+  ])
   let output = new Output(definitions)
   a.strictEqual(output.get('one'), undefined)
   output.set('--one')
   a.strictEqual(output.get('one'), null)
 
-  definitions = [
+  definitions.load([
     { name: 'one', type: Boolean }
-  ]
+  ])
   output = new Output(definitions)
   a.strictEqual(output.get('one'), undefined)
   output.set('--one')
@@ -24,9 +26,10 @@ runner.test('output.set(name): initial value', function () {
 })
 
 runner.test('output.set(name, value)', function () {
-  const definitions = [
+  const definitions = new Definitions()
+  definitions.load([
     { name: 'one', type: Number, defaultValue: 1 }
-  ]
+  ])
   const output = new Output(definitions)
   a.strictEqual(output.get('one'), 1)
   output.set('--one', '2')
@@ -34,9 +37,10 @@ runner.test('output.set(name, value)', function () {
 })
 
 runner.test('output.set(name, value): multiple', function () {
-  const definitions = [
+  const definitions = new Definitions()
+  definitions.load([
     { name: 'one', type: Number, multiple: true, defaultValue: [ 1 ] }
-  ]
+  ])
   const output = new Output(definitions)
   a.deepStrictEqual(output.get('one'), [ 1 ])
   output.set('--one', '2')
