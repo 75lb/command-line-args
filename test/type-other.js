@@ -38,3 +38,28 @@ runner.test('type-other: broken custom type function', function () {
     commandLineArgs(definitions, { argv: [ '--file', 'one.js' ] })
   })
 })
+
+runner.test('type-other-multiple: different values', function () {
+  const definitions = [
+    {
+      name: 'file',
+      multiple: true,
+      type: function (file) {
+        return file
+      }
+    }
+  ]
+
+  a.deepStrictEqual(
+    commandLineArgs(definitions, { argv: [ '--file', 'one.js' ] }),
+    { file: [ 'one.js' ] }
+  )
+  a.deepStrictEqual(
+    commandLineArgs(definitions, { argv: [ '--file', 'one.js', 'two.js' ] }),
+    { file: [ 'one.js', 'two.js' ] }
+  )
+  a.deepStrictEqual(
+    commandLineArgs(definitions, { argv: [ '--file' ] }),
+    { file: [] }
+  )
+})
