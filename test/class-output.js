@@ -95,5 +95,4 @@ runner.test('output.setValue(value): multiple', function () {
   a.deepStrictEqual(output.get('one'), [ '1' ])
   output.setValue('2')
   a.deepStrictEqual(output.get('one'), [ '1', '2' ])
-
 })
