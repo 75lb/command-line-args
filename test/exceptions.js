@@ -172,3 +172,5 @@ runner.test('err-invalid-definition: multiple defaultOption', function () {
     a.strictEqual(err.name, 'DUPLICATE_DEFAULT_OPTION')
   }
 })
+
+runner.test('err-invalid-defaultOption: defaultOption on a Boolean type')

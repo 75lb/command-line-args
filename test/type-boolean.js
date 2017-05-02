@@ -57,3 +57,14 @@ runner.test('type-boolean: global Boolean overridden', function () {
     { one: true }
   )
 })
+
+runner.test('type-boolean-multiple: 1', function () {
+  const definitions = [
+    { name: 'array', type: Boolean, multiple: true }
+  ]
+  const argv = [ '--array', '--array', '--array' ]
+  const result = commandLineArgs(definitions, { argv })
+  a.deepStrictEqual(result, {
+    array: [ true, true, true ]
+  })
+})

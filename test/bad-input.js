@@ -28,3 +28,21 @@ runner.test('bad-input: handles arrays with relative paths', function () {
     colours: [ '../what', '../ever' ]
   })
 })
+
+runner.test('bad-input: empty string', function () {
+  const definitions = [
+    { name: 'one', type: String },
+    { name: 'two', type: Number },
+    { name: 'three', type: Number, multiple: true },
+    { name: 'four', type: String },
+    { name: 'five', type: Boolean }
+  ]
+  const argv = [ '--one', '', '', '--two', '0', '--three=', '', '--four=', '--five=' ]
+  a.deepStrictEqual(commandLineArgs(definitions, { argv }), {
+    one: '',
+    two: 0,
+    three: [ 0, 0 ],
+    four: '',
+    five: true
+  })
+})
