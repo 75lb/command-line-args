@@ -53,7 +53,7 @@ runner.test('output.setOptionValue(name, value): multiple 2', function () {
     { name: 'one', type: Number, multiple: true }
   ])
   const output = new Output(definitions)
-  a.deepStrictEqual(output.get('one'), [ ])
+  a.deepStrictEqual(output.get('one'), undefined)
   output.setOptionValue('--one', '2')
   a.deepStrictEqual(output.get('one'), [ 2 ])
   output.setOptionValue('--one', '3')
@@ -90,7 +90,7 @@ runner.test('output.setValue(value): multiple', function () {
     { name: 'one', multiple: true, defaultOption: true }
   ])
   const output = new Output(definitions)
-  a.deepStrictEqual(output.get('one'), [])
+  a.deepStrictEqual(output.get('one'), undefined)
   output.setValue('1')
   a.deepStrictEqual(output.get('one'), [ '1' ])
   output.setValue('2')

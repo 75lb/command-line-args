@@ -26,13 +26,13 @@
   "author": "Lloyd Brookes <75pound@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "coveralls": "^2.13.0",
+    "coveralls": "^2.13.1",
     "jsdoc-to-markdown": "^3.0.0",
     "test-runner": "^0.3.0"
   },
   "dependencies": {
     "array-back": "^1.0.4",
     "find-replace": "^1.0.3",
-    "typical": "^2.6.0"
+    "typical": "^2.6.1"
   }
 }
