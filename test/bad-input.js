@@ -46,3 +46,12 @@ runner.test('bad-input: empty string', function () {
     five: true
   })
 })
+
+runner.test('bad-input: non-strings in argv', function () {
+  const definitions = [
+    { name: 'one', type: Number }
+  ]
+  const argv = [ '--one', 1 ]
+  const result = commandLineArgs(definitions, { argv })
+  a.deepStrictEqual(result, { one: 1 })
+})
