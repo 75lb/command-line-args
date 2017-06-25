@@ -28,10 +28,10 @@
   "devDependencies": {
     "coveralls": "^2.13.1",
     "jsdoc-to-markdown": "^3.0.0",
-    "test-runner": "^0.3.0"
+    "test-runner": "^0.4.0"
   },
   "dependencies": {
-    "array-back": "^1.0.4",
+    "array-back": "^2.0.0",
     "find-replace": "^1.0.3",
     "typical": "^2.6.1"
   }
