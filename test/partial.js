@@ -198,3 +198,16 @@ runner.test('partial: mulitple unknowns with same name', function () {
     _unknown: [ '--unknown', '--unknown=something', '--unknown' ]
   })
 })
+
+runner.test('partial: stopParsingAtFirstUnknown', function () {
+  const definitions = [
+    { name: 'one', type: Boolean },
+    { name: 'two', type: Boolean }
+  ]
+  const argv = [ '--one', 'a', '--two' ]
+  const options = commandLineArgs(definitions, { argv, partial: true, stopParsingAtFirstUnknown: true })
+  a.deepStrictEqual(options, {
+    one: true,
+    _unknown: [ 'a', '--two' ]
+  })
+})
