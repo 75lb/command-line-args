@@ -31,3 +31,12 @@ runner.test('multiple: boolean unset', function () {
   const result = commandLineArgs(optionDefinitions, { argv })
   a.deepStrictEqual(result, { })
 })
+
+runner.test('multiple: disableGreedyMultiple', function () {
+  const argv = ['--one', 'a', '--one', 'b', 'c', '--one', 'd']
+  const optionDefinitions = [
+      { name: 'one', multiple: true }
+  ]
+  const result = commandLineArgs(optionDefinitions, { argv, disableGreedyMultiple: true, partial: true })
+  a.deepStrictEqual(result, { one: ['a', 'b', 'd'], _unknown: ['c'] })
+})
