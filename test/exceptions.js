@@ -104,6 +104,7 @@ runner.test('err-invalid-definition: value without option definition', function 
     a.fail()
   } catch (err) {
     a.strictEqual(err.name, 'UNKNOWN_OPTION')
+    a.strictEqual(err.invalidOption, '--two')
   }
 
   try {
@@ -111,6 +112,7 @@ runner.test('err-invalid-definition: value without option definition', function 
     a.fail()
   } catch (err) {
     a.strictEqual(err.name, 'UNKNOWN_OPTION')
+    a.strictEqual(err.invalidOption, '--two')
   }
 
   try {
@@ -118,6 +120,7 @@ runner.test('err-invalid-definition: value without option definition', function 
     a.fail()
   } catch (err) {
     a.strictEqual(err.name, 'UNKNOWN_OPTION')
+    a.strictEqual(err.invalidOption, '-a')
   }
 
   try {
@@ -125,6 +128,7 @@ runner.test('err-invalid-definition: value without option definition', function 
     a.fail()
   } catch (err) {
     a.strictEqual(err.name, 'UNKNOWN_OPTION', 'getOpts')
+    a.strictEqual(err.invalidOption, '-s')
   }
 })
 
