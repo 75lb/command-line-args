@@ -28,7 +28,7 @@
   "devDependencies": {
     "coveralls": "^2.13.1",
     "jsdoc-to-markdown": "^3.0.0",
-    "test-runner": "^0.4.0"
+    "test-runner": "^0.4.1"
   },
   "dependencies": {
     "array-back": "^2.0.0",
