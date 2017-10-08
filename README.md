@@ -171,7 +171,7 @@ The only required definition property is `name`, so the simplest working example
 [
   { name: "file" },
   { name: "verbose" },
-  { name: "depth"}
+  { name: "depth" }
 ]
 ```
 
