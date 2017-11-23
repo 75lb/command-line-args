@@ -143,7 +143,7 @@ By default, an exception is thrown if the user sets an unknown option (one witho
 
 | Param | Type | Description |
 | --- | --- | --- |
-| optionDefinitions | <code>[Array.&lt;definition&gt;](#module_definition)</code> | An array of [OptionDefinition](#exp_module_definition--OptionDefinition) objects |
+| optionDefinitions | [<code>Array.&lt;definition&gt;</code>](#module_definition) | An array of [OptionDefinition](#exp_module_definition--OptionDefinition) objects |
 | [options] | <code>object</code> | Options. |
 | [options.argv] | <code>Array.&lt;string&gt;</code> | An array of strings, which if passed will be parsed instead  of `process.argv`. |
 | [options.partial] | <code>boolean</code> | If `true`, an array of unknown arguments is returned in the `_unknown` property of the output. |
@@ -193,7 +193,7 @@ Unicode option names and aliases are valid, for example:
 ]
 ```
 
-**Kind**: instance property of <code>[OptionDefinition](#exp_module_definition--OptionDefinition)</code>  
+**Kind**: instance property of [<code>OptionDefinition</code>](#exp_module_definition--OptionDefinition)  
 <a name="module_definition--OptionDefinition.OptionDefinition+type"></a>
 
 ### option.type : <code>function</code>
@@ -227,7 +227,7 @@ The `--depth` option expects a `Number`. If no value was set, you will receive `
 | 2   | `--depth` | `{ depth: null }` |
 | 3   | `--depth 2` | `{ depth: 2 }` |
 
-**Kind**: instance property of <code>[OptionDefinition](#exp_module_definition--OptionDefinition)</code>  
+**Kind**: instance property of [<code>OptionDefinition</code>](#exp_module_definition--OptionDefinition)  
 **Default**: <code>String</code>  
 <a name="module_definition--OptionDefinition.OptionDefinition+alias"></a>
 
@@ -247,7 +247,7 @@ getopt-style short option names. Can be any single character (unicode included) 
 | 1   | `-hcd` | `{ hot: true, courses: null, discount: true }` |
 | 2   | `-hdc 3` | `{ hot: true, discount: true, courses: 3 }` |
 
-**Kind**: instance property of <code>[OptionDefinition](#exp_module_definition--OptionDefinition)</code>  
+**Kind**: instance property of [<code>OptionDefinition</code>](#exp_module_definition--OptionDefinition)  
 <a name="module_definition--OptionDefinition.OptionDefinition+multiple"></a>
 
 ### option.multiple : <code>boolean</code>
@@ -265,7 +265,7 @@ Set this flag if the option takes a list of values. You will receive an array of
 | 2   | `--files one.js --files two.js` | `{ files: [ 'one.js', 'two.js' ] }` |
 | 3   | `--files *` | `{ files: [ 'one.js', 'two.js' ] }` |
 
-**Kind**: instance property of <code>[OptionDefinition](#exp_module_definition--OptionDefinition)</code>  
+**Kind**: instance property of [<code>OptionDefinition</code>](#exp_module_definition--OptionDefinition)  
 <a name="module_definition--OptionDefinition.OptionDefinition+defaultOption"></a>
 
 ### option.defaultOption : <code>boolean</code>
@@ -283,7 +283,7 @@ Any unclaimed command-line args will be set on this option. This flag is typical
 | 2   | `one.js two.js` | `{ files: [ 'one.js', 'two.js' ] }` |
 | 3   | `*` | `{ files: [ 'one.js', 'two.js' ] }` |
 
-**Kind**: instance property of <code>[OptionDefinition](#exp_module_definition--OptionDefinition)</code>  
+**Kind**: instance property of [<code>OptionDefinition</code>](#exp_module_definition--OptionDefinition)  
 <a name="module_definition--OptionDefinition.OptionDefinition+defaultValue"></a>
 
 ### option.defaultValue : <code>\*</code>
@@ -302,7 +302,7 @@ An initial value for the option.
 | 2   | `--files two.js` | `{ files: [ 'two.js' ], max: 3 }` |
 | 3   | `--max 4` | `{ files: [ 'one.js' ], max: 4 }` |
 
-**Kind**: instance property of <code>[OptionDefinition](#exp_module_definition--OptionDefinition)</code>  
+**Kind**: instance property of [<code>OptionDefinition</code>](#exp_module_definition--OptionDefinition)  
 <a name="module_definition--OptionDefinition.OptionDefinition+group"></a>
 
 ### option.group : <code>string</code> \| <code>Array.&lt;string&gt;</code>
@@ -366,7 +366,7 @@ There are two automatic groups: `_all` (contains all options) and `_none` (conta
  </tr>
 </table>
 
-**Kind**: instance property of <code>[OptionDefinition](#exp_module_definition--OptionDefinition)</code>  
+**Kind**: instance property of [<code>OptionDefinition</code>](#exp_module_definition--OptionDefinition)  
 
 
 * * *
