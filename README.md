@@ -268,6 +268,8 @@ Set this flag if the option takes a list of values. You will receive an array of
 **Kind**: instance property of [<code>OptionDefinition</code>](#exp_module_definition--OptionDefinition)  
 <a name="module_definition--OptionDefinition.OptionDefinition+defaultOption"></a>
 
+If the `disableGreedyMultiple` parsing option is set example 1 above will not be supported and `two.js` will be added to the `_unknown` property in the results.
+
 ### option.defaultOption : <code>boolean</code>
 Any unclaimed command-line args will be set on this option. This flag is typically set on the most commonly-used option to make for more concise usage (i.e. `$ myapp *.js` instead of `$ myapp --files *.js`).
 
