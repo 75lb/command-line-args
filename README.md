@@ -127,7 +127,7 @@ $ npm install command-line-args --save
 ### commandLineArgs(optionDefinitions, [options]) ⇒ <code>object</code> ⏏
 Returns an object containing all options set on the command line. By default it parses the global  [`process.argv`](https://nodejs.org/api/process.html#process_process_argv) array.
 
-By default, an exception is thrown if the user sets an unknown option (one without a valid [definition](#exp_module_definition--OptionDefinition)). To enable __partial parsing__, invoke `commandLineArgs` with the `partial` option - all unknown arguments will be returned in the `_unknown` property.
+By default, an exception is thrown if the user sets an unknown option (one without a valid [definition](#exp_module_definition--OptionDefinition)). To enable __partial parsing__, invoke `commandLineArgs` with the `partial` option - all unknown arguments will be returned in the `_unknown` property. If `stopParsingAtFirstUnknown` option is also set all arguments after the first unknown argument will also be skipped and added to the `_unknown` property.
 
 **Kind**: Exported function  
 **Throws**:
