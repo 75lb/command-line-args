@@ -69,6 +69,18 @@ runner.test('partial: defaultOption with value equal to defaultValue 2', functio
   })
 })
 
+runner.test('partial: defaultOption with value equal to defaultValue 3', function () {
+  const definitions = [
+    { name: 'file', type: String, defaultOption: true, defaultValue: 'file1' }
+  ]
+  const argv = [ 'file1', 'file2', '--two=3', '--four', '5' ]
+  const options = commandLineArgs(definitions, { argv, partial: true })
+  a.deepStrictEqual(options, {
+    file: 'file1',
+    _unknown: [ 'file2', '--two', '3', '--four', '5' ]
+  })
+})
+
 runner.test('partial: multiple', function () {
   const definitions = [
     { name: 'files', type: String, multiple: true }
