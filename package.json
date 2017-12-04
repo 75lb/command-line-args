@@ -3,11 +3,9 @@
   "version": "4.0.7",
   "description": "A mature, feature-complete library to parse command-line options.",
   "repository": "https://github.com/75lb/command-line-args.git",
-  "main": "lib/command-line-args.js",
-  "bin": "bin/cli.js",
   "scripts": {
-    "test": "test-runner test/*.js",
-    "docs": "jsdoc2md -l off -t jsdoc2md/README.hbs lib/*.js > README.md; echo",
+    "test": "test-runner test/internal/*.js test/external/*.js",
+    "docs": "jsdoc2md -l off -t jsdoc2md/README.hbs index.js lib/*.js > README.md; echo",
     "cover": "istanbul cover ./node_modules/.bin/test-runner test/*.js && cat coverage/lcov.info | ./node_modules/.bin/coveralls && rm -rf coverage; echo"
   },
   "keywords": [

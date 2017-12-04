@@ -114,6 +114,37 @@ They will be returned in the `_unknown` property of the `commandLineArgs` output
 }
 ```
 
+### Less greedy parsing
+
+```
+$ example --files one.js two.js three.js
+```
+
+```js
+const options = commandLineArgs(optionDefinitions, { greedy: false })
+```
+
+```
+$ example --files one.js --files two.js --files three.js
+```
+
+### More strict parsing
+
+```js
+const options = commandLineArgs(optionDefinitions)
+```
+
+```
+$ example --input one.js two.js
+```
+
+```js
+const options = commandLineArgs(optionDefinitions, { strict: true })
+```
+
+```
+$ example --input one.js two.js
+```
 
 ## Install
 
@@ -127,7 +158,7 @@ $ npm install command-line-args --save
 ### commandLineArgs(optionDefinitions, [options]) ⇒ <code>object</code> ⏏
 Returns an object containing all options set on the command line. By default it parses the global  [`process.argv`](https://nodejs.org/api/process.html#process_process_argv) array.
 
-By default, an exception is thrown if the user sets an unknown option (one without a valid [definition](#exp_module_definition--OptionDefinition)). To enable __partial parsing__, invoke `commandLineArgs` with the `partial` option - all unknown arguments will be returned in the `_unknown` property. If `stopParsingAtFirstUnknown` option is also set all arguments after the first unknown argument will also be skipped and added to the `_unknown` property.
+By default, an exception is thrown if the user sets an unknown option (one without a valid [definition](#exp_module_definition--OptionDefinition)). To enable __partial parsing__, invoke `commandLineArgs` with the `partial` option - all unknown arguments will be returned in the `_unknown` property.
 
 **Kind**: Exported function  
 **Throws**:
@@ -147,6 +178,8 @@ By default, an exception is thrown if the user sets an unknown option (one witho
 | [options] | <code>object</code> | Options. |
 | [options.argv] | <code>Array.&lt;string&gt;</code> | An array of strings, which if passed will be parsed instead  of `process.argv`. |
 | [options.partial] | <code>boolean</code> | If `true`, an array of unknown arguments is returned in the `_unknown` property of the output. |
+| [options.disableGreedyMultiple] | <code>boolean</code> | If `true`, multiple arguments with the format `-m a b` will not be accepted. |
+| [options.stopParsingAtFirstUnknown] | <code>boolean</code> | If `true`, the parsing will stop at the first unknown argument and the remaining arguments will be put in `_unknown`. |
 
 <a name="exp_module_definition--OptionDefinition"></a>
 
@@ -268,8 +301,6 @@ Set this flag if the option takes a list of values. You will receive an array of
 **Kind**: instance property of [<code>OptionDefinition</code>](#exp_module_definition--OptionDefinition)  
 <a name="module_definition--OptionDefinition.OptionDefinition+defaultOption"></a>
 
-If the `disableGreedyMultiple` parsing option is set example 1 above will not be supported and `two.js` will be added to the `_unknown` property in the results.
-
 ### option.defaultOption : <code>boolean</code>
 Any unclaimed command-line args will be set on this option. This flag is typically set on the most commonly-used option to make for more concise usage (i.e. `$ myapp *.js` instead of `$ myapp --files *.js`).
 
@@ -373,4 +404,4 @@ There are two automatic groups: `_all` (contains all options) and `_none` (conta
 
 * * *
 
-&copy; 2014-17 Lloyd Brookes \<75pound@gmail.com\>. Documented by [jsdoc-to-markdown](https://github.com/75lb/jsdoc-to-markdown).
+&copy; 2014-18 Lloyd Brookes \<75pound@gmail.com\>. Documented by [jsdoc-to-markdown](https://github.com/75lb/jsdoc-to-markdown).

@@ -114,6 +114,37 @@ They will be returned in the `_unknown` property of the `commandLineArgs` output
 }
 ```
 
+### Less greedy parsing
+
+```
+$ example --files one.js two.js three.js
+```
+
+```js
+const options = commandLineArgs(optionDefinitions, { greedy: false })
+```
+
+```
+$ example --files one.js --files two.js --files three.js
+```
+
+### More strict parsing
+
+```js
+const options = commandLineArgs(optionDefinitions)
+```
+
+```
+$ example --input one.js two.js
+```
+
+```js
+const options = commandLineArgs(optionDefinitions, { strict: true })
+```
+
+```
+$ example --input one.js two.js
+```
 
 ## Install
 
@@ -132,4 +163,4 @@ $ npm install command-line-args --save
 
 * * *
 
-&copy; 2014-17 Lloyd Brookes \<75pound@gmail.com\>. Documented by [jsdoc-to-markdown](https://github.com/75lb/jsdoc-to-markdown).
+&copy; 2014-18 Lloyd Brookes \<75pound@gmail.com\>. Documented by [jsdoc-to-markdown](https://github.com/75lb/jsdoc-to-markdown).
