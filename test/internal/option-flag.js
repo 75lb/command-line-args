@@ -1,6 +1,6 @@
 'use strict'
 const TestRunner = require('test-runner')
-const FlagOption = require('../../lib/flag-option')
+const FlagOption = require('../../lib/option-flag')
 const a = require('assert')
 
 const runner = new TestRunner()

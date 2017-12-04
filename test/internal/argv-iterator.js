@@ -1,3 +1,4 @@
+'use strict'
 const TestRunner = require('test-runner')
 const a = require('assert')
 const ArgvIterator = require('../../lib/argv-iterator')

@@ -41,7 +41,9 @@ function commandLineArgs (optionDefinitions, options) {
 
   const OutputClass = optionDefinitions.isGrouped() ? require('./lib/output-grouped') : require('./lib/output')
   const output = new OutputClass(optionDefinitions)
-  for (const [ name, value ] of argvIterator) {
+  for (const item of argvIterator) {
+    const name = item[0]
+    const value = item[1]
     const def = optionDefinitions.get(name)
     let option
     if (output.has(name)) {
