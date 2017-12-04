@@ -23,6 +23,9 @@
   ],
   "author": "Lloyd Brookes <75pound@gmail.com>",
   "license": "MIT",
+  "engines": {
+    "node": ">=4.0.0"
+  },
   "devDependencies": {
     "coveralls": "^3.0.0",
     "jsdoc-to-markdown": "^3.0.2",
