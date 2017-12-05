@@ -6,12 +6,12 @@
 module.exports = commandLineArgs
 
 /**
- * Returns an object containing all options set on the command line. By default it parses the global  [`process.argv`](https://nodejs.org/api/process.html#process_process_argv) array.
+ * Returns an object containing all option values set on the command line. By default it parses the global  [`process.argv`](https://nodejs.org/api/process.html#process_process_argv) array.
  *
- * By default, an exception is thrown if the user sets an unknown option (one without a valid [definition](#exp_module_definition--OptionDefinition)). To enable __partial parsing__, invoke `commandLineArgs` with the `partial` option - all unknown arguments will be returned in the `_unknown` property.
+ * By default, an exception is thrown if the user sets an unknown option (one without a valid [definition](https://github.com/75lb/command-line-args/blob/next/doc/option-definition.md)). To enable __partial parsing__, invoke `commandLineArgs` with the `partial` option - all unknown arguments will be returned in the `_unknown` property.
  *
  *
- * @param {module:definition[]} - An array of [OptionDefinition](#exp_module_definition--OptionDefinition) objects
+ * @param {module:definition[]} - An array of [OptionDefinition](https://github.com/75lb/command-line-args/blob/next/doc/option-definition.md) objects
  * @param {object} [options] - Options.
  * @param {string[]} [options.argv] - An array of strings, which if passed will be parsed instead  of `process.argv`.
  * @param {boolean} [options.partial] - If `true`, an array of unknown arguments is returned in the `_unknown` property of the output.

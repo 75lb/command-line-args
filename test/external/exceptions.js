@@ -99,7 +99,7 @@ runner.test('err-invalid-definition: value without option definition 2', functio
   ]
   a.throws(
     () => commandLineArgs(optionDefinitions, { argv: [ '--one', '--two' ] }),
-    err => err.name === 'UNKNOWN_OPTION' && err.invalidOption === '--two'
+    err => err.name === 'UNKNOWN_OPTION' && err.optionName === '--two'
   )
 })
 
@@ -109,7 +109,7 @@ runner.test('err-invalid-definition: value without option definition 3', functio
   ]
   a.throws(
     () => commandLineArgs(optionDefinitions, { argv: [ '--one', '2', '--two', 'two' ] }),
-    err => err.name === 'UNKNOWN_OPTION' && err.invalidOption === '--two'
+    err => err.name === 'UNKNOWN_OPTION' && err.optionName === '--two'
   )
 })
 
@@ -119,7 +119,7 @@ runner.test('err-invalid-definition: value without option definition 4', functio
   ]
   a.throws(
     () => commandLineArgs(optionDefinitions, { argv: [ '-a', '2' ] }),
-    err => err.name === 'UNKNOWN_OPTION' && err.invalidOption === '-a'
+    err => err.name === 'UNKNOWN_OPTION' && err.optionName === '-a'
   )
 })
 
@@ -129,7 +129,7 @@ runner.test('err-invalid-definition: value without option definition 5', functio
   ]
   a.throws(
     () => commandLineArgs(optionDefinitions, { argv: [ '-sdf' ] }),
-    err => err.name === 'UNKNOWN_OPTION' && err.invalidOption === '-s'
+    err => err.name === 'UNKNOWN_OPTION' && err.optionName === '-s'
   )
 })
 

@@ -4,9 +4,9 @@
 <a name="exp_module_command-line-args--commandLineArgs"></a>
 
 ### commandLineArgs(optionDefinitions, [options]) ⇒ <code>object</code> ⏏
-Returns an object containing all options set on the command line. By default it parses the global  [`process.argv`](https://nodejs.org/api/process.html#process_process_argv) array.
+Returns an object containing all option values set on the command line. By default it parses the global  [`process.argv`](https://nodejs.org/api/process.html#process_process_argv) array.
 
-By default, an exception is thrown if the user sets an unknown option (one without a valid [definition](#exp_module_definition--OptionDefinition)). To enable __partial parsing__, invoke `commandLineArgs` with the `partial` option - all unknown arguments will be returned in the `_unknown` property.
+By default, an exception is thrown if the user sets an unknown option (one without a valid [definition](https://github.com/75lb/command-line-args/blob/next/doc/option-definition.md)). To enable __partial parsing__, invoke `commandLineArgs` with the `partial` option - all unknown arguments will be returned in the `_unknown` property.
 
 **Kind**: Exported function  
 **Throws**:
@@ -22,7 +22,7 @@ By default, an exception is thrown if the user sets an unknown option (one witho
 
 | Param | Type | Description |
 | --- | --- | --- |
-| optionDefinitions | <code>Array.&lt;module:definition&gt;</code> | An array of [OptionDefinition](#exp_module_definition--OptionDefinition) objects |
+| optionDefinitions | <code>Array.&lt;module:definition&gt;</code> | An array of [OptionDefinition](https://github.com/75lb/command-line-args/blob/next/doc/option-definition.md) objects |
 | [options] | <code>object</code> | Options. |
 | [options.argv] | <code>Array.&lt;string&gt;</code> | An array of strings, which if passed will be parsed instead  of `process.argv`. |
 | [options.partial] | <code>boolean</code> | If `true`, an array of unknown arguments is returned in the `_unknown` property of the output. |

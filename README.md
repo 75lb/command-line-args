@@ -12,7 +12,7 @@ A mature, feature-complete library to parse command-line options.
 *If your app requires a git-like command interface, consider using [command-line-commands](https://github.com/75lb/command-line-commands).*
 
 ## Synopsis
-You can set options using the main notation standards (getopt, getopt_long, etc.). These commands are all equivalent, setting the same values:
+You can set options using the main notation standards ([learn more](https://github.com/75lb/command-line-args/wiki/Notation-rules)). These commands are all equivalent, setting the same values:
 ```
 $ example --verbose --timeout=1000 --src one.js --src two.js
 $ example --verbose --timeout 1000 --src one.js two.js
@@ -20,7 +20,8 @@ $ example -vt 1000 --src one.js two.js
 $ example -vt 1000 one.js two.js
 ```
 
-See the [notation rules page](https://github.com/75lb/command-line-args/wiki/Notation-rules) to learn more. To access the values, first describe the options your app accepts (see the [option definition documentation](https://github.com/75lb/command-line-args/blob/next/doc/option-definition.md)).
+To access the values, first create a list of [option definitions](https://github.com/75lb/command-line-args/blob/next/doc/option-definition.md) describing your accepted options. The [`type`](https://github.com/75lb/command-line-args/blob/next/doc/option-definition.md#optiontype--function) property is a setter function (the value supplied is passed through this), giving you full control over the value received.
+
 ```js
 const optionDefinitions = [
   { name: 'verbose', alias: 'v', type: Boolean },
@@ -28,7 +29,6 @@ const optionDefinitions = [
   { name: 'timeout', alias: 't', type: Number }
 ]
 ```
-The [`type`](https://github.com/75lb/command-line-args/blob/next/doc/option-definition.md#optiontype--function) property is a setter function (the value supplied is passed through this), giving you full control over the value received.
 
 Next, parse the options using [commandLineArgs()](https://github.com/75lb/command-line-args/blob/next/doc/API.md#commandlineargsoptiondefinitions-options--object-):
 ```js
