@@ -19,7 +19,7 @@ module.exports = commandLineArgs
  * @param {boolean} [options.strict] - Throw on unaccounted-for values.
  * @param {boolean} [options.stopParsingAtFirstUnknown] - If `true`, the parsing will stop at the first unknown argument and the remaining arguments will be put in `_unknown`.
  * @returns {object}
- * @throws `UNKNOWN_OPTION` if `options.partial` is false and the user set an undefined option
+ * @throws `UNKNOWN_OPTION` if `options.partial` is false and the user set an undefined option (stored at `err.optionName`)
  * @throws `NAME_MISSING` if an option definition is missing the required `name` property
  * @throws `INVALID_TYPE` if an option definition has a `type` value that's not a function
  * @throws `INVALID_ALIAS` if an alias is numeric, a hyphen or a length other than 1
@@ -35,7 +35,9 @@ function commandLineArgs (optionDefinitions, options) {
 
   const ArgvIterator = require('./lib/argv-iterator')
   const argvIterator = new ArgvIterator(optionDefinitions, options)
-  argvIterator.argv.validate(optionDefinitions, options)
+
+  const optionUtil = require('./lib/option-util')
+  optionUtil.validate(optionDefinitions, options, argvIterator.argv)
 
   const Option = require('./lib/option')
 

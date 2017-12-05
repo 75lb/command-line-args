@@ -20,20 +20,19 @@ $ example -vt 1000 --src one.js two.js
 $ example -vt 1000 one.js two.js
 ```
 
-To access the values, first describe the options your app accepts (see [option definitions](#optiondefinition-)).
+See the [notation rules page](https://github.com/75lb/command-line-args/wiki/Notation-rules) to learn more. To access the values, first describe the options your app accepts (see the [option definition documentation](https://github.com/75lb/command-line-args/blob/next/doc/option-definition.md)).
 ```js
-const commandLineArgs = require('command-line-args')
-
 const optionDefinitions = [
   { name: 'verbose', alias: 'v', type: Boolean },
   { name: 'src', type: String, multiple: true, defaultOption: true },
   { name: 'timeout', alias: 't', type: Number }
 ]
 ```
-The [`type`](#optiontype--function) property is a setter function (the value supplied is passed through this), giving you full control over the value received.
+The [`type`](https://github.com/75lb/command-line-args/blob/next/doc/option-definition.md#optiontype--function) property is a setter function (the value supplied is passed through this), giving you full control over the value received.
 
-Next, parse the options using [commandLineArgs()](#commandlineargsdefinitions-argv--object-):
+Next, parse the options using [commandLineArgs()](https://github.com/75lb/command-line-args/blob/next/doc/API.md#commandlineargsoptiondefinitions-options--object-):
 ```js
+const commandLineArgs = require('command-line-args')
 const options = commandLineArgs(optionDefinitions)
 ```
 
@@ -49,28 +48,13 @@ const options = commandLineArgs(optionDefinitions)
 }
 ```
 
-When dealing with large amounts of options it often makes sense to [group](#optiongroup--string--arraystring) them.
-
 A usage guide can be generated using [command-line-usage](https://github.com/75lb/command-line-usage), for example:
 
 ![usage](https://raw.githubusercontent.com/75lb/command-line-usage/master/example/screens/footer.png)
 
-### Notation rules
+The [polymer-cli](https://github.com/Polymer/polymer-cli/) usage guide is a good real-life example.
 
-Notation rules for setting command-line options.
-
-* Argument order is insignificant. Whether you set `--example` at the beginning or end of the arg list makes no difference.
-* Options with a [type](#optiontype--function) of `Boolean` do not need to supply a value. Setting `--flag` or `-f` will set that option's value to `true`. This is the only [type](#optiontype--function) with special behaviour.
-* Three ways to set an option value
-  * `--option value`
-  * `--option=value`
-  * `-o value`
-* Two ways to a set list of values (on options with [multiple](#optionmultiple--boolean) set)
-  * `--list one two three`
-  * `--list one --list two --list three`
-* Short options ([alias](#optionalias--string)) can be set in groups. The following are equivalent:
-  * `-a -b -c`
-  * `-abc`
+![usage](https://raw.githubusercontent.com/75lb/command-line-usage/master/example/screens/polymer.png)
 
 ### Ambiguous values
 
@@ -145,6 +129,11 @@ const options = commandLineArgs(optionDefinitions, { strict: true })
 ```
 $ example --input one.js two.js
 ```
+
+
+### Grouping
+
+When dealing with large amounts of options it often makes sense to [group](#optiongroup--string--arraystring) them.
 
 ## Install
 

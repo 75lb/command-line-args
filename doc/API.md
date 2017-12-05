@@ -11,7 +11,7 @@ By default, an exception is thrown if the user sets an unknown option (one witho
 **Kind**: Exported function  
 **Throws**:
 
-- `UNKNOWN_OPTION` if `options.partial` is false and the user set an undefined option
+- `UNKNOWN_OPTION` if `options.partial` is false and the user set an undefined option (stored at `err.optionName`)
 - `NAME_MISSING` if an option definition is missing the required `name` property
 - `INVALID_TYPE` if an option definition has a `type` value that's not a function
 - `INVALID_ALIAS` if an alias is numeric, a hyphen or a length other than 1
