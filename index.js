@@ -65,7 +65,8 @@ function commandLineArgs (optionDefinitions, options) {
     }
   }
 
-  return output.toObject({ skipUnknown: !options.partial })
+  const result = output.toObject({ skipUnknown: !options.partial })
+  return options.camelCase ? optionUtil.camelCaseObject(result) : result
 }
 
 /*

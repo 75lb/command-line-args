@@ -33,7 +33,8 @@
   },
   "dependencies": {
     "array-back": "^2.0.0",
-    "find-replace": "^1.0.3",
+    "find-replace": "^2.0.1",
+    "lodash.camelcase": "^4.3.0",
     "typical": "^2.6.1"
   }
 }
