@@ -18,6 +18,7 @@ module.exports = commandLineArgs
  * @param {boolean} [options.greedy] - Set to false to disable greedy parsing.
  * @param {boolean} [options.strict] - Throw on unaccounted-for values.
  * @param {boolean} [options.stopParsingAtFirstUnknown] - If `true`, the parsing will stop at the first unknown argument and the remaining arguments will be put in `_unknown`.
+ * @param {boolean} [options.camelCase] - If set, options with hypenated names (e.g. `move-to`) will be returned in camel-case (e.g. `moveTo`).
  * @returns {object}
  * @throws `UNKNOWN_OPTION` if `options.partial` is false and the user set an undefined option (stored at `err.optionName`)
  * @throws `NAME_MISSING` if an option definition is missing the required `name` property
@@ -68,20 +69,3 @@ function commandLineArgs (optionDefinitions, options) {
   const result = output.toObject({ skipUnknown: !options.partial })
   return options.camelCase ? optionUtil.camelCaseObject(result) : result
 }
-
-/*
-output.set(def, arg)
-
-arg can be
-* a value
-* a long option name
-* a short option name
-* short option combination
-* --option=value
-
-THIS ARGV:
-const argv = [ 'file1', '--files', 'file2', '-t', '--two=3', 'file3', '-ab', '--files=file4' ]
-
-would yield this output:
-
- */

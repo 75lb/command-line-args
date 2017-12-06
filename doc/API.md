@@ -29,4 +29,5 @@ By default, an exception is thrown if the user sets an unknown option (one witho
 | [options.greedy] | <code>boolean</code> | Set to false to disable greedy parsing. |
 | [options.strict] | <code>boolean</code> | Throw on unaccounted-for values. |
 | [options.stopParsingAtFirstUnknown] | <code>boolean</code> | If `true`, the parsing will stop at the first unknown argument and the remaining arguments will be put in `_unknown`. |
+| [options.camelCase] | <code>boolean</code> | If set, options with hypenated names (e.g. `move-to`) will be returned in camel-case (e.g. `moveTo`). |
 
