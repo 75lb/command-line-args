@@ -57,33 +57,28 @@ runner.test('partial: defaultOption with value equal to defaultValue', function 
   })
 })
 
-runner.test('partial: defaultOption with value equal to defaultValue 2', function () {
+runner.test('partial: string defaultOption can be set by argv once', function () {
   const definitions = [
     { name: 'file', type: String, defaultOption: true, defaultValue: 'file1' }
   ]
-  const argv = [ '--file', '--file=file1', '--two=3', '--four', '5' ]
+  const argv = [ '--file', '--file=file2', '--two=3', '--four', '5' ]
   const options = commandLineArgs(definitions, { argv, partial: true })
   a.deepStrictEqual(options, {
-    file: 'file1',
+    file: 'file2',
     _unknown: [ '--two=3', '--four', '5' ]
   })
+})
 
-  /*
-  ==file is set twice here, if that happens with floating unknowns the second value is ignored. That is happening here too. Should the second be permitted for named option values?
-  '--file', '--file=file1'
-   */
-
-  /*
-  iterator output:
-
-  ["file", null]
-  ["file", null]
-  ["file", "file1"]
-  ["_unknown", "--two"]
-  ["file", "3"]
-  ["_unknown", "--four"]
-  ["file", "5"]
-   */
+runner.test('partial: string defaultOption can not be set by argv twice', function () {
+  const definitions = [
+    { name: 'file', type: String, defaultOption: true, defaultValue: 'file1' }
+  ]
+  const argv = [ '--file', '--file=file2', '--two=3', '--four', '5', 'file3' ]
+  const options = commandLineArgs(definitions, { argv, partial: true })
+  a.deepStrictEqual(options, {
+    file: 'file2',
+    _unknown: [ '--two=3', '--four', '5', 'file3' ]
+  })
 })
 
 runner.test('partial: defaultOption with value equal to defaultValue 3', function () {

@@ -13,10 +13,10 @@ module.exports = commandLineArgs
  *
  * @param {module:definition[]} - An array of [OptionDefinition](https://github.com/75lb/command-line-args/blob/next/doc/option-definition.md) objects
  * @param {object} [options] - Options.
- * @param {string[]} [options.argv] - An array of strings, which if passed will be parsed instead  of `process.argv`.
+ * @param {string[]} [options.argv] - An array of strings which, if present will be parsed instead  of `process.argv`.
  * @param {boolean} [options.partial] - If `true`, an array of unknown arguments is returned in the `_unknown` property of the output.
  * @param {boolean} [options.greedy] - Set to false to disable greedy parsing.
- * @param {boolean} [options.strict] - Throw on unaccounted-for values.
+ * @param {boolean} [options.strictValues] - Throw on unaccounted-for values.
  * @param {boolean} [options.stopParsingAtFirstUnknown] - If `true`, the parsing will stop at the first unknown argument and the remaining arguments will be put in `_unknown`.
  * @param {boolean} [options.camelCase] - If set, options with hypenated names (e.g. `move-to`) will be returned in camel-case (e.g. `moveTo`).
  * @returns {object}
@@ -55,14 +55,19 @@ function commandLineArgs (optionDefinitions, options) {
       option = Option.create(def)
       output.set(def.name, option)
     }
-    try {
-      option.set(value)
-    } catch (err) {
-      if (!options.strict && err.name === 'already_set') {
-        output.get('_unknown').set(value)
-      } else {
+
+    /* only set a non-mulitple defaultValue once.. */
+    if (option.definition.defaultOption && !option.definition.multiple && option.valueSource === 'argv') {
+      if (options.strictValues) {
+        const err = new Error('Unknown value: ' + value)
+        err.name = 'UNKNOWN_VALUE'
+        err.value = value
         throw err
+      } else {
+        output.get('_unknown').set(value)
       }
+    } else {
+      option.set(value)
     }
   }
 

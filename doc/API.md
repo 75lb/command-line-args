@@ -24,10 +24,10 @@ By default, an exception is thrown if the user sets an unknown option (one witho
 | --- | --- | --- |
 | optionDefinitions | <code>Array.&lt;module:definition&gt;</code> | An array of [OptionDefinition](https://github.com/75lb/command-line-args/blob/next/doc/option-definition.md) objects |
 | [options] | <code>object</code> | Options. |
-| [options.argv] | <code>Array.&lt;string&gt;</code> | An array of strings, which if passed will be parsed instead  of `process.argv`. |
+| [options.argv] | <code>Array.&lt;string&gt;</code> | An array of strings which, if present will be parsed instead  of `process.argv`. |
 | [options.partial] | <code>boolean</code> | If `true`, an array of unknown arguments is returned in the `_unknown` property of the output. |
 | [options.greedy] | <code>boolean</code> | Set to false to disable greedy parsing. |
-| [options.strict] | <code>boolean</code> | Throw on unaccounted-for values. |
+| [options.strictValues] | <code>boolean</code> | Throw on unaccounted-for values. |
 | [options.stopParsingAtFirstUnknown] | <code>boolean</code> | If `true`, the parsing will stop at the first unknown argument and the remaining arguments will be put in `_unknown`. |
 | [options.camelCase] | <code>boolean</code> | If set, options with hypenated names (e.g. `move-to`) will be returned in camel-case (e.g. `moveTo`). |
 

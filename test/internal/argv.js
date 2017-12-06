@@ -2,7 +2,6 @@
 const TestRunner = require('test-runner')
 const a = require('assert')
 const Argv = require('../../lib/argv-array')
-const Definitions = require('../../lib/definitions')
 const optionUtil = require('../../lib/option-util')
 
 const runner = new TestRunner()

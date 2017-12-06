@@ -10,9 +10,10 @@ runner.test('throw on unknown value: simple', function () {
     { name: 'one' }
   ]
   const argv = [ '--one', 'arg1', 'arg2' ]
-  a.throws(() => {
-    commandLineArgs(optionDefinitions, { argv, strict: true })
-  })
+  a.throws(
+    () => commandLineArgs(optionDefinitions, { argv, strictValues: true }),
+    err => err.name === 'UNKNOWN_VALUE' && err.value === 'arg2'
+  )
 })
 
 runner.test('throw on unknown value: defaultOption', function () {
@@ -20,9 +21,10 @@ runner.test('throw on unknown value: defaultOption', function () {
     { name: 'one', defaultOption: true }
   ]
   const argv = [ 'arg1', 'arg2' ]
-  a.throws(() => {
-    commandLineArgs(optionDefinitions, { argv, strict: true })
-  })
+  a.throws(
+    () => commandLineArgs(optionDefinitions, { argv, strictValues: true }),
+    err => err.name === 'UNKNOWN_VALUE' && err.value === 'arg2'
+  )
 })
 
 runner.test('throw on unknown value: multiple defaultOption', function () {
@@ -31,6 +33,6 @@ runner.test('throw on unknown value: multiple defaultOption', function () {
   ]
   const argv = [ 'arg1', 'arg2' ]
   a.doesNotThrow(() => {
-    commandLineArgs(optionDefinitions, { argv, strict: true })
+    commandLineArgs(optionDefinitions, { argv, strictValues: true })
   })
 })

@@ -48,6 +48,8 @@ const options = commandLineArgs(optionDefinitions)
 }
 ```
 
+## Usage guide generation
+
 A usage guide can be generated using [command-line-usage](https://github.com/75lb/command-line-usage), for example:
 
 ![usage](https://raw.githubusercontent.com/75lb/command-line-usage/master/example/screens/footer.png)

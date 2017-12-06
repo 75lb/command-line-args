@@ -186,7 +186,7 @@ runner.test('strict mode (throw on unknown value): defaultOption does not throw'
     { name: 'one', defaultOption: true }
   ]
   const argv = [ 'arg1', 'arg2' ]
-  let iterator = new ArgvIterator(optionDefinitions, { argv, strict: false })
+  let iterator = new ArgvIterator(optionDefinitions, { argv, strictValues: false })
   a.doesNotThrow(() => {
     Array.from(iterator)
   })
@@ -197,11 +197,11 @@ runner.test('strict mode (throw on unknown value): simple', function () {
     { name: 'one' }
   ]
   const argv = [ '--one', 'arg1', 'arg2' ]
-  let iterator = new ArgvIterator(optionDefinitions, { argv, strict: false })
+  let iterator = new ArgvIterator(optionDefinitions, { argv, strictValues: false })
   a.doesNotThrow(() => {
     Array.from(iterator)
   })
-  iterator = new ArgvIterator(optionDefinitions, { argv, strict: true })
+  iterator = new ArgvIterator(optionDefinitions, { argv, strictValues: true })
   a.throws(() => {
     Array.from(iterator)
   })
