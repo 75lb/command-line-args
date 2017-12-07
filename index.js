@@ -44,16 +44,25 @@ function commandLineArgs (optionDefinitions, options) {
 
   const OutputClass = optionDefinitions.isGrouped() ? require('./lib/output-grouped') : require('./lib/output')
   const output = new OutputClass(optionDefinitions)
+
+  let unknownsFound = false
+
   for (const item of argvIterator) {
     const name = item[0]
     const value = item[1]
-    const def = optionDefinitions.get(name)
+
+    if (name === '_unknown') unknownsFound = true
+    if (options.stopParsingAtFirstUnknown && unknownsFound) {
+      output.get('_unknown').set(item[2])
+      continue
+    }
+
     let option
     if (output.has(name)) {
       option = output.get(name)
     } else {
-      option = Option.create(def)
-      output.set(def.name, option)
+      option = Option.create(optionDefinitions.get(name))
+      output.set(name, option)
     }
 
     /* only set a non-mulitple defaultValue once.. */
@@ -64,6 +73,7 @@ function commandLineArgs (optionDefinitions, options) {
         err.value = value
         throw err
       } else {
+        unknownsFound = true
         output.get('_unknown').set(value)
       }
     } else {

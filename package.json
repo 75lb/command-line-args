@@ -6,7 +6,7 @@
   "scripts": {
     "test": "test-runner test/internal/*.js test/external/*.js",
     "docs": "jsdoc2md index.js > doc/API.md && jsdoc2md lib/definition.js > doc/option-definition.md",
-    "cover": "istanbul cover ./node_modules/.bin/test-runner test/*.js && cat coverage/lcov.info | ./node_modules/.bin/coveralls && rm -rf coverage; echo"
+    "cover": "istanbul cover ./node_modules/.bin/test-runner test/internal/*.js test/external/*.js && cat coverage/lcov.info | ./node_modules/.bin/coveralls #&& rm -rf coverage; echo"
   },
   "keywords": [
     "argv",
