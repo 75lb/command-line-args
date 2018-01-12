@@ -87,7 +87,7 @@ The `--depth` option expects a `Number`. If no value was set, you will receive `
 <a name="module_definition--OptionDefinition.OptionDefinition+alias"></a>
 
 #### option.alias : <code>string</code>
-getopt-style short option names. Can be any single character (unicode included) except a digit or hypen.
+getopt-style short option names. Can be any single character (unicode included) except a digit or hyphen.
 
 ```js
 [

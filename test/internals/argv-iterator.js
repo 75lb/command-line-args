@@ -1,9 +1,13 @@
 'use strict'
 const TestRunner = require('test-runner')
 const a = require('assert')
-const ArgvIterator = require('../../lib/argv-iterator')
+// const ArgvIterator = require('../../lib/argv-iterator')
 
 const runner = new TestRunner()
+
+/*
+tests skipped because of  `yield [ currentDefinition.name, arg, arg ]`
+*/
 
 runner.skip('argv-iterator: simple', function () {
   const optionDefinitions = [
@@ -16,12 +20,28 @@ runner.skip('argv-iterator: simple', function () {
   const iterator = new ArgvIterator(optionDefinitions, { argv })
   const result = Array.from(iterator)
   a.deepStrictEqual(result, [
-    [ 'one', null ],
-    [ 'one', 'arg1' ],
-    [ '_unknown', 'arg2' ],
-    [ 'two', null ],
-    [ 'three', true ],
-    [ '_unknown', 'arg3' ]
+    { name: 'one', value: null, arg: '--one' },
+    { name: 'one', value: 'arg1', arg: 'arg1' },
+    { name: '_unknown', value: 'arg2', arg: 'arg2' },
+    { name: 'two', value: null, arg: '--two' },
+    { name: 'three', value: true, arg: '--three' },
+    { name: '_unknown', value: 'arg3', arg: 'arg3' }
+  ])
+})
+
+runner.skip('argv-iterator: repeated option', function () {
+  const optionDefinitions = [
+    { name: 'one' }
+  ]
+
+  const argv = [ '--one', 'arg1', '--one', 'arg2' ]
+  const iterator = new ArgvIterator(optionDefinitions, { argv })
+  const result = Array.from(iterator)
+  a.deepStrictEqual(result, [
+    { name: 'one', value: null, arg: '--one' },
+    { name: 'one', value: 'arg1', arg: 'arg1' },
+    { name: 'one', value: null, arg: '--one' },
+    { name: 'one', value: 'arg2', arg: 'arg2' }
   ])
 })
 
@@ -37,12 +57,12 @@ runner.skip('argv-iterator: simple without options', function () {
   const iterator = new ArgvIterator(optionDefinitions)
   const result = Array.from(iterator)
   a.deepStrictEqual(result, [
-    [ 'one', null ],
-    [ 'one', 'arg1' ],
-    [ '_unknown', 'arg2' ],
-    [ 'two', null ],
-    [ 'three', true ],
-    [ '_unknown', 'arg3' ]
+    { name: 'one', value: null, arg: '--one' },
+    { name: 'one', value: 'arg1', arg: 'arg1' },
+    { name: '_unknown', value: 'arg2', arg: 'arg2' },
+    { name: 'two', value: null, arg: '--two' },
+    { name: 'three', value: true, arg: '--three' },
+    { name: '_unknown', value: 'arg3', arg: 'arg3' }
   ])
   process.argv = argv
 })
@@ -167,7 +187,7 @@ runner.skip('argv-iterator: unknown option', function () {
   ])
 })
 
-runner.skip('argv-iterator: simple, defaultOption', function () {
+runner.skip('argv-iterator: singular defaultOption', function () {
   const optionDefinitions = [
     { name: 'one' },
     { name: 'two' },
@@ -179,12 +199,12 @@ runner.skip('argv-iterator: simple, defaultOption', function () {
   const iterator = new ArgvIterator(optionDefinitions, { argv })
   const result = Array.from(iterator)
   a.deepStrictEqual(result, [
-    [ 'one', null ],
-    [ 'one', 'arg1' ],
-    [ 'four', 'arg2' ],
-    [ 'two', null ],
-    [ 'three', true ],
-    [ 'four', 'arg3' ]
+    { name: 'one', value: null, arg: '--one' },
+    { name: 'one', value: 'arg1', arg: 'arg1' },
+    { name: 'four', value: 'arg2', arg: 'arg2' },
+    { name: 'two', value: null, arg: '--two' },
+    { name: 'three', value: true, arg: '--three' },
+    { name: 'four', value: 'arg3', arg: 'arg3' }
   ])
 })
 

@@ -15,6 +15,13 @@ runner.test('.expandOptionEqualsNotation()', function () {
   ])
 })
 
+runner.test('expandOptionEqualsNotation 2', function () {
+  const argv = new Argv()
+  argv.load([ '--one=tree' ])
+  argv.expandOptionEqualsNotation()
+  a.deepEqual(argv, [ '--one', optionUtil.VALUE_MARKER + 'tree' ])
+})
+
 runner.test('.expandGetoptNotation()', function () {
   const argv = new Argv()
   argv.load([ '-abc' ])
@@ -31,11 +38,4 @@ runner.test('.expandGetoptNotation() with values', function () {
   a.deepEqual(argv, [
     '-a', '-b', '-c', '1', '-a', '2', '-b', '-c'
   ])
-})
-
-runner.test('expandOptionEqualsNotation', function () {
-  const argv = new Argv()
-  argv.load([ '--one=tree' ])
-  argv.expandOptionEqualsNotation()
-  a.deepEqual(argv, [ '--one', optionUtil.VALUE_MARKER + 'tree' ])
 })

@@ -1,6 +1,6 @@
 'use strict'
 const TestRunner = require('test-runner')
-const commandLineArgs = require('../../')
+const commandLineArgs = require('../')
 const a = require('assert')
 
 const runner = new TestRunner()

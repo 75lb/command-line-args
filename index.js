@@ -17,7 +17,7 @@ module.exports = commandLineArgs
  * @param {boolean} [options.partial] - If `true`, an array of unknown arguments is returned in the `_unknown` property of the output.
  * @param {boolean} [options.greedy] - Set to false to disable greedy parsing.
  * @param {boolean} [options.strictValues] - Throw on unaccounted-for values.
- * @param {boolean} [options.stopParsingAtFirstUnknown] - If `true`, the parsing will stop at the first unknown argument and the remaining arguments will be put in `_unknown`.
+ * @param {boolean} [options.stopAtFirstUnknown] - If `true`, the parsing will stop at the first unknown argument and the remaining arguments will be put in `_unknown`.
  * @param {boolean} [options.camelCase] - If set, options with hypenated names (e.g. `move-to`) will be returned in camel-case (e.g. `moveTo`).
  * @returns {object}
  * @throws `UNKNOWN_OPTION` if `options.partial` is false and the user set an undefined option (stored at `err.optionName`)
@@ -34,50 +34,28 @@ function commandLineArgs (optionDefinitions, options) {
   const Definitions = require('./lib/definitions')
   optionDefinitions = Definitions.from(optionDefinitions)
 
-  const ArgvIterator = require('./lib/argv-iterator')
-  const argvIterator = new ArgvIterator(optionDefinitions, options)
+  const ArgvParser = require('./lib/argv-parser')
+  const parser = new ArgvParser(optionDefinitions, { argv: options.argv, stopAtFirstUnknown: options.stopAtFirstUnknown })
 
   const optionUtil = require('./lib/option-util')
-  optionUtil.validate(optionDefinitions, options, argvIterator.argv)
-
+  optionUtil.validate(optionDefinitions, options)
   const Option = require('./lib/option')
-
   const OutputClass = optionDefinitions.isGrouped() ? require('./lib/output-grouped') : require('./lib/output')
   const output = new OutputClass(optionDefinitions)
 
-  let unknownsFound = false
-
-  for (const item of argvIterator) {
-    const name = item[0]
-    const value = item[1]
-
-    if (name === '_unknown') unknownsFound = true
-    if (options.stopParsingAtFirstUnknown && unknownsFound) {
-      output.get('_unknown').set(item[2])
-      continue
-    }
-
+  for (const argInfo of parser) {
     let option
-    if (output.has(name)) {
-      option = output.get(name)
+    if (output.has(argInfo.name)) {
+      option = output.get(argInfo.name)
     } else {
-      option = Option.create(optionDefinitions.get(name))
-      output.set(name, option)
+      option = Option.create(argInfo.def)
+      output.set(argInfo.name, option)
     }
 
-    /* only set a non-mulitple defaultValue once.. */
-    if (option.definition.defaultOption && !option.definition.multiple && option.valueSource === 'argv') {
-      if (options.strictValues) {
-        const err = new Error('Unknown value: ' + value)
-        err.name = 'UNKNOWN_VALUE'
-        err.value = value
-        throw err
-      } else {
-        unknownsFound = true
-        output.get('_unknown').set(value)
-      }
-    } else {
-      option.set(value)
+    if (argInfo.name === '_unknown') {
+      option.set(argInfo.arg)
+    }  else {
+      option.set(argInfo.value)
     }
   }
 

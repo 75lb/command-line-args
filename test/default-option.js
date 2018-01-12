@@ -1,11 +1,11 @@
 'use strict'
 const TestRunner = require('test-runner')
-const commandLineArgs = require('../../')
+const commandLineArgs = require('../')
 const a = require('assert')
 
 const runner = new TestRunner()
 
-runner.test('defaultOption: string', function () {
+runner.test('defaultOption: single string', function () {
   const optionDefinitions = [
     { name: 'files', defaultOption: true }
   ]
