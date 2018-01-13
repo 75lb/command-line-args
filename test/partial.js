@@ -29,6 +29,19 @@ runner.test('partial: defaultOption', function () {
   })
 })
 
+runner.test('defaultOption: floating args present but no defaultOption', function () {
+  const definitions = [
+    { name: 'one', type: Boolean }
+  ]
+  a.deepStrictEqual(
+    commandLineArgs(definitions, { argv: [ 'aaa', '--one', 'aaa', 'aaa' ], partial: true }),
+    {
+      one: true,
+      _unknown: [ 'aaa', 'aaa', 'aaa' ]
+    }
+  )
+})
+
 runner.test('partial: defaultOption 2', function () {
   const definitions = [
     { name: 'files', type: String, defaultOption: true, multiple: true },
@@ -220,5 +233,16 @@ runner.test('partial: mulitple unknowns with same name', function () {
   a.deepStrictEqual(options, {
     file: 'file1',
     _unknown: [ '--unknown', '--unknown=something', '--unknown' ]
+  })
+})
+
+runner.test('defaultOption: single string', function () {
+  const optionDefinitions = [
+    { name: 'files', defaultOption: true }
+  ]
+  const argv = [ 'file1', 'file2' ]
+  a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv, partial: true }), {
+    files: 'file1',
+    _unknown: [ 'file2' ]
   })
 })

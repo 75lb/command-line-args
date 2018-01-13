@@ -83,56 +83,6 @@ runner.test('err-invalid-definition: invalid type values 4', function () {
   }, /invalid/i)
 })
 
-runner.test('err-invalid-definition: value without option definition 1', function () {
-  const optionDefinitions = [
-    { name: 'one', type: Number }
-  ]
-  a.deepStrictEqual(
-    commandLineArgs(optionDefinitions, { argv: [ '--one', '1' ] }),
-    { one: 1 }
-  )
-})
-
-runner.test('err-invalid-definition: value without option definition 2', function () {
-  const optionDefinitions = [
-    { name: 'one', type: Number }
-  ]
-  a.throws(
-    () => commandLineArgs(optionDefinitions, { argv: [ '--one', '--two' ] }),
-    err => err.name === 'UNKNOWN_OPTION' && err.optionName === '--two'
-  )
-})
-
-runner.test('err-invalid-definition: value without option definition 3', function () {
-  const optionDefinitions = [
-    { name: 'one', type: Number }
-  ]
-  a.throws(
-    () => commandLineArgs(optionDefinitions, { argv: [ '--one', '2', '--two', 'two' ] }),
-    err => err.name === 'UNKNOWN_OPTION' && err.optionName === '--two'
-  )
-})
-
-runner.test('err-invalid-definition: value without option definition 4', function () {
-  const optionDefinitions = [
-    { name: 'one', type: Number }
-  ]
-  a.throws(
-    () => commandLineArgs(optionDefinitions, { argv: [ '-a', '2' ] }),
-    err => err.name === 'UNKNOWN_OPTION' && err.optionName === '-a'
-  )
-})
-
-runner.test('err-invalid-definition: value without option definition 5', function () {
-  const optionDefinitions = [
-    { name: 'one', type: Number }
-  ]
-  a.throws(
-    () => commandLineArgs(optionDefinitions, { argv: [ '-sdf' ] }),
-    err => err.name === 'UNKNOWN_OPTION' && err.optionName === '-s'
-  )
-})
-
 runner.test('err-invalid-definition: duplicate name', function () {
   const optionDefinitions = [
     { name: 'colours' },

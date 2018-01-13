@@ -8,6 +8,7 @@
         * [.type](#module_definition--OptionDefinition.OptionDefinition+type) : <code>function</code>
         * [.alias](#module_definition--OptionDefinition.OptionDefinition+alias) : <code>string</code>
         * [.multiple](#module_definition--OptionDefinition.OptionDefinition+multiple) : <code>boolean</code>
+        * [.lazyMultiple](#module_definition--OptionDefinition.OptionDefinition+lazyMultiple) : <code>boolean</code>
         * [.defaultOption](#module_definition--OptionDefinition.OptionDefinition+defaultOption) : <code>boolean</code>
         * [.defaultValue](#module_definition--OptionDefinition.OptionDefinition+defaultValue) : <code>\*</code>
         * [.group](#module_definition--OptionDefinition.OptionDefinition+group) : <code>string</code> \| <code>Array.&lt;string&gt;</code>
@@ -119,6 +120,12 @@ Set this flag if the option takes a list of values. You will receive an array of
 | 1   | `--files one.js two.js` | `{ files: [ 'one.js', 'two.js' ] }` |
 | 2   | `--files one.js --files two.js` | `{ files: [ 'one.js', 'two.js' ] }` |
 | 3   | `--files *` | `{ files: [ 'one.js', 'two.js' ] }` |
+
+**Kind**: instance property of [<code>OptionDefinition</code>](#exp_module_definition--OptionDefinition)  
+<a name="module_definition--OptionDefinition.OptionDefinition+lazyMultiple"></a>
+
+#### option.lazyMultiple : <code>boolean</code>
+Identical to `multiple` but with greedy parsing disabled.
 
 **Kind**: instance property of [<code>OptionDefinition</code>](#exp_module_definition--OptionDefinition)  
 <a name="module_definition--OptionDefinition.OptionDefinition+defaultOption"></a>

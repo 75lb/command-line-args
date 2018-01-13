@@ -36,8 +36,11 @@ runner.test('default value 4', function () {
 })
 
 runner.test('default value 5', function () {
-  const defs = [{ name: 'two', multiple: true, defaultValue: ['two', 'zwei'] }]
-  const result = commandLineArgs(defs, [])
+  const defs = [
+    { name: 'two', multiple: true, defaultValue: ['two', 'zwei'] }
+  ]
+  const argv = []
+  const result = commandLineArgs(defs, { argv })
   a.deepStrictEqual(result, { two: [ 'two', 'zwei' ] })
 })
 

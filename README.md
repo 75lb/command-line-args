@@ -50,7 +50,9 @@ const options = commandLineArgs(optionDefinitions)
 
 ## Usage guide generation
 
-A usage guide can be generated using [command-line-usage](https://github.com/75lb/command-line-usage), for example:
+A usage guide (typically printed when `--help` is set) can be generated using [command-line-usage](https://github.com/75lb/command-line-usage). See the examples below and [read the documentation](https://github.com/75lb/command-line-usage) for instructions how to create them.
+
+A typical usage guide example.
 
 ![usage](https://raw.githubusercontent.com/75lb/command-line-usage/master/example/screens/footer.png)
 
@@ -58,15 +60,15 @@ The [polymer-cli](https://github.com/Polymer/polymer-cli/) usage guide is a good
 
 ![usage](https://raw.githubusercontent.com/75lb/command-line-usage/master/example/screens/polymer.png)
 
+## Further Reading
+
+There is plenty more to learn, please see [the wiki](https://github.com/75lb/command-line-args/wiki) for further examples and documentation.
+
 ## Install
 
 ```sh
 $ npm install command-line-args --save
 ```
-
-## Further Reading
-
-Please see [the wiki](https://github.com/75lb/command-line-args/wiki) for further examples and documentation.
 
 * * *
 
