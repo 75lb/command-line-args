@@ -13,7 +13,7 @@ runner.test('err-invalid-definition: throws when no definition.name specified', 
   const argv = [ '--one', '--two' ]
   a.throws(
     () => commandLineArgs(optionDefinitions, { argv }),
-    err => err.name === 'NAME_MISSING'
+    err => err.name === 'INVALID_DEFINITIONS'
   )
 })
 
@@ -25,7 +25,7 @@ runner.test('err-invalid-definition: throws if dev set a numeric alias', functio
 
   a.throws(
     () => commandLineArgs(optionDefinitions, { argv }),
-    err => err.name === 'INVALID_ALIAS'
+    err => err.name === 'INVALID_DEFINITIONS'
   )
 })
 
@@ -37,7 +37,7 @@ runner.test('err-invalid-definition: throws if dev set an alias of "-"', functio
 
   a.throws(
     () => commandLineArgs(optionDefinitions, { argv }),
-    err => err.name === 'INVALID_ALIAS'
+    err => err.name === 'INVALID_DEFINITIONS'
   )
 })
 
@@ -48,7 +48,7 @@ runner.test('err-invalid-definition: multi-character alias', function () {
   const argv = [ '--one', 'red' ]
   a.throws(
     () => commandLineArgs(optionDefinitions, { argv }),
-    err => err.name === 'INVALID_ALIAS'
+    err => err.name === 'INVALID_DEFINITIONS'
   )
 })
 
@@ -56,7 +56,7 @@ runner.test('err-invalid-definition: invalid type values 1', function () {
   const argv = [ '--one', 'something' ]
   a.throws(
     () => commandLineArgs([ { name: 'one', type: 'string' } ], { argv }),
-    err => err.name === 'INVALID_TYPE'
+    err => err.name === 'INVALID_DEFINITIONS'
   )
 })
 
@@ -64,7 +64,7 @@ runner.test('err-invalid-definition: invalid type values 2', function () {
   const argv = [ '--one', 'something' ]
   a.throws(
     () => commandLineArgs([ { name: 'one', type: 234 } ], { argv }),
-    err => err.name === 'INVALID_TYPE'
+    err => err.name === 'INVALID_DEFINITIONS'
   )
 })
 
@@ -72,7 +72,7 @@ runner.test('err-invalid-definition: invalid type values 3', function () {
   const argv = [ '--one', 'something' ]
   a.throws(
     () => commandLineArgs([ { name: 'one', type: {} } ], { argv }),
-    err => err.name === 'INVALID_TYPE'
+    err => err.name === 'INVALID_DEFINITIONS'
   )
 })
 
@@ -91,7 +91,7 @@ runner.test('err-invalid-definition: duplicate name', function () {
   const argv = [ '--colours', 'red' ]
   a.throws(
     () => commandLineArgs(optionDefinitions, { argv }),
-    err => err.name === 'DUPLICATE_NAME'
+    err => err.name === 'INVALID_DEFINITIONS'
   )
 })
 
@@ -103,7 +103,7 @@ runner.test('err-invalid-definition: duplicate alias', function () {
   const argv = [ '--one', 'red' ]
   a.throws(
     () => commandLineArgs(optionDefinitions, { argv }),
-    err => err.name === 'DUPLICATE_ALIAS'
+    err => err.name === 'INVALID_DEFINITIONS'
   )
 })
 
@@ -115,8 +115,17 @@ runner.test('err-invalid-definition: multiple defaultOption', function () {
   const argv = [ '--one', 'red' ]
   a.throws(
     () => commandLineArgs(optionDefinitions, { argv }),
-    err => err.name === 'DUPLICATE_DEFAULT_OPTION'
+    err => err.name === 'INVALID_DEFINITIONS'
   )
 })
 
-runner.test('err-invalid-defaultOption: defaultOption on a Boolean type')
+runner.test('err-invalid-defaultOption: defaultOption on a Boolean type', function () {
+  const optionDefinitions = [
+    { name: 'one', type: Boolean, defaultOption: true }
+  ]
+  const argv = [ '--one', 'red' ]
+  a.throws(
+    () => commandLineArgs(optionDefinitions, { argv }),
+    err => err.name === 'INVALID_DEFINITIONS'
+  )
+})
