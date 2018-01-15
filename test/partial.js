@@ -42,7 +42,32 @@ runner.test('defaultOption: floating args present but no defaultOption', functio
   )
 })
 
-runner.test('partial: defaultOption 2', function () {
+runner.test('partial: combined short option, both unknown', function () {
+  const definitions = [
+    { name: 'one', alias: 'o' },
+    { name: 'two', alias: 't' }
+  ]
+  const argv = [ '-ab' ]
+  const options = commandLineArgs(definitions, { argv, partial: true })
+  a.deepStrictEqual(options, {
+    _unknown: [ '-a', '-b' ]
+  })
+})
+
+runner.test('partial: combined short option, one known, one unknown', function () {
+  const definitions = [
+    { name: 'one', alias: 'o' },
+    { name: 'two', alias: 't' }
+  ]
+  const argv = [ '-ob' ]
+  const options = commandLineArgs(definitions, { argv, partial: true })
+  a.deepStrictEqual(options, {
+    one: null,
+    _unknown: [ '-b' ]
+  })
+})
+
+runner.test('partial: defaultOption with --option=value and combined short options', function () {
   const definitions = [
     { name: 'files', type: String, defaultOption: true, multiple: true },
     { name: 'one', type: Boolean },

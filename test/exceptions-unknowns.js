@@ -77,7 +77,7 @@ runner.test('exceptions-unknowns: no unknown value exception with multiple defau
   })
 })
 
-runner.test('defaultOption: non-multiple should take first value 2', function () {
+runner.test('exceptions-unknowns: non-multiple defaultOption should take first value 2', function () {
   const optionDefinitions = [
     { name: 'file', defaultOption: true },
     { name: 'one', type: Boolean },

@@ -14,6 +14,15 @@ runner.test('multiple: empty argv', function () {
   a.deepStrictEqual(result, {})
 })
 
+runner.test('multiple: boolean, empty argv', function () {
+  const optionDefinitions = [
+    { name: 'one', type: Boolean, multiple: true }
+  ]
+  const argv = []
+  const result = commandLineArgs(optionDefinitions, { argv })
+  a.deepStrictEqual(result, { })
+})
+
 runner.test('multiple: string unset with defaultValue', function () {
   const optionDefinitions = [
     { name: 'one', multiple: true, defaultValue: 1 }
@@ -23,11 +32,46 @@ runner.test('multiple: string unset with defaultValue', function () {
   a.deepStrictEqual(result, { one: [ 1 ] })
 })
 
-runner.test('multiple: boolean unset', function () {
+runner.test('multiple: string', function () {
   const optionDefinitions = [
-    { name: 'one', type: Boolean, multiple: true }
+    { name: 'one', multiple: true }
   ]
-  const argv = []
+  const argv = [ '--one', '1', '2' ]
   const result = commandLineArgs(optionDefinitions, { argv })
-  a.deepStrictEqual(result, { })
+  a.deepStrictEqual(result, {
+    one: [ '1', '2' ]
+  })
+})
+
+runner.test('multiple: string, --option=value', function () {
+  const optionDefinitions = [
+    { name: 'one', multiple: true }
+  ]
+  const argv = [ '--one=1', '--one=2' ]
+  const result = commandLineArgs(optionDefinitions, { argv })
+  a.deepStrictEqual(result, {
+    one: [ '1', '2' ]
+  })
+})
+
+runner.test('multiple: string, --option=value mix', function () {
+  const optionDefinitions = [
+    { name: 'one', multiple: true }
+  ]
+  const argv = [ '--one=1', '--one=2', '3' ]
+  const result = commandLineArgs(optionDefinitions, { argv })
+  a.deepStrictEqual(result, {
+    one: [ '1', '2', '3' ]
+  })
+})
+
+runner.test('multiple: string, defaultOption', function () {
+  const optionDefinitions = [
+    { name: 'one', multiple: true, defaultOption: true }
+  ]
+  const argv = [ '1', '2' ]
+  const result = commandLineArgs(optionDefinitions, { argv })
+  a.deepStrictEqual(result, {
+    one: [ '1', '2' ]
+  })
 })

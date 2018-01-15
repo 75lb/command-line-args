@@ -35,24 +35,29 @@ function commandLineArgs (optionDefinitions, options) {
   optionDefinitions = Definitions.from(optionDefinitions)
 
   const ArgvParser = require('./lib/argv-parser')
-  const parser = new ArgvParser(optionDefinitions, { argv: options.argv, stopAtFirstUnknown: options.stopAtFirstUnknown })
+  const parser = new ArgvParser(optionDefinitions, {
+    argv: options.argv,
+    stopAtFirstUnknown: options.stopAtFirstUnknown
+  })
 
   const optionUtil = require('./lib/option-util')
   const Option = require('./lib/option')
   const OutputClass = optionDefinitions.isGrouped() ? require('./lib/output-grouped') : require('./lib/output')
   const output = new OutputClass(optionDefinitions)
 
+  /* Iterate the parser setting each known value to the output. Optionally, throw on unknowns. */
   for (const argInfo of parser) {
+    const arg = argInfo.subArg || argInfo.arg
     if (!options.partial) {
       if (argInfo.event === 'unknown_value') {
-        const err = new Error(`Unknown value: ${argInfo.arg}`)
+        const err = new Error(`Unknown value: ${arg}`)
         err.name = 'UNKNOWN_VALUE'
-        err.value = argInfo.arg
+        err.value = arg
         throw err
       } else if (argInfo.event === 'unknown_option') {
-        const err = new Error(`Unknown option: ${argInfo.arg}`)
+        const err = new Error(`Unknown option: ${arg}`)
         err.name = 'UNKNOWN_OPTION'
-        err.optionName = argInfo.arg
+        err.optionName = arg
         throw err
       }
     }
@@ -66,8 +71,8 @@ function commandLineArgs (optionDefinitions, options) {
     }
 
     if (argInfo.name === '_unknown') {
-      option.set(argInfo.arg)
-    }  else {
+      option.set(arg)
+    } else {
       option.set(argInfo.value)
     }
   }

@@ -19,7 +19,7 @@ runner.test('alias: one boolean alias', function () {
   const optionDefinitions = [
     { name: 'dry-run', alias: 'd', type: Boolean }
   ]
-const argv = [ '-d' ]
+  const argv = [ '-d' ]
   a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv }), {
     'dry-run': true
   })

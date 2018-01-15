@@ -262,21 +262,22 @@ runner.test('argv-parser: long option, stopAtFirstUnknown with defaultOption 2',
   ])
 })
 
-
 runner.test('argv-parser: --option=value', function () {
   const optionDefinitions = [
     { name: 'one' },
     { name: 'two' }
   ]
-  const argv = [ '--one=1', '--two=2' ]
+  const argv = [ '--one=1', '--two=2', '--two=' ]
   const parser = new ArgvParser(optionDefinitions, { argv })
   const result = Array.from(parser)
   a.ok(result[0].def)
   a.ok(result[1].def)
+  a.ok(result[2].def)
   result.forEach(r => delete r.def)
   a.deepStrictEqual(result, [
     { event: 'set', arg: '--one=1', name: 'one', value: '1' },
-    { event: 'set', arg: '--two=2', name: 'two', value: '2' }
+    { event: 'set', arg: '--two=2', name: 'two', value: '2' },
+    { event: 'set', arg: '--two=', name: 'two', value: '' }
   ])
 })
 
@@ -307,5 +308,59 @@ runner.test('argv-parser: --option=value where option is boolean', function () {
   a.deepStrictEqual(result, [
     { event: 'unknown_value', arg: '--one=1', name: '_unknown', value: undefined },
     { event: 'set', arg: '--one=1', name: 'one', value: true }
+  ])
+})
+
+runner.test('argv-parser: short option, string', function () {
+  const optionDefinitions = [
+    { name: 'one', alias: 'o' }
+  ]
+  const argv = [ '-o', '1' ]
+  const parser = new ArgvParser(optionDefinitions, { argv })
+  const result = Array.from(parser)
+  a.ok(result[0].def)
+  a.ok(result[1].def)
+  result.forEach(r => delete r.def)
+  a.deepStrictEqual(result, [
+    { event: 'set', arg: '-o', name: 'one', value: null },
+    { event: 'set', arg: '1', name: 'one', value: '1' }
+  ])
+})
+
+runner.test('argv-parser: combined short option, string', function () {
+  const optionDefinitions = [
+    { name: 'one', alias: 'o' },
+    { name: 'two', alias: 't' }
+  ]
+  const argv = [ '-ot', '1' ]
+  const parser = new ArgvParser(optionDefinitions, { argv })
+  const result = Array.from(parser)
+  a.ok(result[0].def)
+  a.ok(result[1].def)
+  a.ok(result[2].def)
+  result.forEach(r => delete r.def)
+  a.deepStrictEqual(result, [
+    { event: 'set', arg: '-ot', subArg: '-o', name: 'one', value: null },
+    { event: 'set', arg: '-ot', subArg: '-t', name: 'two', value: null },
+    { event: 'set', arg: '1', name: 'two', value: '1' }
+  ])
+})
+
+runner.test('argv-parser: combined short option, one unknown', function () {
+  const optionDefinitions = [
+    { name: 'one', alias: 'o' },
+    { name: 'two', alias: 't' }
+  ]
+  const argv = [ '-xt', '1' ]
+  const parser = new ArgvParser(optionDefinitions, { argv })
+  const result = Array.from(parser)
+  a.ok(!result[0].def)
+  a.ok(result[1].def)
+  a.ok(result[2].def)
+  result.forEach(r => delete r.def)
+  a.deepStrictEqual(result, [
+    { event: 'unknown_option', arg: '-xt', subArg: '-x', name: '_unknown', value: undefined },
+    { event: 'set', arg: '-xt', subArg: '-t', name: 'two', value: null },
+    { event: 'set', arg: '1', name: 'two', value: '1' }
   ])
 })
