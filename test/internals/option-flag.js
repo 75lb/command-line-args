@@ -5,17 +5,29 @@ const a = require('assert')
 
 const runner = new TestRunner()
 
-runner.test('type-boolean: different values', function () {
+runner.test('type-boolean: single set', function () {
   const option = new FlagOption({ name: 'one', type: Boolean })
 
   option.set(undefined)
   a.strictEqual(option.get(), true)
+})
+
+runner.test('type-boolean: single set 2', function () {
+  const option = new FlagOption({ name: 'one', type: Boolean })
+
   option.set('true')
   a.strictEqual(option.get(), true)
-  option.set('false')
+})
+
+runner.test('type-boolean: set twice', function () {
+  const option = new FlagOption({ name: 'one', type: Boolean })
+
+  option.set(undefined)
   a.strictEqual(option.get(), true)
-  option.set('sdsdf')
-  a.strictEqual(option.get(), true)
+  a.throws(
+    () => option.set('true'),
+    err => err.name === 'ALREADY_SET'
+  )
 })
 
 const origBoolean = Boolean
@@ -28,13 +40,7 @@ runner.test('type-boolean: global Boolean overridden', function () {
 
   const option = new FlagOption({ name: 'one', type: Boolean })
 
-  option.set(undefined)
-  a.strictEqual(option.get(), true)
-  option.set('true')
-  a.strictEqual(option.get(), true)
-  option.set('false')
-  a.strictEqual(option.get(), true)
-  option.set('sdsdf')
+  option.set()
   a.strictEqual(option.get(), true)
 })
 

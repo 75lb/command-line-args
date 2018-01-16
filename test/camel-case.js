@@ -6,11 +6,11 @@ const a = require('assert')
 const runner = new TestRunner()
 
 runner.test('camel-case', function () {
-  const argv = [ '--one-two', '1', '--three' ]
   const optionDefinitions = [
     { name: 'one-two' },
     { name: 'three', type: Boolean }
   ]
+  const argv = [ '--one-two', '1', '--three' ]
   const result = commandLineArgs(optionDefinitions, { argv, camelCase: true })
   a.deepStrictEqual(result, {
     oneTwo: '1',
