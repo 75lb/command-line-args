@@ -6,13 +6,13 @@
 ### commandLineArgs(optionDefinitions, [options]) ⇒ <code>object</code> ⏏
 Returns an object containing all option values set on the command line. By default it parses the global  [`process.argv`](https://nodejs.org/api/process.html#process_process_argv) array.
 
-Parsing is strict by default - an exception is thrown if the user sets an unknown value or option (one without a valid [definition](https://github.com/75lb/command-line-args/blob/next/doc/option-definition.md)) or value. To be more permissive, [partial mode](https://github.com/75lb/command-line-args/wiki/Partial-mode-example) will parse options with valid definitions and return unknown arguments in the `_unknown` property.
+Parsing is strict by default - an exception is thrown if the user sets an unknown value or option (one without a valid [definition](https://github.com/75lb/command-line-args/blob/next/doc/option-definition.md)). To be more permissive, enabling [partial mode](https://github.com/75lb/command-line-args/wiki/Partial-mode-example) will return known options as usual and return unknown arguments in a separate `_unknown` property.
 
 **Kind**: Exported function  
 **Throws**:
 
-- `UNKNOWN_OPTION` If `options.partial` is false and the user set an undefined option (stored at `err.optionName`)
-- `UNKNOWN_VALUE` If `options.partial` is false and the user set a value unaccounted for by an option definition
+- `UNKNOWN_OPTION` If `options.partial` is false and the user set an undefined option. The unknown option name is stored at `err.optionName`.
+- `UNKNOWN_VALUE` If `options.partial` is false and the user set a value unaccounted for by an option.
 - `ALREADY_SET` If a user sets a singular, non-multiple option more than once.
 - `INVALID_DEFINITIONS`
   - If an option definition is missing the required `name` property
@@ -21,6 +21,7 @@ Parsing is strict by default - an exception is thrown if the user sets an unknow
   - If an option definition name was used more than once
   - If an option definition alias was used more than once
   - If more than one option definition has `defaultOption: true`
+  - If a `Boolean` option is also set as the `defaultOption`.
 
 
 | Param | Type | Description |
@@ -29,6 +30,6 @@ Parsing is strict by default - an exception is thrown if the user sets an unknow
 | [options] | <code>object</code> | Options. |
 | [options.argv] | <code>Array.&lt;string&gt;</code> | An array of strings which, if present will be parsed instead  of `process.argv`. |
 | [options.partial] | <code>boolean</code> | If `true`, an array of unknown arguments is returned in the `_unknown` property of the output. |
-| [options.stopAtFirstUnknown] | <code>boolean</code> | If `true`, the parsing will stop at the first unknown argument and the remaining arguments will be put in `_unknown`. |
-| [options.camelCase] | <code>boolean</code> | If set, options with hypenated names (e.g. `move-to`) will be returned in camel-case (e.g. `moveTo`). |
+| [options.stopAtFirstUnknown] | <code>boolean</code> | If `true`, parsing will stop at the first unknown argument and the remaining arguments returned in `_unknown`. When set, `partial: true` is also implied. |
+| [options.camelCase] | <code>boolean</code> | If `true`, options with hypenated names (e.g. `move-to`) will be returned in camel-case (e.g. `moveTo`). |
 

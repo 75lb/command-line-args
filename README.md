@@ -62,7 +62,7 @@ The [polymer-cli](https://github.com/Polymer/polymer-cli/) usage guide is a good
 
 ## Further Reading
 
-There is plenty more to learn, please see [the wiki](https://github.com/75lb/command-line-args/wiki) for further examples and documentation.
+There is plenty more to learn, please see [the wiki](https://github.com/75lb/command-line-args/wiki) for examples and documentation.
 
 ## Install
 

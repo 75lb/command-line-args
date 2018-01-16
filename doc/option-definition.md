@@ -16,7 +16,7 @@
 <a name="exp_module_option-definition--OptionDefinition"></a>
 
 ### OptionDefinition ⏏
-Describes a command-line option. Additionally, if generating a usage guide with [command-line-usage](https://github.com/75lb/command-line-usage) you'll optionally add `description` and `typeLabel` properties to each definition..
+Describes a command-line option. Additionally, if generating a usage guide with [command-line-usage](https://github.com/75lb/command-line-usage) you could optionally add `description` and `typeLabel` properties to each definition.
 
 **Kind**: Exported class  
 <a name="module_option-definition--OptionDefinition.OptionDefinition+name"></a>
@@ -53,19 +53,21 @@ const optionDefinitions = [
 #### option.type : <code>function</code>
 The `type` value is a setter function (you receive the output from this), enabling you to be specific about the type and value received.
 
-The most common values used are `String`, `Number` and `Boolean` but you can use a custom function or constructor, if you like:
+The most common values used are `String`, `Number` and `Boolean` but you can use a custom function, if you like:
 
 ```js
 const fs = require('fs')
 
-function FileDetails(filename){
-  if (!(this instanceof FileDetails)) return new FileDetails(filename)
-  this.filename = filename
-  this.exists = fs.existsSync(filename)
+class FileDetails {
+  constructor (filename) {
+    const fs = require('fs')
+    this.filename = filename
+    this.exists = fs.existsSync(filename)
+  }
 }
 
 const cli = commandLineArgs([
-  { name: 'file', type: FileDetails },
+  { name: 'file', type: filename => new FileDetails(filename) },
   { name: 'depth', type: Number }
 ])
 ```
@@ -113,7 +115,7 @@ const optionDefinitions = [
 ]
 ```
 
-Note, examples 1 and 3 below demonstrate "greedy" parsing which can be disabled by using `lazyMultiple` instead.
+Note, examples 1 and 3 below demonstrate "greedy" parsing which can be disabled by using `lazyMultiple`.
 
 | #   | Command line | .parse() output |
 | --- | ------------ | ------------ |
@@ -141,7 +143,7 @@ const optionDefinitions = [
 <a name="module_option-definition--OptionDefinition.OptionDefinition+defaultOption"></a>
 
 #### option.defaultOption : <code>boolean</code>
-Any values unaccounted for by an option will be set on this option. This flag is typically set on the most commonly-used option to make for more concise usage (i.e. `$ example *.js` instead of `$ example --files *.js`).
+Any values unaccounted for by an option definition will be set on this option. This flag is typically set on the most commonly-used option to make for more concise usage (i.e. `$ example *.js` instead of `$ example --files *.js`).
 
 ```js
 const optionDefinitions = [
