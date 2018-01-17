@@ -9,8 +9,6 @@
 # command-line-args
 A mature, feature-complete library to parse command-line options.
 
-*If your app requires a git-like command interface, consider using [command-line-commands](https://github.com/75lb/command-line-commands).*
-
 ## Synopsis
 You can set options using the main notation standards ([learn more](https://github.com/75lb/command-line-args/wiki/Notation-rules)). These commands are all equivalent, setting the same values:
 ```
@@ -47,6 +45,22 @@ const options = commandLineArgs(optionDefinitions)
   timeout: 1000
 }
 ```
+
+### Advanced usage
+
+Beside the above typical usage, you can use command-line-args to accept more advanced command line syntax forms.
+
+* [Git-style command syntax](https://github.com/75lb/command-line-args/wiki/Implement-command-parsing-(git-style)).
+
+  ```
+  $ git commit --squash -m This is my commit message
+  ```
+
+* [Complex docker-style commands containing multiple commands](https://github.com/75lb/command-line-args/wiki/Implement-multiple-command-parsing-(docker-style)).
+
+  ```
+  $ docker run --detached centos bash -c yum install -y httpd
+  ```
 
 ## Usage guide generation
 
