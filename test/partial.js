@@ -29,7 +29,45 @@ runner.test('partial: defaultOption', function () {
   })
 })
 
-runner.test('partial: defaultOption 2', function () {
+runner.test('defaultOption: floating args present but no defaultOption', function () {
+  const definitions = [
+    { name: 'one', type: Boolean }
+  ]
+  a.deepStrictEqual(
+    commandLineArgs(definitions, { argv: [ 'aaa', '--one', 'aaa', 'aaa' ], partial: true }),
+    {
+      one: true,
+      _unknown: [ 'aaa', 'aaa', 'aaa' ]
+    }
+  )
+})
+
+runner.test('partial: combined short option, both unknown', function () {
+  const definitions = [
+    { name: 'one', alias: 'o' },
+    { name: 'two', alias: 't' }
+  ]
+  const argv = [ '-ab' ]
+  const options = commandLineArgs(definitions, { argv, partial: true })
+  a.deepStrictEqual(options, {
+    _unknown: [ '-a', '-b' ]
+  })
+})
+
+runner.test('partial: combined short option, one known, one unknown', function () {
+  const definitions = [
+    { name: 'one', alias: 'o' },
+    { name: 'two', alias: 't' }
+  ]
+  const argv = [ '-ob' ]
+  const options = commandLineArgs(definitions, { argv, partial: true })
+  a.deepStrictEqual(options, {
+    one: null,
+    _unknown: [ '-b' ]
+  })
+})
+
+runner.test('partial: defaultOption with --option=value and combined short options', function () {
   const definitions = [
     { name: 'files', type: String, defaultOption: true, multiple: true },
     { name: 'one', type: Boolean },
@@ -53,19 +91,43 @@ runner.test('partial: defaultOption with value equal to defaultValue', function 
   const options = commandLineArgs(definitions, { argv, partial: true })
   a.deepStrictEqual(options, {
     file: 'file1',
-    _unknown: [ '--two', '3', '--four', '5' ]
+    _unknown: [ '--two=3', '--four', '5' ]
   })
 })
 
-runner.test('partial: defaultOption with value equal to defaultValue 2', function () {
+runner.test('partial: string defaultOption can be set by argv once', function () {
   const definitions = [
     { name: 'file', type: String, defaultOption: true, defaultValue: 'file1' }
   ]
-  const argv = [ '--file', '--file=file1', '--two=3', '--four', '5' ]
+  const argv = [ '--file', '--file=file2', '--two=3', '--four', '5' ]
+  const options = commandLineArgs(definitions, { argv, partial: true })
+  a.deepStrictEqual(options, {
+    file: 'file2',
+    _unknown: [ '--two=3', '--four', '5' ]
+  })
+})
+
+runner.test('partial: string defaultOption can not be set by argv twice', function () {
+  const definitions = [
+    { name: 'file', type: String, defaultOption: true, defaultValue: 'file1' }
+  ]
+  const argv = [ '--file', '--file=file2', '--two=3', '--four', '5', 'file3' ]
+  const options = commandLineArgs(definitions, { argv, partial: true })
+  a.deepStrictEqual(options, {
+    file: 'file2',
+    _unknown: [ '--two=3', '--four', '5', 'file3' ]
+  })
+})
+
+runner.test('partial: defaultOption with value equal to defaultValue 3', function () {
+  const definitions = [
+    { name: 'file', type: String, defaultOption: true, defaultValue: 'file1' }
+  ]
+  const argv = [ 'file1', 'file2', '--two=3', '--four', '5' ]
   const options = commandLineArgs(definitions, { argv, partial: true })
   a.deepStrictEqual(options, {
     file: 'file1',
-    _unknown: [ '--two', '3', '--four', '5' ]
+    _unknown: [ 'file2', '--two=3', '--four', '5' ]
   })
 })
 
@@ -196,5 +258,16 @@ runner.test('partial: mulitple unknowns with same name', function () {
   a.deepStrictEqual(options, {
     file: 'file1',
     _unknown: [ '--unknown', '--unknown=something', '--unknown' ]
+  })
+})
+
+runner.test('defaultOption: single string', function () {
+  const optionDefinitions = [
+    { name: 'files', defaultOption: true }
+  ]
+  const argv = [ 'file1', 'file2' ]
+  a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv, partial: true }), {
+    files: 'file1',
+    _unknown: [ 'file2' ]
   })
 })

@@ -5,31 +5,34 @@ const a = require('assert')
 
 const runner = new TestRunner()
 
-const optionDefinitions = [
-  { name: 'verbose', alias: 'v' },
-  { name: 'colour', alias: 'c' },
-  { name: 'number', alias: 'n' },
-  { name: 'dry-run', alias: 'd' }
-]
-
-runner.test('alias: one boolean', function () {
+runner.test('alias: one string alias', function () {
+  const optionDefinitions = [
+    { name: 'verbose', alias: 'v' }
+  ]
   const argv = [ '-v' ]
   a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv }), {
     verbose: null
   })
 })
 
-runner.test('alias: one --this-type boolean', function () {
+runner.test('alias: one boolean alias', function () {
+  const optionDefinitions = [
+    { name: 'dry-run', alias: 'd', type: Boolean }
+  ]
   const argv = [ '-d' ]
   a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv }), {
-    'dry-run': null
+    'dry-run': true
   })
 })
 
 runner.test('alias: one boolean, one string', function () {
+  const optionDefinitions = [
+    { name: 'verbose', alias: 'v', type: Boolean },
+    { name: 'colour', alias: 'c' }
+  ]
   const argv = [ '-v', '-c' ]
   a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv }), {
-    verbose: null,
+    verbose: true,
     colour: null
   })
 })

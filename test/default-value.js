@@ -6,32 +6,41 @@ const a = require('assert')
 const runner = new TestRunner()
 
 runner.test('default value', function () {
-  let defs = [
+  const defs = [
     { name: 'one' },
     { name: 'two', defaultValue: 'two' }
   ]
-  let argv = [ '--one', '1' ]
+  const argv = [ '--one', '1' ]
   a.deepStrictEqual(commandLineArgs(defs, { argv }), {
     one: '1',
     two: 'two'
   })
-
-  defs = [ { name: 'two', defaultValue: 'two' } ]
-  argv = []
-  a.deepStrictEqual(commandLineArgs(defs, { argv }), { two: 'two' })
-
-  defs = [ { name: 'two', defaultValue: 'two' } ]
-  argv = [ '--two', 'zwei' ]
-  a.deepStrictEqual(commandLineArgs(defs, { argv }), { two: 'zwei' })
-
-  defs = [ { name: 'two', multiple: true, defaultValue: [ 'two', 'zwei' ] } ]
-  argv = [ '--two', 'duo' ]
-  a.deepStrictEqual(commandLineArgs(defs, { argv }), { two: [ 'duo' ] })
 })
 
 runner.test('default value 2', function () {
-  const defs = [{ name: 'two', multiple: true, defaultValue: ['two', 'zwei'] }]
-  const result = commandLineArgs(defs, [])
+  const defs = [ { name: 'two', defaultValue: 'two' } ]
+  const argv = []
+  a.deepStrictEqual(commandLineArgs(defs, { argv }), { two: 'two' })
+})
+
+runner.test('default value 3', function () {
+  const defs = [ { name: 'two', defaultValue: 'two' } ]
+  const argv = [ '--two', 'zwei' ]
+  a.deepStrictEqual(commandLineArgs(defs, { argv }), { two: 'zwei' })
+})
+
+runner.test('default value 4', function () {
+  const defs = [ { name: 'two', multiple: true, defaultValue: [ 'two', 'zwei' ] } ]
+  const argv = [ '--two', 'duo' ]
+  a.deepStrictEqual(commandLineArgs(defs, { argv }), { two: [ 'duo' ] })
+})
+
+runner.test('default value 5', function () {
+  const defs = [
+    { name: 'two', multiple: true, defaultValue: ['two', 'zwei'] }
+  ]
+  const argv = []
+  const result = commandLineArgs(defs, { argv })
   a.deepStrictEqual(result, { two: [ 'two', 'zwei' ] })
 })
 
