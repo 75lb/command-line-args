@@ -42,7 +42,6 @@ function commandLineArgs (optionDefinitions, options) {
     stopAtFirstUnknown: options.stopAtFirstUnknown
   })
 
-  const optionUtil = require('./lib/option-util')
   const Option = require('./lib/option')
   const OutputClass = optionDefinitions.isGrouped() ? require('./lib/output-grouped') : require('./lib/output')
   const output = new OutputClass(optionDefinitions)
@@ -80,5 +79,6 @@ function commandLineArgs (optionDefinitions, options) {
   }
 
   const result = output.toObject({ skipUnknown: !options.partial })
+  const optionUtil = require('./lib/option-util')
   return options.camelCase ? optionUtil.camelCaseObject(result) : result
 }
