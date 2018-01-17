@@ -20,7 +20,7 @@ $ example -vt 1000 --src one.js two.js
 $ example -vt 1000 one.js two.js
 ```
 
-To access the values, first create a list of [option definitions](https://github.com/75lb/command-line-args/blob/next/doc/option-definition.md) describing your accepted options. The [`type`](https://github.com/75lb/command-line-args/blob/next/doc/option-definition.md#optiontype--function) property is a setter function (the value supplied is passed through this), giving you full control over the value received.
+To access the values, first create a list of [option definitions](https://github.com/75lb/command-line-args/blob/next/doc/option-definition.md) describing the options your application accepts. The [`type`](https://github.com/75lb/command-line-args/blob/next/doc/option-definition.md#optiontype--function) property is a setter function (the value supplied is passed through this), giving you full control over the value received.
 
 ```js
 const optionDefinitions = [

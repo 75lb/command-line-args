@@ -53,7 +53,7 @@ const optionDefinitions = [
 #### option.type : <code>function</code>
 The `type` value is a setter function (you receive the output from this), enabling you to be specific about the type and value received.
 
-The most common values used are `String`, `Number` and `Boolean` but you can use a custom function, if you like:
+The most common values used are `String`, `Number` and `Boolean` but you can use a custom function, for example:
 
 ```js
 const fs = require('fs')
