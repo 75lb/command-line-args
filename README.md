@@ -20,7 +20,7 @@ $ example -vt 1000 --src one.js two.js
 $ example -vt 1000 one.js two.js
 ```
 
-To access the values, first create a list of [option definitions](https://github.com/75lb/command-line-args/blob/next/doc/option-definition.md) describing the options your application accepts. The [`type`](https://github.com/75lb/command-line-args/blob/next/doc/option-definition.md#optiontype--function) property is a setter function (the value supplied is passed through this), giving you full control over the value received.
+To access the values, first create a list of [option definitions](https://github.com/75lb/command-line-args/blob/master/doc/option-definition.md) describing the options your application accepts. The [`type`](https://github.com/75lb/command-line-args/blob/master/doc/option-definition.md#optiontype--function) property is a setter function (the value supplied is passed through this), giving you full control over the value received.
 
 ```js
 const optionDefinitions = [
@@ -30,7 +30,7 @@ const optionDefinitions = [
 ]
 ```
 
-Next, parse the options using [commandLineArgs()](https://github.com/75lb/command-line-args/blob/next/doc/API.md#commandlineargsoptiondefinitions-options--object-):
+Next, parse the options using [commandLineArgs()](https://github.com/75lb/command-line-args/blob/master/doc/API.md#commandlineargsoptiondefinitions-options--object-):
 ```js
 const commandLineArgs = require('command-line-args')
 const options = commandLineArgs(optionDefinitions)

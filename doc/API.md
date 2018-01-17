@@ -6,7 +6,7 @@
 ### commandLineArgs(optionDefinitions, [options]) ⇒ <code>object</code> ⏏
 Returns an object containing all option values set on the command line. By default it parses the global  [`process.argv`](https://nodejs.org/api/process.html#process_process_argv) array.
 
-Parsing is strict by default - an exception is thrown if the user sets an unknown value or option (one without a valid [definition](https://github.com/75lb/command-line-args/blob/next/doc/option-definition.md)). To be more permissive, enabling [partial mode](https://github.com/75lb/command-line-args/wiki/Partial-mode-example) will return known options as usual and return unknown arguments in a separate `_unknown` property.
+Parsing is strict by default - an exception is thrown if the user sets an unknown value or option (one without a valid [definition](https://github.com/75lb/command-line-args/blob/master/doc/option-definition.md)). To be more permissive, enabling [partial mode](https://github.com/75lb/command-line-args/wiki/Partial-mode-example) will return known options as usual and return unknown arguments in a separate `_unknown` property.
 
 **Kind**: Exported function  
 **Throws**:
@@ -26,7 +26,7 @@ Parsing is strict by default - an exception is thrown if the user sets an unknow
 
 | Param | Type | Description |
 | --- | --- | --- |
-| optionDefinitions | <code>Array.&lt;module:definition&gt;</code> | An array of [OptionDefinition](https://github.com/75lb/command-line-args/blob/next/doc/option-definition.md) objects |
+| optionDefinitions | <code>Array.&lt;module:definition&gt;</code> | An array of [OptionDefinition](https://github.com/75lb/command-line-args/blob/master/doc/option-definition.md) objects |
 | [options] | <code>object</code> | Options. |
 | [options.argv] | <code>Array.&lt;string&gt;</code> | An array of strings which, if present will be parsed instead  of `process.argv`. |
 | [options.partial] | <code>boolean</code> | If `true`, an array of unknown arguments is returned in the `_unknown` property of the output. |
