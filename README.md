@@ -58,7 +58,7 @@ Beside the above typical usage, you can use command-line-args to accept more adv
   $ git commit --squash -m This is my commit message
   ```
 
-* [Complex docker-style commands containing multiple commands](https://github.com/75lb/command-line-args/wiki/Implement-multiple-command-parsing-(docker-style)), for example:
+* [Complex docker-style syntax containing multiple commands](https://github.com/75lb/command-line-args/wiki/Implement-multiple-command-parsing-(docker-style)), for example:
 
   ```
   $ docker run --detached centos bash -c yum install -y httpd
