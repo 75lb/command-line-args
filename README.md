@@ -6,6 +6,8 @@
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](https://github.com/feross/standard)
 [![Join the chat at https://gitter.im/75lb/command-line-args](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/75lb/command-line-args?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
+***Upgraders, please read the [release notes](https://github.com/75lb/command-line-args/releases)***
+
 # command-line-args
 A mature, feature-complete library to parse command-line options.
 
@@ -50,13 +52,13 @@ const options = commandLineArgs(optionDefinitions)
 
 Beside the above typical usage, you can use command-line-args to accept more advanced command line syntax forms.
 
-* [Git-style command syntax](https://github.com/75lb/command-line-args/wiki/Implement-command-parsing-(git-style)).
+* [Git-style command syntax](https://github.com/75lb/command-line-args/wiki/Implement-command-parsing-(git-style)), for example:
 
   ```
   $ git commit --squash -m This is my commit message
   ```
 
-* [Complex docker-style commands containing multiple commands](https://github.com/75lb/command-line-args/wiki/Implement-multiple-command-parsing-(docker-style)).
+* [Complex docker-style commands containing multiple commands](https://github.com/75lb/command-line-args/wiki/Implement-multiple-command-parsing-(docker-style)), for example:
 
   ```
   $ docker run --detached centos bash -c yum install -y httpd
