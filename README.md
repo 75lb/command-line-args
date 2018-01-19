@@ -50,18 +50,30 @@ const options = commandLineArgs(optionDefinitions)
 
 ### Advanced usage
 
-Beside the above typical usage, you can use command-line-args to accept more advanced command line syntax forms.
+Beside the above typical usage, you can configure command-line-args to accept more advanced syntax forms.
 
-* [Git-style command syntax](https://github.com/75lb/command-line-args/wiki/Implement-command-parsing-(git-style)), for example:
+* [Command-based syntax (like git)](https://github.com/75lb/command-line-args/wiki/Implement-command-parsing-(git-style)) in the form:
+
+  ```
+  $ executable <command> [options]
+  ```
+
+  For example.
 
   ```
   $ git commit --squash -m This is my commit message
   ```
 
-* [Complex docker-style syntax containing multiple commands](https://github.com/75lb/command-line-args/wiki/Implement-multiple-command-parsing-(docker-style)), for example:
+* [Command and sub-command syntax (like docker)](https://github.com/75lb/command-line-args/wiki/Implement-multiple-command-parsing-(docker-style)) in the form:
 
   ```
-  $ docker run --detached centos bash -c yum install -y httpd
+  $ executable <command> [options] <sub-command> [options]
+  ```
+
+  For example.
+
+  ```
+  $ docker run --detached --image centos bash -c yum install -y httpd
   ```
 
 ## Usage guide generation
