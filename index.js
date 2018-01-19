@@ -8,7 +8,7 @@ module.exports = commandLineArgs
 /**
  * Returns an object containing all option values set on the command line. By default it parses the global  [`process.argv`](https://nodejs.org/api/process.html#process_process_argv) array.
  *
- * Parsing is strict by default - an exception is thrown if the user sets an unknown value or option (one without a valid [definition](https://github.com/75lb/command-line-args/blob/master/doc/option-definition.md)). To be more permissive, enabling [partial mode](https://github.com/75lb/command-line-args/wiki/Partial-mode-example) will return known options as usual and return unknown arguments in a separate `_unknown` property.
+ * Parsing is strict by default - an exception is thrown if the user sets a singular option more than once or sets an unknown value or option (one without a valid [definition](https://github.com/75lb/command-line-args/blob/master/doc/option-definition.md)). To be more permissive, enabling [partial](https://github.com/75lb/command-line-args/wiki/Partial-mode-example) or [stopAtFirstUnknown](https://github.com/75lb/command-line-args/wiki/stopAtFirstUnknown) modes will return known options in the usual manner while collecting unknown arguments in a separate `_unknown` property.
  *
  * @param {module:definition[]} - An array of [OptionDefinition](https://github.com/75lb/command-line-args/blob/master/doc/option-definition.md) objects
  * @param {object} [options] - Options.
@@ -17,9 +17,9 @@ module.exports = commandLineArgs
  * @param {boolean} [options.stopAtFirstUnknown] - If `true`, parsing will stop at the first unknown argument and the remaining arguments returned in `_unknown`. When set, `partial: true` is also implied.
  * @param {boolean} [options.camelCase] - If `true`, options with hypenated names (e.g. `move-to`) will be returned in camel-case (e.g. `moveTo`).
  * @returns {object}
- * @throws `UNKNOWN_OPTION` If `options.partial` is false and the user set an undefined option. The unknown option name is stored at `err.optionName`.
- * @throws `UNKNOWN_VALUE` If `options.partial` is false and the user set a value unaccounted for by an option.
- * @throws `ALREADY_SET` If a user sets a singular, non-multiple option more than once.
+ * @throws `UNKNOWN_OPTION` If `options.partial` is false and the user set an undefined option. The `err.optionName` property contains the arg that specified an unknown option, e.g. `--one`.
+ * @throws `UNKNOWN_VALUE` If `options.partial` is false and the user set a value unaccounted for by an option definition. The `err.value` property contains the unknown value, e.g. `5`.
+ * @throws `ALREADY_SET` If a user sets a singular, non-multiple option more than once. The `err.optionName` property contains the option name that has already been set, e.g. `one`.
  * @throws `INVALID_DEFINITIONS`
  *   - If an option definition is missing the required `name` property
  *   - If an option definition has a `type` value that's not a function

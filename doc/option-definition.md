@@ -4,14 +4,14 @@
 
 * [option-definition](#module_option-definition)
     * [OptionDefinition](#exp_module_option-definition--OptionDefinition) ⏏
-        * [.name](#module_option-definition--OptionDefinition.OptionDefinition+name) : <code>string</code>
-        * [.type](#module_option-definition--OptionDefinition.OptionDefinition+type) : <code>function</code>
-        * [.alias](#module_option-definition--OptionDefinition.OptionDefinition+alias) : <code>string</code>
-        * [.multiple](#module_option-definition--OptionDefinition.OptionDefinition+multiple) : <code>boolean</code>
-        * [.lazyMultiple](#module_option-definition--OptionDefinition.OptionDefinition+lazyMultiple) : <code>boolean</code>
-        * [.defaultOption](#module_option-definition--OptionDefinition.OptionDefinition+defaultOption) : <code>boolean</code>
-        * [.defaultValue](#module_option-definition--OptionDefinition.OptionDefinition+defaultValue) : <code>\*</code>
-        * [.group](#module_option-definition--OptionDefinition.OptionDefinition+group) : <code>string</code> \| <code>Array.&lt;string&gt;</code>
+        * [.name](#module_option-definition--OptionDefinition+name) : <code>string</code>
+        * [.type](#module_option-definition--OptionDefinition+type) : <code>function</code>
+        * [.alias](#module_option-definition--OptionDefinition+alias) : <code>string</code>
+        * [.multiple](#module_option-definition--OptionDefinition+multiple) : <code>boolean</code>
+        * [.lazyMultiple](#module_option-definition--OptionDefinition+lazyMultiple) : <code>boolean</code>
+        * [.defaultOption](#module_option-definition--OptionDefinition+defaultOption) : <code>boolean</code>
+        * [.defaultValue](#module_option-definition--OptionDefinition+defaultValue) : <code>\*</code>
+        * [.group](#module_option-definition--OptionDefinition+group) : <code>string</code> \| <code>Array.&lt;string&gt;</code>
 
 <a name="exp_module_option-definition--OptionDefinition"></a>
 
@@ -19,7 +19,7 @@
 Describes a command-line option. Additionally, if generating a usage guide with [command-line-usage](https://github.com/75lb/command-line-usage) you could optionally add `description` and `typeLabel` properties to each definition.
 
 **Kind**: Exported class  
-<a name="module_option-definition--OptionDefinition.OptionDefinition+name"></a>
+<a name="module_option-definition--OptionDefinition+name"></a>
 
 #### option.name : <code>string</code>
 The only required definition property is `name`, so the simplest working example is
@@ -48,7 +48,7 @@ const optionDefinitions = [
 ```
 
 **Kind**: instance property of [<code>OptionDefinition</code>](#exp_module_option-definition--OptionDefinition)  
-<a name="module_option-definition--OptionDefinition.OptionDefinition+type"></a>
+<a name="module_option-definition--OptionDefinition+type"></a>
 
 #### option.type : <code>function</code>
 The `type` value is a setter function (you receive the output from this), enabling you to be specific about the type and value received.
@@ -85,7 +85,7 @@ The `--depth` option expects a `Number`. If no value was set, you will receive `
 
 **Kind**: instance property of [<code>OptionDefinition</code>](#exp_module_option-definition--OptionDefinition)  
 **Default**: <code>String</code>  
-<a name="module_option-definition--OptionDefinition.OptionDefinition+alias"></a>
+<a name="module_option-definition--OptionDefinition+alias"></a>
 
 #### option.alias : <code>string</code>
 getopt-style short option names. Can be any single character (unicode included) except a digit or hyphen.
@@ -104,7 +104,7 @@ const optionDefinitions = [
 | 2   | `-hdc 3` | `{ hot: true, discount: true, courses: 3 }` |
 
 **Kind**: instance property of [<code>OptionDefinition</code>](#exp_module_option-definition--OptionDefinition)  
-<a name="module_option-definition--OptionDefinition.OptionDefinition+multiple"></a>
+<a name="module_option-definition--OptionDefinition+multiple"></a>
 
 #### option.multiple : <code>boolean</code>
 Set this flag if the option takes a list of values. You will receive an array of values, each passed through the `type` function (if specified).
@@ -124,7 +124,7 @@ Note, examples 1 and 3 below demonstrate "greedy" parsing which can be disabled 
 | 3   | `--files *` | `{ files: [ 'one.js', 'two.js' ] }` |
 
 **Kind**: instance property of [<code>OptionDefinition</code>](#exp_module_option-definition--OptionDefinition)  
-<a name="module_option-definition--OptionDefinition.OptionDefinition+lazyMultiple"></a>
+<a name="module_option-definition--OptionDefinition+lazyMultiple"></a>
 
 #### option.lazyMultiple : <code>boolean</code>
 Identical to `multiple` but with greedy parsing disabled.
@@ -140,7 +140,7 @@ const optionDefinitions = [
 | 1   | `--files one.js --files two.js` | `{ files: [ 'one.js', 'two.js' ] }` |
 
 **Kind**: instance property of [<code>OptionDefinition</code>](#exp_module_option-definition--OptionDefinition)  
-<a name="module_option-definition--OptionDefinition.OptionDefinition+defaultOption"></a>
+<a name="module_option-definition--OptionDefinition+defaultOption"></a>
 
 #### option.defaultOption : <code>boolean</code>
 Any values unaccounted for by an option definition will be set on this option. This flag is typically set on the most commonly-used option to make for more concise usage (i.e. `$ example *.js` instead of `$ example --files *.js`).
@@ -158,7 +158,7 @@ const optionDefinitions = [
 | 3   | `*` | `{ files: [ 'one.js', 'two.js' ] }` |
 
 **Kind**: instance property of [<code>OptionDefinition</code>](#exp_module_option-definition--OptionDefinition)  
-<a name="module_option-definition--OptionDefinition.OptionDefinition+defaultValue"></a>
+<a name="module_option-definition--OptionDefinition+defaultValue"></a>
 
 #### option.defaultValue : <code>\*</code>
 An initial value for the option.
@@ -177,7 +177,7 @@ const optionDefinitions = [
 | 3   | `--max 4` | `{ files: [ 'one.js' ], max: 4 }` |
 
 **Kind**: instance property of [<code>OptionDefinition</code>](#exp_module_option-definition--OptionDefinition)  
-<a name="module_option-definition--OptionDefinition.OptionDefinition+group"></a>
+<a name="module_option-definition--OptionDefinition+group"></a>
 
 #### option.group : <code>string</code> \| <code>Array.&lt;string&gt;</code>
 When your app has a large amount of options it makes sense to organise them in groups.
