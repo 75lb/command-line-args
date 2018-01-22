@@ -34,9 +34,9 @@ Where a `type` property is not specified it will default to `String`.
 
 | #   | Command line args | .parse() output |
 | --- | -------------------- | ------------ |
-| 2   | `--file` | `{ file: null }` |
+| 1   | `--file` | `{ file: null }` |
 | 2   | `--file lib.js` | `{ file: 'lib.js' }` |
-| 4   | `--depth 2` | `{ depth: '2' }` |
+| 3   | `--depth 2` | `{ depth: '2' }` |
 
 Unicode option names and aliases are valid, for example:
 ```js
@@ -53,7 +53,7 @@ const optionDefinitions = [
 #### option.type : <code>function</code>
 The `type` value is a setter function (you receive the output from this), enabling you to be specific about the type and value received.
 
-The most common values used are `String`, `Number` and `Boolean` but you can use a custom function, for example:
+The most common values used are `String` (the default), `Number` and `Boolean` but you can use a custom function, for example:
 
 ```js
 const fs = require('fs')
@@ -131,23 +131,25 @@ Identical to `multiple` but with greedy parsing disabled.
 
 ```js
 const optionDefinitions = [
-  { name: 'files', type: String, lazyMultiple: true }
+  { name: 'files', lazyMultiple: true },
+  { name: 'verbose', alias: 'v', type: Boolean, lazyMultiple: true }
 ]
 ```
 
 | #   | Command line | .parse() output |
 | --- | ------------ | ------------ |
 | 1   | `--files one.js --files two.js` | `{ files: [ 'one.js', 'two.js' ] }` |
+| 2   | `-vvv` | `{ verbose: [ true, true, true ] }` |
 
 **Kind**: instance property of [<code>OptionDefinition</code>](#exp_module_option-definition--OptionDefinition)  
 <a name="module_option-definition--OptionDefinition+defaultOption"></a>
 
 #### option.defaultOption : <code>boolean</code>
-Any values unaccounted for by an option definition will be set on this option. This flag is typically set on the most commonly-used option to make for more concise usage (i.e. `$ example *.js` instead of `$ example --files *.js`).
+Any values unaccounted for by an option definition will be set on the `defaultOption`. This flag is typically set on the most commonly-used option to make for more concise usage (i.e. `$ example *.js` instead of `$ example --files *.js`).
 
 ```js
 const optionDefinitions = [
-  { name: 'files', type: String, multiple: true, defaultOption: true }
+  { name: 'files', multiple: true, defaultOption: true }
 ]
 ```
 
@@ -165,7 +167,7 @@ An initial value for the option.
 
 ```js
 const optionDefinitions = [
-  { name: 'files', type: String, multiple: true, defaultValue: [ 'one.js' ] },
+  { name: 'files', multiple: true, defaultValue: [ 'one.js' ] },
   { name: 'max', type: Number, defaultValue: 3 }
 ]
 ```
