@@ -39,7 +39,7 @@ const options = commandLineArgs(optionDefinitions)
 `options` now looks like this:
 ```js
 {
-  files: [
+  src: [
     'one.js',
     'two.js'
   ],
