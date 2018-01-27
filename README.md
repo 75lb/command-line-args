@@ -52,7 +52,7 @@ const options = commandLineArgs(optionDefinitions)
 
 Beside the above typical usage, you can configure command-line-args to accept more advanced syntax forms.
 
-* [Command-based syntax (like git)](https://github.com/75lb/command-line-args/wiki/Implement-command-parsing-(git-style)) in the form:
+* [Command-based syntax](https://github.com/75lb/command-line-args/wiki/Implement-command-parsing-(git-style)) (git style) in the form:
 
   ```
   $ executable <command> [options]
@@ -61,10 +61,10 @@ Beside the above typical usage, you can configure command-line-args to accept mo
   For example.
 
   ```
-  $ git commit --squash -m This is my commit message
+  $ git commit --squash -m "This is my commit message"
   ```
 
-* [Command and sub-command syntax (like docker)](https://github.com/75lb/command-line-args/wiki/Implement-multiple-command-parsing-(docker-style)) in the form:
+* [Command and sub-command syntax](https://github.com/75lb/command-line-args/wiki/Implement-multiple-command-parsing-(docker-style)) (docker style) in the form:
 
   ```
   $ executable <command> [options] <sub-command> [options]
