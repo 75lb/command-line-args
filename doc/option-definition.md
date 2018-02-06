@@ -60,7 +60,6 @@ const fs = require('fs')
 
 class FileDetails {
   constructor (filename) {
-    const fs = require('fs')
     this.filename = filename
     this.exists = fs.existsSync(filename)
   }
