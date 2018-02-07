@@ -118,3 +118,57 @@ runner.test('groups: two ungrouped, both set', function () {
     _none: { three: '3', four: '4' }
   })
 })
+
+runner.test('groups: with partial', function () {
+  const definitions = [
+    { name: 'one', group: 'a' },
+    { name: 'two', group: 'a' },
+    { name: 'three', group: 'b' }
+  ]
+  const argv = [ '--one', '1', '--two', '2', '--three', '3', 'ham', '--cheese' ]
+  a.deepStrictEqual(commandLineArgs(definitions, { argv, partial: true }), {
+    a: {
+      one: '1',
+      two: '2'
+    },
+    b: {
+      three: '3'
+    },
+    _all: {
+      one: '1',
+      two: '2',
+      three: '3'
+    },
+    _unknown: [ 'ham', '--cheese' ]
+  })
+})
+
+runner.test('partial: with partial, multiple groups and _none', function () {
+  const definitions = [
+    { name: 'one', group: ['a', 'f'] },
+    { name: 'two', group: ['a', 'g'] },
+    { name: 'three' }
+  ]
+  const argv = [ '--cheese', '--one', '1', 'ham', '--two', '2', '--three', '3', '-c' ]
+  a.deepStrictEqual(commandLineArgs(definitions, { argv, partial: true }), {
+    a: {
+      one: '1',
+      two: '2'
+    },
+    f: {
+      one: '1'
+    },
+    g: {
+      two: '2'
+    },
+    _none: {
+      three: '3'
+    },
+    _all: {
+      one: '1',
+      two: '2',
+      three: '3'
+    },
+    _unknown: [ '--cheese', 'ham', '-c' ]
+  })
+})

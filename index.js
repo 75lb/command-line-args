@@ -78,7 +78,5 @@ function commandLineArgs (optionDefinitions, options) {
     }
   }
 
-  const result = output.toObject({ skipUnknown: !options.partial })
-  const optionUtil = require('./lib/option-util')
-  return options.camelCase ? optionUtil.camelCaseObject(result) : result
+  return output.toObject({ skipUnknown: !options.partial, camelCase: options.camelCase })
 }
