@@ -32,7 +32,7 @@ const optionDefinitions = [
 
 Where a `type` property is not specified it will default to `String`.
 
-| #   | Command line args | .parse() output |
+| #   | argv input | commandLineArgs() output |
 | --- | -------------------- | ------------ |
 | 1   | `--file` | `{ file: null }` |
 | 2   | `--file lib.js` | `{ file: 'lib.js' }` |
@@ -71,13 +71,13 @@ const cli = commandLineArgs([
 ])
 ```
 
-| #   | Command line args| .parse() output |
+| #   | argv input | commandLineArgs() output |
 | --- | ----------------- | ------------ |
 | 1   | `--file asdf.txt` | `{ file: { filename: 'asdf.txt', exists: false } }` |
 
 The `--depth` option expects a `Number`. If no value was set, you will receive `null`.
 
-| #   | Command line args | .parse() output |
+| #   | argv input | commandLineArgs() output |
 | --- | ----------------- | ------------ |
 | 2   | `--depth` | `{ depth: null }` |
 | 3   | `--depth 2` | `{ depth: 2 }` |
@@ -97,7 +97,7 @@ const optionDefinitions = [
 ]
 ```
 
-| #   | Command line | .parse() output |
+| #   | argv input | commandLineArgs() output |
 | --- | ------------ | ------------ |
 | 1   | `-hcd` | `{ hot: true, courses: null, discount: true }` |
 | 2   | `-hdc 3` | `{ hot: true, discount: true, courses: 3 }` |
@@ -116,7 +116,7 @@ const optionDefinitions = [
 
 Note, examples 1 and 3 below demonstrate "greedy" parsing which can be disabled by using `lazyMultiple`.
 
-| #   | Command line | .parse() output |
+| #   | argv input | commandLineArgs() output |
 | --- | ------------ | ------------ |
 | 1   | `--files one.js two.js` | `{ files: [ 'one.js', 'two.js' ] }` |
 | 2   | `--files one.js --files two.js` | `{ files: [ 'one.js', 'two.js' ] }` |
@@ -135,7 +135,7 @@ const optionDefinitions = [
 ]
 ```
 
-| #   | Command line | .parse() output |
+| #   | argv input | commandLineArgs() output |
 | --- | ------------ | ------------ |
 | 1   | `--files one.js --files two.js` | `{ files: [ 'one.js', 'two.js' ] }` |
 | 2   | `-vvv` | `{ verbose: [ true, true, true ] }` |
@@ -152,7 +152,7 @@ const optionDefinitions = [
 ]
 ```
 
-| #   | Command line | .parse() output |
+| #   | argv input | commandLineArgs() output |
 | --- | ------------ | ------------ |
 | 1   | `--files one.js two.js` | `{ files: [ 'one.js', 'two.js' ] }` |
 | 2   | `one.js two.js` | `{ files: [ 'one.js', 'two.js' ] }` |
@@ -171,7 +171,7 @@ const optionDefinitions = [
 ]
 ```
 
-| #   | Command line | .parse() output |
+| #   | argv input | commandLineArgs() output |
 | --- | ------------ | ------------ |
 | 1   |  | `{ files: [ 'one.js' ], max: 3 }` |
 | 2   | `--files two.js` | `{ files: [ 'two.js' ], max: 3 }` |
@@ -197,7 +197,7 @@ const optionDefinitions = [
 
 <table>
  <tr>
-   <th>#</th><th>Command Line</th><th>.parse() output</th>
+   <th>#</th><th>Command Line</th><th>commandLineArgs() output</th>
  </tr>
  <tr>
    <td>1</td><td><code>--verbose</code></td><td><pre><code>
