@@ -18,7 +18,7 @@ runner.test('stopAtFirstUnknown', function () {
   })
 })
 
-runner.skip('stopAtFirstUnknown: with a singlular defaultOption', function () {
+runner.test('stopAtFirstUnknown: with a singlular defaultOption', function () {
   const optionDefinitions = [
     { name: 'one', defaultOption: true },
     { name: 'two' }
@@ -26,7 +26,8 @@ runner.skip('stopAtFirstUnknown: with a singlular defaultOption', function () {
   const argv = [ '--one', '1', '--', '--two', '2' ]
   const result = commandLineArgs(optionDefinitions, { argv, stopAtFirstUnknown: true })
   a.deepStrictEqual(result, {
-    one: '1'
+    one: '1',
+    _unknown: [ '--', '--two', '2' ]
   })
 })
 
