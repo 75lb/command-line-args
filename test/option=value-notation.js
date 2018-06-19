@@ -5,22 +5,7 @@ const a = require('assert')
 
 const runner = new TestRunner()
 
-runner.test('getOpt short notation: two flags, one option', function () {
-  const optionDefinitions = [
-    { name: 'flagA', alias: 'a' },
-    { name: 'flagB', alias: 'b' },
-    { name: 'three', alias: 'c' }
-  ]
-
-  const argv = [ '-abc', 'yeah' ]
-  a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv }), {
-    flagA: null,
-    flagB: null,
-    three: 'yeah'
-  })
-})
-
-runner.test('option=value notation: two plus a regular notation', function () {
+runner.test('--option=value notation: two plus a regular notation', function () {
   const optionDefinitions = [
     { name: 'one' },
     { name: 'two' },
@@ -34,7 +19,7 @@ runner.test('option=value notation: two plus a regular notation', function () {
   a.strictEqual(result.three, '3')
 })
 
-runner.test('option=value notation: value contains "="', function () {
+runner.test('--option=value notation: value contains "="', function () {
   const optionDefinitions = [
     { name: 'url' },
     { name: 'two' },
