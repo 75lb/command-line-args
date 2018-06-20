@@ -12,11 +12,9 @@ runner.test('argv-parser: long option, string', function () {
   const parser = new ArgvParser(optionDefinitions, { argv })
   const result = Array.from(parser)
   a.ok(result[0].def)
-  a.ok(result[1].def)
   result.forEach(r => delete r.def)
   a.deepStrictEqual(result, [
-    { event: 'set', arg: '--one', name: 'one', value: null },
-    { event: 'set', arg: '1', name: 'one', value: '1' }
+    { event: 'set', arg: '--one', name: 'one', value: '1' }
   ])
 })
 
@@ -29,14 +27,10 @@ runner.test('argv-parser: long option, string repeated', function () {
   const result = Array.from(parser)
   a.ok(result[0].def)
   a.ok(result[1].def)
-  a.ok(result[2].def)
-  a.ok(result[3].def)
   result.forEach(r => delete r.def)
   a.deepStrictEqual(result, [
-    { event: 'set', arg: '--one', name: 'one', value: null },
-    { event: 'set', arg: '1', name: 'one', value: '1' },
-    { event: 'set', arg: '--one', name: 'one', value: null },
-    { event: 'set', arg: '2', name: 'one', value: '2' }
+    { event: 'set', arg: '--one', name: 'one', value: '1' },
+    { event: 'set', arg: '--one', name: 'one', value: '2' }
   ])
 })
 
@@ -48,13 +42,9 @@ runner.test('argv-parser: long option, string multiple', function () {
   const parser = new ArgvParser(optionDefinitions, { argv })
   const result = Array.from(parser)
   a.ok(result[0].def)
-  a.ok(result[1].def)
-  a.ok(result[2].def)
   result.forEach(r => delete r.def)
   a.deepStrictEqual(result, [
-    { event: 'set', arg: '--one', name: 'one', value: null },
-    { event: 'set', arg: '1', name: 'one', value: '1' },
-    { event: 'set', arg: '2', name: 'one', value: '2' }
+    { event: 'set', arg: '--one', name: 'one', value: [ '1', '2' ] },
   ])
 })
 
@@ -68,13 +58,9 @@ runner.test('argv-parser: long option, string multiple then boolean', function (
   const result = Array.from(parser)
   a.ok(result[0].def)
   a.ok(result[1].def)
-  a.ok(result[2].def)
-  a.ok(result[3].def)
   result.forEach(r => delete r.def)
   a.deepStrictEqual(result, [
-    { event: 'set', arg: '--one', name: 'one', value: null },
-    { event: 'set', arg: '1', name: 'one', value: '1' },
-    { event: 'set', arg: '2', name: 'one', value: '2' },
+    { event: 'set', arg: '--one', name: 'one', value: [ '1', '2' ] },
     { event: 'set', arg: '--two', name: 'two', value: true }
   ])
 })
@@ -104,13 +90,11 @@ runner.test('argv-parser: simple, with unknown values', function () {
   const result = Array.from(parser)
   a.ok(!result[0].def)
   a.ok(result[1].def)
-  a.ok(result[2].def)
-  a.ok(!result[3].def)
+  a.ok(!result[2].def)
   result.forEach(r => delete r.def)
   a.deepStrictEqual(result, [
     { event: 'unknown_value', arg: 'clive', name: '_unknown', value: undefined },
-    { event: 'set', arg: '--one', name: 'one', value: null },
-    { event: 'set', arg: '1', name: 'one', value: '1' },
+    { event: 'set', arg: '--one', name: 'one', value: '1' },
     { event: 'unknown_value', arg: 'yeah', name: '_unknown', value: undefined }
   ])
 })
@@ -125,13 +109,11 @@ runner.test('argv-parser: simple, with singular defaultOption', function () {
   const result = Array.from(parser)
   a.ok(result[0].def)
   a.ok(result[1].def)
-  a.ok(result[2].def)
-  a.ok(!result[3].def)
+  a.ok(!result[2].def)
   result.forEach(r => delete r.def)
   a.deepStrictEqual(result, [
     { event: 'set', arg: 'clive', name: 'two', value: 'clive' },
-    { event: 'set', arg: '--one', name: 'one', value: null },
-    { event: 'set', arg: '1', name: 'one', value: '1' },
+    { event: 'set', arg: '--one', name: 'one', value: '1' },
     { event: 'unknown_value', arg: 'yeah', name: '_unknown', value: undefined }
   ])
 })
@@ -147,12 +129,10 @@ runner.test('argv-parser: simple, with multiple defaultOption', function () {
   a.ok(result[0].def)
   a.ok(result[1].def)
   a.ok(result[2].def)
-  a.ok(result[3].def)
   result.forEach(r => delete r.def)
   a.deepStrictEqual(result, [
     { event: 'set', arg: 'clive', name: 'two', value: 'clive' },
-    { event: 'set', arg: '--one', name: 'one', value: null },
-    { event: 'set', arg: '1', name: 'one', value: '1' },
+    { event: 'set', arg: '--one', name: 'one', value: '1' },
     { event: 'set', arg: 'yeah', name: 'two', value: 'yeah' }
   ])
 })
@@ -319,17 +299,15 @@ runner.test('argv-parser: short option, string', function () {
   const parser = new ArgvParser(optionDefinitions, { argv })
   const result = Array.from(parser)
   a.ok(result[0].def)
-  a.ok(result[1].def)
   result.forEach(r => delete r.def)
   a.deepStrictEqual(result, [
-    { event: 'set', arg: '-o', name: 'one', value: null },
-    { event: 'set', arg: '1', name: 'one', value: '1' }
+    { event: 'set', arg: '-o', name: 'one', value: '1' }
   ])
 })
 
-runner.test('argv-parser: combined short option, string', function () {
+runner.test('argv-parser: combined short option, one string', function () {
   const optionDefinitions = [
-    { name: 'one', alias: 'o' },
+    { name: 'one', alias: 'o', type: Boolean },
     { name: 'two', alias: 't' }
   ]
   const argv = [ '-ot', '1' ]
@@ -337,12 +315,10 @@ runner.test('argv-parser: combined short option, string', function () {
   const result = Array.from(parser)
   a.ok(result[0].def)
   a.ok(result[1].def)
-  a.ok(result[2].def)
   result.forEach(r => delete r.def)
   a.deepStrictEqual(result, [
-    { event: 'set', arg: '-ot', subArg: '-o', name: 'one', value: null },
-    { event: 'set', arg: '-ot', subArg: '-t', name: 'two', value: null },
-    { event: 'set', arg: '1', name: 'two', value: '1' }
+    { event: 'set', arg: '-ot', subArg: '-o', name: 'one', value: true },
+    { event: 'set', arg: '-ot', subArg: '-t', name: 'two', value: '1' }
   ])
 })
 
@@ -356,11 +332,9 @@ runner.test('argv-parser: combined short option, one unknown', function () {
   const result = Array.from(parser)
   a.ok(!result[0].def)
   a.ok(result[1].def)
-  a.ok(result[2].def)
   result.forEach(r => delete r.def)
   a.deepStrictEqual(result, [
     { event: 'unknown_option', arg: '-xt', subArg: '-x', name: '_unknown', value: undefined },
-    { event: 'set', arg: '-xt', subArg: '-t', name: 'two', value: null },
-    { event: 'set', arg: '1', name: 'two', value: '1' }
+    { event: 'set', arg: '-xt', subArg: '-t', name: 'two', value: '1' }
   ])
 })
