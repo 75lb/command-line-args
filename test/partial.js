@@ -56,8 +56,8 @@ runner.test('partial: combined short option, both unknown', function () {
 
 runner.test('partial: combined short option, one known, one unknown', function () {
   const definitions = [
-    { name: 'one', alias: 'o' },
-    { name: 'two', alias: 't' }
+    { name: 'one', alias: 'o', boolean: true },
+    { name: 'two', alias: 't', boolean: true }
   ]
   const argv = [ '-ob' ]
   const options = commandLineArgs(definitions, { argv, partial: true })
