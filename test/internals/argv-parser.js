@@ -12,11 +12,9 @@ runner.test('argv-parser: long option, string', function () {
   const parser = new ArgvParser(optionDefinitions, { argv })
   const result = Array.from(parser)
   a.ok(result[0].def)
-  a.ok(result[1].def)
   result.forEach(r => delete r.def)
   a.deepStrictEqual(result, [
-    { event: 'set', arg: '--one', name: 'one', value: null },
-    { event: 'set', arg: '1', name: 'one', value: '1' }
+    { event: 'set', arg: '--one', name: 'one', value: '1' }
   ])
 })
 
@@ -29,14 +27,10 @@ runner.test('argv-parser: long option, string repeated', function () {
   const result = Array.from(parser)
   a.ok(result[0].def)
   a.ok(result[1].def)
-  a.ok(result[2].def)
-  a.ok(result[3].def)
   result.forEach(r => delete r.def)
   a.deepStrictEqual(result, [
-    { event: 'set', arg: '--one', name: 'one', value: null },
-    { event: 'set', arg: '1', name: 'one', value: '1' },
-    { event: 'set', arg: '--one', name: 'one', value: null },
-    { event: 'set', arg: '2', name: 'one', value: '2' }
+    { event: 'set', arg: '--one', name: 'one', value: '1' },
+    { event: 'set', arg: '--one', name: 'one', value: '2' }
   ])
 })
 
