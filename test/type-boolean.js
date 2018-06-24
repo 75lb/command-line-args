@@ -23,13 +23,12 @@ runner.test('type-boolean: global Boolean overridden', function () {
   function Boolean () {
     return origBoolean.apply(origBoolean, arguments)
   }
-
   const optionDefinitions = [
     { name: 'one', type: Boolean }
   ]
-
+  const argv = [ '--one' ]
   a.deepStrictEqual(
-    commandLineArgs(optionDefinitions, { argv: [ '--one' ] }),
+    commandLineArgs(optionDefinitions, { argv }),
     { one: true }
   )
 })

@@ -48,3 +48,25 @@ runner.test('exceptions-already-set: combined short option', function () {
     err => err.name === 'ALREADY_SET' && err.optionName === 'one'
   )
 })
+
+runner.test('exceptions-already-set: alias then long', function () {
+  const optionDefinitions = [
+    { name: 'one', alias: 'o' }
+  ]
+  const argv = [ '-o', '1', '--one', '1' ]
+  a.throws(
+    () => commandLineArgs(optionDefinitions, { argv }),
+    err => err.name === 'ALREADY_SET' && err.optionName === 'one'
+  )
+})
+
+runner.test('exceptions-already-set: alias then --option=value', function () {
+  const optionDefinitions = [
+    { name: 'one', alias: 'o' }
+  ]
+  const argv = [ '-o', '1', '--one=1' ]
+  a.throws(
+    () => commandLineArgs(optionDefinitions, { argv }),
+    err => err.name === 'ALREADY_SET' && err.optionName === 'one'
+  )
+})

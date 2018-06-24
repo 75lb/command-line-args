@@ -7,16 +7,17 @@ const runner = new TestRunner()
 
 runner.test('ambiguous input: value looks like an option 1', function () {
   const optionDefinitions = [
-    { name: 'colour', type: String, alias: 'c' }
+    { name: 'colour', alias: 'c' }
   ]
-  a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv: [ '-c', 'red' ] }), {
+  const argv = [ '-c', 'red' ]
+  a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv }), {
     colour: 'red'
   })
 })
 
 runner.test('ambiguous input: value looks like an option 2', function () {
   const optionDefinitions = [
-    { name: 'colour', type: String, alias: 'c' }
+    { name: 'colour', alias: 'c' }
   ]
   const argv = [ '--colour', '--red' ]
   a.throws(
@@ -27,18 +28,20 @@ runner.test('ambiguous input: value looks like an option 2', function () {
 
 runner.test('ambiguous input: value looks like an option 3', function () {
   const optionDefinitions = [
-    { name: 'colour', type: String, alias: 'c' }
+    { name: 'colour', alias: 'c' }
   ]
+  const argv = [ '--colour=--red' ]
   a.doesNotThrow(function () {
-    commandLineArgs(optionDefinitions, { argv: [ '--colour=--red' ] })
+    commandLineArgs(optionDefinitions, { argv })
   })
 })
 
 runner.test('ambiguous input: value looks like an option 4', function () {
   const optionDefinitions = [
-    { name: 'colour', type: String, alias: 'c' }
+    { name: 'colour', alias: 'c' }
   ]
-  a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv: [ '--colour=--red' ] }), {
+  const argv = [ '--colour=--red' ]
+  a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv }), {
     colour: '--red'
   })
 })
