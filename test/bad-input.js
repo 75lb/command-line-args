@@ -47,30 +47,6 @@ runner.test('bad-input: handles arrays with relative paths', function () {
   })
 })
 
-runner.skip('bad-input: empty string added to unknown values', function () {
-  const optionDefinitions = [
-    { name: 'one' },
-    { name: 'two', type: Number },
-    { name: 'three', type: Number, multiple: true },
-    { name: 'four' },
-    { name: 'five', type: Boolean }
-  ]
-  const argv = [ '--one', '', '', '--two', '0', '--three=', '', '--four=', '--five=' ]
-  /* throws without partial: true */
-  a.throws(
-    () => commandLineArgs(optionDefinitions, { argv }),
-    /UNKNOWN_VALUE/
-  )
-  a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv, partial: true }), {
-    one: '',
-    two: 0,
-    three: [ 0, 0 ],
-    four: '',
-    five: true,
-    _unknown: [ '', '--five=' ]
-  })
-})
-
 runner.test('bad-input: non-strings in argv', function () {
   const optionDefinitions = [
     { name: 'one', type: Number }
