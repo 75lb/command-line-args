@@ -7,44 +7,44 @@ const runner = new TestRunner()
 
 runner.test('alias-whitespace: with space after option', function () {
   const optionDefinitions = [
-    { name: 'something', alias: 's' }
+    { name: 'file', alias: 'f' }
   ]
-  const argv = [ '-s', 'one' ]
+  const argv = [ '-f', 'one' ]
   a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv }), {
-    something: 'one'
+    file: 'one'
   })
 })
 
 runner.test('alias-whitespace: without space after option', function () {
   const optionDefinitions = [
-    { name: 'something', alias: 's' }
+    { name: 'file', alias: 'f' }
   ]
-  const argv = [ '-sone' ]
+  const argv = [ '-fone' ]
   a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv }), {
-    something: 'one'
+    file: 'one'
   })
 })
 
 runner.test('alias-whitespace: with space after option in cluster', function () {
   const optionDefinitions = [
-    { name: 'something', alias: 's' },
-    { name: 'flag', alias: 'f', type: Boolean }
+    { name: 'file', alias: 'f' },
+    { name: 'verbose', alias: 'v', type: Boolean }
   ]
-  const argv = [ '-fs', 'one' ]
+  const argv = [ '-vf', 'one' ]
   a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv }), {
-    flag: true,
-    something: 'one'
+    verbose: true,
+    file: 'one'
   })
 })
 
 runner.test('alias-whitespace: without space after option in cluster', function () {
   const optionDefinitions = [
-    { name: 'something', alias: 's' },
-    { name: 'flag', alias: 'f', type: Boolean }
+    { name: 'file', alias: 'f' },
+    { name: 'verbose', alias: 'v', type: Boolean }
   ]
-  const argv = [ '-fsone' ]
+  const argv = [ '-vfone' ]
   a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv }), {
-    flag: true,
-    something: 'one'
+    verbose: true,
+    file: 'one'
   })
 })

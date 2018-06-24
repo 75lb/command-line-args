@@ -5,47 +5,71 @@ const a = require('assert')
 
 const runner = new TestRunner()
 
-runner.test('alias-cluster: two flags, one option', function () {
+runner.test('alias-cluster: two flags, one option, nothing set', function () {
   const optionDefinitions = [
-    { name: 'flagA', alias: 'a', type: Boolean },
-    { name: 'flagB', alias: 'b', type: Boolean },
-    { name: 'three', alias: 'c' }
+    { name: 'verbose', alias: 'v', type: Boolean },
+    { name: 'recursive', alias: 'r', type: Boolean },
+    { name: 'file', alias: 'f' }
   ]
 
-  const argv = [ '-abc', 'yeah' ]
+  const argv = []
+  a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv }), {})
+})
+
+runner.test('alias-cluster: two flags, one option', function () {
+  const optionDefinitions = [
+    { name: 'verbose', alias: 'v', type: Boolean },
+    { name: 'recursive', alias: 'r', type: Boolean },
+    { name: 'file', alias: 'f' }
+  ]
+
+  const argv = [ '-vrf', 'yeah' ]
   a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv }), {
-    flagA: true,
-    flagB: true,
-    three: 'yeah'
+    verbose: true,
+    recursive: true,
+    file: 'yeah'
   })
 })
 
 runner.test('alias-cluster: two flags, one option 2', function () {
   const optionDefinitions = [
-    { name: 'flagA', alias: 'a', type: Boolean },
-    { name: 'flagB', alias: 'b', type: Boolean },
-    { name: 'three', alias: 'c' }
+    { name: 'verbose', alias: 'v', type: Boolean },
+    { name: 'recursive', alias: 'r', type: Boolean },
+    { name: 'file', alias: 'f' }
   ]
 
-  const argv = [ '-c', 'yeah', '-ab' ]
+  const argv = [ '-f', 'yeah', '-vr' ]
   a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv }), {
-    flagA: true,
-    flagB: true,
-    three: 'yeah'
+    verbose: true,
+    recursive: true,
+    file: 'yeah'
   })
 })
 
 runner.test('alias-cluster: three string options', function () {
   const optionDefinitions = [
-    { name: 'flagA', alias: 'a' },
-    { name: 'flagB', alias: 'b' },
-    { name: 'three', alias: 'c' }
+    { name: 'plugin', alias: 'p' },
+    { name: 'depth', alias: 'd' },
+    { name: 'file', alias: 'f' }
   ]
 
-  const argv = [ '-abc', 'yeah' ]
-  a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv }), {
-    flagA: null,
-    flagB: null,
-    three: 'yeah'
+  const argv = [ '-pdf', 'yeah' ]
+  a.throws(
+    () => commandLineArgs(optionDefinitions, { argv }),
+    /UNKNOWN_VALUE/
+  )
+})
+
+runner.test('alias-cluster: three string options, partial', function () {
+  const optionDefinitions = [
+    { name: 'plugin', alias: 'p' },
+    { name: 'depth', alias: 'd' },
+    { name: 'file', alias: 'f' }
+  ]
+
+  const argv = [ '-pdf', 'yeah' ]
+  a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv, partial: true }), {
+    plugin: 'df',
+    _unknown: [ 'yeah' ]
   })
 })
