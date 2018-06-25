@@ -39,8 +39,9 @@ runner.test('exceptions-unknowns: unknown combined aliases', function () {
   const optionDefinitions = [
     { name: 'one', type: Number }
   ]
+  const argv = [ '-sdf' ]
   a.throws(
-    () => commandLineArgs(optionDefinitions, { argv: [ '-sdf' ] }),
+    () => commandLineArgs(optionDefinitions, { argv }),
     err => err.name === 'UNKNOWN_OPTION' && err.optionName === '-s'
   )
 })

@@ -337,12 +337,12 @@ runner.test('argv-parser: combined short option, string', function () {
   const result = Array.from(parser)
   a.ok(result[0].def)
   a.ok(result[1].def)
-  a.ok(result[2].def)
+  a.ok(!result[2].def)
   result.forEach(r => delete r.def)
   a.deepStrictEqual(result, [
     { event: 'set', arg: '-ot', subArg: '-o', name: 'one', value: null },
-    { event: 'set', arg: '-ot', subArg: '-t', name: 'two', value: null },
-    { event: 'set', arg: '1', name: 'two', value: '1' }
+    { event: 'set', arg: '-ot', subArg: 't', name: 'one', value: 't' },
+    { event: 'unknown_value', arg: '1', name: '_unknown', value: undefined }
   ])
 })
 
@@ -363,4 +363,49 @@ runner.test('argv-parser: combined short option, one unknown', function () {
     { event: 'set', arg: '-xt', subArg: '-t', name: 'two', value: null },
     { event: 'set', arg: '1', name: 'two', value: '1' }
   ])
+})
+
+runner.test('arg-parser: expandCluster, no whitespace value', function () {
+  const optionDefinitions = [
+    { name: 'one', alias: 'o' }
+  ]
+  const argv = [ '-oone' ]
+  const parser = new ArgvParser(optionDefinitions, { argv })
+  a.strictEqual(parser.argv.length, 2)
+  a.deepStrictEqual(parser.argv[0], { origArg: '-oone', arg: '-o' })
+  a.deepStrictEqual(parser.argv[1], { origArg: '-oone', arg: 'one' })
+})
+
+runner.test('arg-parser: expandCluster, flags', function () {
+  const optionDefinitions = [
+    { name: 'one', alias: 'o', type: Boolean },
+    { name: 'two', alias: 't', type: Boolean },
+  ]
+  const argv = [ '-ot' ]
+  const parser = new ArgvParser(optionDefinitions, { argv })
+  a.strictEqual(parser.argv.length, 2)
+  a.deepStrictEqual(parser.argv[0], { origArg: '-ot', arg: '-o' })
+  a.deepStrictEqual(parser.argv[1], { origArg: '-ot', arg: '-t' })
+})
+
+runner.test('arg-parser: expandCluster, mix', function () {
+  const optionDefinitions = [
+    { name: 'one', alias: 'o', type: Boolean },
+    { name: 'two', alias: 't' },
+  ]
+  const argv = [ '-ot' ]
+  const parser = new ArgvParser(optionDefinitions, { argv })
+  a.strictEqual(parser.argv.length, 2)
+  a.deepStrictEqual(parser.argv[0], { origArg: '-ot', arg: '-o' })
+  a.deepStrictEqual(parser.argv[1], { origArg: '-ot', arg: '-t' })
+})
+
+runner.test('arg-parser: expand a cluster of short options with no definition', function () {
+  const optionDefinitions = []
+  const argv = [ '-abc' ]
+  const parser = new ArgvParser(optionDefinitions, { argv })
+  a.strictEqual(parser.argv.length, 3)
+  a.deepStrictEqual(parser.argv[0], { origArg: '-abc', arg: '-a' })
+  a.deepStrictEqual(parser.argv[1], { origArg: '-abc', arg: '-b' })
+  a.deepStrictEqual(parser.argv[2], { origArg: '-abc', arg: '-c' })
 })

@@ -50,6 +50,11 @@ runner.test('partial: combined short option, both unknown', function () {
   ]
   const argv = [ '-ab' ]
   const options = commandLineArgs(optionDefinitions, { argv, partial: true })
+  /* could also have meant
+  _unknown: [ '-a', 'b' ]
+  but better to leave untouched as
+  _unknown: [ '-ab' ]
+  */
   a.deepStrictEqual(options, {
     _unknown: [ '-a', '-b' ]
   })
@@ -63,8 +68,7 @@ runner.test('partial: combined short option, one known, one unknown', function (
   const argv = [ '-ob' ]
   const options = commandLineArgs(optionDefinitions, { argv, partial: true })
   a.deepStrictEqual(options, {
-    one: null,
-    _unknown: [ '-b' ]
+    one: 'b'
   })
 })
 

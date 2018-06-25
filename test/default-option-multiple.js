@@ -15,17 +15,6 @@ runner.test('defaultOption: multiple string', function () {
   })
 })
 
-runner.test('defaultOption: after a boolean', function () {
-  const definitions = [
-    { name: 'one', type: Boolean },
-    { name: 'two', defaultOption: true }
-  ]
-  a.deepStrictEqual(
-    commandLineArgs(definitions, { argv: [ '--one', 'sfsgf' ] }),
-    { one: true, two: 'sfsgf' }
-  )
-})
-
 runner.test('defaultOption: multiple-defaultOption values spread out', function () {
   const optionDefinitions = [
     { name: 'one' },
@@ -54,7 +43,7 @@ runner.test('defaultOption: multiple-defaultOption values spread out 2', functio
   })
 })
 
-runner.test('defaultOption with --option=value', function () {
+runner.test('defaultOption: multiple with --option=value', function () {
   const definitions = [
     { name: 'files', defaultOption: true, multiple: true },
     { name: 'one', type: Boolean },
@@ -67,37 +56,4 @@ runner.test('defaultOption with --option=value', function () {
     two: '3',
     one: true
   })
-})
-
-runner.test('defaultOption with value equal to defaultValue', function () {
-  const definitions = [
-    { name: 'file', defaultOption: true, defaultValue: 'file1' }
-  ]
-  const argv = [ 'file1' ]
-  const options = commandLineArgs(definitions, { argv })
-  a.deepStrictEqual(options, {
-    file: 'file1'
-  })
-})
-
-runner.test('string defaultOption can be set by argv once', function () {
-  const definitions = [
-    { name: 'file', defaultOption: true, defaultValue: 'file1' }
-  ]
-  const argv = [ '--file', '--file=file2' ]
-  const options = commandLineArgs(definitions, { argv })
-  a.deepStrictEqual(options, {
-    file: 'file2'
-  })
-})
-
-runner.test('string defaultOption cannot be set by argv twice', function () {
-  const definitions = [
-    { name: 'file', defaultOption: true, defaultValue: 'file1' }
-  ]
-  const argv = [ '--file', '--file=file2', 'file3' ]
-  a.throws(
-    () => commandLineArgs(definitions, { argv }),
-    /UNKNOWN_VALUE/
-  )
 })
