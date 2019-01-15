@@ -42,3 +42,13 @@ runner.test('ambiguous input: value looks like an option 4', function () {
     colour: '--red'
   })
 })
+
+runner.test('ambiguous input: value looks like another option', function () {
+  const optionDefinitions = [
+    { name: 'colour', type: String, alias: 'c' },
+    { name: 'heat', type: String, alias: 'h' }
+  ]
+  a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv: [ '--colour', '--heat warm' ] }), {
+    colour: '--heat warm'
+  })
+})
