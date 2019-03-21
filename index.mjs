@@ -1,9 +1,12 @@
-'use strict'
+import Definitions from './lib/option-definitions.mjs'
+import ArgvParser from './lib/argv-parser.mjs'
+import Option from './lib/option.mjs'
+import OutputGrouped from './lib/output-grouped.mjs'
+import Output from './lib/output.mjs'
 
 /**
  * @module command-line-args
  */
-module.exports = commandLineArgs
 
 /**
  * Returns an object containing all option values set on the command line. By default it parses the global  [`process.argv`](https://nodejs.org/api/process.html#process_process_argv) array.
@@ -33,17 +36,14 @@ module.exports = commandLineArgs
 function commandLineArgs (optionDefinitions, options) {
   options = options || {}
   if (options.stopAtFirstUnknown) options.partial = true
-  const Definitions = require('./lib/option-definitions')
   optionDefinitions = Definitions.from(optionDefinitions)
 
-  const ArgvParser = require('./lib/argv-parser')
   const parser = new ArgvParser(optionDefinitions, {
     argv: options.argv,
     stopAtFirstUnknown: options.stopAtFirstUnknown
   })
 
-  const Option = require('./lib/option')
-  const OutputClass = optionDefinitions.isGrouped() ? require('./lib/output-grouped') : require('./lib/output')
+  const OutputClass = optionDefinitions.isGrouped() ? OutputGrouped : Output
   const output = new OutputClass(optionDefinitions)
 
   /* Iterate the parser setting each known value to the output. Optionally, throw on unknowns. */
@@ -80,3 +80,5 @@ function commandLineArgs (optionDefinitions, options) {
 
   return output.toObject({ skipUnknown: !options.partial, camelCase: options.camelCase })
 }
+
+export default commandLineArgs
