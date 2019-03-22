@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * Takes any input and guarantees an array back.
  *
@@ -2070,4 +2068,4 @@ function commandLineArgs (optionDefinitions, options) {
   return output.toObject({ skipUnknown: !options.partial, camelCase: options.camelCase })
 }
 
-module.exports = commandLineArgs;
+export default commandLineArgs;

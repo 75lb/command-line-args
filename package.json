@@ -5,9 +5,9 @@
   "repository": "https://github.com/75lb/command-line-args.git",
   "scripts": {
     "test": "test-runner test/*.js",
-    "docs": "jsdoc2md index.js > doc/API.md && jsdoc2md lib/option-definition.js > doc/option-definition.md",
+    "docs": "jsdoc2md -c jsdoc.conf index.mjs > doc/API.md && jsdoc2md -c jsdoc.conf lib/option-definition.mjs > doc/option-definition.md",
     "cover": "nyc --reporter=text-lcov test-runner test/*.js test/internals/*.js | coveralls",
-    "dist": "rollup index.mjs -f cjs -o dist/index.js"
+    "dist": "rollup index.mjs -f cjs -o dist/index.js && rollup index.mjs -f esm -o dist/index.mjs"
   },
   "main": "dist/index.js",
   "keywords": [
@@ -29,8 +29,9 @@
     "node": ">=4.0.0"
   },
   "files": [
-    "index.js",
-    "lib"
+    "index.mjs",
+    "lib",
+    "dist"
   ],
   "devDependencies": {
     "coveralls": "^3.0.3",
@@ -43,6 +44,6 @@
     "array-back": "^3.0.1",
     "find-replace": "^2.0.1",
     "lodash-es": "^4.17.11",
-    "typical": "github:75lb/typical"
+    "typical": "^4.0.0"
   }
 }
