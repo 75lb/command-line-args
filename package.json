@@ -42,7 +42,7 @@
   "dependencies": {
     "argv-tools": "^0.1.1",
     "array-back": "^3.0.1",
-    "find-replace": "^2.0.1",
+    "find-replace": "^3.0.0",
     "lodash-es": "^4.17.11",
     "typical": "^4.0.0"
   }
