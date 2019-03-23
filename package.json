@@ -5,6 +5,7 @@
   "repository": "https://github.com/75lb/command-line-args.git",
   "scripts": {
     "test": "rollup test/tests.mjs -f cjs -o dist/tests.js && node dist/tests.js",
+    "test:mjs": "node --experimental-modules test/tests.mjs",
     "travis-test": "node dist/tests.js",
     "docs": "jsdoc2md -c jsdoc.conf index.mjs > doc/API.md && jsdoc2md -c jsdoc.conf lib/option-definition.mjs > doc/option-definition.md",
     "cover": "nyc --reporter=text-lcov test-runner test/*.js test/internals/*.js | coveralls",
@@ -44,7 +45,7 @@
   "dependencies": {
     "array-back": "^3.0.1",
     "find-replace": "^3.0.0",
-    "lodash-es": "^4.17.11",
+    "lodash.camelcase": "^4.3.0",
     "typical": "^4.0.0"
   }
 }
