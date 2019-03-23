@@ -1,7 +1,6 @@
-'use strict'
-const TestRunner = require('test-runner')
-const a = require('assert')
-const Definitions = require('../../lib/option-definitions')
+import TestRunner from 'test-runner'
+import a from 'assert'
+import Definitions from '../../lib/option-definitions'
 
 const runner = new TestRunner()
 

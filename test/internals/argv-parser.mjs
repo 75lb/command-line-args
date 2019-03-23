@@ -1,8 +1,8 @@
-'use strict'
-const TestRunner = require('test-runner')
-const a = require('assert')
+import TestRunner from 'test-runner'
+import a from 'assert'
+import ArgvParser from '../../lib/argv-parser'
+
 const runner = new TestRunner()
-const ArgvParser = require('../../lib/argv-parser')
 
 runner.test('argv-parser: long option, string', function () {
   const optionDefinitions = [

@@ -1,7 +1,6 @@
-'use strict'
-const TestRunner = require('test-runner')
-const a = require('assert')
-const commandLineArgs = require('../')
+import TestRunner from 'test-runner'
+import commandLineArgs from '../index.mjs'
+import a from 'assert'
 
 const runner = new TestRunner()
 

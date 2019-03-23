@@ -1,7 +1,6 @@
-'use strict'
-const TestRunner = require('test-runner')
-const Option = require('../../lib/option')
-const a = require('assert')
+import TestRunner from 'test-runner'
+import a from 'assert'
+import Option from '../../lib/option.mjs'
 
 const runner = new TestRunner()
 

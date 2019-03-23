@@ -4,7 +4,8 @@
   "description": "A mature, feature-complete library to parse command-line options.",
   "repository": "https://github.com/75lb/command-line-args.git",
   "scripts": {
-    "test": "test-runner test/*.js",
+    "test": "rollup test/tests.mjs -f cjs -o dist/tests.js && node dist/tests.js",
+    "travis-test": "node dist/tests.js",
     "docs": "jsdoc2md -c jsdoc.conf index.mjs > doc/API.md && jsdoc2md -c jsdoc.conf lib/option-definition.mjs > doc/option-definition.md",
     "cover": "nyc --reporter=text-lcov test-runner test/*.js test/internals/*.js | coveralls",
     "dist": "rollup index.mjs -f cjs -o dist/index.js && rollup index.mjs -f esm -o dist/index.mjs"
@@ -31,7 +32,8 @@
   "files": [
     "index.mjs",
     "lib",
-    "dist"
+    "dist/index.js",
+    "dist/index.mjs"
   ],
   "devDependencies": {
     "coveralls": "^3.0.3",
@@ -40,7 +42,6 @@
     "test-runner": "^0.5.1"
   },
   "dependencies": {
-    "argv-tools": "^0.1.1",
     "array-back": "^3.0.1",
     "find-replace": "^3.0.0",
     "lodash-es": "^4.17.11",

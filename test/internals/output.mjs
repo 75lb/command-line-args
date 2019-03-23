@@ -1,7 +1,7 @@
-'use strict'
-const TestRunner = require('test-runner')
-const a = require('assert')
-const Output = require('../../lib/output')
+import TestRunner from 'test-runner'
+import a from 'assert'
+import Output from '../../lib/output.mjs'
+import Option from '../../lib/option.mjs'
 
 const runner = new TestRunner()
 
@@ -16,7 +16,6 @@ runner.test('output.toObject(): one def set', function () {
   const output = new Output([
     { name: 'one' }
   ])
-  const Option = require('../../lib/option')
   const option = Option.create({ name: 'one' })
   option.set('yeah')
   output.set('one', option)

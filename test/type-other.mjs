@@ -1,7 +1,6 @@
-'use strict'
-const TestRunner = require('test-runner')
-const commandLineArgs = require('../')
-const a = require('assert')
+import TestRunner from 'test-runner'
+import commandLineArgs from '../index.mjs'
+import a from 'assert'
 
 const runner = new TestRunner()
 
@@ -30,7 +29,7 @@ runner.test('type-other: broken custom type function', function () {
     {
       name: 'file',
       type: function (file) {
-        lasdfjsfakn // eslint-disable-line
+        throw new Error('broken')
       }
     }
   ]
