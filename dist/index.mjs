@@ -328,7 +328,7 @@ function isValue (arg) {
 }
 
 function isExecArg (arg) {
-  return ['--eval', '-e'].includes(arg) || arg.startsWith('--eval=')
+  return ['--eval', '-e'].indexOf(arg) > -1 || arg.startsWith('--eval=')
 }
 
 /**
