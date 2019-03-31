@@ -213,7 +213,8 @@ class ArgvArray extends Array {
     } else {
       /* if no argv supplied, assume we are parsing process.argv */
       argv = process.argv.slice(0);
-      argv.splice(0, 2);
+      const deleteCount = process.execArgv.some(isExecArg) ? 1 : 2;
+      argv.splice(0, deleteCount);
     }
     argv.forEach(arg => this.push(String(arg)));
   }
@@ -330,6 +331,10 @@ function getOptionName (arg) {
 
 function isValue (arg) {
   return !(isOption(arg) || re.combinedShort.test(arg) || re.optEquals.test(arg))
+}
+
+function isExecArg (arg) {
+  return ['--eval', '-e'].includes(arg) || arg.startsWith('--eval=')
 }
 
 /**
@@ -2439,7 +2444,21 @@ runner$d.test('process.argv is left untouched', function () {
 
 const runner$e = new TestRunner();
 
-runner$e.test('exceptions-already-set: long option', function () {
+runner$e.test('detect process.execArgv: should automatically remove first argv items', function () {
+  const origArgv = process.argv;
+  const origExecArgv = process.execArgv;
+  process.argv = [ 'node', '--one', 'eins' ];
+  process.execArgv = [ '-e', 'something' ];
+  a.deepStrictEqual(commandLineArgs({ name: 'one' }), {
+    one: 'eins'
+  });
+  process.argv = origArgv;
+  process.execArgv = origExecArgv;
+});
+
+const runner$f = new TestRunner();
+
+runner$f.test('exceptions-already-set: long option', function () {
   const optionDefinitions = [
     { name: 'one', type: Boolean }
   ];
@@ -2450,7 +2469,7 @@ runner$e.test('exceptions-already-set: long option', function () {
   );
 });
 
-runner$e.test('exceptions-already-set: short option', function () {
+runner$f.test('exceptions-already-set: short option', function () {
   const optionDefinitions = [
     { name: 'one', type: Boolean, alias: 'o' }
   ];
@@ -2461,7 +2480,7 @@ runner$e.test('exceptions-already-set: short option', function () {
   );
 });
 
-runner$e.test('exceptions-already-set: --option=value', function () {
+runner$f.test('exceptions-already-set: --option=value', function () {
   const optionDefinitions = [
     { name: 'one' }
   ];
@@ -2472,7 +2491,7 @@ runner$e.test('exceptions-already-set: --option=value', function () {
   );
 });
 
-runner$e.test('exceptions-already-set: combined short option', function () {
+runner$f.test('exceptions-already-set: combined short option', function () {
   const optionDefinitions = [
     { name: 'one', type: Boolean, alias: 'o' }
   ];
@@ -2483,9 +2502,9 @@ runner$e.test('exceptions-already-set: combined short option', function () {
   );
 });
 
-const runner$f = new TestRunner();
+const runner$g = new TestRunner();
 
-runner$f.test('err-invalid-definition: throws when no definition.name specified', function () {
+runner$g.test('err-invalid-definition: throws when no definition.name specified', function () {
   const optionDefinitions = [
     { something: 'one' },
     { something: 'two' }
@@ -2497,7 +2516,7 @@ runner$f.test('err-invalid-definition: throws when no definition.name specified'
   );
 });
 
-runner$f.test('err-invalid-definition: throws if dev set a numeric alias', function () {
+runner$g.test('err-invalid-definition: throws if dev set a numeric alias', function () {
   const optionDefinitions = [
     { name: 'colours', alias: '1' }
   ];
@@ -2509,7 +2528,7 @@ runner$f.test('err-invalid-definition: throws if dev set a numeric alias', funct
   );
 });
 
-runner$f.test('err-invalid-definition: throws if dev set an alias of "-"', function () {
+runner$g.test('err-invalid-definition: throws if dev set an alias of "-"', function () {
   const optionDefinitions = [
     { name: 'colours', alias: '-' }
   ];
@@ -2521,7 +2540,7 @@ runner$f.test('err-invalid-definition: throws if dev set an alias of "-"', funct
   );
 });
 
-runner$f.test('err-invalid-definition: multi-character alias', function () {
+runner$g.test('err-invalid-definition: multi-character alias', function () {
   const optionDefinitions = [
     { name: 'one', alias: 'aa' }
   ];
@@ -2532,7 +2551,7 @@ runner$f.test('err-invalid-definition: multi-character alias', function () {
   );
 });
 
-runner$f.test('err-invalid-definition: invalid type values 1', function () {
+runner$g.test('err-invalid-definition: invalid type values 1', function () {
   const argv = [ '--one', 'something' ];
   a.throws(
     () => commandLineArgs([ { name: 'one', type: 'string' } ], { argv }),
@@ -2540,7 +2559,7 @@ runner$f.test('err-invalid-definition: invalid type values 1', function () {
   );
 });
 
-runner$f.test('err-invalid-definition: invalid type values 2', function () {
+runner$g.test('err-invalid-definition: invalid type values 2', function () {
   const argv = [ '--one', 'something' ];
   a.throws(
     () => commandLineArgs([ { name: 'one', type: 234 } ], { argv }),
@@ -2548,7 +2567,7 @@ runner$f.test('err-invalid-definition: invalid type values 2', function () {
   );
 });
 
-runner$f.test('err-invalid-definition: invalid type values 3', function () {
+runner$g.test('err-invalid-definition: invalid type values 3', function () {
   const argv = [ '--one', 'something' ];
   a.throws(
     () => commandLineArgs([ { name: 'one', type: {} } ], { argv }),
@@ -2556,14 +2575,14 @@ runner$f.test('err-invalid-definition: invalid type values 3', function () {
   );
 });
 
-runner$f.test('err-invalid-definition: invalid type values 4', function () {
+runner$g.test('err-invalid-definition: invalid type values 4', function () {
   const argv = [ '--one', 'something' ];
   a.doesNotThrow(function () {
     commandLineArgs([ { name: 'one', type: function () {} } ], { argv });
   }, /invalid/i);
 });
 
-runner$f.test('err-invalid-definition: duplicate name', function () {
+runner$g.test('err-invalid-definition: duplicate name', function () {
   const optionDefinitions = [
     { name: 'colours' },
     { name: 'colours' }
@@ -2575,7 +2594,7 @@ runner$f.test('err-invalid-definition: duplicate name', function () {
   );
 });
 
-runner$f.test('err-invalid-definition: duplicate alias', function () {
+runner$g.test('err-invalid-definition: duplicate alias', function () {
   const optionDefinitions = [
     { name: 'one', alias: 'a' },
     { name: 'two', alias: 'a' }
@@ -2587,7 +2606,7 @@ runner$f.test('err-invalid-definition: duplicate alias', function () {
   );
 });
 
-runner$f.test('err-invalid-definition: multiple defaultOption', function () {
+runner$g.test('err-invalid-definition: multiple defaultOption', function () {
   const optionDefinitions = [
     { name: 'one', defaultOption: true },
     { name: 'two', defaultOption: true }
@@ -2599,7 +2618,7 @@ runner$f.test('err-invalid-definition: multiple defaultOption', function () {
   );
 });
 
-runner$f.test('err-invalid-defaultOption: defaultOption on a Boolean type', function () {
+runner$g.test('err-invalid-defaultOption: defaultOption on a Boolean type', function () {
   const optionDefinitions = [
     { name: 'one', type: Boolean, defaultOption: true }
   ];
@@ -2610,9 +2629,9 @@ runner$f.test('err-invalid-defaultOption: defaultOption on a Boolean type', func
   );
 });
 
-const runner$g = new TestRunner();
+const runner$h = new TestRunner();
 
-runner$g.test('exceptions-unknowns: unknown option', function () {
+runner$h.test('exceptions-unknowns: unknown option', function () {
   const optionDefinitions = [
     { name: 'one', type: Number }
   ];
@@ -2622,7 +2641,7 @@ runner$g.test('exceptions-unknowns: unknown option', function () {
   );
 });
 
-runner$g.test('exceptions-unknowns: 1 unknown option, 1 unknown value', function () {
+runner$h.test('exceptions-unknowns: 1 unknown option, 1 unknown value', function () {
   const optionDefinitions = [
     { name: 'one', type: Number }
   ];
@@ -2632,7 +2651,7 @@ runner$g.test('exceptions-unknowns: 1 unknown option, 1 unknown value', function
   );
 });
 
-runner$g.test('exceptions-unknowns: unknown alias', function () {
+runner$h.test('exceptions-unknowns: unknown alias', function () {
   const optionDefinitions = [
     { name: 'one', type: Number }
   ];
@@ -2642,7 +2661,7 @@ runner$g.test('exceptions-unknowns: unknown alias', function () {
   );
 });
 
-runner$g.test('exceptions-unknowns: unknown combined aliases', function () {
+runner$h.test('exceptions-unknowns: unknown combined aliases', function () {
   const optionDefinitions = [
     { name: 'one', type: Number }
   ];
@@ -2652,7 +2671,7 @@ runner$g.test('exceptions-unknowns: unknown combined aliases', function () {
   );
 });
 
-runner$g.test('exceptions-unknowns: unknown value', function () {
+runner$h.test('exceptions-unknowns: unknown value', function () {
   const optionDefinitions = [
     { name: 'one' }
   ];
@@ -2663,7 +2682,7 @@ runner$g.test('exceptions-unknowns: unknown value', function () {
   );
 });
 
-runner$g.test('exceptions-unknowns: unknown value with singular defaultOption', function () {
+runner$h.test('exceptions-unknowns: unknown value with singular defaultOption', function () {
   const optionDefinitions = [
     { name: 'one', defaultOption: true }
   ];
@@ -2674,7 +2693,7 @@ runner$g.test('exceptions-unknowns: unknown value with singular defaultOption', 
   );
 });
 
-runner$g.test('exceptions-unknowns: no unknown value exception with multiple defaultOption', function () {
+runner$h.test('exceptions-unknowns: no unknown value exception with multiple defaultOption', function () {
   const optionDefinitions = [
     { name: 'one', defaultOption: true, multiple: true }
   ];
@@ -2684,7 +2703,7 @@ runner$g.test('exceptions-unknowns: no unknown value exception with multiple def
   });
 });
 
-runner$g.test('exceptions-unknowns: non-multiple defaultOption should take first value 2', function () {
+runner$h.test('exceptions-unknowns: non-multiple defaultOption should take first value 2', function () {
   const optionDefinitions = [
     { name: 'file', defaultOption: true },
     { name: 'one', type: Boolean },
@@ -2697,9 +2716,9 @@ runner$g.test('exceptions-unknowns: non-multiple defaultOption should take first
   );
 });
 
-const runner$h = new TestRunner();
+const runner$i = new TestRunner();
 
-runner$h.test('groups', function () {
+runner$i.test('groups', function () {
   const definitions = [
     { name: 'one', group: 'a' },
     { name: 'two', group: 'a' },
@@ -2723,7 +2742,7 @@ runner$h.test('groups', function () {
   });
 });
 
-runner$h.test('groups: multiple and _none', function () {
+runner$i.test('groups: multiple and _none', function () {
   const definitions = [
     { name: 'one', group: ['a', 'f'] },
     { name: 'two', group: ['a', 'g'] },
@@ -2752,7 +2771,7 @@ runner$h.test('groups: multiple and _none', function () {
   });
 });
 
-runner$h.test('groups: nothing set', function () {
+runner$i.test('groups: nothing set', function () {
   const definitions = [
     { name: 'one', group: 'a' },
     { name: 'two', group: 'a' },
@@ -2767,7 +2786,7 @@ runner$h.test('groups: nothing set', function () {
   });
 });
 
-runner$h.test('groups: nothing set with one ungrouped', function () {
+runner$i.test('groups: nothing set with one ungrouped', function () {
   const definitions = [
     { name: 'one', group: 'a' },
     { name: 'two', group: 'a' },
@@ -2781,7 +2800,7 @@ runner$h.test('groups: nothing set with one ungrouped', function () {
   });
 });
 
-runner$h.test('groups: two ungrouped, one set', function () {
+runner$i.test('groups: two ungrouped, one set', function () {
   const definitions = [
     { name: 'one', group: 'a' },
     { name: 'two', group: 'a' },
@@ -2797,7 +2816,7 @@ runner$h.test('groups: two ungrouped, one set', function () {
   });
 });
 
-runner$h.test('groups: two ungrouped, both set', function () {
+runner$i.test('groups: two ungrouped, both set', function () {
   const definitions = [
     { name: 'one', group: 'a' },
     { name: 'two', group: 'a' },
@@ -2813,7 +2832,7 @@ runner$h.test('groups: two ungrouped, both set', function () {
   });
 });
 
-runner$h.test('groups: with partial', function () {
+runner$i.test('groups: with partial', function () {
   const definitions = [
     { name: 'one', group: 'a' },
     { name: 'two', group: 'a' },
@@ -2837,7 +2856,7 @@ runner$h.test('groups: with partial', function () {
   });
 });
 
-runner$h.test('partial: with partial, multiple groups and _none', function () {
+runner$i.test('partial: with partial, multiple groups and _none', function () {
   const definitions = [
     { name: 'one', group: ['a', 'f'] },
     { name: 'two', group: ['a', 'g'] },
@@ -2867,9 +2886,9 @@ runner$h.test('partial: with partial, multiple groups and _none', function () {
   });
 });
 
-const runner$i = new TestRunner();
+const runner$j = new TestRunner();
 
-runner$i.test('lazy multiple: string', function () {
+runner$j.test('lazy multiple: string', function () {
   const argv = ['--one', 'a', '--one', 'b', '--one', 'd'];
   const optionDefinitions = [
       { name: 'one', lazyMultiple: true }
@@ -2880,7 +2899,7 @@ runner$i.test('lazy multiple: string', function () {
   });
 });
 
-runner$i.test('lazy multiple: string unset with defaultValue', function () {
+runner$j.test('lazy multiple: string unset with defaultValue', function () {
   const optionDefinitions = [
     { name: 'one', lazyMultiple: true, defaultValue: 1 }
   ];
@@ -2889,7 +2908,7 @@ runner$i.test('lazy multiple: string unset with defaultValue', function () {
   a.deepStrictEqual(result, { one: [ 1 ] });
 });
 
-runner$i.test('lazy multiple: string, --option=value', function () {
+runner$j.test('lazy multiple: string, --option=value', function () {
   const optionDefinitions = [
     { name: 'one', lazyMultiple: true }
   ];
@@ -2900,7 +2919,7 @@ runner$i.test('lazy multiple: string, --option=value', function () {
   });
 });
 
-runner$i.test('lazy multiple: string, --option=value mix', function () {
+runner$j.test('lazy multiple: string, --option=value mix', function () {
   const optionDefinitions = [
     { name: 'one', lazyMultiple: true }
   ];
@@ -2911,7 +2930,7 @@ runner$i.test('lazy multiple: string, --option=value mix', function () {
   });
 });
 
-runner$i.test('lazy multiple: string, defaultOption', function () {
+runner$j.test('lazy multiple: string, defaultOption', function () {
   const optionDefinitions = [
     { name: 'one', lazyMultiple: true, defaultOption: true }
   ];
@@ -2922,7 +2941,7 @@ runner$i.test('lazy multiple: string, defaultOption', function () {
   });
 });
 
-runner$i.test('lazy multiple: greedy style, string', function () {
+runner$j.test('lazy multiple: greedy style, string', function () {
   const optionDefinitions = [
     { name: 'one', lazyMultiple: true }
   ];
@@ -2933,7 +2952,7 @@ runner$i.test('lazy multiple: greedy style, string', function () {
   );
 });
 
-runner$i.test('lazy multiple: greedy style, string, --option=value', function () {
+runner$j.test('lazy multiple: greedy style, string, --option=value', function () {
   const optionDefinitions = [
     { name: 'one', lazyMultiple: true }
   ];
@@ -2944,7 +2963,7 @@ runner$i.test('lazy multiple: greedy style, string, --option=value', function ()
   });
 });
 
-runner$i.test('lazy multiple: greedy style, string, --option=value mix', function () {
+runner$j.test('lazy multiple: greedy style, string, --option=value mix', function () {
   const optionDefinitions = [
     { name: 'one', lazyMultiple: true }
   ];
@@ -2955,9 +2974,9 @@ runner$i.test('lazy multiple: greedy style, string, --option=value mix', functio
   );
 });
 
-const runner$j = new TestRunner();
+const runner$k = new TestRunner();
 
-runner$j.test('multiple: empty argv', function () {
+runner$k.test('multiple: empty argv', function () {
   const optionDefinitions = [
     { name: 'one', multiple: true }
   ];
@@ -2966,7 +2985,7 @@ runner$j.test('multiple: empty argv', function () {
   a.deepStrictEqual(result, {});
 });
 
-runner$j.test('multiple: boolean, empty argv', function () {
+runner$k.test('multiple: boolean, empty argv', function () {
   const optionDefinitions = [
     { name: 'one', type: Boolean, multiple: true }
   ];
@@ -2975,7 +2994,7 @@ runner$j.test('multiple: boolean, empty argv', function () {
   a.deepStrictEqual(result, { });
 });
 
-runner$j.test('multiple: string unset with defaultValue', function () {
+runner$k.test('multiple: string unset with defaultValue', function () {
   const optionDefinitions = [
     { name: 'one', multiple: true, defaultValue: 1 }
   ];
@@ -2984,7 +3003,7 @@ runner$j.test('multiple: string unset with defaultValue', function () {
   a.deepStrictEqual(result, { one: [ 1 ] });
 });
 
-runner$j.test('multiple: string', function () {
+runner$k.test('multiple: string', function () {
   const optionDefinitions = [
     { name: 'one', multiple: true }
   ];
@@ -2995,7 +3014,7 @@ runner$j.test('multiple: string', function () {
   });
 });
 
-runner$j.test('multiple: string, --option=value', function () {
+runner$k.test('multiple: string, --option=value', function () {
   const optionDefinitions = [
     { name: 'one', multiple: true }
   ];
@@ -3006,7 +3025,7 @@ runner$j.test('multiple: string, --option=value', function () {
   });
 });
 
-runner$j.test('multiple: string, --option=value mix', function () {
+runner$k.test('multiple: string, --option=value mix', function () {
   const optionDefinitions = [
     { name: 'one', multiple: true }
   ];
@@ -3017,7 +3036,7 @@ runner$j.test('multiple: string, --option=value mix', function () {
   });
 });
 
-runner$j.test('multiple: string, defaultOption', function () {
+runner$k.test('multiple: string, defaultOption', function () {
   const optionDefinitions = [
     { name: 'one', multiple: true, defaultOption: true }
   ];
@@ -3028,9 +3047,9 @@ runner$j.test('multiple: string, defaultOption', function () {
   });
 });
 
-const runner$k = new TestRunner();
+const runner$l = new TestRunner();
 
-runner$k.test('name-alias-mix: one of each', function () {
+runner$l.test('name-alias-mix: one of each', function () {
   const optionDefinitions = [
     { name: 'one', alias: 'o' },
     { name: 'two', alias: 't' },
@@ -3045,9 +3064,9 @@ runner$k.test('name-alias-mix: one of each', function () {
   a.strictEqual(result.four, undefined);
 });
 
-const runner$l = new TestRunner();
+const runner$m = new TestRunner();
 
-runner$l.test('name-unicode: unicode names and aliases are permitted', function () {
+runner$m.test('name-unicode: unicode names and aliases are permitted', function () {
   const optionDefinitions = [
     { name: 'один' },
     { name: '两' },
@@ -3060,9 +3079,9 @@ runner$l.test('name-unicode: unicode names and aliases are permitted', function 
   a.strictEqual(result.три, '3');
 });
 
-const runner$m = new TestRunner();
+const runner$n = new TestRunner();
 
-runner$m.test('--option=value notation: two plus a regular notation', function () {
+runner$n.test('--option=value notation: two plus a regular notation', function () {
   const optionDefinitions = [
     { name: 'one' },
     { name: 'two' },
@@ -3076,7 +3095,7 @@ runner$m.test('--option=value notation: two plus a regular notation', function (
   a.strictEqual(result.three, '3');
 });
 
-runner$m.test('--option=value notation: value contains "="', function () {
+runner$n.test('--option=value notation: value contains "="', function () {
   const optionDefinitions = [
     { name: 'url' },
     { name: 'two' },
@@ -3095,9 +3114,9 @@ runner$m.test('--option=value notation: value contains "="', function () {
   a.strictEqual(result['my-url'], 'my-url?q=123=1');
 });
 
-const runner$n = new TestRunner();
+const runner$o = new TestRunner();
 
-runner$n.test('partial: simple', function () {
+runner$o.test('partial: simple', function () {
   const definitions = [
     { name: 'one', type: Boolean }
   ];
@@ -3109,7 +3128,7 @@ runner$n.test('partial: simple', function () {
   });
 });
 
-runner$n.test('partial: defaultOption', function () {
+runner$o.test('partial: defaultOption', function () {
   const definitions = [
     { name: 'files', type: String, defaultOption: true, multiple: true }
   ];
@@ -3121,7 +3140,7 @@ runner$n.test('partial: defaultOption', function () {
   });
 });
 
-runner$n.test('defaultOption: floating args present but no defaultOption', function () {
+runner$o.test('defaultOption: floating args present but no defaultOption', function () {
   const definitions = [
     { name: 'one', type: Boolean }
   ];
@@ -3134,7 +3153,7 @@ runner$n.test('defaultOption: floating args present but no defaultOption', funct
   );
 });
 
-runner$n.test('partial: combined short option, both unknown', function () {
+runner$o.test('partial: combined short option, both unknown', function () {
   const definitions = [
     { name: 'one', alias: 'o' },
     { name: 'two', alias: 't' }
@@ -3146,7 +3165,7 @@ runner$n.test('partial: combined short option, both unknown', function () {
   });
 });
 
-runner$n.test('partial: combined short option, one known, one unknown', function () {
+runner$o.test('partial: combined short option, one known, one unknown', function () {
   const definitions = [
     { name: 'one', alias: 'o' },
     { name: 'two', alias: 't' }
@@ -3159,7 +3178,7 @@ runner$n.test('partial: combined short option, one known, one unknown', function
   });
 });
 
-runner$n.test('partial: defaultOption with --option=value and combined short options', function () {
+runner$o.test('partial: defaultOption with --option=value and combined short options', function () {
   const definitions = [
     { name: 'files', type: String, defaultOption: true, multiple: true },
     { name: 'one', type: Boolean },
@@ -3175,7 +3194,7 @@ runner$n.test('partial: defaultOption with --option=value and combined short opt
   });
 });
 
-runner$n.test('partial: defaultOption with value equal to defaultValue', function () {
+runner$o.test('partial: defaultOption with value equal to defaultValue', function () {
   const definitions = [
     { name: 'file', type: String, defaultOption: true, defaultValue: 'file1' }
   ];
@@ -3187,7 +3206,7 @@ runner$n.test('partial: defaultOption with value equal to defaultValue', functio
   });
 });
 
-runner$n.test('partial: string defaultOption can be set by argv once', function () {
+runner$o.test('partial: string defaultOption can be set by argv once', function () {
   const definitions = [
     { name: 'file', type: String, defaultOption: true, defaultValue: 'file1' }
   ];
@@ -3199,7 +3218,7 @@ runner$n.test('partial: string defaultOption can be set by argv once', function 
   });
 });
 
-runner$n.test('partial: string defaultOption can not be set by argv twice', function () {
+runner$o.test('partial: string defaultOption can not be set by argv twice', function () {
   const definitions = [
     { name: 'file', type: String, defaultOption: true, defaultValue: 'file1' }
   ];
@@ -3211,7 +3230,7 @@ runner$n.test('partial: string defaultOption can not be set by argv twice', func
   });
 });
 
-runner$n.test('partial: defaultOption with value equal to defaultValue 3', function () {
+runner$o.test('partial: defaultOption with value equal to defaultValue 3', function () {
   const definitions = [
     { name: 'file', type: String, defaultOption: true, defaultValue: 'file1' }
   ];
@@ -3223,7 +3242,7 @@ runner$n.test('partial: defaultOption with value equal to defaultValue 3', funct
   });
 });
 
-runner$n.test('partial: multiple', function () {
+runner$o.test('partial: multiple', function () {
   const definitions = [
     { name: 'files', type: String, multiple: true }
   ];
@@ -3235,7 +3254,7 @@ runner$n.test('partial: multiple', function () {
   });
 });
 
-runner$n.test('unknown options: rejected defaultOption values end up in _unknown', function () {
+runner$o.test('unknown options: rejected defaultOption values end up in _unknown', function () {
   const definitions = [
     { name: 'foo', type: String },
     { name: 'verbose', alias: 'v', type: Boolean },
@@ -3251,7 +3270,7 @@ runner$n.test('unknown options: rejected defaultOption values end up in _unknown
   });
 });
 
-runner$n.test('partial: defaultOption with --option=value notation', function () {
+runner$o.test('partial: defaultOption with --option=value notation', function () {
   const definitions = [
     { name: 'files', type: String, multiple: true, defaultOption: true }
   ];
@@ -3263,7 +3282,7 @@ runner$n.test('partial: defaultOption with --option=value notation', function ()
   });
 });
 
-runner$n.test('partial: defaultOption with --option=value notation 2', function () {
+runner$o.test('partial: defaultOption with --option=value notation 2', function () {
   const definitions = [
     { name: 'files', type: String, multiple: true, defaultOption: true }
   ];
@@ -3275,7 +3294,7 @@ runner$n.test('partial: defaultOption with --option=value notation 2', function 
   });
 });
 
-runner$n.test('partial: defaultOption with --option=value notation 3', function () {
+runner$o.test('partial: defaultOption with --option=value notation 3', function () {
   const definitions = [
     { name: 'files', type: String, multiple: true, defaultOption: true }
   ];
@@ -3287,7 +3306,7 @@ runner$n.test('partial: defaultOption with --option=value notation 3', function 
   });
 });
 
-runner$n.test('partial: mulitple unknowns with same name', function () {
+runner$o.test('partial: mulitple unknowns with same name', function () {
   const definitions = [
     { name: 'file' }
   ];
@@ -3299,7 +3318,7 @@ runner$n.test('partial: mulitple unknowns with same name', function () {
   });
 });
 
-runner$n.test('defaultOption: single string', function () {
+runner$o.test('defaultOption: single string', function () {
   const optionDefinitions = [
     { name: 'files', defaultOption: true }
   ];
@@ -3310,9 +3329,9 @@ runner$n.test('defaultOption: single string', function () {
   });
 });
 
-const runner$o = new TestRunner();
+const runner$p = new TestRunner();
 
-runner$o.test('stopAtFirstUnknown', function () {
+runner$p.test('stopAtFirstUnknown', function () {
   const optionDefinitions = [
     { name: 'one', type: Boolean },
     { name: 'two', type: Boolean }
@@ -3325,7 +3344,7 @@ runner$o.test('stopAtFirstUnknown', function () {
   });
 });
 
-runner$o.test('stopAtFirstUnknown: with a singlular defaultOption', function () {
+runner$p.test('stopAtFirstUnknown: with a singlular defaultOption', function () {
   const optionDefinitions = [
     { name: 'one', defaultOption: true },
     { name: 'two' }
@@ -3338,7 +3357,7 @@ runner$o.test('stopAtFirstUnknown: with a singlular defaultOption', function () 
   });
 });
 
-runner$o.test('stopAtFirstUnknown: with a singlular defaultOption and partial', function () {
+runner$p.test('stopAtFirstUnknown: with a singlular defaultOption and partial', function () {
   const optionDefinitions = [
     { name: 'one', defaultOption: true },
     { name: 'two' }
@@ -3351,9 +3370,9 @@ runner$o.test('stopAtFirstUnknown: with a singlular defaultOption and partial', 
   });
 });
 
-const runner$p = new TestRunner();
+const runner$q = new TestRunner();
 
-runner$p.test('type-boolean: simple', function () {
+runner$q.test('type-boolean: simple', function () {
   const optionDefinitions = [
     { name: 'one', type: Boolean }
   ];
@@ -3367,7 +3386,7 @@ runner$p.test('type-boolean: simple', function () {
 const origBoolean$1 = Boolean;
 
 /* test in contexts which override the standard global Boolean constructor */
-runner$p.test('type-boolean: global Boolean overridden', function () {
+runner$q.test('type-boolean: global Boolean overridden', function () {
   function Boolean () {
     return origBoolean$1.apply(origBoolean$1, arguments)
   }
@@ -3382,7 +3401,7 @@ runner$p.test('type-boolean: global Boolean overridden', function () {
   );
 });
 
-runner$p.test('type-boolean-multiple: 1', function () {
+runner$q.test('type-boolean-multiple: 1', function () {
   const optionDefinitions = [
     { name: 'array', type: Boolean, multiple: true }
   ];
@@ -3393,20 +3412,20 @@ runner$p.test('type-boolean-multiple: 1', function () {
   });
 });
 
-const runner$q = new TestRunner();
+const runner$r = new TestRunner();
 
 const definitions = [
   { name: 'one' },
   { name: 'two' }
 ];
 
-runner$q.test('name: no argv values', function () {
+runner$r.test('name: no argv values', function () {
   const argv = [];
   const result = commandLineArgs(definitions, { argv });
   a.deepStrictEqual(result, {});
 });
 
-runner$q.test('name: just names, no values', function () {
+runner$r.test('name: just names, no values', function () {
   const argv = [ '--one', '--two' ];
   const result = commandLineArgs(definitions, { argv });
   a.deepStrictEqual(result, {
@@ -3415,7 +3434,7 @@ runner$q.test('name: just names, no values', function () {
   });
 });
 
-runner$q.test('name: just names, one value, one unpassed value', function () {
+runner$r.test('name: just names, one value, one unpassed value', function () {
   const argv = [ '--one', 'one', '--two' ];
   const result = commandLineArgs(definitions, { argv });
   a.deepStrictEqual(result, {
@@ -3424,7 +3443,7 @@ runner$q.test('name: just names, one value, one unpassed value', function () {
   });
 });
 
-runner$q.test('name: just names, two values', function () {
+runner$r.test('name: just names, two values', function () {
   const argv = [ '--one', 'one', '--two', 'two' ];
   const result = commandLineArgs(definitions, { argv });
   a.deepStrictEqual(result, {
@@ -3433,9 +3452,9 @@ runner$q.test('name: just names, two values', function () {
   });
 });
 
-const runner$r = new TestRunner();
+const runner$s = new TestRunner();
 
-runner$r.test('type-number: different values', function () {
+runner$s.test('type-number: different values', function () {
   const optionDefinitions = [
     { name: 'one', type: Number }
   ];
@@ -3455,7 +3474,7 @@ runner$r.test('type-number: different values', function () {
   a.ok(isNaN(result.one));
 });
 
-runner$r.test('number multiple: 1', function () {
+runner$s.test('number multiple: 1', function () {
   const optionDefinitions = [
     { name: 'array', type: Number, multiple: true }
   ];
@@ -3469,7 +3488,7 @@ runner$r.test('number multiple: 1', function () {
   });
 });
 
-runner$r.test('number multiple: 2', function () {
+runner$s.test('number multiple: 2', function () {
   const optionDefinitions = [
     { name: 'array', type: Number, multiple: true }
   ];
@@ -3483,9 +3502,9 @@ runner$r.test('number multiple: 2', function () {
   });
 });
 
-const runner$s = new TestRunner();
+const runner$t = new TestRunner();
 
-runner$s.test('type-other: different values', function () {
+runner$t.test('type-other: different values', function () {
   const definitions = [
     {
       name: 'file',
@@ -3505,7 +3524,7 @@ runner$s.test('type-other: different values', function () {
   );
 });
 
-runner$s.test('type-other: broken custom type function', function () {
+runner$t.test('type-other: broken custom type function', function () {
   const definitions = [
     {
       name: 'file',
@@ -3519,7 +3538,7 @@ runner$s.test('type-other: broken custom type function', function () {
   });
 });
 
-runner$s.test('type-other-multiple: different values', function () {
+runner$t.test('type-other-multiple: different values', function () {
   const definitions = [
     {
       name: 'file',
@@ -3544,9 +3563,9 @@ runner$s.test('type-other-multiple: different values', function () {
   );
 });
 
-const runner$t = new TestRunner();
+const runner$u = new TestRunner();
 
-runner$t.test('type-string: different values', function () {
+runner$u.test('type-string: different values', function () {
   const optionDefinitions = [
     { name: 'one', type: String }
   ];

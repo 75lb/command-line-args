@@ -211,7 +211,8 @@ class ArgvArray extends Array {
     } else {
       /* if no argv supplied, assume we are parsing process.argv */
       argv = process.argv.slice(0);
-      argv.splice(0, 2);
+      const deleteCount = process.execArgv.some(isExecArg) ? 1 : 2;
+      argv.splice(0, deleteCount);
     }
     argv.forEach(arg => this.push(String(arg)));
   }
@@ -328,6 +329,10 @@ function getOptionName (arg) {
 
 function isValue (arg) {
   return !(isOption(arg) || re.combinedShort.test(arg) || re.optEquals.test(arg))
+}
+
+function isExecArg (arg) {
+  return ['--eval', '-e'].includes(arg) || arg.startsWith('--eval=')
 }
 
 /**
