@@ -1,3 +1,4 @@
 tmp
 .coveralls.yml
 coverage
+node_modules/
