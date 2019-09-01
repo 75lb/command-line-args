@@ -3,10 +3,10 @@ import camelCase from 'lodash.camelcase';
 /**
  * Takes any input and guarantees an array back.
  *
- * - converts array-like objects (e.g. `arguments`) to a real array
- * - converts `undefined` to an empty array
- * - converts any another other, singular value (including `null`) into an array containing that value
- * - ignores input which is already an array
+ * - Converts array-like objects (e.g. `arguments`, `Set`) to a real array.
+ * - Converts `undefined` to an empty array.
+ * - Converts any another other, singular value (including `null`, objects and iterables other than `Set`) into an array containing that value.
+ * - Ignores input which is already an array.
  *
  * @module array-back
  * @example
@@ -24,6 +24,9 @@ import camelCase from 'lodash.camelcase';
  * > arrayify([ 1, 2 ])
  * [ 1, 2 ]
  *
+ * > arrayify(new Set([ 1, 2 ]))
+ * [ 1, 2 ]
+ *
  * > function f(){ return arrayify(arguments); }
  * > f(1,2,3)
  * [ 1, 2, 3 ]
@@ -38,22 +41,24 @@ function isArrayLike (input) {
 }
 
 /**
- * @param {*} - the input value to convert to an array
+ * @param {*} - The input value to convert to an array
  * @returns {Array}
  * @alias module:array-back
  */
 function arrayify (input) {
   if (Array.isArray(input)) {
     return input
-  } else {
-    if (input === undefined) {
-      return []
-    } else if (isArrayLike(input)) {
-      return Array.prototype.slice.call(input)
-    } else {
-      return [ input ]
-    }
   }
+
+  if (input === undefined) {
+    return []
+  }
+
+  if (isArrayLike(input) || input instanceof Set) {
+    return Array.from(input)
+  }
+
+  return [ input ]
 }
 
 /**
@@ -1013,30 +1018,51 @@ class ArgvParser {
    * @param {OptionDefinitions} - Definitions array
    * @param {object} [options] - Options
    * @param {string[]} [options.argv] - Overrides `process.argv`
-   * @param {boolean} [options.stopAtFirstUnknown] -
+   * @param {boolean} [options.stopAtFirstUnknown]
    */
   constructor (definitions, options) {
     this.options = Object.assign({}, options);
     /**
      * Option Definitions
+     * @type {OptionDefinition[]}
      */
     this.definitions = Definitions.from(definitions);
 
     /**
      * Argv
+     * @type {Array<string|object>}
      */
     this.argv = ArgvArray.from(this.options.argv);
     if (this.argv.hasCombinedShortOptions()) {
-      findReplace(this.argv, re.combinedShort.test.bind(re.combinedShort), arg => {
-        arg = arg.slice(1);
-        return arg.split('').map(letter => ({ origArg: `-${arg}`, arg: '-' + letter }))
-      });
+      this.expandCluster();
     }
   }
 
-  /**
-   * Yields one `{ event, name, value, arg, def }` argInfo object for each arg in `process.argv` (or `options.argv`).
-   */
+  expandCluster () {
+    findReplace(this.argv, re.combinedShort.test.bind(re.combinedShort), arg => {
+      const result = [];
+      arg = arg.slice(1);
+      for (const letter of arg.split('')) {
+        const def = this.definitions.get(`-${letter}`);
+        if (def) {
+          if (def.isBoolean()) {
+            result.push({ origArg: `-${arg}`, arg: `-${letter}` });
+          } else {
+            result.push({ origArg: `-${arg}`, arg: `-${letter}` });
+            const attachedValue = arg.slice(arg.indexOf(letter) + 1);
+            if (attachedValue) {
+              result.push({ origArg: `-${arg}`, arg: attachedValue });
+            }
+            break
+          }
+        } else {
+          result.push({ origArg: `-${arg}`, arg: `-${letter}` });
+        }
+      }
+      return result
+    });
+  }
+
   * [Symbol.iterator] () {
     const definitions = this.definitions;
 
@@ -1071,7 +1097,7 @@ class ArgvParser {
         }
 
       /* handle --option-value notation */
-    } else if (isOptionEqualsNotation(arg)) {
+      } else if (isOptionEqualsNotation(arg)) {
         const matches = arg.match(re.optEquals);
         def = definitions.get(matches[1]);
         if (def) {
@@ -1088,7 +1114,7 @@ class ArgvParser {
         }
 
       /* handle value */
-    } else if (isValue(arg)) {
+      } else if (isValue(arg)) {
         if (def) {
           value = arg;
           event = 'set';
