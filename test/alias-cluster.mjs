@@ -2,9 +2,9 @@ import TestRunner from 'test-runner'
 import commandLineArgs from '../index.mjs'
 import a from 'assert'
 
-const runner = new TestRunner()
+const tom = new TestRunner.Tom('alias-cluster')
 
-runner.test('alias-cluster: two flags, one option, nothing set', function () {
+tom.test('two flags, one option, nothing set', function () {
   const optionDefinitions = [
     { name: 'verbose', alias: 'v', type: Boolean },
     { name: 'recursive', alias: 'r', type: Boolean },
@@ -15,7 +15,7 @@ runner.test('alias-cluster: two flags, one option, nothing set', function () {
   a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv }), {})
 })
 
-runner.test('alias-cluster: two flags, one option', function () {
+tom.test('two flags, one option', function () {
   const optionDefinitions = [
     { name: 'verbose', alias: 'v', type: Boolean },
     { name: 'recursive', alias: 'r', type: Boolean },
@@ -30,7 +30,7 @@ runner.test('alias-cluster: two flags, one option', function () {
   })
 })
 
-runner.test('alias-cluster: two flags, one option 2', function () {
+tom.test('two flags, one option 2', function () {
   const optionDefinitions = [
     { name: 'verbose', alias: 'v', type: Boolean },
     { name: 'recursive', alias: 'r', type: Boolean },
@@ -45,7 +45,7 @@ runner.test('alias-cluster: two flags, one option 2', function () {
   })
 })
 
-runner.test('alias-cluster: three string options', function () {
+tom.test('three string options', function () {
   const optionDefinitions = [
     { name: 'plugin', alias: 'p' },
     { name: 'depth', alias: 'd' },
@@ -59,7 +59,7 @@ runner.test('alias-cluster: three string options', function () {
   )
 })
 
-runner.test('alias-cluster: three string options, partial', function () {
+tom.test('three string options, partial', function () {
   const optionDefinitions = [
     { name: 'plugin', alias: 'p' },
     { name: 'depth', alias: 'd' },
@@ -72,3 +72,5 @@ runner.test('alias-cluster: three string options, partial', function () {
     _unknown: [ 'yeah' ]
   })
 })
+
+export default tom

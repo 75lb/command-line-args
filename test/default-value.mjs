@@ -2,9 +2,9 @@ import TestRunner from 'test-runner'
 import commandLineArgs from '../index.mjs'
 import a from 'assert'
 
-const runner = new TestRunner()
+const tom = new TestRunner.Tom('default-value')
 
-runner.test('default value', function () {
+tom.test('default value', function () {
   const optionDefinitions = [
     { name: 'one' },
     { name: 'two', defaultValue: 'two' }
@@ -16,7 +16,7 @@ runner.test('default value', function () {
   })
 })
 
-runner.test('default value 2', function () {
+tom.test('default value 2', function () {
   const optionDefinitions = [
     { name: 'two', defaultValue: 'two' }
   ]
@@ -24,7 +24,7 @@ runner.test('default value 2', function () {
   a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv }), { two: 'two' })
 })
 
-runner.test('default value 3', function () {
+tom.test('default value 3', function () {
   const optionDefinitions = [
     { name: 'two', defaultValue: 'two' }
   ]
@@ -32,7 +32,7 @@ runner.test('default value 3', function () {
   a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv }), { two: 'zwei' })
 })
 
-runner.test('default value 4', function () {
+tom.test('default value 4', function () {
   const optionDefinitions = [
     { name: 'two', multiple: true, defaultValue: [ 'two', 'zwei' ] }
   ]
@@ -40,7 +40,7 @@ runner.test('default value 4', function () {
   a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv }), { two: [ 'duo' ] })
 })
 
-runner.test('default value 5', function () {
+tom.test('default value 5', function () {
   const optionDefinitions = [
     { name: 'two', multiple: true, defaultValue: ['two', 'zwei'] }
   ]
@@ -49,7 +49,7 @@ runner.test('default value 5', function () {
   a.deepStrictEqual(result, { two: [ 'two', 'zwei' ] })
 })
 
-runner.test('default value: array as defaultOption', function () {
+tom.test('array as defaultOption', function () {
   const optionDefinitions = [
     { name: 'two', multiple: true, defaultValue: ['two', 'zwei'], defaultOption: true }
   ]
@@ -57,7 +57,7 @@ runner.test('default value: array as defaultOption', function () {
   a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv }), { two: [ 'duo' ] })
 })
 
-runner.test('default value: falsy default values', function () {
+tom.test('falsy default values', function () {
   const optionDefinitions = [
     { name: 'one', defaultValue: 0 },
     { name: 'two', defaultValue: false }
@@ -70,7 +70,7 @@ runner.test('default value: falsy default values', function () {
   })
 })
 
-runner.test('default value: is arrayifed if multiple set', function () {
+tom.test('is arrayifed if multiple set', function () {
   const optionDefinitions = [
     { name: 'one', defaultValue: 0, multiple: true }
   ]
@@ -85,7 +85,7 @@ runner.test('default value: is arrayifed if multiple set', function () {
   })
 })
 
-runner.test('default value: combined with defaultOption', function () {
+tom.test('combined with defaultOption', function () {
   const optionDefinitions = [
     { name: 'path', defaultOption: true, defaultValue: './' }
   ]
@@ -104,7 +104,7 @@ runner.test('default value: combined with defaultOption', function () {
   })
 })
 
-runner.test('default value: combined with multiple and defaultOption', function () {
+tom.test('combined with multiple and defaultOption', function () {
   const optionDefinitions = [
     { name: 'path', multiple: true, defaultOption: true, defaultValue: './' }
   ]
@@ -131,7 +131,7 @@ runner.test('default value: combined with multiple and defaultOption', function 
   })
 })
 
-runner.test('default value: array default combined with multiple and defaultOption', function () {
+tom.test('array default combined with multiple and defaultOption', function () {
   const optionDefinitions = [
     { name: 'path', multiple: true, defaultOption: true, defaultValue: [ './' ] }
   ]
@@ -157,3 +157,5 @@ runner.test('default value: array default combined with multiple and defaultOpti
     path: [ './' ]
   })
 })
+
+export default tom

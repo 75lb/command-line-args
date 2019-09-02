@@ -2,9 +2,9 @@ import TestRunner from 'test-runner'
 import commandLineArgs from '../index.mjs'
 import a from 'assert'
 
-const runner = new TestRunner()
+const tom = new TestRunner.Tom('multiple-lazy')
 
-runner.test('lazy multiple: string', function () {
+tom.test('string', function () {
   const argv = ['--one', 'a', '--one', 'b', '--one', 'd']
   const optionDefinitions = [
       { name: 'one', lazyMultiple: true }
@@ -15,7 +15,7 @@ runner.test('lazy multiple: string', function () {
   })
 })
 
-runner.test('lazy multiple: string unset with defaultValue', function () {
+tom.test('string unset with defaultValue', function () {
   const optionDefinitions = [
     { name: 'one', lazyMultiple: true, defaultValue: 1 }
   ]
@@ -24,7 +24,7 @@ runner.test('lazy multiple: string unset with defaultValue', function () {
   a.deepStrictEqual(result, { one: [ 1 ] })
 })
 
-runner.test('lazy multiple: string, --option=value', function () {
+tom.test('string, --option=value', function () {
   const optionDefinitions = [
     { name: 'one', lazyMultiple: true }
   ]
@@ -35,7 +35,7 @@ runner.test('lazy multiple: string, --option=value', function () {
   })
 })
 
-runner.test('lazy multiple: string, --option=value mix', function () {
+tom.test('string, --option=value mix', function () {
   const optionDefinitions = [
     { name: 'one', lazyMultiple: true }
   ]
@@ -46,7 +46,7 @@ runner.test('lazy multiple: string, --option=value mix', function () {
   })
 })
 
-runner.test('lazy multiple: string, defaultOption', function () {
+tom.test('string, defaultOption', function () {
   const optionDefinitions = [
     { name: 'one', lazyMultiple: true, defaultOption: true }
   ]
@@ -57,7 +57,7 @@ runner.test('lazy multiple: string, defaultOption', function () {
   })
 })
 
-runner.test('lazy multiple: greedy style, string', function () {
+tom.test('greedy style, string', function () {
   const optionDefinitions = [
     { name: 'one', lazyMultiple: true }
   ]
@@ -68,7 +68,7 @@ runner.test('lazy multiple: greedy style, string', function () {
   )
 })
 
-runner.test('lazy multiple: greedy style, string, --option=value', function () {
+tom.test('greedy style, string, --option=value', function () {
   const optionDefinitions = [
     { name: 'one', lazyMultiple: true }
   ]
@@ -79,7 +79,7 @@ runner.test('lazy multiple: greedy style, string, --option=value', function () {
   })
 })
 
-runner.test('lazy multiple: greedy style, string, --option=value mix', function () {
+tom.test('greedy style, string, --option=value mix', function () {
   const optionDefinitions = [
     { name: 'one', lazyMultiple: true }
   ]
@@ -89,3 +89,5 @@ runner.test('lazy multiple: greedy style, string, --option=value mix', function 
     err => err.name === 'UNKNOWN_VALUE' && err.value === '3'
   )
 })
+
+export default tom

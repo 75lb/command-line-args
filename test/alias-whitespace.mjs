@@ -2,9 +2,9 @@ import TestRunner from 'test-runner'
 import commandLineArgs from '../index.mjs'
 import a from 'assert'
 
-const runner = new TestRunner()
+const tom = new TestRunner.Tom('alias-whitespace')
 
-runner.test('alias-whitespace: with space after option', function () {
+tom.test('with space after option', function () {
   const optionDefinitions = [
     { name: 'file', alias: 'f' }
   ]
@@ -14,7 +14,7 @@ runner.test('alias-whitespace: with space after option', function () {
   })
 })
 
-runner.test('alias-whitespace: without space after option', function () {
+tom.test('without space after option', function () {
   const optionDefinitions = [
     { name: 'file', alias: 'f' }
   ]
@@ -24,7 +24,7 @@ runner.test('alias-whitespace: without space after option', function () {
   })
 })
 
-runner.test('alias-whitespace: with space after option in cluster', function () {
+tom.test('with space after option in cluster', function () {
   const optionDefinitions = [
     { name: 'file', alias: 'f' },
     { name: 'verbose', alias: 'v', type: Boolean }
@@ -36,7 +36,7 @@ runner.test('alias-whitespace: with space after option in cluster', function () 
   })
 })
 
-runner.test('alias-whitespace: without space after option in cluster', function () {
+tom.test('without space after option in cluster', function () {
   const optionDefinitions = [
     { name: 'file', alias: 'f' },
     { name: 'verbose', alias: 'v', type: Boolean }
@@ -47,3 +47,5 @@ runner.test('alias-whitespace: without space after option in cluster', function 
     file: 'one'
   })
 })
+
+export default tom

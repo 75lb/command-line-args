@@ -2,9 +2,9 @@ import TestRunner from 'test-runner'
 import commandLineArgs from '../index.mjs'
 import a from 'assert'
 
-const runner = new TestRunner()
+const tom = new TestRunner.Tom('type-none')
 
-runner.test('name: no argv values', function () {
+tom.test('no argv values', function () {
   const optionDefinitions = [
     { name: 'one' },
     { name: 'two' }
@@ -14,7 +14,7 @@ runner.test('name: no argv values', function () {
   a.deepStrictEqual(result, {})
 })
 
-runner.test('name: just names, no values', function () {
+tom.test('just names, no values', function () {
   const optionDefinitions = [
     { name: 'one' },
     { name: 'two' }
@@ -27,7 +27,7 @@ runner.test('name: just names, no values', function () {
   })
 })
 
-runner.test('name: just names, one value, one unpassed value', function () {
+tom.test('just names, one value, one unpassed value', function () {
   const optionDefinitions = [
     { name: 'one' },
     { name: 'two' }
@@ -40,7 +40,7 @@ runner.test('name: just names, one value, one unpassed value', function () {
   })
 })
 
-runner.test('name: just names, two values', function () {
+tom.test('just names, two values', function () {
   const optionDefinitions = [
     { name: 'one' },
     { name: 'two' }
@@ -52,3 +52,5 @@ runner.test('name: just names, two values', function () {
     two: 'two'
   })
 })
+
+export default tom

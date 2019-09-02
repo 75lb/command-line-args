@@ -2,9 +2,9 @@ import TestRunner from 'test-runner'
 import commandLineArgs from '../index.mjs'
 import a from 'assert'
 
-const runner = new TestRunner()
+const tom = new TestRunner.Tom('bad-input-empty-string')
 
-runner.test('bad-input: empty string', function () {
+tom.test('empty string', function () {
   const optionDefinitions = [
     { name: 'one' }
   ]
@@ -14,7 +14,7 @@ runner.test('bad-input: empty string', function () {
   })
 })
 
-runner.test('bad-input: empty string, option cluster', function () {
+tom.test('empty string, option cluster', function () {
   const optionDefinitions = [
     { name: 'one', alias: 'o', type: Boolean },
     { name: 'two', alias: 't' }
@@ -26,7 +26,7 @@ runner.test('bad-input: empty string, option cluster', function () {
   })
 })
 
-runner.test('bad-input: empty string, --option=', function () {
+tom.test('empty string, --option=', function () {
   const optionDefinitions = [
     { name: 'one' }
   ]
@@ -36,7 +36,7 @@ runner.test('bad-input: empty string, --option=', function () {
   })
 })
 
-runner.test('bad-input: empty string unknown value', function () {
+tom.test('empty string unknown value', function () {
   const optionDefinitions = [
     { name: 'one', type: Boolean }
   ]
@@ -47,7 +47,7 @@ runner.test('bad-input: empty string unknown value', function () {
   )
 })
 
-runner.test('bad-input: empty string added to unknown values', function () {
+tom.test('empty string added to unknown values', function () {
   const optionDefinitions = [
     { name: 'one', type: Boolean }
   ]
@@ -57,3 +57,5 @@ runner.test('bad-input: empty string added to unknown values', function () {
     _unknown: [ '' ]
   })
 })
+
+export default tom

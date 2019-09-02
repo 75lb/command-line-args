@@ -2,9 +2,9 @@ import TestRunner from 'test-runner'
 import commandLineArgs from '../index.mjs'
 import a from 'assert'
 
-const runner = new TestRunner()
+const tom = new TestRunner.Tom('type-string')
 
-runner.test('type-string: different values', function () {
+tom.test('different values', function () {
   const optionDefinitions = [
     { name: 'one', type: String }
   ]
@@ -21,3 +21,5 @@ runner.test('type-string: different values', function () {
     { one: '3' }
   )
 })
+
+export default tom

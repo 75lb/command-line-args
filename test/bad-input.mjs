@@ -2,9 +2,9 @@ import TestRunner from 'test-runner'
 import commandLineArgs from '../index.mjs'
 import a from 'assert'
 
-const runner = new TestRunner()
+const tom = new TestRunner.Tom('bad-input')
 
-runner.test('bad-input: an unset option should not be defined', function () {
+tom.test('an unset option should not be defined', function () {
   const optionDefinitions = [
     { name: 'colour' }
   ]
@@ -13,7 +13,7 @@ runner.test('bad-input: an unset option should not be defined', function () {
   a.strictEqual(result.colour, undefined)
 })
 
-runner.test('bad-input: missing option value should be null', function () {
+tom.test('missing option value should be null', function () {
   const optionDefinitions = [
     { name: 'colour' },
     { name: 'files' }
@@ -24,7 +24,7 @@ runner.test('bad-input: missing option value should be null', function () {
   })
 })
 
-runner.test('bad-input: missing option value should be null 2', function () {
+tom.test('missing option value should be null 2', function () {
   const optionDefinitions = [
     { name: 'colour' },
     { name: 'files' }
@@ -36,7 +36,7 @@ runner.test('bad-input: missing option value should be null 2', function () {
   })
 })
 
-runner.test('bad-input: handles arrays with relative paths', function () {
+tom.test('handles arrays with relative paths', function () {
   const optionDefinitions = [
     { name: 'colours', multiple: true }
   ]
@@ -46,7 +46,7 @@ runner.test('bad-input: handles arrays with relative paths', function () {
   })
 })
 
-runner.test('bad-input: non-strings in argv', function () {
+tom.test('non-strings in argv', function () {
   const optionDefinitions = [
     { name: 'one', type: Number }
   ]
@@ -54,3 +54,5 @@ runner.test('bad-input: non-strings in argv', function () {
   const result = commandLineArgs(optionDefinitions, { argv })
   a.deepStrictEqual(result, { one: 1 })
 })
+
+export default tom

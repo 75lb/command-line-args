@@ -2,9 +2,9 @@ import TestRunner from 'test-runner'
 import commandLineArgs from '../index.mjs'
 import a from 'assert'
 
-const runner = new TestRunner()
+const tom = new TestRunner.Tom('type-other')
 
-runner.test('type-other: different values', function () {
+tom.test('different values', function () {
   const definitions = [
     {
       name: 'file',
@@ -24,7 +24,7 @@ runner.test('type-other: different values', function () {
   )
 })
 
-runner.test('type-other: broken custom type function', function () {
+tom.test('broken custom type function', function () {
   const definitions = [
     {
       name: 'file',
@@ -38,7 +38,7 @@ runner.test('type-other: broken custom type function', function () {
   })
 })
 
-runner.test('type-other-multiple: different values', function () {
+tom.test('type-other-multiple: different values', function () {
   const definitions = [
     {
       name: 'file',
@@ -62,3 +62,5 @@ runner.test('type-other-multiple: different values', function () {
     { file: [] }
   )
 })
+
+export default tom

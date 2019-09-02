@@ -2,9 +2,9 @@ import TestRunner from 'test-runner'
 import commandLineArgs from '../index.mjs'
 import a from 'assert'
 
-const runner = new TestRunner()
+const tom = new TestRunner.Tom('bad-input-ambiguous')
 
-runner.test('ambiguous input: value looks like an option 1', function () {
+tom.test('value looks like an option 1', function () {
   const optionDefinitions = [
     { name: 'colour', alias: 'c' }
   ]
@@ -14,7 +14,7 @@ runner.test('ambiguous input: value looks like an option 1', function () {
   })
 })
 
-runner.test('ambiguous input: value looks like an option 2', function () {
+tom.test('value looks like an option 2', function () {
   const optionDefinitions = [
     { name: 'colour', alias: 'c' }
   ]
@@ -25,7 +25,7 @@ runner.test('ambiguous input: value looks like an option 2', function () {
   )
 })
 
-runner.test('ambiguous input: value looks like an option 3', function () {
+tom.test('value looks like an option 3', function () {
   const optionDefinitions = [
     { name: 'colour', alias: 'c' }
   ]
@@ -35,7 +35,7 @@ runner.test('ambiguous input: value looks like an option 3', function () {
   })
 })
 
-runner.test('ambiguous input: value looks like an option 4', function () {
+tom.test('value looks like an option 4', function () {
   const optionDefinitions = [
     { name: 'colour', alias: 'c' }
   ]
@@ -44,3 +44,5 @@ runner.test('ambiguous input: value looks like an option 4', function () {
     colour: '--red'
   })
 })
+
+export default tom

@@ -2,9 +2,9 @@ import TestRunner from 'test-runner'
 import commandLineArgs from '../index.mjs'
 import a from 'assert'
 
-const runner = new TestRunner()
+const tom = new TestRunner.Tom('partial')
 
-runner.test('partial: simple', function () {
+tom.test('simple', function () {
   const optionDefinitions = [
     { name: 'one', type: Boolean }
   ]
@@ -16,7 +16,7 @@ runner.test('partial: simple', function () {
   })
 })
 
-runner.test('partial: defaultOption', function () {
+tom.test('defaultOption', function () {
   const optionDefinitions = [
     { name: 'files', defaultOption: true, multiple: true }
   ]
@@ -28,7 +28,7 @@ runner.test('partial: defaultOption', function () {
   })
 })
 
-runner.test('defaultOption: floating args present but no defaultOption', function () {
+tom.test('defaultOption: floating args present but no defaultOption', function () {
   const optionDefinitions = [
     { name: 'one', type: Boolean }
   ]
@@ -42,7 +42,7 @@ runner.test('defaultOption: floating args present but no defaultOption', functio
   )
 })
 
-runner.test('partial: combined short option, both unknown', function () {
+tom.test('combined short option, both unknown', function () {
   const optionDefinitions = [
     { name: 'one', alias: 'o' },
     { name: 'two', alias: 't' }
@@ -59,7 +59,7 @@ runner.test('partial: combined short option, both unknown', function () {
   })
 })
 
-runner.test('partial: combined short option, one known, one unknown', function () {
+tom.test('combined short option, one known, one unknown', function () {
   const optionDefinitions = [
     { name: 'one', alias: 'o' },
     { name: 'two', alias: 't' }
@@ -71,7 +71,7 @@ runner.test('partial: combined short option, one known, one unknown', function (
   })
 })
 
-runner.test('partial: defaultOption with --option=value and combined short options', function () {
+tom.test('defaultOption with --option=value and combined short options', function () {
   const optionDefinitions = [
     { name: 'files', defaultOption: true, multiple: true },
     { name: 'one', type: Boolean },
@@ -87,7 +87,7 @@ runner.test('partial: defaultOption with --option=value and combined short optio
   })
 })
 
-runner.test('partial: defaultOption with value equal to defaultValue', function () {
+tom.test('defaultOption with value equal to defaultValue', function () {
   const optionDefinitions = [
     { name: 'file', defaultOption: true, defaultValue: 'file1' }
   ]
@@ -99,7 +99,7 @@ runner.test('partial: defaultOption with value equal to defaultValue', function 
   })
 })
 
-runner.test('partial: string defaultOption can be set by argv once', function () {
+tom.test('string defaultOption can be set by argv once', function () {
   const optionDefinitions = [
     { name: 'file', defaultOption: true, defaultValue: 'file1' }
   ]
@@ -111,7 +111,7 @@ runner.test('partial: string defaultOption can be set by argv once', function ()
   })
 })
 
-runner.test('partial: string defaultOption can not be set by argv twice', function () {
+tom.test('string defaultOption can not be set by argv twice', function () {
   const optionDefinitions = [
     { name: 'file', defaultOption: true, defaultValue: 'file1' }
   ]
@@ -123,7 +123,7 @@ runner.test('partial: string defaultOption can not be set by argv twice', functi
   })
 })
 
-runner.test('partial: defaultOption with value equal to defaultValue 3', function () {
+tom.test('defaultOption with value equal to defaultValue 3', function () {
   const optionDefinitions = [
     { name: 'file', defaultOption: true, defaultValue: 'file1' }
   ]
@@ -135,7 +135,7 @@ runner.test('partial: defaultOption with value equal to defaultValue 3', functio
   })
 })
 
-runner.test('partial: multiple', function () {
+tom.test('multiple', function () {
   const optionDefinitions = [
     { name: 'files', multiple: true }
   ]
@@ -147,7 +147,7 @@ runner.test('partial: multiple', function () {
   })
 })
 
-runner.test('unknown options: rejected defaultOption values end up in _unknown', function () {
+tom.test('unknown options: rejected defaultOption values end up in _unknown', function () {
   const optionDefinitions = [
     { name: 'foo' },
     { name: 'verbose', alias: 'v', type: Boolean },
@@ -163,7 +163,7 @@ runner.test('unknown options: rejected defaultOption values end up in _unknown',
   })
 })
 
-runner.test('partial: defaultOption with --option=value notation', function () {
+tom.test('defaultOption with --option=value notation', function () {
   const optionDefinitions = [
     { name: 'files', multiple: true, defaultOption: true }
   ]
@@ -175,7 +175,7 @@ runner.test('partial: defaultOption with --option=value notation', function () {
   })
 })
 
-runner.test('partial: defaultOption with --option=value notation 2', function () {
+tom.test('defaultOption with --option=value notation 2', function () {
   const optionDefinitions = [
     { name: 'files', multiple: true, defaultOption: true }
   ]
@@ -187,7 +187,7 @@ runner.test('partial: defaultOption with --option=value notation 2', function ()
   })
 })
 
-runner.test('partial: defaultOption with --option=value notation 3', function () {
+tom.test('defaultOption with --option=value notation 3', function () {
   const optionDefinitions = [
     { name: 'files', multiple: true, defaultOption: true }
   ]
@@ -199,7 +199,7 @@ runner.test('partial: defaultOption with --option=value notation 3', function ()
   })
 })
 
-runner.test('partial: mulitple unknowns with same name', function () {
+tom.test('mulitple unknowns with same name', function () {
   const optionDefinitions = [
     { name: 'file' }
   ]
@@ -211,7 +211,7 @@ runner.test('partial: mulitple unknowns with same name', function () {
   })
 })
 
-runner.test('defaultOption: single string', function () {
+tom.test('defaultOption: single string', function () {
   const optionDefinitions = [
     { name: 'files', defaultOption: true }
   ]
@@ -221,3 +221,5 @@ runner.test('defaultOption: single string', function () {
     _unknown: [ 'file2' ]
   })
 })
+
+export default tom

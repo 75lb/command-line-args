@@ -2,9 +2,9 @@ import TestRunner from 'test-runner'
 import commandLineArgs from '../index.mjs'
 import a from 'assert'
 
-const runner = new TestRunner()
+const tom = new TestRunner.Tom('name')
 
-runner.test('name-unicode: unicode names and aliases are permitted', function () {
+tom.test('name-unicode: unicode names and aliases are permitted', function () {
   const optionDefinitions = [
     { name: 'один' },
     { name: '两' },
@@ -17,7 +17,7 @@ runner.test('name-unicode: unicode names and aliases are permitted', function ()
   a.strictEqual(result.три, '3')
 })
 
-runner.test('name-alias-mix: one of each', function () {
+tom.test('name-alias-mix: one of each', function () {
   const optionDefinitions = [
     { name: 'one', alias: 'o' },
     { name: 'two', alias: 't' },
@@ -31,3 +31,5 @@ runner.test('name-alias-mix: one of each', function () {
   a.strictEqual(result.three, null)
   a.strictEqual(result.four, undefined)
 })
+
+export default tom

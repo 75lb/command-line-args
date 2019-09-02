@@ -2,9 +2,9 @@ import TestRunner from 'test-runner'
 import commandLineArgs from '../index.mjs'
 import a from 'assert'
 
-const runner = new TestRunner()
+const tom = new TestRunner.Tom('type-boolean')
 
-runner.test('type-boolean: simple', function () {
+tom.test('simple', function () {
   const optionDefinitions = [
     { name: 'one', type: Boolean }
   ]
@@ -18,7 +18,7 @@ runner.test('type-boolean: simple', function () {
 const origBoolean = Boolean
 
 /* test in contexts which override the standard global Boolean constructor */
-runner.test('type-boolean: global Boolean overridden', function () {
+tom.test('global Boolean overridden', function () {
   function Boolean () {
     return origBoolean.apply(origBoolean, arguments)
   }
@@ -32,7 +32,7 @@ runner.test('type-boolean: global Boolean overridden', function () {
   )
 })
 
-runner.test('type-boolean-multiple: 1', function () {
+tom.test('type-boolean-multiple: 1', function () {
   const optionDefinitions = [
     { name: 'array', type: Boolean, multiple: true }
   ]
@@ -42,3 +42,5 @@ runner.test('type-boolean-multiple: 1', function () {
     array: [ true, true, true ]
   })
 })
+
+export default tom

@@ -2,9 +2,9 @@ import TestRunner from 'test-runner'
 import commandLineArgs from '../index.mjs'
 import a from 'assert'
 
-const runner = new TestRunner()
+const tom = new TestRunner.Tom('default-option')
 
-runner.test('defaultOption: multiple string', function () {
+tom.test('multiple string', function () {
   const optionDefinitions = [
     { name: 'files', defaultOption: true, multiple: true }
   ]
@@ -14,7 +14,7 @@ runner.test('defaultOption: multiple string', function () {
   })
 })
 
-runner.test('defaultOption: multiple-defaultOption values spread out', function () {
+tom.test('multiple-defaultOption values spread out', function () {
   const optionDefinitions = [
     { name: 'one' },
     { name: 'two' },
@@ -28,7 +28,7 @@ runner.test('defaultOption: multiple-defaultOption values spread out', function 
   })
 })
 
-runner.test('defaultOption: multiple-defaultOption values spread out 2', function () {
+tom.test('multiple-defaultOption values spread out 2', function () {
   const optionDefinitions = [
     { name: 'one', type: Boolean },
     { name: 'two' },
@@ -42,7 +42,7 @@ runner.test('defaultOption: multiple-defaultOption values spread out 2', functio
   })
 })
 
-runner.test('defaultOption: multiple with --option=value', function () {
+tom.test('multiple with --option=value', function () {
   const definitions = [
     { name: 'files', defaultOption: true, multiple: true },
     { name: 'one', type: Boolean },
@@ -56,3 +56,5 @@ runner.test('defaultOption: multiple with --option=value', function () {
     one: true
   })
 })
+
+export default tom

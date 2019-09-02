@@ -2,9 +2,9 @@ import TestRunner from 'test-runner'
 import commandLineArgs from '../index.mjs'
 import a from 'assert'
 
-const runner = new TestRunner()
+const tom = new TestRunner.Tom('default-option-single')
 
-runner.test('defaultOption: after a boolean', function () {
+tom.test('after a boolean', function () {
   const definitions = [
     { name: 'one', type: Boolean },
     { name: 'two', defaultOption: true }
@@ -15,7 +15,7 @@ runner.test('defaultOption: after a boolean', function () {
   )
 })
 
-runner.test('defaultOption with value equal to defaultValue', function () {
+tom.test('value equal to defaultValue', function () {
   const definitions = [
     { name: 'file', defaultOption: true, defaultValue: 'file1' }
   ]
@@ -26,7 +26,7 @@ runner.test('defaultOption with value equal to defaultValue', function () {
   })
 })
 
-runner.test('string defaultOption can be set by argv once', function () {
+tom.test('string value can be set by argv only once', function () {
   const definitions = [
     { name: 'file', defaultOption: true, defaultValue: 'file1' }
   ]
@@ -37,7 +37,7 @@ runner.test('string defaultOption can be set by argv once', function () {
   })
 })
 
-runner.test('string defaultOption cannot be set by argv twice', function () {
+tom.test('string value cannot be set by argv twice', function () {
   const definitions = [
     { name: 'file', defaultOption: true, defaultValue: 'file1' }
   ]
@@ -47,3 +47,5 @@ runner.test('string defaultOption cannot be set by argv twice', function () {
     /UNKNOWN_VALUE/
   )
 })
+
+export default tom

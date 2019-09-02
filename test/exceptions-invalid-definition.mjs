@@ -2,9 +2,9 @@ import TestRunner from 'test-runner'
 import commandLineArgs from '../index.mjs'
 import a from 'assert'
 
-const runner = new TestRunner()
+const tom = new TestRunner.Tom('exceptions-invalid-definition')
 
-runner.test('err-invalid-definition: throws when no definition.name specified', function () {
+tom.test('throws when no definition.name specified', function () {
   const optionDefinitions = [
     { something: 'one' },
     { something: 'two' }
@@ -16,7 +16,7 @@ runner.test('err-invalid-definition: throws when no definition.name specified', 
   )
 })
 
-runner.test('err-invalid-definition: throws if dev set a numeric alias', function () {
+tom.test('throws if dev set a numeric alias', function () {
   const optionDefinitions = [
     { name: 'colours', alias: '1' }
   ]
@@ -28,7 +28,7 @@ runner.test('err-invalid-definition: throws if dev set a numeric alias', functio
   )
 })
 
-runner.test('err-invalid-definition: throws if dev set an alias of "-"', function () {
+tom.test('throws if dev set an alias of "-"', function () {
   const optionDefinitions = [
     { name: 'colours', alias: '-' }
   ]
@@ -40,7 +40,7 @@ runner.test('err-invalid-definition: throws if dev set an alias of "-"', functio
   )
 })
 
-runner.test('err-invalid-definition: multi-character alias', function () {
+tom.test('multi-character alias', function () {
   const optionDefinitions = [
     { name: 'one', alias: 'aa' }
   ]
@@ -51,7 +51,7 @@ runner.test('err-invalid-definition: multi-character alias', function () {
   )
 })
 
-runner.test('err-invalid-definition: invalid type values 1', function () {
+tom.test('invalid type values 1', function () {
   const argv = [ '--one', 'something' ]
   a.throws(
     () => commandLineArgs([ { name: 'one', type: 'string' } ], { argv }),
@@ -59,7 +59,7 @@ runner.test('err-invalid-definition: invalid type values 1', function () {
   )
 })
 
-runner.test('err-invalid-definition: invalid type values 2', function () {
+tom.test('invalid type values 2', function () {
   const argv = [ '--one', 'something' ]
   a.throws(
     () => commandLineArgs([ { name: 'one', type: 234 } ], { argv }),
@@ -67,7 +67,7 @@ runner.test('err-invalid-definition: invalid type values 2', function () {
   )
 })
 
-runner.test('err-invalid-definition: invalid type values 3', function () {
+tom.test('invalid type values 3', function () {
   const argv = [ '--one', 'something' ]
   a.throws(
     () => commandLineArgs([ { name: 'one', type: {} } ], { argv }),
@@ -75,14 +75,14 @@ runner.test('err-invalid-definition: invalid type values 3', function () {
   )
 })
 
-runner.test('err-invalid-definition: invalid type values 4', function () {
+tom.test('invalid type values 4', function () {
   const argv = [ '--one', 'something' ]
   a.doesNotThrow(function () {
     commandLineArgs([ { name: 'one', type: function () {} } ], { argv })
   }, /invalid/i)
 })
 
-runner.test('err-invalid-definition: duplicate name', function () {
+tom.test('duplicate name', function () {
   const optionDefinitions = [
     { name: 'colours' },
     { name: 'colours' }
@@ -94,7 +94,7 @@ runner.test('err-invalid-definition: duplicate name', function () {
   )
 })
 
-runner.test('err-invalid-definition: duplicate alias', function () {
+tom.test('duplicate alias', function () {
   const optionDefinitions = [
     { name: 'one', alias: 'a' },
     { name: 'two', alias: 'a' }
@@ -106,7 +106,7 @@ runner.test('err-invalid-definition: duplicate alias', function () {
   )
 })
 
-runner.test('err-invalid-definition: multiple defaultOption', function () {
+tom.test('multiple defaultOption', function () {
   const optionDefinitions = [
     { name: 'one', defaultOption: true },
     { name: 'two', defaultOption: true }
@@ -118,7 +118,7 @@ runner.test('err-invalid-definition: multiple defaultOption', function () {
   )
 })
 
-runner.test('err-invalid-defaultOption: defaultOption on a Boolean type', function () {
+tom.test('err-invalid-defaultOption: defaultOption on a Boolean type', function () {
   const optionDefinitions = [
     { name: 'one', type: Boolean, defaultOption: true }
   ]
@@ -128,3 +128,5 @@ runner.test('err-invalid-defaultOption: defaultOption on a Boolean type', functi
     err => err.name === 'INVALID_DEFINITIONS'
   )
 })
+
+export default tom

@@ -2,9 +2,9 @@ import TestRunner from 'test-runner'
 import commandLineArgs from '../index.mjs'
 import a from 'assert'
 
-const runner = new TestRunner()
+const tom = new TestRunner.Tom('option=value-notation')
 
-runner.test('--option=value notation: two plus a regular notation', function () {
+tom.test('two plus a regular notation', function () {
   const optionDefinitions = [
     { name: 'one' },
     { name: 'two' },
@@ -18,7 +18,7 @@ runner.test('--option=value notation: two plus a regular notation', function () 
   a.strictEqual(result.three, '3')
 })
 
-runner.test('--option=value notation: value contains "="', function () {
+tom.test('value contains "="', function () {
   const optionDefinitions = [
     { name: 'url' },
     { name: 'two' },
@@ -36,3 +36,5 @@ runner.test('--option=value notation: value contains "="', function () {
   result = commandLineArgs({ name: 'my-url' }, { argv: [ '--my-url=my-url?q=123=1' ] })
   a.strictEqual(result['my-url'], 'my-url?q=123=1')
 })
+
+export default tom

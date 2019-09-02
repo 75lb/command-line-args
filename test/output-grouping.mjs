@@ -2,9 +2,9 @@ import TestRunner from 'test-runner'
 import commandLineArgs from '../index.mjs'
 import a from 'assert'
 
-const runner = new TestRunner()
+const tom = new TestRunner.Tom('output-grouping')
 
-runner.test('groups', function () {
+tom.test('groups', function () {
   const definitions = [
     { name: 'one', group: 'a' },
     { name: 'two', group: 'a' },
@@ -28,7 +28,7 @@ runner.test('groups', function () {
   })
 })
 
-runner.test('groups: multiple and _none', function () {
+tom.test('multiple and _none', function () {
   const definitions = [
     { name: 'one', group: ['a', 'f'] },
     { name: 'two', group: ['a', 'g'] },
@@ -57,7 +57,7 @@ runner.test('groups: multiple and _none', function () {
   })
 })
 
-runner.test('groups: nothing set', function () {
+tom.test('nothing set', function () {
   const definitions = [
     { name: 'one', group: 'a' },
     { name: 'two', group: 'a' },
@@ -72,7 +72,7 @@ runner.test('groups: nothing set', function () {
   })
 })
 
-runner.test('groups: nothing set with one ungrouped', function () {
+tom.test('nothing set with one ungrouped', function () {
   const definitions = [
     { name: 'one', group: 'a' },
     { name: 'two', group: 'a' },
@@ -86,7 +86,7 @@ runner.test('groups: nothing set with one ungrouped', function () {
   })
 })
 
-runner.test('groups: two ungrouped, one set', function () {
+tom.test('two ungrouped, one set', function () {
   const definitions = [
     { name: 'one', group: 'a' },
     { name: 'two', group: 'a' },
@@ -102,7 +102,7 @@ runner.test('groups: two ungrouped, one set', function () {
   })
 })
 
-runner.test('groups: two ungrouped, both set', function () {
+tom.test('two ungrouped, both set', function () {
   const definitions = [
     { name: 'one', group: 'a' },
     { name: 'two', group: 'a' },
@@ -118,7 +118,7 @@ runner.test('groups: two ungrouped, both set', function () {
   })
 })
 
-runner.test('groups: with partial', function () {
+tom.test('with partial', function () {
   const definitions = [
     { name: 'one', group: 'a' },
     { name: 'two', group: 'a' },
@@ -142,7 +142,7 @@ runner.test('groups: with partial', function () {
   })
 })
 
-runner.test('partial: with partial, multiple groups and _none', function () {
+tom.test('partial: with partial, multiple groups and _none', function () {
   const definitions = [
     { name: 'one', group: ['a', 'f'] },
     { name: 'two', group: ['a', 'g'] },
@@ -171,3 +171,5 @@ runner.test('partial: with partial, multiple groups and _none', function () {
     _unknown: [ '--cheese', 'ham', '-c' ]
   })
 })
+
+export default tom

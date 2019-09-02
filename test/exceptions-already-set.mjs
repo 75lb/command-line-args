@@ -2,9 +2,9 @@ import TestRunner from 'test-runner'
 import commandLineArgs from '../index.mjs'
 import a from 'assert'
 
-const runner = new TestRunner()
+const tom = new TestRunner.Tom('exceptions-already-set')
 
-runner.test('exceptions-already-set: long option', function () {
+tom.test('long option', function () {
   const optionDefinitions = [
     { name: 'one', type: Boolean }
   ]
@@ -15,7 +15,7 @@ runner.test('exceptions-already-set: long option', function () {
   )
 })
 
-runner.test('exceptions-already-set: short option', function () {
+tom.test('short option', function () {
   const optionDefinitions = [
     { name: 'one', type: Boolean, alias: 'o' }
   ]
@@ -26,7 +26,7 @@ runner.test('exceptions-already-set: short option', function () {
   )
 })
 
-runner.test('exceptions-already-set: --option=value', function () {
+tom.test('--option=value', function () {
   const optionDefinitions = [
     { name: 'one' }
   ]
@@ -37,7 +37,7 @@ runner.test('exceptions-already-set: --option=value', function () {
   )
 })
 
-runner.test('exceptions-already-set: combined short option', function () {
+tom.test('combined short option', function () {
   const optionDefinitions = [
     { name: 'one', type: Boolean, alias: 'o' }
   ]
@@ -48,7 +48,7 @@ runner.test('exceptions-already-set: combined short option', function () {
   )
 })
 
-runner.test('exceptions-already-set: alias then long', function () {
+tom.test('alias then long', function () {
   const optionDefinitions = [
     { name: 'one', alias: 'o' }
   ]
@@ -59,7 +59,7 @@ runner.test('exceptions-already-set: alias then long', function () {
   )
 })
 
-runner.test('exceptions-already-set: alias then --option=value', function () {
+tom.test('alias then --option=value', function () {
   const optionDefinitions = [
     { name: 'one', alias: 'o' }
   ]
@@ -69,3 +69,5 @@ runner.test('exceptions-already-set: alias then --option=value', function () {
     err => err.name === 'ALREADY_SET' && err.optionName === 'one'
   )
 })
+
+export default tom

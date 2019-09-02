@@ -2,9 +2,9 @@ import TestRunner from 'test-runner'
 import commandLineArgs from '../index.mjs'
 import a from 'assert'
 
-const runner = new TestRunner()
+const tom = new TestRunner.Tom('detect-process-argv')
 
-runner.test('detect process.argv: should automatically remove first two argv items', function () {
+tom.test('should automatically remove first two argv items', function () {
   const optionDefinitions = [
     { name: 'one' }
   ]
@@ -14,7 +14,7 @@ runner.test('detect process.argv: should automatically remove first two argv ite
   })
 })
 
-runner.test('detect process.argv: should automatically remove first two argv items 2', function () {
+tom.test('should automatically remove first two argv items 2', function () {
   const optionDefinitions = [
     { name: 'one' }
   ]
@@ -24,7 +24,7 @@ runner.test('detect process.argv: should automatically remove first two argv ite
   })
 })
 
-runner.test('process.argv is left untouched', function () {
+tom.test('process.argv is left untouched', function () {
   const optionDefinitions = [
     { name: 'one' }
   ]
@@ -34,3 +34,5 @@ runner.test('process.argv is left untouched', function () {
   })
   a.deepStrictEqual(process.argv, [ 'node', 'filename', '--one', 'eins' ])
 })
+
+export default tom

@@ -2,9 +2,9 @@ import TestRunner from 'test-runner'
 import commandLineArgs from '../index.mjs'
 import a from 'assert'
 
-const runner = new TestRunner()
+const tom = new TestRunner.Tom('detect-process-execArgv')
 
-runner.test('detect process.execArgv: should automatically remove first argv items', function () {
+tom.test('should automatically remove first argv items', function () {
   const origArgv = process.argv
   const origExecArgv = process.execArgv
   process.argv = [ 'node', '--one', 'eins' ]
@@ -15,3 +15,5 @@ runner.test('detect process.execArgv: should automatically remove first argv ite
   process.argv = origArgv
   process.execArgv = origExecArgv
 })
+
+export default tom

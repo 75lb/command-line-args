@@ -2,9 +2,9 @@ import TestRunner from 'test-runner'
 import commandLineArgs from '../index.mjs'
 import a from 'assert'
 
-const runner = new TestRunner()
+const tom = new TestRunner.Tom('multiple')
 
-runner.test('multiple: empty argv', function () {
+tom.test('empty argv', function () {
   const optionDefinitions = [
     { name: 'one', multiple: true }
   ]
@@ -13,7 +13,7 @@ runner.test('multiple: empty argv', function () {
   a.deepStrictEqual(result, {})
 })
 
-runner.test('multiple: boolean, empty argv', function () {
+tom.test('boolean, empty argv', function () {
   const optionDefinitions = [
     { name: 'one', type: Boolean, multiple: true }
   ]
@@ -22,7 +22,7 @@ runner.test('multiple: boolean, empty argv', function () {
   a.deepStrictEqual(result, { })
 })
 
-runner.test('multiple: string unset with defaultValue', function () {
+tom.test('string unset with defaultValue', function () {
   const optionDefinitions = [
     { name: 'one', multiple: true, defaultValue: 1 }
   ]
@@ -31,7 +31,7 @@ runner.test('multiple: string unset with defaultValue', function () {
   a.deepStrictEqual(result, { one: [ 1 ] })
 })
 
-runner.test('multiple: string', function () {
+tom.test('string', function () {
   const optionDefinitions = [
     { name: 'one', multiple: true }
   ]
@@ -42,7 +42,7 @@ runner.test('multiple: string', function () {
   })
 })
 
-runner.test('multiple: string, --option=value', function () {
+tom.test('string, --option=value', function () {
   const optionDefinitions = [
     { name: 'one', multiple: true }
   ]
@@ -53,7 +53,7 @@ runner.test('multiple: string, --option=value', function () {
   })
 })
 
-runner.test('multiple: string, --option=value mix', function () {
+tom.test('string, --option=value mix', function () {
   const optionDefinitions = [
     { name: 'one', multiple: true }
   ]
@@ -64,7 +64,7 @@ runner.test('multiple: string, --option=value mix', function () {
   })
 })
 
-runner.test('multiple: string, defaultOption', function () {
+tom.test('string, defaultOption', function () {
   const optionDefinitions = [
     { name: 'one', multiple: true, defaultOption: true }
   ]
@@ -74,3 +74,5 @@ runner.test('multiple: string, defaultOption', function () {
     one: [ '1', '2' ]
   })
 })
+
+export default tom
