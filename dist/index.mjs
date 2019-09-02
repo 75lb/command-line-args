@@ -337,7 +337,7 @@ function isExecArg (arg) {
 }
 
 /**
- * For type-checking Javascript values.
+ * Functional, isomorphic, load-anywhere type checking for Javascript.
  * @module typical
  * @typicalname t
  * @example
@@ -409,8 +409,8 @@ function isPlainObject (input) {
  * @static
  * @example
  * function sum(x, y){
- *     console.log(t.isArrayLike(arguments))
- *     // prints `true`
+ *   console.log(t.isArrayLike(arguments))
+ *   // prints `true`
  * }
  */
 function isArrayLike$2 (input) {
@@ -418,7 +418,7 @@ function isArrayLike$2 (input) {
 }
 
 /**
- * returns true if the typeof input is `'object'`, but not null!
+ * Returns true if the typeof input is `'object'` but not null.
  * @param {*} - the input to test
  * @returns {boolean}
  * @static
@@ -428,7 +428,7 @@ function isObject$2 (input) {
 }
 
 /**
- * Returns true if the input value is defined
+ * Returns true if the input value is defined.
  * @param {*} - the input to test
  * @returns {boolean}
  * @static
@@ -438,43 +438,13 @@ function isDefined (input) {
 }
 
 /**
- * Returns true if the input value is a string
- * @param {*} - the input to test
- * @returns {boolean}
- * @static
- */
-function isString (input) {
-  return typeof input === 'string'
-}
-
-/**
- * Returns true if the input value is a boolean
- * @param {*} - the input to test
- * @returns {boolean}
- * @static
- */
-function isBoolean (input) {
-  return typeof input === 'boolean'
-}
-
-/**
- * Returns true if the input value is a function
- * @param {*} - the input to test
- * @returns {boolean}
- * @static
- */
-function isFunction (input) {
-  return typeof input === 'function'
-}
-
-/**
- * Returns true if the input value is an es2015 `class`.
+ * Returns true if the input value is an ES2015 `class`.
  * @param {*} - the input to test
  * @returns {boolean}
  * @static
  */
 function isClass (input) {
-  if (isFunction(input)) {
+  if (typeof input === 'function') {
     return /^class /.test(Function.prototype.toString.call(input))
   } else {
     return false
@@ -567,19 +537,38 @@ function isIterable (input) {
   }
 }
 
+/**
+ * Returns true if the input value is a string. The equivalent of `typeof input === 'string'` for use in funcitonal contexts.
+ * @param {*} - the input to test
+ * @returns {boolean}
+ * @static
+ */
+function isString (input) {
+  return typeof input === 'string'
+}
+
+/**
+ * Returns true if the input value is a function. The equivalent of `typeof input === 'function'` for use in funcitonal contexts.
+ * @param {*} - the input to test
+ * @returns {boolean}
+ * @static
+ */
+function isFunction (input) {
+  return typeof input === 'function'
+}
+
 var t = {
   isNumber,
-  isString,
-  isBoolean,
   isPlainObject,
   isArrayLike: isArrayLike$2,
   isObject: isObject$2,
   isDefined,
-  isFunction,
   isClass,
   isPrimitive,
   isPromise,
-  isIterable
+  isIterable,
+  isString,
+  isFunction
 };
 
 /**

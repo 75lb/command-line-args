@@ -3,16 +3,16 @@ import a from 'assert'
 import Output from '../../lib/output.mjs'
 import Option from '../../lib/option.mjs'
 
-const runner = new TestRunner()
+const tom = new TestRunner.Tom('output')
 
-runner.test('output.toObject(): no defs set', function () {
+tom.test('output.toObject(): no defs set', function () {
   const output = new Output([
     { name: 'one' }
   ])
   a.deepStrictEqual(output.toObject(), {})
 })
 
-runner.test('output.toObject(): one def set', function () {
+tom.test('output.toObject(): one def set', function () {
   const output = new Output([
     { name: 'one' }
   ])
@@ -23,3 +23,5 @@ runner.test('output.toObject(): one def set', function () {
     one: 'yeah'
   })
 })
+
+export default tom

@@ -2,23 +2,23 @@ import TestRunner from 'test-runner'
 import a from 'assert'
 import FlagOption from '../../lib/option-flag.mjs'
 
-const runner = new TestRunner()
+const tom = new TestRunner.Tom('option-flag')
 
-runner.test('type-boolean: single set', function () {
+tom.test('type-boolean: single set', function () {
   const option = new FlagOption({ name: 'one', type: Boolean })
 
   option.set(undefined)
   a.strictEqual(option.get(), true)
 })
 
-runner.test('type-boolean: single set 2', function () {
+tom.test('type-boolean: single set 2', function () {
   const option = new FlagOption({ name: 'one', type: Boolean })
 
   option.set('true')
   a.strictEqual(option.get(), true)
 })
 
-runner.test('type-boolean: set twice', function () {
+tom.test('type-boolean: set twice', function () {
   const option = new FlagOption({ name: 'one', type: Boolean })
 
   option.set(undefined)
@@ -32,7 +32,7 @@ runner.test('type-boolean: set twice', function () {
 const origBoolean = Boolean
 
 /* test in contexts which override the standard global Boolean constructor */
-runner.test('type-boolean: global Boolean overridden', function () {
+tom.test('type-boolean: global Boolean overridden', function () {
   function Boolean () {
     return origBoolean.apply(origBoolean, arguments)
   }
@@ -43,7 +43,7 @@ runner.test('type-boolean: global Boolean overridden', function () {
   a.strictEqual(option.get(), true)
 })
 
-runner.test('type-boolean-multiple: 1', function () {
+tom.test('type-boolean-multiple: 1', function () {
   const option = new FlagOption({ name: 'one', type: Boolean, multiple: true })
 
   option.set(undefined)
@@ -52,3 +52,5 @@ runner.test('type-boolean-multiple: 1', function () {
 
   a.deepStrictEqual(option.get(), [ true, true, true ])
 })
+
+export default tom

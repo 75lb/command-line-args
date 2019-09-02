@@ -2,9 +2,9 @@ import TestRunner from 'test-runner'
 import a from 'assert'
 import Option from '../../lib/option.mjs'
 
-const runner = new TestRunner()
+const tom = new TestRunner.Tom('option')
 
-runner.test('option.set(): simple set string', function () {
+tom.test('simple set string', function () {
   const option = Option.create({ name: 'two' })
   a.strictEqual(option.get(), null)
   a.strictEqual(option.state, 'default')
@@ -13,7 +13,7 @@ runner.test('option.set(): simple set string', function () {
   a.strictEqual(option.state, 'set')
 })
 
-runner.test('option.set(): simple set boolean', function () {
+tom.test('simple set boolean', function () {
   const option = Option.create({ name: 'two', type: Boolean })
   a.strictEqual(option.get(), null)
   a.strictEqual(option.state, 'default')
@@ -22,7 +22,7 @@ runner.test('option.set(): simple set boolean', function () {
   a.strictEqual(option.state, 'set')
 })
 
-runner.test('option.set(): simple set string twice', function () {
+tom.test('simple set string twice', function () {
   const option = Option.create({ name: 'two' })
   a.strictEqual(option.get(), null)
   a.strictEqual(option.state, 'default')
@@ -35,7 +35,7 @@ runner.test('option.set(): simple set string twice', function () {
   )
 })
 
-runner.test('option.set(): simple set boolean twice', function () {
+tom.test('simple set boolean twice', function () {
   const option = Option.create({ name: 'two', type: Boolean })
   a.strictEqual(option.get(), null)
   a.strictEqual(option.state, 'default')
@@ -48,7 +48,7 @@ runner.test('option.set(): simple set boolean twice', function () {
   )
 })
 
-runner.test('option.set(): string multiple', function () {
+tom.test('string multiple', function () {
   const option = Option.create({ name: 'two', multiple: true })
   a.deepStrictEqual(option.get(), [])
   a.strictEqual(option.state, 'default')
@@ -60,7 +60,7 @@ runner.test('option.set(): string multiple', function () {
   a.strictEqual(option.state, 'set')
 })
 
-runner.test('option.set: lazyMultiple', function () {
+tom.test('lazyMultiple', function () {
   const option = Option.create({ name: 'one', lazyMultiple: true })
   a.deepStrictEqual(option.get(), [])
   a.strictEqual(option.state, 'default')
@@ -72,7 +72,7 @@ runner.test('option.set: lazyMultiple', function () {
   a.strictEqual(option.state, 'set')
 })
 
-runner.test('option.set(): string multiple defaultOption', function () {
+tom.test('string multiple defaultOption', function () {
   const option = Option.create({ name: 'two', multiple: true, defaultOption: true })
   a.deepStrictEqual(option.get(), [])
   a.strictEqual(option.state, 'default')
@@ -84,7 +84,7 @@ runner.test('option.set(): string multiple defaultOption', function () {
   a.strictEqual(option.state, 'set')
 })
 
-runner.test('option.set: lazyMultiple defaultOption', function () {
+tom.test('lazyMultiple defaultOption', function () {
   const option = Option.create({ name: 'one', lazyMultiple: true, defaultOption: true })
   a.deepStrictEqual(option.get(), [])
   a.strictEqual(option.state, 'default')
@@ -95,3 +95,5 @@ runner.test('option.set: lazyMultiple defaultOption', function () {
   a.deepStrictEqual(option.get(), [ '1', '2' ])
   a.strictEqual(option.state, 'set')
 })
+
+export default tom

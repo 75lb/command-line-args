@@ -2,9 +2,9 @@ import TestRunner from 'test-runner'
 import a from 'assert'
 import ArgvParser from '../../lib/argv-parser.mjs'
 
-const runner = new TestRunner()
+const tom = new TestRunner.Tom('argv-parser')
 
-runner.test('argv-parser: long option, string', function () {
+tom.test('long option, string', function () {
   const optionDefinitions = [
     { name: 'one' }
   ]
@@ -20,7 +20,7 @@ runner.test('argv-parser: long option, string', function () {
   ])
 })
 
-runner.test('argv-parser: long option, string repeated', function () {
+tom.test('long option, string repeated', function () {
   const optionDefinitions = [
     { name: 'one' }
   ]
@@ -40,7 +40,7 @@ runner.test('argv-parser: long option, string repeated', function () {
   ])
 })
 
-runner.test('argv-parser: long option, string multiple', function () {
+tom.test('long option, string multiple', function () {
   const optionDefinitions = [
     { name: 'one', multiple: true }
   ]
@@ -58,7 +58,7 @@ runner.test('argv-parser: long option, string multiple', function () {
   ])
 })
 
-runner.test('argv-parser: long option, string multiple then boolean', function () {
+tom.test('long option, string multiple then boolean', function () {
   const optionDefinitions = [
     { name: 'one', multiple: true },
     { name: 'two', type: Boolean }
@@ -79,7 +79,7 @@ runner.test('argv-parser: long option, string multiple then boolean', function (
   ])
 })
 
-runner.test('argv-parser: long option, boolean', function () {
+tom.test('long option, boolean', function () {
   const optionDefinitions = [
     { name: 'one', type: Boolean }
   ]
@@ -95,7 +95,7 @@ runner.test('argv-parser: long option, boolean', function () {
   ])
 })
 
-runner.test('argv-parser: simple, with unknown values', function () {
+tom.test('simple, with unknown values', function () {
   const optionDefinitions = [
     { name: 'one', type: Number }
   ]
@@ -115,7 +115,7 @@ runner.test('argv-parser: simple, with unknown values', function () {
   ])
 })
 
-runner.test('argv-parser: simple, with singular defaultOption', function () {
+tom.test('simple, with singular defaultOption', function () {
   const optionDefinitions = [
     { name: 'one', type: Number },
     { name: 'two', defaultOption: true }
@@ -136,7 +136,7 @@ runner.test('argv-parser: simple, with singular defaultOption', function () {
   ])
 })
 
-runner.test('argv-parser: simple, with multiple defaultOption', function () {
+tom.test('simple, with multiple defaultOption', function () {
   const optionDefinitions = [
     { name: 'one', type: Number },
     { name: 'two', defaultOption: true, multiple: true }
@@ -157,7 +157,7 @@ runner.test('argv-parser: simple, with multiple defaultOption', function () {
   ])
 })
 
-runner.test('argv-parser: long option, string lazyMultiple bad', function () {
+tom.test('long option, string lazyMultiple bad', function () {
   const optionDefinitions = [
     { name: 'one', lazyMultiple: true }
   ]
@@ -175,7 +175,7 @@ runner.test('argv-parser: long option, string lazyMultiple bad', function () {
   ])
 })
 
-runner.test('argv-parser: long option, string lazyMultiple good', function () {
+tom.test('long option, string lazyMultiple good', function () {
   const optionDefinitions = [
     { name: 'one', lazyMultiple: true }
   ]
@@ -195,7 +195,7 @@ runner.test('argv-parser: long option, string lazyMultiple good', function () {
   ])
 })
 
-runner.test('argv-parser: long option, stopAtFirstUnknown', function () {
+tom.test('long option, stopAtFirstUnknown', function () {
   const optionDefinitions = [
     { name: 'one' },
     { name: 'two' }
@@ -218,7 +218,7 @@ runner.test('argv-parser: long option, stopAtFirstUnknown', function () {
   ])
 })
 
-runner.test('argv-parser: long option, stopAtFirstUnknown with defaultOption', function () {
+tom.test('long option, stopAtFirstUnknown with defaultOption', function () {
   const optionDefinitions = [
     { name: 'one', defaultOption: true },
     { name: 'two' }
@@ -239,7 +239,7 @@ runner.test('argv-parser: long option, stopAtFirstUnknown with defaultOption', f
   ])
 })
 
-runner.test('argv-parser: long option, stopAtFirstUnknown with defaultOption 2', function () {
+tom.test('long option, stopAtFirstUnknown with defaultOption 2', function () {
   const optionDefinitions = [
     { name: 'one', defaultOption: true },
     { name: 'two' }
@@ -262,7 +262,7 @@ runner.test('argv-parser: long option, stopAtFirstUnknown with defaultOption 2',
   ])
 })
 
-runner.test('argv-parser: --option=value', function () {
+tom.test('--option=value', function () {
   const optionDefinitions = [
     { name: 'one' },
     { name: 'two' }
@@ -281,7 +281,7 @@ runner.test('argv-parser: --option=value', function () {
   ])
 })
 
-runner.test('argv-parser: --option=value, unknown option', function () {
+tom.test('--option=value, unknown option', function () {
   const optionDefinitions = [
     { name: 'one' }
   ]
@@ -295,7 +295,7 @@ runner.test('argv-parser: --option=value, unknown option', function () {
   ])
 })
 
-runner.test('argv-parser: --option=value where option is boolean', function () {
+tom.test('--option=value where option is boolean', function () {
   const optionDefinitions = [
     { name: 'one', type: Boolean }
   ]
@@ -311,7 +311,7 @@ runner.test('argv-parser: --option=value where option is boolean', function () {
   ])
 })
 
-runner.test('argv-parser: short option, string', function () {
+tom.test('short option, string', function () {
   const optionDefinitions = [
     { name: 'one', alias: 'o' }
   ]
@@ -327,7 +327,7 @@ runner.test('argv-parser: short option, string', function () {
   ])
 })
 
-runner.test('argv-parser: combined short option, string', function () {
+tom.test('combined short option, string', function () {
   const optionDefinitions = [
     { name: 'one', alias: 'o' },
     { name: 'two', alias: 't' }
@@ -346,7 +346,7 @@ runner.test('argv-parser: combined short option, string', function () {
   ])
 })
 
-runner.test('argv-parser: combined short option, one unknown', function () {
+tom.test('combined short option, one unknown', function () {
   const optionDefinitions = [
     { name: 'one', alias: 'o' },
     { name: 'two', alias: 't' }
@@ -365,7 +365,7 @@ runner.test('argv-parser: combined short option, one unknown', function () {
   ])
 })
 
-runner.test('arg-parser: expandCluster, no whitespace value', function () {
+tom.test('expandCluster, no whitespace value', function () {
   const optionDefinitions = [
     { name: 'one', alias: 'o' }
   ]
@@ -376,7 +376,7 @@ runner.test('arg-parser: expandCluster, no whitespace value', function () {
   a.deepStrictEqual(parser.argv[1], { origArg: '-oone', arg: 'one' })
 })
 
-runner.test('arg-parser: expandCluster, flags', function () {
+tom.test('expandCluster, flags', function () {
   const optionDefinitions = [
     { name: 'one', alias: 'o', type: Boolean },
     { name: 'two', alias: 't', type: Boolean },
@@ -388,7 +388,7 @@ runner.test('arg-parser: expandCluster, flags', function () {
   a.deepStrictEqual(parser.argv[1], { origArg: '-ot', arg: '-t' })
 })
 
-runner.test('arg-parser: expandCluster, mix', function () {
+tom.test('expandCluster, mix', function () {
   const optionDefinitions = [
     { name: 'one', alias: 'o', type: Boolean },
     { name: 'two', alias: 't' },
@@ -400,7 +400,7 @@ runner.test('arg-parser: expandCluster, mix', function () {
   a.deepStrictEqual(parser.argv[1], { origArg: '-ot', arg: '-t' })
 })
 
-runner.test('arg-parser: expand a cluster of short options with no definition', function () {
+tom.test('expand a cluster of short options with no definition', function () {
   const optionDefinitions = []
   const argv = [ '-abc' ]
   const parser = new ArgvParser(optionDefinitions, { argv })
@@ -409,3 +409,5 @@ runner.test('arg-parser: expand a cluster of short options with no definition', 
   a.deepStrictEqual(parser.argv[1], { origArg: '-abc', arg: '-b' })
   a.deepStrictEqual(parser.argv[2], { origArg: '-abc', arg: '-c' })
 })
+
+export default tom
