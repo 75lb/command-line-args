@@ -12,10 +12,10 @@ tom.test('defaultValue', function () {
 })
 
 tom.test('multiple defaultValue', function () {
-  const option = new Option({ name: 'two', multiple: true, defaultValue: [ 'two', 'zwei' ] })
-  a.deepStrictEqual(option.get(), [ 'two', 'zwei' ])
+  const option = new Option({ name: 'two', multiple: true, defaultValue: ['two', 'zwei'] })
+  a.deepStrictEqual(option.get(), ['two', 'zwei'])
   option.set('duo')
-  a.deepStrictEqual(option.get(), [ 'duo' ])
+  a.deepStrictEqual(option.get(), ['duo'])
 })
 
 tom.test('falsy defaultValue', function () {
@@ -30,7 +30,7 @@ tom.test('falsy defaultValue 2', function () {
 
 tom.test('falsy defaultValue multiple', function () {
   const option = new Option({ name: 'one', defaultValue: 0, multiple: true })
-  a.deepStrictEqual(option.get(), [ 0 ])
+  a.deepStrictEqual(option.get(), [0])
 })
 
 export default tom

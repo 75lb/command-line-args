@@ -8,7 +8,7 @@ tom.test('long option, string', function () {
   const optionDefinitions = [
     { name: 'one' }
   ]
-  const argv = [ '--one', '1' ]
+  const argv = ['--one', '1']
   const parser = new ArgvParser(optionDefinitions, { argv })
   const result = Array.from(parser)
   a.ok(result[0].def)
@@ -24,7 +24,7 @@ tom.test('long option, string repeated', function () {
   const optionDefinitions = [
     { name: 'one' }
   ]
-  const argv = [ '--one', '1', '--one', '2' ]
+  const argv = ['--one', '1', '--one', '2']
   const parser = new ArgvParser(optionDefinitions, { argv })
   const result = Array.from(parser)
   a.ok(result[0].def)
@@ -44,7 +44,7 @@ tom.test('long option, string multiple', function () {
   const optionDefinitions = [
     { name: 'one', multiple: true }
   ]
-  const argv = [ '--one', '1', '2' ]
+  const argv = ['--one', '1', '2']
   const parser = new ArgvParser(optionDefinitions, { argv })
   const result = Array.from(parser)
   a.ok(result[0].def)
@@ -63,7 +63,7 @@ tom.test('long option, string multiple then boolean', function () {
     { name: 'one', multiple: true },
     { name: 'two', type: Boolean }
   ]
-  const argv = [ '--one', '1', '2', '--two' ]
+  const argv = ['--one', '1', '2', '--two']
   const parser = new ArgvParser(optionDefinitions, { argv })
   const result = Array.from(parser)
   a.ok(result[0].def)
@@ -83,7 +83,7 @@ tom.test('long option, boolean', function () {
   const optionDefinitions = [
     { name: 'one', type: Boolean }
   ]
-  const argv = [ '--one', '1' ]
+  const argv = ['--one', '1']
   const parser = new ArgvParser(optionDefinitions, { argv })
   const result = Array.from(parser)
   a.ok(result[0].def)
@@ -99,7 +99,7 @@ tom.test('simple, with unknown values', function () {
   const optionDefinitions = [
     { name: 'one', type: Number }
   ]
-  const argv = [ 'clive', '--one', '1', 'yeah' ]
+  const argv = ['clive', '--one', '1', 'yeah']
   const parser = new ArgvParser(optionDefinitions, { argv })
   const result = Array.from(parser)
   a.ok(!result[0].def)
@@ -120,7 +120,7 @@ tom.test('simple, with singular defaultOption', function () {
     { name: 'one', type: Number },
     { name: 'two', defaultOption: true }
   ]
-  const argv = [ 'clive', '--one', '1', 'yeah' ]
+  const argv = ['clive', '--one', '1', 'yeah']
   const parser = new ArgvParser(optionDefinitions, { argv })
   const result = Array.from(parser)
   a.ok(result[0].def)
@@ -141,7 +141,7 @@ tom.test('simple, with multiple defaultOption', function () {
     { name: 'one', type: Number },
     { name: 'two', defaultOption: true, multiple: true }
   ]
-  const argv = [ 'clive', '--one', '1', 'yeah' ]
+  const argv = ['clive', '--one', '1', 'yeah']
   const parser = new ArgvParser(optionDefinitions, { argv })
   const result = Array.from(parser)
   a.ok(result[0].def)
@@ -161,7 +161,7 @@ tom.test('long option, string lazyMultiple bad', function () {
   const optionDefinitions = [
     { name: 'one', lazyMultiple: true }
   ]
-  const argv = [ '--one', '1', '2' ]
+  const argv = ['--one', '1', '2']
   const parser = new ArgvParser(optionDefinitions, { argv })
   const result = Array.from(parser)
   a.ok(result[0].def)
@@ -179,7 +179,7 @@ tom.test('long option, string lazyMultiple good', function () {
   const optionDefinitions = [
     { name: 'one', lazyMultiple: true }
   ]
-  const argv = [ '--one', '1', '--one', '2' ]
+  const argv = ['--one', '1', '--one', '2']
   const parser = new ArgvParser(optionDefinitions, { argv })
   const result = Array.from(parser)
   a.ok(result[0].def)
@@ -200,7 +200,7 @@ tom.test('long option, stopAtFirstUnknown', function () {
     { name: 'one' },
     { name: 'two' }
   ]
-  const argv = [ '--one', '1', 'asdf', '--two', '2' ]
+  const argv = ['--one', '1', 'asdf', '--two', '2']
   const parser = new ArgvParser(optionDefinitions, { argv, stopAtFirstUnknown: true })
   const result = Array.from(parser)
   a.ok(result[0].def)
@@ -223,7 +223,7 @@ tom.test('long option, stopAtFirstUnknown with defaultOption', function () {
     { name: 'one', defaultOption: true },
     { name: 'two' }
   ]
-  const argv = [ '1', 'asdf', '--two', '2' ]
+  const argv = ['1', 'asdf', '--two', '2']
   const parser = new ArgvParser(optionDefinitions, { argv, stopAtFirstUnknown: true })
   const result = Array.from(parser)
   a.ok(result[0].def)
@@ -244,7 +244,7 @@ tom.test('long option, stopAtFirstUnknown with defaultOption 2', function () {
     { name: 'one', defaultOption: true },
     { name: 'two' }
   ]
-  const argv = [ '--one', '1', '--', '--two', '2' ]
+  const argv = ['--one', '1', '--', '--two', '2']
   const parser = new ArgvParser(optionDefinitions, { argv, stopAtFirstUnknown: true })
   const result = Array.from(parser)
   a.ok(result[0].def)
@@ -267,7 +267,7 @@ tom.test('--option=value', function () {
     { name: 'one' },
     { name: 'two' }
   ]
-  const argv = [ '--one=1', '--two=2', '--two=' ]
+  const argv = ['--one=1', '--two=2', '--two=']
   const parser = new ArgvParser(optionDefinitions, { argv })
   const result = Array.from(parser)
   a.ok(result[0].def)
@@ -285,7 +285,7 @@ tom.test('--option=value, unknown option', function () {
   const optionDefinitions = [
     { name: 'one' }
   ]
-  const argv = [ '--three=3' ]
+  const argv = ['--three=3']
   const parser = new ArgvParser(optionDefinitions, { argv })
   const result = Array.from(parser)
   a.ok(!result[0].def)
@@ -299,7 +299,7 @@ tom.test('--option=value where option is boolean', function () {
   const optionDefinitions = [
     { name: 'one', type: Boolean }
   ]
-  const argv = [ '--one=1' ]
+  const argv = ['--one=1']
   const parser = new ArgvParser(optionDefinitions, { argv })
   const result = Array.from(parser)
   a.ok(result[0].def)
@@ -315,7 +315,7 @@ tom.test('short option, string', function () {
   const optionDefinitions = [
     { name: 'one', alias: 'o' }
   ]
-  const argv = [ '-o', '1' ]
+  const argv = ['-o', '1']
   const parser = new ArgvParser(optionDefinitions, { argv })
   const result = Array.from(parser)
   a.ok(result[0].def)
@@ -332,7 +332,7 @@ tom.test('combined short option, string', function () {
     { name: 'one', alias: 'o' },
     { name: 'two', alias: 't' }
   ]
-  const argv = [ '-ot', '1' ]
+  const argv = ['-ot', '1']
   const parser = new ArgvParser(optionDefinitions, { argv })
   const result = Array.from(parser)
   a.ok(result[0].def)
@@ -351,7 +351,7 @@ tom.test('combined short option, one unknown', function () {
     { name: 'one', alias: 'o' },
     { name: 'two', alias: 't' }
   ]
-  const argv = [ '-xt', '1' ]
+  const argv = ['-xt', '1']
   const parser = new ArgvParser(optionDefinitions, { argv })
   const result = Array.from(parser)
   a.ok(!result[0].def)
@@ -369,7 +369,7 @@ tom.test('expandCluster, no whitespace value', function () {
   const optionDefinitions = [
     { name: 'one', alias: 'o' }
   ]
-  const argv = [ '-oone' ]
+  const argv = ['-oone']
   const parser = new ArgvParser(optionDefinitions, { argv })
   a.strictEqual(parser.argv.length, 2)
   a.deepStrictEqual(parser.argv[0], { origArg: '-oone', arg: '-o' })
@@ -379,9 +379,9 @@ tom.test('expandCluster, no whitespace value', function () {
 tom.test('expandCluster, flags', function () {
   const optionDefinitions = [
     { name: 'one', alias: 'o', type: Boolean },
-    { name: 'two', alias: 't', type: Boolean },
+    { name: 'two', alias: 't', type: Boolean }
   ]
-  const argv = [ '-ot' ]
+  const argv = ['-ot']
   const parser = new ArgvParser(optionDefinitions, { argv })
   a.strictEqual(parser.argv.length, 2)
   a.deepStrictEqual(parser.argv[0], { origArg: '-ot', arg: '-o' })
@@ -391,9 +391,9 @@ tom.test('expandCluster, flags', function () {
 tom.test('expandCluster, mix', function () {
   const optionDefinitions = [
     { name: 'one', alias: 'o', type: Boolean },
-    { name: 'two', alias: 't' },
+    { name: 'two', alias: 't' }
   ]
-  const argv = [ '-ot' ]
+  const argv = ['-ot']
   const parser = new ArgvParser(optionDefinitions, { argv })
   a.strictEqual(parser.argv.length, 2)
   a.deepStrictEqual(parser.argv[0], { origArg: '-ot', arg: '-o' })
@@ -402,7 +402,7 @@ tom.test('expandCluster, mix', function () {
 
 tom.test('expand a cluster of short options with no definition', function () {
   const optionDefinitions = []
-  const argv = [ '-abc' ]
+  const argv = ['-abc']
   const parser = new ArgvParser(optionDefinitions, { argv })
   a.strictEqual(parser.argv.length, 3)
   a.deepStrictEqual(parser.argv[0], { origArg: '-abc', arg: '-a' })

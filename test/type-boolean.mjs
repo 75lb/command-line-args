@@ -10,7 +10,7 @@ tom.test('simple', function () {
   ]
 
   a.deepStrictEqual(
-    commandLineArgs(optionDefinitions, { argv: [ '--one' ] }),
+    commandLineArgs(optionDefinitions, { argv: ['--one'] }),
     { one: true }
   )
 })
@@ -25,7 +25,7 @@ tom.test('global Boolean overridden', function () {
   const optionDefinitions = [
     { name: 'one', type: Boolean }
   ]
-  const argv = [ '--one' ]
+  const argv = ['--one']
   a.deepStrictEqual(
     commandLineArgs(optionDefinitions, { argv }),
     { one: true }
@@ -36,10 +36,10 @@ tom.test('type-boolean-multiple: 1', function () {
   const optionDefinitions = [
     { name: 'array', type: Boolean, multiple: true }
   ]
-  const argv = [ '--array', '--array', '--array' ]
+  const argv = ['--array', '--array', '--array']
   const result = commandLineArgs(optionDefinitions, { argv })
   a.deepStrictEqual(result, {
-    array: [ true, true, true ]
+    array: [true, true, true]
   })
 })
 

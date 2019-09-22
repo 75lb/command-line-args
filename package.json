@@ -41,7 +41,7 @@
     "coveralls": "^3.0.6",
     "esm-runner": "^0.1.5",
     "jsdoc-to-markdown": "^5.0.1",
-    "rollup": "^1.20.3",
+    "rollup": "^1.21.4",
     "test-runner": "^0.6.0"
   },
   "dependencies": {
@@ -49,5 +49,12 @@
     "find-replace": "^3.0.0",
     "lodash.camelcase": "^4.3.0",
     "typical": "^5.1.0"
+  },
+  "standard": {
+    "ignore": [
+      "dist",
+      "tmp",
+      "doc"
+    ]
   }
 }

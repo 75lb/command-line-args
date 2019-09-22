@@ -50,7 +50,7 @@ tom.test('type-boolean-multiple: 1', function () {
   option.set(undefined)
   option.set(undefined)
 
-  a.deepStrictEqual(option.get(), [ true, true, true ])
+  a.deepStrictEqual(option.get(), [true, true, true])
 })
 
 export default tom

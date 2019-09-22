@@ -19,7 +19,7 @@ tom.test('just names, no values', function () {
     { name: 'one' },
     { name: 'two' }
   ]
-  const argv = [ '--one', '--two' ]
+  const argv = ['--one', '--two']
   const result = commandLineArgs(optionDefinitions, { argv })
   a.deepStrictEqual(result, {
     one: null,
@@ -32,7 +32,7 @@ tom.test('just names, one value, one unpassed value', function () {
     { name: 'one' },
     { name: 'two' }
   ]
-  const argv = [ '--one', 'one', '--two' ]
+  const argv = ['--one', 'one', '--two']
   const result = commandLineArgs(optionDefinitions, { argv })
   a.deepStrictEqual(result, {
     one: 'one',
@@ -45,7 +45,7 @@ tom.test('just names, two values', function () {
     { name: 'one' },
     { name: 'two' }
   ]
-  const argv = [ '--one', 'one', '--two', 'two' ]
+  const argv = ['--one', 'one', '--two', 'two']
   const result = commandLineArgs(optionDefinitions, { argv })
   a.deepStrictEqual(result, {
     one: 'one',

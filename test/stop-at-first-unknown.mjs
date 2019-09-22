@@ -9,11 +9,11 @@ tom.test('simple', function () {
     { name: 'one', type: Boolean },
     { name: 'two', type: Boolean }
   ]
-  const argv = [ '--one', 'a', '--two' ]
+  const argv = ['--one', 'a', '--two']
   const result = commandLineArgs(optionDefinitions, { argv, stopAtFirstUnknown: true, partial: true })
   a.deepStrictEqual(result, {
     one: true,
-    _unknown: [ 'a', '--two' ]
+    _unknown: ['a', '--two']
   })
 })
 
@@ -22,11 +22,11 @@ tom.test('with a singlular defaultOption', function () {
     { name: 'one', defaultOption: true },
     { name: 'two' }
   ]
-  const argv = [ '--one', '1', '--', '--two', '2' ]
+  const argv = ['--one', '1', '--', '--two', '2']
   const result = commandLineArgs(optionDefinitions, { argv, stopAtFirstUnknown: true })
   a.deepStrictEqual(result, {
     one: '1',
-    _unknown: [ '--', '--two', '2' ]
+    _unknown: ['--', '--two', '2']
   })
 })
 
@@ -35,11 +35,11 @@ tom.test('with a singlular defaultOption and partial', function () {
     { name: 'one', defaultOption: true },
     { name: 'two' }
   ]
-  const argv = [ '--one', '1', '--', '--two', '2' ]
+  const argv = ['--one', '1', '--', '--two', '2']
   const result = commandLineArgs(optionDefinitions, { argv, stopAtFirstUnknown: true, partial: true })
   a.deepStrictEqual(result, {
     one: '1',
-    _unknown: [ '--', '--two', '2' ]
+    _unknown: ['--', '--two', '2']
   })
 })
 

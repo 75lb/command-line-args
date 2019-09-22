@@ -9,7 +9,7 @@ tom.test('regular', function () {
     { name: 'one-two' },
     { name: 'three', type: Boolean }
   ]
-  const argv = [ '--one-two', '1', '--three' ]
+  const argv = ['--one-two', '1', '--three']
   const result = commandLineArgs(optionDefinitions, { argv, camelCase: true })
   a.deepStrictEqual(result, {
     oneTwo: '1',
@@ -24,7 +24,7 @@ tom.test('grouped', function () {
     { name: 'three-three', group: 'b', type: Boolean },
     { name: 'four-four' }
   ]
-  const argv = [ '--one-one', '1', '--two-two', '2', '--three-three', '--four-four', '4' ]
+  const argv = ['--one-one', '1', '--two-two', '2', '--three-three', '--four-four', '4']
   const result = commandLineArgs(optionDefinitions, { argv, camelCase: true })
   a.deepStrictEqual(result, {
     a: {
@@ -53,7 +53,7 @@ tom.test('grouped with unknowns', function () {
     { name: 'three-three', group: 'b', type: Boolean },
     { name: 'four-four' }
   ]
-  const argv = [ '--one-one', '1', '--two-two', '2', '--three-three', '--four-four', '4', '--five' ]
+  const argv = ['--one-one', '1', '--two-two', '2', '--three-three', '--four-four', '4', '--five']
   const result = commandLineArgs(optionDefinitions, { argv, camelCase: true, partial: true })
   a.deepStrictEqual(result, {
     a: {
@@ -72,7 +72,7 @@ tom.test('grouped with unknowns', function () {
     _none: {
       fourFour: '4'
     },
-    _unknown: [ '--five' ]
+    _unknown: ['--five']
   })
 })
 

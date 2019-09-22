@@ -18,7 +18,7 @@ tom.test('missing option value should be null', function () {
     { name: 'colour' },
     { name: 'files' }
   ]
-  const argv = [ '--colour' ]
+  const argv = ['--colour']
   a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv }), {
     colour: null
   })
@@ -29,7 +29,7 @@ tom.test('missing option value should be null 2', function () {
     { name: 'colour' },
     { name: 'files' }
   ]
-  const argv = [ '--colour', '--files', 'yeah' ]
+  const argv = ['--colour', '--files', 'yeah']
   a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv }), {
     colour: null,
     files: 'yeah'
@@ -40,9 +40,9 @@ tom.test('handles arrays with relative paths', function () {
   const optionDefinitions = [
     { name: 'colours', multiple: true }
   ]
-  const argv = [ '--colours', '../what', '../ever' ]
+  const argv = ['--colours', '../what', '../ever']
   a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv }), {
-    colours: [ '../what', '../ever' ]
+    colours: ['../what', '../ever']
   })
 })
 
@@ -50,7 +50,7 @@ tom.test('non-strings in argv', function () {
   const optionDefinitions = [
     { name: 'one', type: Number }
   ]
-  const argv = [ '--one', 1 ]
+  const argv = ['--one', 1]
   const result = commandLineArgs(optionDefinitions, { argv })
   a.deepStrictEqual(result, { one: 1 })
 })

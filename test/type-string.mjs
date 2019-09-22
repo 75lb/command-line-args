@@ -9,15 +9,15 @@ tom.test('different values', function () {
     { name: 'one', type: String }
   ]
   a.deepStrictEqual(
-    commandLineArgs(optionDefinitions, { argv: [ '--one', 'yeah' ] }),
+    commandLineArgs(optionDefinitions, { argv: ['--one', 'yeah'] }),
     { one: 'yeah' }
   )
   a.deepStrictEqual(
-    commandLineArgs(optionDefinitions, { argv: [ '--one' ] }),
+    commandLineArgs(optionDefinitions, { argv: ['--one'] }),
     { one: null }
   )
   a.deepStrictEqual(
-    commandLineArgs(optionDefinitions, { argv: [ '--one', '3' ] }),
+    commandLineArgs(optionDefinitions, { argv: ['--one', '3'] }),
     { one: '3' }
   )
 })

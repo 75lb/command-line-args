@@ -22,7 +22,7 @@ tom.test('two flags, one option', function () {
     { name: 'file', alias: 'f' }
   ]
 
-  const argv = [ '-vrf', 'yeah' ]
+  const argv = ['-vrf', 'yeah']
   a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv }), {
     verbose: true,
     recursive: true,
@@ -37,7 +37,7 @@ tom.test('two flags, one option 2', function () {
     { name: 'file', alias: 'f' }
   ]
 
-  const argv = [ '-f', 'yeah', '-vr' ]
+  const argv = ['-f', 'yeah', '-vr']
   a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv }), {
     verbose: true,
     recursive: true,
@@ -52,7 +52,7 @@ tom.test('three string options', function () {
     { name: 'file', alias: 'f' }
   ]
 
-  const argv = [ '-pdf', 'yeah' ]
+  const argv = ['-pdf', 'yeah']
   a.throws(
     () => commandLineArgs(optionDefinitions, { argv }),
     /UNKNOWN_VALUE/
@@ -66,10 +66,10 @@ tom.test('three string options, partial', function () {
     { name: 'file', alias: 'f' }
   ]
 
-  const argv = [ '-pdf', 'yeah' ]
+  const argv = ['-pdf', 'yeah']
   a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv, partial: true }), {
     plugin: 'df',
-    _unknown: [ 'yeah' ]
+    _unknown: ['yeah']
   })
 })
 

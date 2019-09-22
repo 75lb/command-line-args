@@ -10,7 +10,7 @@ tom.test('groups', function () {
     { name: 'two', group: 'a' },
     { name: 'three', group: 'b' }
   ]
-  const argv = [ '--one', '1', '--two', '2', '--three', '3' ]
+  const argv = ['--one', '1', '--two', '2', '--three', '3']
   const output = commandLineArgs(definitions, { argv })
   a.deepStrictEqual(output, {
     a: {
@@ -35,7 +35,7 @@ tom.test('multiple and _none', function () {
     { name: 'three' }
   ]
 
-  a.deepStrictEqual(commandLineArgs(definitions, { argv: [ '--one', '1', '--two', '2', '--three', '3' ] }), {
+  a.deepStrictEqual(commandLineArgs(definitions, { argv: ['--one', '1', '--two', '2', '--three', '3'] }), {
     a: {
       one: '1',
       two: '2'
@@ -63,7 +63,7 @@ tom.test('nothing set', function () {
     { name: 'two', group: 'a' },
     { name: 'three', group: 'b' }
   ]
-  const argv = [ ]
+  const argv = []
   const output = commandLineArgs(definitions, { argv })
   a.deepStrictEqual(output, {
     a: {},
@@ -78,7 +78,7 @@ tom.test('nothing set with one ungrouped', function () {
     { name: 'two', group: 'a' },
     { name: 'three' }
   ]
-  const argv = [ ]
+  const argv = []
   const output = commandLineArgs(definitions, { argv })
   a.deepStrictEqual(output, {
     a: {},
@@ -93,7 +93,7 @@ tom.test('two ungrouped, one set', function () {
     { name: 'three' },
     { name: 'four' }
   ]
-  const argv = [ '--three', '3' ]
+  const argv = ['--three', '3']
   const output = commandLineArgs(definitions, { argv })
   a.deepStrictEqual(output, {
     a: {},
@@ -109,7 +109,7 @@ tom.test('two ungrouped, both set', function () {
     { name: 'three' },
     { name: 'four' }
   ]
-  const argv = [ '--three', '3', '--four', '4' ]
+  const argv = ['--three', '3', '--four', '4']
   const output = commandLineArgs(definitions, { argv })
   a.deepStrictEqual(output, {
     a: {},
@@ -124,7 +124,7 @@ tom.test('with partial', function () {
     { name: 'two', group: 'a' },
     { name: 'three', group: 'b' }
   ]
-  const argv = [ '--one', '1', '--two', '2', '--three', '3', 'ham', '--cheese' ]
+  const argv = ['--one', '1', '--two', '2', '--three', '3', 'ham', '--cheese']
   a.deepStrictEqual(commandLineArgs(definitions, { argv, partial: true }), {
     a: {
       one: '1',
@@ -138,7 +138,7 @@ tom.test('with partial', function () {
       two: '2',
       three: '3'
     },
-    _unknown: [ 'ham', '--cheese' ]
+    _unknown: ['ham', '--cheese']
   })
 })
 
@@ -148,7 +148,7 @@ tom.test('partial: with partial, multiple groups and _none', function () {
     { name: 'two', group: ['a', 'g'] },
     { name: 'three' }
   ]
-  const argv = [ '--cheese', '--one', '1', 'ham', '--two', '2', '--three', '3', '-c' ]
+  const argv = ['--cheese', '--one', '1', 'ham', '--two', '2', '--three', '3', '-c']
   a.deepStrictEqual(commandLineArgs(definitions, { argv, partial: true }), {
     a: {
       one: '1',
@@ -168,7 +168,7 @@ tom.test('partial: with partial, multiple groups and _none', function () {
       two: '2',
       three: '3'
     },
-    _unknown: [ '--cheese', 'ham', '-c' ]
+    _unknown: ['--cheese', 'ham', '-c']
   })
 })
 

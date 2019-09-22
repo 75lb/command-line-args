@@ -35,7 +35,11 @@ import Output from './lib/output.mjs'
  */
 function commandLineArgs (optionDefinitions, options) {
   options = options || {}
-  if (options.stopAtFirstUnknown) options.partial = true
+
+  /* stopAtFirstUnknown implies partial */
+  if (options.stopAtFirstUnknown) {
+    options.partial = true
+  }
   optionDefinitions = Definitions.from(optionDefinitions)
 
   const parser = new ArgvParser(optionDefinitions, {

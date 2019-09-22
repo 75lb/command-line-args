@@ -7,8 +7,8 @@ const tom = new TestRunner.Tom('detect-process-execArgv')
 tom.test('should automatically remove first argv items', function () {
   const origArgv = process.argv
   const origExecArgv = process.execArgv
-  process.argv = [ 'node', '--one', 'eins' ]
-  process.execArgv = [ '-e', 'something' ]
+  process.argv = ['node', '--one', 'eins']
+  process.execArgv = ['-e', 'something']
   a.deepStrictEqual(commandLineArgs({ name: 'one' }), {
     one: 'eins'
   })
