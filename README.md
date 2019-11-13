@@ -9,9 +9,11 @@
 ***Upgraders, please read the [release notes](https://github.com/75lb/command-line-args/releases)***
 
 # command-line-args
+
 A mature, feature-complete library to parse command-line options.
 
 ## Synopsis
+
 You can set options using the main notation standards ([learn more](https://github.com/75lb/command-line-args/wiki/Notation-rules)). These commands are all equivalent, setting the same values:
 ```
 $ example --verbose --timeout=1000 --src one.js --src two.js
@@ -31,12 +33,14 @@ const optionDefinitions = [
 ```
 
 Next, parse the options using [commandLineArgs()](https://github.com/75lb/command-line-args/blob/master/doc/API.md#commandlineargsoptiondefinitions-options--object-):
+
 ```js
 const commandLineArgs = require('command-line-args')
 const options = commandLineArgs(optionDefinitions)
 ```
 
 `options` now looks like this:
+
 ```js
 {
   src: [

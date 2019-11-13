@@ -58,7 +58,7 @@ function arrayify (input) {
     return Array.from(input)
   }
 
-  return [ input ]
+  return [input]
 }
 
 /**
@@ -337,15 +337,17 @@ function isExecArg (arg) {
 }
 
 /**
- * Functional, isomorphic, load-anywhere type checking for Javascript.
+ * Isomorphic, functional type-checking for Javascript.
  * @module typical
  * @typicalname t
  * @example
  * const t = require('typical')
+ * const allDefined = array.every(t.isDefined)
  */
 
 /**
- * Returns true if input is a number
+ * Returns true if input is a number. It is a more reasonable alternative to `typeof n` which returns `number` for `NaN` and `Infinity`.
+ *
  * @param {*} - the input to test
  * @returns {boolean}
  * @static
@@ -402,7 +404,7 @@ function isPlainObject (input) {
 }
 
 /**
- * An array-like value has all the properties of an array, but is not an array instance. Examples in the `arguments` object. Returns true if the input value is an object, not null and has a `length` property with a numeric value.
+ * An array-like value has all the properties of an array yet is not an array instance. An example is the `arguments` object. Returns `true`` if the input value is an object, not `null`` and has a `length` property set with a numeric value.
  *
  * @param {*} - the input to test
  * @returns {boolean}
@@ -435,6 +437,36 @@ function isObject$2 (input) {
  */
 function isDefined (input) {
   return typeof input !== 'undefined'
+}
+
+/**
+ * Returns true if the input value is undefined.
+ * @param {*} - the input to test
+ * @returns {boolean}
+ * @static
+ */
+function isUndefined (input) {
+  return !isDefined(input)
+}
+
+/**
+ * Returns true if the input value is null.
+ * @param {*} - the input to test
+ * @returns {boolean}
+ * @static
+ */
+function isNull (input) {
+ return input === null
+}
+
+/**
+ * Returns true if the input value is not one of `undefined`, `null`, or `NaN`.
+ * @param {*} - the input to test
+ * @returns {boolean}
+ * @static
+ */
+function isDefinedValue (input) {
+ return isDefined(input) && !isNull(input) && !Number.isNaN(input)
 }
 
 /**
@@ -563,6 +595,9 @@ var t = {
   isArrayLike: isArrayLike$2,
   isObject: isObject$2,
   isDefined,
+  isUndefined,
+  isNull,
+  isDefinedValue,
   isClass,
   isPrimitive,
   isPromise,
@@ -814,7 +849,7 @@ class OptionDefinition {
     this.group = definition.group;
 
     /* pick up any remaining properties */
-    for (let prop in definition) {
+    for (const prop in definition) {
       if (!this[prop]) this[prop] = definition[prop];
     }
   }
@@ -822,6 +857,7 @@ class OptionDefinition {
   isBoolean () {
     return this.type === Boolean || (t.isFunction(this.type) && this.type.name === 'Boolean')
   }
+
   isMultiple () {
     return this.multiple || this.lazyMultiple
   }
@@ -958,9 +994,11 @@ class Definitions extends Array {
   whereGrouped () {
     return this.filter(containsValidGroup)
   }
+
   whereNotGrouped () {
     return this.filter(def => !containsValidGroup(def))
   }
+
   whereDefaultValueSet () {
     return this.filter(def => t.isDefined(def.defaultValue))
   }
@@ -1334,7 +1372,11 @@ class GroupedOutput extends Output {
  */
 function commandLineArgs (optionDefinitions, options) {
   options = options || {};
-  if (options.stopAtFirstUnknown) options.partial = true;
+
+  /* stopAtFirstUnknown implies partial */
+  if (options.stopAtFirstUnknown) {
+    options.partial = true;
+  }
   optionDefinitions = Definitions.from(optionDefinitions);
 
   const parser = new ArgvParser(optionDefinitions, {

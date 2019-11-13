@@ -2,7 +2,7 @@ import TestRunner from 'test-runner'
 import commandLineArgs from '../index.mjs'
 import a from 'assert'
 
-const tom = new TestRunner.Tom('alias-whitespace')
+const tom = new TestRunner.Tom()
 
 tom.test('with space after option', function () {
   const optionDefinitions = [

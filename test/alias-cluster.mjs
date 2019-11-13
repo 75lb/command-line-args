@@ -2,7 +2,7 @@ import TestRunner from 'test-runner'
 import commandLineArgs from '../index.mjs'
 import a from 'assert'
 
-const tom = new TestRunner.Tom('alias-cluster')
+const tom = new TestRunner.Tom()
 
 tom.test('two flags, one option, nothing set', function () {
   const optionDefinitions = [
