@@ -36,17 +36,17 @@
     "dist/index.mjs"
   ],
   "devDependencies": {
-    "coveralls": "^3.0.7",
-    "esm-runner": "^0.2.1",
-    "jsdoc-to-markdown": "^5.0.2",
-    "rollup": "^1.27.0",
-    "test-runner": "^0.7.6"
+    "coveralls": "^3.0.9",
+    "esm-runner": "^0.3.4",
+    "jsdoc-to-markdown": "^5.0.3",
+    "rollup": "^1.31.1",
+    "test-runner": "^0.8.13"
   },
   "dependencies": {
     "array-back": "^4.0.1",
-    "find-replace": "^3.0.0",
+    "find-replace": "^4.0.0",
     "lodash.camelcase": "^4.3.0",
-    "typical": "^5.2.0"
+    "typical": "^6.0.0"
   },
   "standard": {
     "ignore": [
