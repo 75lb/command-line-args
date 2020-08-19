@@ -68,7 +68,7 @@ function arrayify (input) {
 /**
  * @param {array} - The input array
  * @param {function} - A predicate function which, if returns `true` causes the current item to be operated on.
- * @param [replaceWith] {...any} - If specified, each found value will be replaced with these values, else removed. If a `replaceWith` value is a function, it will be invoked with the found item and its result used as the replace value.
+ * @param [replaceWith] {...any} - If not specified, each found value will be removed. If specified, each found value will be replaced with this value. If the `replaceWith` value is a function, it will be invoked with the found value and its result used as the replace value. If the `replaceWith` function returns an array, the found value will be replaced with each item in the array (not replaced with the array itself).
  * @returns {array}
  * @alias module:find-replace
  */

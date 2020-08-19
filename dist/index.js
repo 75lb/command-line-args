@@ -1,10 +1,12 @@
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('lodash.camelcase')) :
   typeof define === 'function' && define.amd ? define(['lodash.camelcase'], factory) :
-  (global = global || self, global.commandLineArgs = factory(global.camelCase));
+  (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.commandLineArgs = factory(global.camelCase));
 }(this, (function (camelCase) { 'use strict';
 
-  camelCase = camelCase && camelCase.hasOwnProperty('default') ? camelCase['default'] : camelCase;
+  function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
+
+  var camelCase__default = /*#__PURE__*/_interopDefaultLegacy(camelCase);
 
   /**
    * Takes any input and guarantees an array back.
@@ -74,7 +76,7 @@
   /**
    * @param {array} - The input array
    * @param {function} - A predicate function which, if returns `true` causes the current item to be operated on.
-   * @param [replaceWith] {...any} - If specified, each found value will be replaced with these values, else removed. If a `replaceWith` value is a function, it will be invoked with the found item and its result used as the replace value.
+   * @param [replaceWith] {...any} - If not specified, each found value will be removed. If specified, each found value will be replaced with this value. If the `replaceWith` value is a function, it will be invoked with the found value and its result used as the replace value. If the `replaceWith` function returns an array, the found value will be replaced with each item in the array (not replaced with the array itself).
    * @returns {array}
    * @alias module:find-replace
    */
@@ -1230,7 +1232,7 @@
       options = options || {};
       const output = {};
       for (const item of this) {
-        const name = options.camelCase && item[0] !== '_unknown' ? camelCase(item[0]) : item[0];
+        const name = options.camelCase && item[0] !== '_unknown' ? camelCase__default['default'](item[0]) : item[0];
         const option = item[1];
         if (name === '_unknown' && !option.get().length) continue
         output[name] = option.get();
@@ -1253,7 +1255,7 @@
       if (unknown && unknown.length) grouped._unknown = unknown;
 
       this.definitions.whereGrouped().forEach(def => {
-        const name = options.camelCase ? camelCase(def.name) : def.name;
+        const name = options.camelCase ? camelCase__default['default'](def.name) : def.name;
         const outputValue = superOutputNoCamel[def.name];
         for (const groupName of arrayify(def.group)) {
           grouped[groupName] = grouped[groupName] || {};
@@ -1264,7 +1266,7 @@
       });
 
       this.definitions.whereNotGrouped().forEach(def => {
-        const name = options.camelCase ? camelCase(def.name) : def.name;
+        const name = options.camelCase ? camelCase__default['default'](def.name) : def.name;
         const outputValue = superOutputNoCamel[def.name];
         if (t.isDefined(outputValue)) {
           if (!grouped._none) grouped._none = {};

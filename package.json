@@ -1,6 +1,6 @@
 {
   "name": "command-line-args",
-  "version": "6.0.0-preview.1",
+  "version": "5.1.1",
   "description": "A mature, feature-complete library to parse command-line options.",
   "repository": "https://github.com/75lb/command-line-args.git",
   "scripts": {
@@ -36,17 +36,17 @@
     "dist/index.mjs"
   ],
   "devDependencies": {
-    "coveralls": "^3.0.9",
+    "coveralls": "^3.1.0",
     "esm-runner": "^0.3.4",
-    "jsdoc-to-markdown": "^5.0.3",
-    "rollup": "^1.31.1",
+    "jsdoc-to-markdown": "^6.0.1",
+    "rollup": "^2.26.4",
     "test-runner": "^0.8.13"
   },
   "dependencies": {
     "array-back": "^4.0.1",
-    "find-replace": "^4.0.0",
+    "find-replace": "^4.0.1",
     "lodash.camelcase": "^4.3.0",
-    "typical": "^6.0.0"
+    "typical": "^6.0.1"
   },
   "standard": {
     "ignore": [
