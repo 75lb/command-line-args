@@ -48,17 +48,13 @@ function isArrayLike (input) {
 function arrayify (input) {
   if (Array.isArray(input)) {
     return input
-  }
-
-  if (input === undefined) {
+  } else if (input === undefined) {
     return []
-  }
-
-  if (isArrayLike(input) || input instanceof Set) {
+  } else if (isArrayLike(input) || input instanceof Set) {
     return Array.from(input)
+  } else {
+    return [input]
   }
-
-  return [input]
 }
 
 /**
@@ -1274,9 +1270,9 @@ class GroupedOutput extends Output {
  */
 
 /**
- * Returns an object containing all option values set on the command line. By default it parses the global  [`process.argv`](https://nodejs.org/api/process.html#process_process_argv) array.
+ * Returns an object containing all options set on the command line and their values. By default it parses the global  [`process.argv`](https://nodejs.org/api/process.html#process_process_argv) array.
  *
- * Parsing is strict by default - an exception is thrown if the user sets a singular option more than once or sets an unknown value or option (one without a valid [definition](https://github.com/75lb/command-line-args/blob/master/doc/option-definition.md)). To be more permissive, enabling [partial](https://github.com/75lb/command-line-args/wiki/Partial-mode-example) or [stopAtFirstUnknown](https://github.com/75lb/command-line-args/wiki/stopAtFirstUnknown) modes will return known options in the usual manner while collecting unknown arguments in a separate `_unknown` property.
+ * Parsing is strict by default. For example, an exception is thrown if the user sets a option defined as a singular value more than once or sets an unknown value or option (one without a valid [definition](https://github.com/75lb/command-line-args/blob/master/doc/option-definition.md)). To be more permissive, enabling [partial](https://github.com/75lb/command-line-args/wiki/Partial-mode-example) or [stopAtFirstUnknown](https://github.com/75lb/command-line-args/wiki/stopAtFirstUnknown) modes will return known options in the usual manner while collecting unknown arguments in a separate `_unknown` property.
  *
  * @param {module:definition[]} - An array of [OptionDefinition](https://github.com/75lb/command-line-args/blob/master/doc/option-definition.md) objects
  * @param {object} [options] - Options.
