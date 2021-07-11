@@ -104,6 +104,6 @@ $ npm install command-line-args --save
 
 * * *
 
-&copy; 2014-20 Lloyd Brookes \<75pound@gmail.com\>.
+&copy; 2014-21 Lloyd Brookes \<75pound@gmail.com\>.
 
 Tested by [test-runner](https://github.com/test-runner-js/test-runner). Documented by [jsdoc-to-markdown](https://github.com/jsdoc2md/jsdoc-to-markdown).

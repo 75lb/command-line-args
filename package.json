@@ -3,12 +3,10 @@
   "version": "5.1.1",
   "description": "A mature, feature-complete library to parse command-line options.",
   "repository": "https://github.com/75lb/command-line-args.git",
-  "scripts": {
-    "test": "npm run dist && npm run test:esm",
-    "test:esm": "esm-runner 'test/**/*.mjs'",
-    "docs": "jsdoc2md -c jsdoc.conf index.mjs > doc/API.md && jsdoc2md -c jsdoc.conf lib/option-definition.mjs > doc/option-definition.md",
-    "cover": "nyc --reporter=text-lcov test-runner test/*.js test/internals/*.js | coveralls",
-    "dist": "rollup -c"
+  "author": "Lloyd Brookes <75pound@gmail.com>",
+  "license": "MIT",
+  "engines": {
+    "node": ">=14"
   },
   "main": "dist/index.js",
   "keywords": [
@@ -24,10 +22,12 @@
     "command",
     "line"
   ],
-  "author": "Lloyd Brookes <75pound@gmail.com>",
-  "license": "MIT",
-  "engines": {
-    "node": ">=8"
+  "scripts": {
+    "test": "npm run dist && npm run test:esm",
+    "test:esm": "esm-runner 'test/**/*.mjs'",
+    "docs": "jsdoc2md -c jsdoc.conf index.mjs > doc/API.md && jsdoc2md -c jsdoc.conf lib/option-definition.mjs > doc/option-definition.md",
+    "cover": "nyc --reporter=text-lcov test-runner test/*.js test/internals/*.js | coveralls",
+    "dist": "rollup -c"
   },
   "files": [
     "index.mjs",
