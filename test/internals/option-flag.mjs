@@ -1,6 +1,6 @@
 import TestRunner from 'test-runner'
 import a from 'assert'
-import FlagOption from '../../lib/option-flag'
+import FlagOption from '../../lib/option-flag.mjs'
 
 const runner = new TestRunner()
 
@@ -50,5 +50,5 @@ runner.test('type-boolean-multiple: 1', function () {
   option.set(undefined)
   option.set(undefined)
 
-  a.deepStrictEqual(option.get(), [ true, true, true ])
+  a.deepStrictEqual(option.get(), [true, true, true])
 })

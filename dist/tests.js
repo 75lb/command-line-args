@@ -9,10 +9,10 @@ var camelCase = _interopDefault(require('lodash.camelcase'));
 /**
  * Takes any input and guarantees an array back.
  *
- * - converts array-like objects (e.g. `arguments`) to a real array
- * - converts `undefined` to an empty array
- * - converts any another other, singular value (including `null`) into an array containing that value
- * - ignores input which is already an array
+ * - Converts array-like objects (e.g. `arguments`, `Set`) to a real array.
+ * - Converts `undefined` to an empty array.
+ * - Converts any another other, singular value (including `null`, objects and iterables other than `Set`) into an array containing that value.
+ * - Ignores input which is already an array.
  *
  * @module array-back
  * @example
@@ -30,6 +30,9 @@ var camelCase = _interopDefault(require('lodash.camelcase'));
  * > arrayify([ 1, 2 ])
  * [ 1, 2 ]
  *
+ * > arrayify(new Set([ 1, 2 ]))
+ * [ 1, 2 ]
+ *
  * > function f(){ return arrayify(arguments); }
  * > f(1,2,3)
  * [ 1, 2, 3 ]
@@ -44,21 +47,19 @@ function isArrayLike (input) {
 }
 
 /**
- * @param {*} - the input value to convert to an array
+ * @param {*} - The input value to convert to an array
  * @returns {Array}
  * @alias module:array-back
  */
 function arrayify (input) {
   if (Array.isArray(input)) {
     return input
+  } else if (input === undefined) {
+    return []
+  } else if (isArrayLike(input) || input instanceof Set) {
+    return Array.from(input)
   } else {
-    if (input === undefined) {
-      return []
-    } else if (isArrayLike(input)) {
-      return Array.prototype.slice.call(input)
-    } else {
-      return [ input ]
-    }
+    return [input]
   }
 }
 
@@ -826,7 +827,7 @@ class OptionDefinition {
     this.group = definition.group;
 
     /* pick up any remaining properties */
-    for (let prop in definition) {
+    for (const prop in definition) {
       if (!this[prop]) this[prop] = definition[prop];
     }
   }
@@ -834,6 +835,7 @@ class OptionDefinition {
   isBoolean () {
     return this.type === Boolean || (t.isFunction(this.type) && this.type.name === 'Boolean')
   }
+
   isMultiple () {
     return this.multiple || this.lazyMultiple
   }
@@ -970,9 +972,11 @@ class Definitions extends Array {
   whereGrouped () {
     return this.filter(containsValidGroup)
   }
+
   whereNotGrouped () {
     return this.filter(def => !containsValidGroup(def))
   }
+
   whereDefaultValueSet () {
     return this.filter(def => t.isDefined(def.defaultValue))
   }
@@ -1077,7 +1081,7 @@ class ArgvParser {
         }
 
       /* handle --option-value notation */
-    } else if (isOptionEqualsNotation(arg)) {
+      } else if (isOptionEqualsNotation(arg)) {
         const matches = arg.match(re.optEquals);
         def = definitions.get(matches[1]);
         if (def) {
@@ -1094,7 +1098,7 @@ class ArgvParser {
         }
 
       /* handle value */
-    } else if (isValue(arg)) {
+      } else if (isValue(arg)) {
         if (def) {
           value = arg;
           event = 'set';
@@ -1145,7 +1149,7 @@ runner.test('argv-parser: long option, string', function () {
   const optionDefinitions = [
     { name: 'one' }
   ];
-  const argv = [ '--one', '1' ];
+  const argv = ['--one', '1'];
   const parser = new ArgvParser(optionDefinitions, { argv });
   const result = Array.from(parser);
   a.ok(result[0].def);
@@ -1161,7 +1165,7 @@ runner.test('argv-parser: long option, string repeated', function () {
   const optionDefinitions = [
     { name: 'one' }
   ];
-  const argv = [ '--one', '1', '--one', '2' ];
+  const argv = ['--one', '1', '--one', '2'];
   const parser = new ArgvParser(optionDefinitions, { argv });
   const result = Array.from(parser);
   a.ok(result[0].def);
@@ -1181,7 +1185,7 @@ runner.test('argv-parser: long option, string multiple', function () {
   const optionDefinitions = [
     { name: 'one', multiple: true }
   ];
-  const argv = [ '--one', '1', '2' ];
+  const argv = ['--one', '1', '2'];
   const parser = new ArgvParser(optionDefinitions, { argv });
   const result = Array.from(parser);
   a.ok(result[0].def);
@@ -1200,7 +1204,7 @@ runner.test('argv-parser: long option, string multiple then boolean', function (
     { name: 'one', multiple: true },
     { name: 'two', type: Boolean }
   ];
-  const argv = [ '--one', '1', '2', '--two' ];
+  const argv = ['--one', '1', '2', '--two'];
   const parser = new ArgvParser(optionDefinitions, { argv });
   const result = Array.from(parser);
   a.ok(result[0].def);
@@ -1220,7 +1224,7 @@ runner.test('argv-parser: long option, boolean', function () {
   const optionDefinitions = [
     { name: 'one', type: Boolean }
   ];
-  const argv = [ '--one', '1' ];
+  const argv = ['--one', '1'];
   const parser = new ArgvParser(optionDefinitions, { argv });
   const result = Array.from(parser);
   a.ok(result[0].def);
@@ -1236,7 +1240,7 @@ runner.test('argv-parser: simple, with unknown values', function () {
   const optionDefinitions = [
     { name: 'one', type: Number }
   ];
-  const argv = [ 'clive', '--one', '1', 'yeah' ];
+  const argv = ['clive', '--one', '1', 'yeah'];
   const parser = new ArgvParser(optionDefinitions, { argv });
   const result = Array.from(parser);
   a.ok(!result[0].def);
@@ -1257,7 +1261,7 @@ runner.test('argv-parser: simple, with singular defaultOption', function () {
     { name: 'one', type: Number },
     { name: 'two', defaultOption: true }
   ];
-  const argv = [ 'clive', '--one', '1', 'yeah' ];
+  const argv = ['clive', '--one', '1', 'yeah'];
   const parser = new ArgvParser(optionDefinitions, { argv });
   const result = Array.from(parser);
   a.ok(result[0].def);
@@ -1278,7 +1282,7 @@ runner.test('argv-parser: simple, with multiple defaultOption', function () {
     { name: 'one', type: Number },
     { name: 'two', defaultOption: true, multiple: true }
   ];
-  const argv = [ 'clive', '--one', '1', 'yeah' ];
+  const argv = ['clive', '--one', '1', 'yeah'];
   const parser = new ArgvParser(optionDefinitions, { argv });
   const result = Array.from(parser);
   a.ok(result[0].def);
@@ -1298,7 +1302,7 @@ runner.test('argv-parser: long option, string lazyMultiple bad', function () {
   const optionDefinitions = [
     { name: 'one', lazyMultiple: true }
   ];
-  const argv = [ '--one', '1', '2' ];
+  const argv = ['--one', '1', '2'];
   const parser = new ArgvParser(optionDefinitions, { argv });
   const result = Array.from(parser);
   a.ok(result[0].def);
@@ -1316,7 +1320,7 @@ runner.test('argv-parser: long option, string lazyMultiple good', function () {
   const optionDefinitions = [
     { name: 'one', lazyMultiple: true }
   ];
-  const argv = [ '--one', '1', '--one', '2' ];
+  const argv = ['--one', '1', '--one', '2'];
   const parser = new ArgvParser(optionDefinitions, { argv });
   const result = Array.from(parser);
   a.ok(result[0].def);
@@ -1337,7 +1341,7 @@ runner.test('argv-parser: long option, stopAtFirstUnknown', function () {
     { name: 'one' },
     { name: 'two' }
   ];
-  const argv = [ '--one', '1', 'asdf', '--two', '2' ];
+  const argv = ['--one', '1', 'asdf', '--two', '2'];
   const parser = new ArgvParser(optionDefinitions, { argv, stopAtFirstUnknown: true });
   const result = Array.from(parser);
   a.ok(result[0].def);
@@ -1360,7 +1364,7 @@ runner.test('argv-parser: long option, stopAtFirstUnknown with defaultOption', f
     { name: 'one', defaultOption: true },
     { name: 'two' }
   ];
-  const argv = [ '1', 'asdf', '--two', '2' ];
+  const argv = ['1', 'asdf', '--two', '2'];
   const parser = new ArgvParser(optionDefinitions, { argv, stopAtFirstUnknown: true });
   const result = Array.from(parser);
   a.ok(result[0].def);
@@ -1381,7 +1385,7 @@ runner.test('argv-parser: long option, stopAtFirstUnknown with defaultOption 2',
     { name: 'one', defaultOption: true },
     { name: 'two' }
   ];
-  const argv = [ '--one', '1', '--', '--two', '2' ];
+  const argv = ['--one', '1', '--', '--two', '2'];
   const parser = new ArgvParser(optionDefinitions, { argv, stopAtFirstUnknown: true });
   const result = Array.from(parser);
   a.ok(result[0].def);
@@ -1404,7 +1408,7 @@ runner.test('argv-parser: --option=value', function () {
     { name: 'one' },
     { name: 'two' }
   ];
-  const argv = [ '--one=1', '--two=2', '--two=' ];
+  const argv = ['--one=1', '--two=2', '--two='];
   const parser = new ArgvParser(optionDefinitions, { argv });
   const result = Array.from(parser);
   a.ok(result[0].def);
@@ -1422,7 +1426,7 @@ runner.test('argv-parser: --option=value, unknown option', function () {
   const optionDefinitions = [
     { name: 'one' }
   ];
-  const argv = [ '--three=3' ];
+  const argv = ['--three=3'];
   const parser = new ArgvParser(optionDefinitions, { argv });
   const result = Array.from(parser);
   a.ok(!result[0].def);
@@ -1436,7 +1440,7 @@ runner.test('argv-parser: --option=value where option is boolean', function () {
   const optionDefinitions = [
     { name: 'one', type: Boolean }
   ];
-  const argv = [ '--one=1' ];
+  const argv = ['--one=1'];
   const parser = new ArgvParser(optionDefinitions, { argv });
   const result = Array.from(parser);
   a.ok(result[0].def);
@@ -1452,7 +1456,7 @@ runner.test('argv-parser: short option, string', function () {
   const optionDefinitions = [
     { name: 'one', alias: 'o' }
   ];
-  const argv = [ '-o', '1' ];
+  const argv = ['-o', '1'];
   const parser = new ArgvParser(optionDefinitions, { argv });
   const result = Array.from(parser);
   a.ok(result[0].def);
@@ -1469,7 +1473,7 @@ runner.test('argv-parser: combined short option, string', function () {
     { name: 'one', alias: 'o' },
     { name: 'two', alias: 't' }
   ];
-  const argv = [ '-ot', '1' ];
+  const argv = ['-ot', '1'];
   const parser = new ArgvParser(optionDefinitions, { argv });
   const result = Array.from(parser);
   a.ok(result[0].def);
@@ -1488,7 +1492,7 @@ runner.test('argv-parser: combined short option, one unknown', function () {
     { name: 'one', alias: 'o' },
     { name: 'two', alias: 't' }
   ];
-  const argv = [ '-xt', '1' ];
+  const argv = ['-xt', '1'];
   const parser = new ArgvParser(optionDefinitions, { argv });
   const result = Array.from(parser);
   a.ok(!result[0].def);
@@ -1600,10 +1604,10 @@ runner$1.test('option.set(): defaultValue', function () {
 });
 
 runner$1.test('option.set(): multiple defaultValue', function () {
-  const option = new Option({ name: 'two', multiple: true, defaultValue: [ 'two', 'zwei' ] });
-  a.deepStrictEqual(option.get(), [ 'two', 'zwei' ]);
+  const option = new Option({ name: 'two', multiple: true, defaultValue: ['two', 'zwei'] });
+  a.deepStrictEqual(option.get(), ['two', 'zwei']);
   option.set('duo');
-  a.deepStrictEqual(option.get(), [ 'duo' ]);
+  a.deepStrictEqual(option.get(), ['duo']);
 });
 
 runner$1.test('option.set(): falsy defaultValue', function () {
@@ -1618,30 +1622,30 @@ runner$1.test('option.set(): falsy defaultValue 2', function () {
 
 runner$1.test('option.set(): falsy defaultValue multiple', function () {
   const option = new Option({ name: 'one', defaultValue: 0, multiple: true });
-  a.deepStrictEqual(option.get(), [ 0 ]);
+  a.deepStrictEqual(option.get(), [0]);
 });
 
 const runner$2 = new TestRunner();
 
 runner$2.test('.get(long option)', function () {
-  const definitions = Definitions.from([ { name: 'one' } ]);
+  const definitions = Definitions.from([{ name: 'one' }]);
   a.strictEqual(definitions.get('--one').name, 'one');
 });
 
 runner$2.test('.get(short option)', function () {
-  const definitions = Definitions.from([ { name: 'one', alias: 'o' } ]);
+  const definitions = Definitions.from([{ name: 'one', alias: 'o' }]);
   a.strictEqual(definitions.get('-o').name, 'one');
 });
 
 runner$2.test('.get(name)', function () {
-  const definitions = Definitions.from([ { name: 'one' } ]);
+  const definitions = Definitions.from([{ name: 'one' }]);
   a.strictEqual(definitions.get('one').name, 'one');
 });
 
 runner$2.test('.validate()', function () {
   a.throws(function () {
     const definitions = new Definitions();
-    definitions.load([ { name: 'one' }, { name: 'one' } ]);
+    definitions.load([{ name: 'one' }, { name: 'one' }]);
   });
 });
 
@@ -1703,7 +1707,7 @@ runner$3.test('type-boolean-multiple: 1', function () {
   option.set(undefined);
   option.set(undefined);
 
-  a.deepStrictEqual(option.get(), [ true, true, true ]);
+  a.deepStrictEqual(option.get(), [true, true, true]);
 });
 
 const runner$4 = new TestRunner();
@@ -1757,10 +1761,10 @@ runner$4.test('option.set(): string multiple', function () {
   a.deepStrictEqual(option.get(), []);
   a.strictEqual(option.state, 'default');
   option.set('1');
-  a.deepStrictEqual(option.get(), [ '1' ]);
+  a.deepStrictEqual(option.get(), ['1']);
   a.strictEqual(option.state, 'set');
   option.set('2');
-  a.deepStrictEqual(option.get(), [ '1', '2' ]);
+  a.deepStrictEqual(option.get(), ['1', '2']);
   a.strictEqual(option.state, 'set');
 });
 
@@ -1769,10 +1773,10 @@ runner$4.test('option.set: lazyMultiple', function () {
   a.deepStrictEqual(option.get(), []);
   a.strictEqual(option.state, 'default');
   option.set('1');
-  a.deepStrictEqual(option.get(), [ '1' ]);
+  a.deepStrictEqual(option.get(), ['1']);
   a.strictEqual(option.state, 'set');
   option.set('2');
-  a.deepStrictEqual(option.get(), [ '1', '2' ]);
+  a.deepStrictEqual(option.get(), ['1', '2']);
   a.strictEqual(option.state, 'set');
 });
 
@@ -1781,10 +1785,10 @@ runner$4.test('option.set(): string multiple defaultOption', function () {
   a.deepStrictEqual(option.get(), []);
   a.strictEqual(option.state, 'default');
   option.set('1');
-  a.deepStrictEqual(option.get(), [ '1' ]);
+  a.deepStrictEqual(option.get(), ['1']);
   a.strictEqual(option.state, 'set');
   option.set('2');
-  a.deepStrictEqual(option.get(), [ '1', '2' ]);
+  a.deepStrictEqual(option.get(), ['1', '2']);
   a.strictEqual(option.state, 'set');
 });
 
@@ -1793,10 +1797,10 @@ runner$4.test('option.set: lazyMultiple defaultOption', function () {
   a.deepStrictEqual(option.get(), []);
   a.strictEqual(option.state, 'default');
   option.set('1');
-  a.deepStrictEqual(option.get(), [ '1' ]);
+  a.deepStrictEqual(option.get(), ['1']);
   a.strictEqual(option.state, 'set');
   option.set('2');
-  a.deepStrictEqual(option.get(), [ '1', '2' ]);
+  a.deepStrictEqual(option.get(), ['1', '2']);
   a.strictEqual(option.state, 'set');
 });
 
@@ -1974,7 +1978,7 @@ runner$6.test('alias-cluster: two flags, one option', function () {
     { name: 'three', alias: 'c' }
   ];
 
-  const argv = [ '-abc', 'yeah' ];
+  const argv = ['-abc', 'yeah'];
   a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv }), {
     flagA: true,
     flagB: true,
@@ -1989,7 +1993,7 @@ runner$6.test('alias-cluster: two flags, one option 2', function () {
     { name: 'three', alias: 'c' }
   ];
 
-  const argv = [ '-c', 'yeah', '-ab' ];
+  const argv = ['-c', 'yeah', '-ab'];
   a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv }), {
     flagA: true,
     flagB: true,
@@ -2004,7 +2008,7 @@ runner$6.test('alias-cluster: three string options', function () {
     { name: 'three', alias: 'c' }
   ];
 
-  const argv = [ '-abc', 'yeah' ];
+  const argv = ['-abc', 'yeah'];
   a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv }), {
     flagA: null,
     flagB: null,
@@ -2018,7 +2022,7 @@ runner$7.test('alias: one string alias', function () {
   const optionDefinitions = [
     { name: 'verbose', alias: 'v' }
   ];
-  const argv = [ '-v' ];
+  const argv = ['-v'];
   a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv }), {
     verbose: null
   });
@@ -2028,7 +2032,7 @@ runner$7.test('alias: one boolean alias', function () {
   const optionDefinitions = [
     { name: 'dry-run', alias: 'd', type: Boolean }
   ];
-  const argv = [ '-d' ];
+  const argv = ['-d'];
   a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv }), {
     'dry-run': true
   });
@@ -2039,7 +2043,7 @@ runner$7.test('alias: one boolean, one string', function () {
     { name: 'verbose', alias: 'v', type: Boolean },
     { name: 'colour', alias: 'c' }
   ];
-  const argv = [ '-v', '-c' ];
+  const argv = ['-v', '-c'];
   a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv }), {
     verbose: true,
     colour: null
@@ -2052,7 +2056,7 @@ runner$8.test('ambiguous input: value looks like an option 1', function () {
   const optionDefinitions = [
     { name: 'colour', type: String, alias: 'c' }
   ];
-  a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv: [ '-c', 'red' ] }), {
+  a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv: ['-c', 'red'] }), {
     colour: 'red'
   });
 });
@@ -2061,7 +2065,7 @@ runner$8.test('ambiguous input: value looks like an option 2', function () {
   const optionDefinitions = [
     { name: 'colour', type: String, alias: 'c' }
   ];
-  const argv = [ '--colour', '--red' ];
+  const argv = ['--colour', '--red'];
   a.throws(
     () => commandLineArgs(optionDefinitions, { argv }),
     err => err.name === 'UNKNOWN_OPTION'
@@ -2073,7 +2077,7 @@ runner$8.test('ambiguous input: value looks like an option 3', function () {
     { name: 'colour', type: String, alias: 'c' }
   ];
   a.doesNotThrow(function () {
-    commandLineArgs(optionDefinitions, { argv: [ '--colour=--red' ] });
+    commandLineArgs(optionDefinitions, { argv: ['--colour=--red'] });
   });
 });
 
@@ -2081,7 +2085,7 @@ runner$8.test('ambiguous input: value looks like an option 4', function () {
   const optionDefinitions = [
     { name: 'colour', type: String, alias: 'c' }
   ];
-  a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv: [ '--colour=--red' ] }), {
+  a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv: ['--colour=--red'] }), {
     colour: '--red'
   });
 });
@@ -2093,10 +2097,10 @@ runner$9.test('bad-input: missing option value should be null', function () {
     { name: 'colour', type: String },
     { name: 'files' }
   ];
-  a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv: [ '--colour' ] }), {
+  a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv: ['--colour'] }), {
     colour: null
   });
-  a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv: [ '--colour', '--files', 'yeah' ] }), {
+  a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv: ['--colour', '--files', 'yeah'] }), {
     colour: null,
     files: 'yeah'
   });
@@ -2106,9 +2110,9 @@ runner$9.test('bad-input: handles arrays with relative paths', function () {
   const optionDefinitions = [
     { name: 'colours', type: String, multiple: true }
   ];
-  const argv = [ '--colours', '../what', '../ever' ];
+  const argv = ['--colours', '../what', '../ever'];
   a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv }), {
-    colours: [ '../what', '../ever' ]
+    colours: ['../what', '../ever']
   });
 });
 
@@ -2120,17 +2124,17 @@ runner$9.test('bad-input: empty string added to unknown values', function () {
     { name: 'four', type: String },
     { name: 'five', type: Boolean }
   ];
-  const argv = [ '--one', '', '', '--two', '0', '--three=', '', '--four=', '--five=' ];
+  const argv = ['--one', '', '', '--two', '0', '--three=', '', '--four=', '--five='];
   a.throws(() => {
     commandLineArgs(optionDefinitions, { argv });
   });
   a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv, partial: true }), {
     one: '',
     two: 0,
-    three: [ 0, 0 ],
+    three: [0, 0],
     four: '',
     five: true,
-    _unknown: [ '', '--five=' ]
+    _unknown: ['', '--five=']
   });
 });
 
@@ -2138,7 +2142,7 @@ runner$9.test('bad-input: non-strings in argv', function () {
   const optionDefinitions = [
     { name: 'one', type: Number }
   ];
-  const argv = [ '--one', 1 ];
+  const argv = ['--one', 1];
   const result = commandLineArgs(optionDefinitions, { argv });
   a.deepStrictEqual(result, { one: 1 });
 });
@@ -2150,7 +2154,7 @@ runner$a.test('camel-case: regular', function () {
     { name: 'one-two' },
     { name: 'three', type: Boolean }
   ];
-  const argv = [ '--one-two', '1', '--three' ];
+  const argv = ['--one-two', '1', '--three'];
   const result = commandLineArgs(optionDefinitions, { argv, camelCase: true });
   a.deepStrictEqual(result, {
     oneTwo: '1',
@@ -2165,7 +2169,7 @@ runner$a.test('camel-case: grouped', function () {
     { name: 'three-three', group: 'b', type: Boolean },
     { name: 'four-four' }
   ];
-  const argv = [ '--one-one', '1', '--two-two', '2', '--three-three', '--four-four', '4' ];
+  const argv = ['--one-one', '1', '--two-two', '2', '--three-three', '--four-four', '4'];
   const result = commandLineArgs(optionDefinitions, { argv, camelCase: true });
   a.deepStrictEqual(result, {
     a: {
@@ -2194,7 +2198,7 @@ runner$a.test('camel-case: grouped with unknowns', function () {
     { name: 'three-three', group: 'b', type: Boolean },
     { name: 'four-four' }
   ];
-  const argv = [ '--one-one', '1', '--two-two', '2', '--three-three', '--four-four', '4', '--five' ];
+  const argv = ['--one-one', '1', '--two-two', '2', '--three-three', '--four-four', '4', '--five'];
   const result = commandLineArgs(optionDefinitions, { argv, camelCase: true, partial: true });
   a.deepStrictEqual(result, {
     a: {
@@ -2213,7 +2217,7 @@ runner$a.test('camel-case: grouped with unknowns', function () {
     _none: {
       fourFour: '4'
     },
-    _unknown: [ '--five' ]
+    _unknown: ['--five']
   });
 });
 
@@ -2223,9 +2227,9 @@ runner$b.test('defaultOption: multiple string', function () {
   const optionDefinitions = [
     { name: 'files', defaultOption: true, multiple: true }
   ];
-  const argv = [ 'file1', 'file2' ];
+  const argv = ['file1', 'file2'];
   a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv }), {
-    files: [ 'file1', 'file2' ]
+    files: ['file1', 'file2']
   });
 });
 
@@ -2235,7 +2239,7 @@ runner$b.test('defaultOption: after a boolean', function () {
     { name: 'two', defaultOption: true }
   ];
   a.deepStrictEqual(
-    commandLineArgs(definitions, { argv: [ '--one', 'sfsgf' ] }),
+    commandLineArgs(definitions, { argv: ['--one', 'sfsgf'] }),
     { one: true, two: 'sfsgf' }
   );
 });
@@ -2246,11 +2250,11 @@ runner$b.test('defaultOption: multiple-defaultOption values spread out', functio
     { name: 'two' },
     { name: 'files', defaultOption: true, multiple: true }
   ];
-  const argv = [ '--one', '1', 'file1', 'file2', '--two', '2' ];
+  const argv = ['--one', '1', 'file1', 'file2', '--two', '2'];
   a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv }), {
     one: '1',
     two: '2',
-    files: [ 'file1', 'file2' ]
+    files: ['file1', 'file2']
   });
 });
 
@@ -2260,11 +2264,11 @@ runner$b.test('defaultOption: multiple-defaultOption values spread out 2', funct
     { name: 'two' },
     { name: 'files', defaultOption: true, multiple: true }
   ];
-  const argv = [ 'file0', '--one', 'file1', '--files', 'file2', '--two', '2', 'file3' ];
+  const argv = ['file0', '--one', 'file1', '--files', 'file2', '--two', '2', 'file3'];
   a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv }), {
     one: true,
     two: '2',
-    files: [ 'file0', 'file1', 'file2', 'file3' ]
+    files: ['file0', 'file1', 'file2', 'file3']
   });
 });
 
@@ -2275,7 +2279,7 @@ runner$c.test('default value', function () {
     { name: 'one' },
     { name: 'two', defaultValue: 'two' }
   ];
-  const argv = [ '--one', '1' ];
+  const argv = ['--one', '1'];
   a.deepStrictEqual(commandLineArgs(defs, { argv }), {
     one: '1',
     two: 'two'
@@ -2283,21 +2287,21 @@ runner$c.test('default value', function () {
 });
 
 runner$c.test('default value 2', function () {
-  const defs = [ { name: 'two', defaultValue: 'two' } ];
+  const defs = [{ name: 'two', defaultValue: 'two' }];
   const argv = [];
   a.deepStrictEqual(commandLineArgs(defs, { argv }), { two: 'two' });
 });
 
 runner$c.test('default value 3', function () {
-  const defs = [ { name: 'two', defaultValue: 'two' } ];
-  const argv = [ '--two', 'zwei' ];
+  const defs = [{ name: 'two', defaultValue: 'two' }];
+  const argv = ['--two', 'zwei'];
   a.deepStrictEqual(commandLineArgs(defs, { argv }), { two: 'zwei' });
 });
 
 runner$c.test('default value 4', function () {
-  const defs = [ { name: 'two', multiple: true, defaultValue: [ 'two', 'zwei' ] } ];
-  const argv = [ '--two', 'duo' ];
-  a.deepStrictEqual(commandLineArgs(defs, { argv }), { two: [ 'duo' ] });
+  const defs = [{ name: 'two', multiple: true, defaultValue: ['two', 'zwei'] }];
+  const argv = ['--two', 'duo'];
+  a.deepStrictEqual(commandLineArgs(defs, { argv }), { two: ['duo'] });
 });
 
 runner$c.test('default value 5', function () {
@@ -2306,15 +2310,15 @@ runner$c.test('default value 5', function () {
   ];
   const argv = [];
   const result = commandLineArgs(defs, { argv });
-  a.deepStrictEqual(result, { two: [ 'two', 'zwei' ] });
+  a.deepStrictEqual(result, { two: ['two', 'zwei'] });
 });
 
 runner$c.test('default value: array as defaultOption', function () {
   const defs = [
     { name: 'two', multiple: true, defaultValue: ['two', 'zwei'], defaultOption: true }
   ];
-  const argv = [ 'duo' ];
-  a.deepStrictEqual(commandLineArgs(defs, { argv }), { two: [ 'duo' ] });
+  const argv = ['duo'];
+  a.deepStrictEqual(commandLineArgs(defs, { argv }), { two: ['duo'] });
 });
 
 runner$c.test('default value: falsy default values', function () {
@@ -2337,11 +2341,11 @@ runner$c.test('default value: is arrayifed if multiple set', function () {
 
   let argv = [];
   a.deepStrictEqual(commandLineArgs(defs, { argv }), {
-    one: [ 0 ]
+    one: [0]
   });
-  argv = [ '--one', '2' ];
+  argv = ['--one', '2'];
   a.deepStrictEqual(commandLineArgs(defs, { argv }), {
-    one: [ '2' ]
+    one: ['2']
   });
 });
 
@@ -2350,15 +2354,15 @@ runner$c.test('default value: combined with defaultOption', function () {
     { name: 'path', defaultOption: true, defaultValue: './' }
   ];
 
-  let argv = [ '--path', 'test' ];
+  let argv = ['--path', 'test'];
   a.deepStrictEqual(commandLineArgs(defs, { argv }), {
     path: 'test'
   });
-  argv = [ 'test' ];
+  argv = ['test'];
   a.deepStrictEqual(commandLineArgs(defs, { argv }), {
     path: 'test'
   });
-  argv = [ ];
+  argv = [];
   a.deepStrictEqual(commandLineArgs(defs, { argv }), {
     path: './'
   });
@@ -2369,77 +2373,77 @@ runner$c.test('default value: combined with multiple and defaultOption', functio
     { name: 'path', multiple: true, defaultOption: true, defaultValue: './' }
   ];
 
-  let argv = [ '--path', 'test1', 'test2' ];
+  let argv = ['--path', 'test1', 'test2'];
   a.deepStrictEqual(commandLineArgs(defs, { argv }), {
-    path: [ 'test1', 'test2' ]
+    path: ['test1', 'test2']
   });
-  argv = [ '--path', 'test' ];
+  argv = ['--path', 'test'];
   a.deepStrictEqual(commandLineArgs(defs, { argv }), {
-    path: [ 'test' ]
+    path: ['test']
   });
-  argv = [ 'test1', 'test2' ];
+  argv = ['test1', 'test2'];
   a.deepStrictEqual(commandLineArgs(defs, { argv }), {
-    path: [ 'test1', 'test2' ]
+    path: ['test1', 'test2']
   });
-  argv = [ 'test' ];
+  argv = ['test'];
   a.deepStrictEqual(commandLineArgs(defs, { argv }), {
-    path: [ 'test' ]
+    path: ['test']
   });
-  argv = [ ];
+  argv = [];
   a.deepStrictEqual(commandLineArgs(defs, { argv }), {
-    path: [ './' ]
+    path: ['./']
   });
 });
 
 runner$c.test('default value: array default combined with multiple and defaultOption', function () {
   const defs = [
-    { name: 'path', multiple: true, defaultOption: true, defaultValue: [ './' ] }
+    { name: 'path', multiple: true, defaultOption: true, defaultValue: ['./'] }
   ];
 
-  let argv = [ '--path', 'test1', 'test2' ];
+  let argv = ['--path', 'test1', 'test2'];
   a.deepStrictEqual(commandLineArgs(defs, { argv }), {
-    path: [ 'test1', 'test2' ]
+    path: ['test1', 'test2']
   });
-  argv = [ '--path', 'test' ];
+  argv = ['--path', 'test'];
   a.deepStrictEqual(commandLineArgs(defs, { argv }), {
-    path: [ 'test' ]
+    path: ['test']
   });
-  argv = [ 'test1', 'test2' ];
+  argv = ['test1', 'test2'];
   a.deepStrictEqual(commandLineArgs(defs, { argv }), {
-    path: [ 'test1', 'test2' ]
+    path: ['test1', 'test2']
   });
-  argv = [ 'test' ];
+  argv = ['test'];
   a.deepStrictEqual(commandLineArgs(defs, { argv }), {
-    path: [ 'test' ]
+    path: ['test']
   });
-  argv = [ ];
+  argv = [];
   a.deepStrictEqual(commandLineArgs(defs, { argv }), {
-    path: [ './' ]
+    path: ['./']
   });
 });
 
 const runner$d = new TestRunner();
 
 runner$d.test('detect process.argv: should automatically remove first two argv items', function () {
-  process.argv = [ 'node', 'filename', '--one', 'eins' ];
+  process.argv = ['node', 'filename', '--one', 'eins'];
   a.deepStrictEqual(commandLineArgs({ name: 'one' }), {
     one: 'eins'
   });
 });
 
 runner$d.test('detect process.argv: should automatically remove first two argv items 2', function () {
-  process.argv = [ 'node', 'filename', '--one', 'eins' ];
+  process.argv = ['node', 'filename', '--one', 'eins'];
   a.deepStrictEqual(commandLineArgs({ name: 'one' }, { argv: process.argv }), {
     one: 'eins'
   });
 });
 
 runner$d.test('process.argv is left untouched', function () {
-  process.argv = [ 'node', 'filename', '--one', 'eins' ];
+  process.argv = ['node', 'filename', '--one', 'eins'];
   a.deepStrictEqual(commandLineArgs({ name: 'one' }), {
     one: 'eins'
   });
-  a.deepStrictEqual(process.argv, [ 'node', 'filename', '--one', 'eins' ]);
+  a.deepStrictEqual(process.argv, ['node', 'filename', '--one', 'eins']);
 });
 
 const runner$e = new TestRunner();
@@ -2447,8 +2451,8 @@ const runner$e = new TestRunner();
 runner$e.test('detect process.execArgv: should automatically remove first argv items', function () {
   const origArgv = process.argv;
   const origExecArgv = process.execArgv;
-  process.argv = [ 'node', '--one', 'eins' ];
-  process.execArgv = [ '-e', 'something' ];
+  process.argv = ['node', '--one', 'eins'];
+  process.execArgv = ['-e', 'something'];
   a.deepStrictEqual(commandLineArgs({ name: 'one' }), {
     one: 'eins'
   });
@@ -2462,7 +2466,7 @@ runner$f.test('exceptions-already-set: long option', function () {
   const optionDefinitions = [
     { name: 'one', type: Boolean }
   ];
-  const argv = [ '--one', '--one' ];
+  const argv = ['--one', '--one'];
   a.throws(
     () => commandLineArgs(optionDefinitions, { argv }),
     err => err.name === 'ALREADY_SET' && err.optionName === 'one'
@@ -2473,7 +2477,7 @@ runner$f.test('exceptions-already-set: short option', function () {
   const optionDefinitions = [
     { name: 'one', type: Boolean, alias: 'o' }
   ];
-  const argv = [ '--one', '-o' ];
+  const argv = ['--one', '-o'];
   a.throws(
     () => commandLineArgs(optionDefinitions, { argv }),
     err => err.name === 'ALREADY_SET' && err.optionName === 'one'
@@ -2484,7 +2488,7 @@ runner$f.test('exceptions-already-set: --option=value', function () {
   const optionDefinitions = [
     { name: 'one' }
   ];
-  const argv = [ '--one=1', '--one=1' ];
+  const argv = ['--one=1', '--one=1'];
   a.throws(
     () => commandLineArgs(optionDefinitions, { argv }),
     err => err.name === 'ALREADY_SET' && err.optionName === 'one'
@@ -2495,7 +2499,7 @@ runner$f.test('exceptions-already-set: combined short option', function () {
   const optionDefinitions = [
     { name: 'one', type: Boolean, alias: 'o' }
   ];
-  const argv = [ '-oo' ];
+  const argv = ['-oo'];
   a.throws(
     () => commandLineArgs(optionDefinitions, { argv }),
     err => err.name === 'ALREADY_SET' && err.optionName === 'one'
@@ -2509,7 +2513,7 @@ runner$g.test('err-invalid-definition: throws when no definition.name specified'
     { something: 'one' },
     { something: 'two' }
   ];
-  const argv = [ '--one', '--two' ];
+  const argv = ['--one', '--two'];
   a.throws(
     () => commandLineArgs(optionDefinitions, { argv }),
     err => err.name === 'INVALID_DEFINITIONS'
@@ -2520,7 +2524,7 @@ runner$g.test('err-invalid-definition: throws if dev set a numeric alias', funct
   const optionDefinitions = [
     { name: 'colours', alias: '1' }
   ];
-  const argv = [ '--colours', 'red' ];
+  const argv = ['--colours', 'red'];
 
   a.throws(
     () => commandLineArgs(optionDefinitions, { argv }),
@@ -2532,7 +2536,7 @@ runner$g.test('err-invalid-definition: throws if dev set an alias of "-"', funct
   const optionDefinitions = [
     { name: 'colours', alias: '-' }
   ];
-  const argv = [ '--colours', 'red' ];
+  const argv = ['--colours', 'red'];
 
   a.throws(
     () => commandLineArgs(optionDefinitions, { argv }),
@@ -2544,7 +2548,7 @@ runner$g.test('err-invalid-definition: multi-character alias', function () {
   const optionDefinitions = [
     { name: 'one', alias: 'aa' }
   ];
-  const argv = [ '--one', 'red' ];
+  const argv = ['--one', 'red'];
   a.throws(
     () => commandLineArgs(optionDefinitions, { argv }),
     err => err.name === 'INVALID_DEFINITIONS'
@@ -2552,33 +2556,33 @@ runner$g.test('err-invalid-definition: multi-character alias', function () {
 });
 
 runner$g.test('err-invalid-definition: invalid type values 1', function () {
-  const argv = [ '--one', 'something' ];
+  const argv = ['--one', 'something'];
   a.throws(
-    () => commandLineArgs([ { name: 'one', type: 'string' } ], { argv }),
+    () => commandLineArgs([{ name: 'one', type: 'string' }], { argv }),
     err => err.name === 'INVALID_DEFINITIONS'
   );
 });
 
 runner$g.test('err-invalid-definition: invalid type values 2', function () {
-  const argv = [ '--one', 'something' ];
+  const argv = ['--one', 'something'];
   a.throws(
-    () => commandLineArgs([ { name: 'one', type: 234 } ], { argv }),
+    () => commandLineArgs([{ name: 'one', type: 234 }], { argv }),
     err => err.name === 'INVALID_DEFINITIONS'
   );
 });
 
 runner$g.test('err-invalid-definition: invalid type values 3', function () {
-  const argv = [ '--one', 'something' ];
+  const argv = ['--one', 'something'];
   a.throws(
-    () => commandLineArgs([ { name: 'one', type: {} } ], { argv }),
+    () => commandLineArgs([{ name: 'one', type: {} }], { argv }),
     err => err.name === 'INVALID_DEFINITIONS'
   );
 });
 
 runner$g.test('err-invalid-definition: invalid type values 4', function () {
-  const argv = [ '--one', 'something' ];
+  const argv = ['--one', 'something'];
   a.doesNotThrow(function () {
-    commandLineArgs([ { name: 'one', type: function () {} } ], { argv });
+    commandLineArgs([{ name: 'one', type: function () {} }], { argv });
   }, /invalid/i);
 });
 
@@ -2587,7 +2591,7 @@ runner$g.test('err-invalid-definition: duplicate name', function () {
     { name: 'colours' },
     { name: 'colours' }
   ];
-  const argv = [ '--colours', 'red' ];
+  const argv = ['--colours', 'red'];
   a.throws(
     () => commandLineArgs(optionDefinitions, { argv }),
     err => err.name === 'INVALID_DEFINITIONS'
@@ -2599,7 +2603,7 @@ runner$g.test('err-invalid-definition: duplicate alias', function () {
     { name: 'one', alias: 'a' },
     { name: 'two', alias: 'a' }
   ];
-  const argv = [ '--one', 'red' ];
+  const argv = ['--one', 'red'];
   a.throws(
     () => commandLineArgs(optionDefinitions, { argv }),
     err => err.name === 'INVALID_DEFINITIONS'
@@ -2611,7 +2615,7 @@ runner$g.test('err-invalid-definition: multiple defaultOption', function () {
     { name: 'one', defaultOption: true },
     { name: 'two', defaultOption: true }
   ];
-  const argv = [ '--one', 'red' ];
+  const argv = ['--one', 'red'];
   a.throws(
     () => commandLineArgs(optionDefinitions, { argv }),
     err => err.name === 'INVALID_DEFINITIONS'
@@ -2622,7 +2626,7 @@ runner$g.test('err-invalid-defaultOption: defaultOption on a Boolean type', func
   const optionDefinitions = [
     { name: 'one', type: Boolean, defaultOption: true }
   ];
-  const argv = [ '--one', 'red' ];
+  const argv = ['--one', 'red'];
   a.throws(
     () => commandLineArgs(optionDefinitions, { argv }),
     err => err.name === 'INVALID_DEFINITIONS'
@@ -2636,7 +2640,7 @@ runner$h.test('exceptions-unknowns: unknown option', function () {
     { name: 'one', type: Number }
   ];
   a.throws(
-    () => commandLineArgs(optionDefinitions, { argv: [ '--one', '--two' ] }),
+    () => commandLineArgs(optionDefinitions, { argv: ['--one', '--two'] }),
     err => err.name === 'UNKNOWN_OPTION' && err.optionName === '--two'
   );
 });
@@ -2646,7 +2650,7 @@ runner$h.test('exceptions-unknowns: 1 unknown option, 1 unknown value', function
     { name: 'one', type: Number }
   ];
   a.throws(
-    () => commandLineArgs(optionDefinitions, { argv: [ '--one', '2', '--two', 'two' ] }),
+    () => commandLineArgs(optionDefinitions, { argv: ['--one', '2', '--two', 'two'] }),
     err => err.name === 'UNKNOWN_OPTION' && err.optionName === '--two'
   );
 });
@@ -2656,7 +2660,7 @@ runner$h.test('exceptions-unknowns: unknown alias', function () {
     { name: 'one', type: Number }
   ];
   a.throws(
-    () => commandLineArgs(optionDefinitions, { argv: [ '-a', '2' ] }),
+    () => commandLineArgs(optionDefinitions, { argv: ['-a', '2'] }),
     err => err.name === 'UNKNOWN_OPTION' && err.optionName === '-a'
   );
 });
@@ -2666,7 +2670,7 @@ runner$h.test('exceptions-unknowns: unknown combined aliases', function () {
     { name: 'one', type: Number }
   ];
   a.throws(
-    () => commandLineArgs(optionDefinitions, { argv: [ '-sdf' ] }),
+    () => commandLineArgs(optionDefinitions, { argv: ['-sdf'] }),
     err => err.name === 'UNKNOWN_OPTION' && err.optionName === '-s'
   );
 });
@@ -2675,7 +2679,7 @@ runner$h.test('exceptions-unknowns: unknown value', function () {
   const optionDefinitions = [
     { name: 'one' }
   ];
-  const argv = [ '--one', 'arg1', 'arg2' ];
+  const argv = ['--one', 'arg1', 'arg2'];
   a.throws(
     () => commandLineArgs(optionDefinitions, { argv }),
     err => err.name === 'UNKNOWN_VALUE' && err.value === 'arg2'
@@ -2686,7 +2690,7 @@ runner$h.test('exceptions-unknowns: unknown value with singular defaultOption', 
   const optionDefinitions = [
     { name: 'one', defaultOption: true }
   ];
-  const argv = [ 'arg1', 'arg2' ];
+  const argv = ['arg1', 'arg2'];
   a.throws(
     () => commandLineArgs(optionDefinitions, { argv }),
     err => err.name === 'UNKNOWN_VALUE' && err.value === 'arg2'
@@ -2697,7 +2701,7 @@ runner$h.test('exceptions-unknowns: no unknown value exception with multiple def
   const optionDefinitions = [
     { name: 'one', defaultOption: true, multiple: true }
   ];
-  const argv = [ 'arg1', 'arg2' ];
+  const argv = ['arg1', 'arg2'];
   a.doesNotThrow(() => {
     commandLineArgs(optionDefinitions, { argv });
   });
@@ -2709,7 +2713,7 @@ runner$h.test('exceptions-unknowns: non-multiple defaultOption should take first
     { name: 'one', type: Boolean },
     { name: 'two', type: Boolean }
   ];
-  const argv = [ '--two', 'file1', '--one', 'file2' ];
+  const argv = ['--two', 'file1', '--one', 'file2'];
   a.throws(
     () => commandLineArgs(optionDefinitions, { argv }),
     err => err.name === 'UNKNOWN_VALUE' && err.value === 'file2'
@@ -2724,7 +2728,7 @@ runner$i.test('groups', function () {
     { name: 'two', group: 'a' },
     { name: 'three', group: 'b' }
   ];
-  const argv = [ '--one', '1', '--two', '2', '--three', '3' ];
+  const argv = ['--one', '1', '--two', '2', '--three', '3'];
   const output = commandLineArgs(definitions, { argv });
   a.deepStrictEqual(output, {
     a: {
@@ -2749,7 +2753,7 @@ runner$i.test('groups: multiple and _none', function () {
     { name: 'three' }
   ];
 
-  a.deepStrictEqual(commandLineArgs(definitions, { argv: [ '--one', '1', '--two', '2', '--three', '3' ] }), {
+  a.deepStrictEqual(commandLineArgs(definitions, { argv: ['--one', '1', '--two', '2', '--three', '3'] }), {
     a: {
       one: '1',
       two: '2'
@@ -2777,7 +2781,7 @@ runner$i.test('groups: nothing set', function () {
     { name: 'two', group: 'a' },
     { name: 'three', group: 'b' }
   ];
-  const argv = [ ];
+  const argv = [];
   const output = commandLineArgs(definitions, { argv });
   a.deepStrictEqual(output, {
     a: {},
@@ -2792,7 +2796,7 @@ runner$i.test('groups: nothing set with one ungrouped', function () {
     { name: 'two', group: 'a' },
     { name: 'three' }
   ];
-  const argv = [ ];
+  const argv = [];
   const output = commandLineArgs(definitions, { argv });
   a.deepStrictEqual(output, {
     a: {},
@@ -2807,7 +2811,7 @@ runner$i.test('groups: two ungrouped, one set', function () {
     { name: 'three' },
     { name: 'four' }
   ];
-  const argv = [ '--three', '3' ];
+  const argv = ['--three', '3'];
   const output = commandLineArgs(definitions, { argv });
   a.deepStrictEqual(output, {
     a: {},
@@ -2823,7 +2827,7 @@ runner$i.test('groups: two ungrouped, both set', function () {
     { name: 'three' },
     { name: 'four' }
   ];
-  const argv = [ '--three', '3', '--four', '4' ];
+  const argv = ['--three', '3', '--four', '4'];
   const output = commandLineArgs(definitions, { argv });
   a.deepStrictEqual(output, {
     a: {},
@@ -2838,7 +2842,7 @@ runner$i.test('groups: with partial', function () {
     { name: 'two', group: 'a' },
     { name: 'three', group: 'b' }
   ];
-  const argv = [ '--one', '1', '--two', '2', '--three', '3', 'ham', '--cheese' ];
+  const argv = ['--one', '1', '--two', '2', '--three', '3', 'ham', '--cheese'];
   a.deepStrictEqual(commandLineArgs(definitions, { argv, partial: true }), {
     a: {
       one: '1',
@@ -2852,7 +2856,7 @@ runner$i.test('groups: with partial', function () {
       two: '2',
       three: '3'
     },
-    _unknown: [ 'ham', '--cheese' ]
+    _unknown: ['ham', '--cheese']
   });
 });
 
@@ -2862,7 +2866,7 @@ runner$i.test('partial: with partial, multiple groups and _none', function () {
     { name: 'two', group: ['a', 'g'] },
     { name: 'three' }
   ];
-  const argv = [ '--cheese', '--one', '1', 'ham', '--two', '2', '--three', '3', '-c' ];
+  const argv = ['--cheese', '--one', '1', 'ham', '--two', '2', '--three', '3', '-c'];
   a.deepStrictEqual(commandLineArgs(definitions, { argv, partial: true }), {
     a: {
       one: '1',
@@ -2882,7 +2886,7 @@ runner$i.test('partial: with partial, multiple groups and _none', function () {
       two: '2',
       three: '3'
     },
-    _unknown: [ '--cheese', 'ham', '-c' ]
+    _unknown: ['--cheese', 'ham', '-c']
   });
 });
 
@@ -2891,7 +2895,7 @@ const runner$j = new TestRunner();
 runner$j.test('lazy multiple: string', function () {
   const argv = ['--one', 'a', '--one', 'b', '--one', 'd'];
   const optionDefinitions = [
-      { name: 'one', lazyMultiple: true }
+    { name: 'one', lazyMultiple: true }
   ];
   const result = commandLineArgs(optionDefinitions, { argv });
   a.deepStrictEqual(result, {
@@ -2905,17 +2909,17 @@ runner$j.test('lazy multiple: string unset with defaultValue', function () {
   ];
   const argv = [];
   const result = commandLineArgs(optionDefinitions, { argv });
-  a.deepStrictEqual(result, { one: [ 1 ] });
+  a.deepStrictEqual(result, { one: [1] });
 });
 
 runner$j.test('lazy multiple: string, --option=value', function () {
   const optionDefinitions = [
     { name: 'one', lazyMultiple: true }
   ];
-  const argv = [ '--one=1', '--one=2' ];
+  const argv = ['--one=1', '--one=2'];
   const result = commandLineArgs(optionDefinitions, { argv });
   a.deepStrictEqual(result, {
-    one: [ '1', '2' ]
+    one: ['1', '2']
   });
 });
 
@@ -2923,10 +2927,10 @@ runner$j.test('lazy multiple: string, --option=value mix', function () {
   const optionDefinitions = [
     { name: 'one', lazyMultiple: true }
   ];
-  const argv = [ '--one=1', '--one=2', '--one', '3' ];
+  const argv = ['--one=1', '--one=2', '--one', '3'];
   const result = commandLineArgs(optionDefinitions, { argv });
   a.deepStrictEqual(result, {
-    one: [ '1', '2', '3' ]
+    one: ['1', '2', '3']
   });
 });
 
@@ -2934,10 +2938,10 @@ runner$j.test('lazy multiple: string, defaultOption', function () {
   const optionDefinitions = [
     { name: 'one', lazyMultiple: true, defaultOption: true }
   ];
-  const argv = [ '1', '2' ];
+  const argv = ['1', '2'];
   const result = commandLineArgs(optionDefinitions, { argv });
   a.deepStrictEqual(result, {
-    one: [ '1', '2' ]
+    one: ['1', '2']
   });
 });
 
@@ -2945,7 +2949,7 @@ runner$j.test('lazy multiple: greedy style, string', function () {
   const optionDefinitions = [
     { name: 'one', lazyMultiple: true }
   ];
-  const argv = [ '--one', '1', '2' ];
+  const argv = ['--one', '1', '2'];
   a.throws(
     () => commandLineArgs(optionDefinitions, { argv }),
     err => err.name === 'UNKNOWN_VALUE' && err.value === '2'
@@ -2956,10 +2960,10 @@ runner$j.test('lazy multiple: greedy style, string, --option=value', function ()
   const optionDefinitions = [
     { name: 'one', lazyMultiple: true }
   ];
-  const argv = [ '--one=1', '--one=2' ];
+  const argv = ['--one=1', '--one=2'];
   const result = commandLineArgs(optionDefinitions, { argv });
   a.deepStrictEqual(result, {
-    one: [ '1', '2' ]
+    one: ['1', '2']
   });
 });
 
@@ -2967,7 +2971,7 @@ runner$j.test('lazy multiple: greedy style, string, --option=value mix', functio
   const optionDefinitions = [
     { name: 'one', lazyMultiple: true }
   ];
-  const argv = [ '--one=1', '--one=2', '3' ];
+  const argv = ['--one=1', '--one=2', '3'];
   a.throws(
     () => commandLineArgs(optionDefinitions, { argv }),
     err => err.name === 'UNKNOWN_VALUE' && err.value === '3'
@@ -3000,17 +3004,17 @@ runner$k.test('multiple: string unset with defaultValue', function () {
   ];
   const argv = [];
   const result = commandLineArgs(optionDefinitions, { argv });
-  a.deepStrictEqual(result, { one: [ 1 ] });
+  a.deepStrictEqual(result, { one: [1] });
 });
 
 runner$k.test('multiple: string', function () {
   const optionDefinitions = [
     { name: 'one', multiple: true }
   ];
-  const argv = [ '--one', '1', '2' ];
+  const argv = ['--one', '1', '2'];
   const result = commandLineArgs(optionDefinitions, { argv });
   a.deepStrictEqual(result, {
-    one: [ '1', '2' ]
+    one: ['1', '2']
   });
 });
 
@@ -3018,10 +3022,10 @@ runner$k.test('multiple: string, --option=value', function () {
   const optionDefinitions = [
     { name: 'one', multiple: true }
   ];
-  const argv = [ '--one=1', '--one=2' ];
+  const argv = ['--one=1', '--one=2'];
   const result = commandLineArgs(optionDefinitions, { argv });
   a.deepStrictEqual(result, {
-    one: [ '1', '2' ]
+    one: ['1', '2']
   });
 });
 
@@ -3029,10 +3033,10 @@ runner$k.test('multiple: string, --option=value mix', function () {
   const optionDefinitions = [
     { name: 'one', multiple: true }
   ];
-  const argv = [ '--one=1', '--one=2', '3' ];
+  const argv = ['--one=1', '--one=2', '3'];
   const result = commandLineArgs(optionDefinitions, { argv });
   a.deepStrictEqual(result, {
-    one: [ '1', '2', '3' ]
+    one: ['1', '2', '3']
   });
 });
 
@@ -3040,10 +3044,10 @@ runner$k.test('multiple: string, defaultOption', function () {
   const optionDefinitions = [
     { name: 'one', multiple: true, defaultOption: true }
   ];
-  const argv = [ '1', '2' ];
+  const argv = ['1', '2'];
   const result = commandLineArgs(optionDefinitions, { argv });
   a.deepStrictEqual(result, {
-    one: [ '1', '2' ]
+    one: ['1', '2']
   });
 });
 
@@ -3056,7 +3060,7 @@ runner$l.test('name-alias-mix: one of each', function () {
     { name: 'three', alias: 'h' },
     { name: 'four', alias: 'f' }
   ];
-  const argv = [ '--one', '-t', '--three' ];
+  const argv = ['--one', '-t', '--three'];
   const result = commandLineArgs(optionDefinitions, { argv });
   a.strictEqual(result.one, null);
   a.strictEqual(result.two, null);
@@ -3072,7 +3076,7 @@ runner$m.test('name-unicode: unicode names and aliases are permitted', function 
     { name: '两' },
     { name: 'три', alias: 'т' }
   ];
-  const argv = [ '--один', '1', '--两', '2', '-т', '3' ];
+  const argv = ['--один', '1', '--两', '2', '-т', '3'];
   const result = commandLineArgs(optionDefinitions, { argv });
   a.strictEqual(result.один, '1');
   a.strictEqual(result.两, '2');
@@ -3088,7 +3092,7 @@ runner$n.test('--option=value notation: two plus a regular notation', function (
     { name: 'three' }
   ];
 
-  const argv = [ '--one=1', '--two', '2', '--three=3' ];
+  const argv = ['--one=1', '--two', '2', '--three=3'];
   const result = commandLineArgs(optionDefinitions, { argv });
   a.strictEqual(result.one, '1');
   a.strictEqual(result.two, '2');
@@ -3102,15 +3106,15 @@ runner$n.test('--option=value notation: value contains "="', function () {
     { name: 'three' }
   ];
 
-  let result = commandLineArgs(optionDefinitions, { argv: [ '--url=my-url?q=123', '--two', '2', '--three=3' ] });
+  let result = commandLineArgs(optionDefinitions, { argv: ['--url=my-url?q=123', '--two', '2', '--three=3'] });
   a.strictEqual(result.url, 'my-url?q=123');
   a.strictEqual(result.two, '2');
   a.strictEqual(result.three, '3');
 
-  result = commandLineArgs(optionDefinitions, { argv: [ '--url=my-url?q=123=1' ] });
+  result = commandLineArgs(optionDefinitions, { argv: ['--url=my-url?q=123=1'] });
   a.strictEqual(result.url, 'my-url?q=123=1');
 
-  result = commandLineArgs({ name: 'my-url' }, { argv: [ '--my-url=my-url?q=123=1' ] });
+  result = commandLineArgs({ name: 'my-url' }, { argv: ['--my-url=my-url?q=123=1'] });
   a.strictEqual(result['my-url'], 'my-url?q=123=1');
 });
 
@@ -3120,11 +3124,11 @@ runner$o.test('partial: simple', function () {
   const definitions = [
     { name: 'one', type: Boolean }
   ];
-  const argv = [ '--two', 'two', '--one', 'two' ];
+  const argv = ['--two', 'two', '--one', 'two'];
   const options = commandLineArgs(definitions, { argv, partial: true });
   a.deepStrictEqual(options, {
     one: true,
-    _unknown: [ '--two', 'two', 'two' ]
+    _unknown: ['--two', 'two', 'two']
   });
 });
 
@@ -3132,11 +3136,11 @@ runner$o.test('partial: defaultOption', function () {
   const definitions = [
     { name: 'files', type: String, defaultOption: true, multiple: true }
   ];
-  const argv = [ '--files', 'file1', '--one', 'file2' ];
+  const argv = ['--files', 'file1', '--one', 'file2'];
   const options = commandLineArgs(definitions, { argv, partial: true });
   a.deepStrictEqual(options, {
-    files: [ 'file1', 'file2' ],
-    _unknown: [ '--one' ]
+    files: ['file1', 'file2'],
+    _unknown: ['--one']
   });
 });
 
@@ -3145,10 +3149,10 @@ runner$o.test('defaultOption: floating args present but no defaultOption', funct
     { name: 'one', type: Boolean }
   ];
   a.deepStrictEqual(
-    commandLineArgs(definitions, { argv: [ 'aaa', '--one', 'aaa', 'aaa' ], partial: true }),
+    commandLineArgs(definitions, { argv: ['aaa', '--one', 'aaa', 'aaa'], partial: true }),
     {
       one: true,
-      _unknown: [ 'aaa', 'aaa', 'aaa' ]
+      _unknown: ['aaa', 'aaa', 'aaa']
     }
   );
 });
@@ -3158,10 +3162,10 @@ runner$o.test('partial: combined short option, both unknown', function () {
     { name: 'one', alias: 'o' },
     { name: 'two', alias: 't' }
   ];
-  const argv = [ '-ab' ];
+  const argv = ['-ab'];
   const options = commandLineArgs(definitions, { argv, partial: true });
   a.deepStrictEqual(options, {
-    _unknown: [ '-a', '-b' ]
+    _unknown: ['-a', '-b']
   });
 });
 
@@ -3170,11 +3174,11 @@ runner$o.test('partial: combined short option, one known, one unknown', function
     { name: 'one', alias: 'o' },
     { name: 'two', alias: 't' }
   ];
-  const argv = [ '-ob' ];
+  const argv = ['-ob'];
   const options = commandLineArgs(definitions, { argv, partial: true });
   a.deepStrictEqual(options, {
     one: null,
-    _unknown: [ '-b' ]
+    _unknown: ['-b']
   });
 });
 
@@ -3184,13 +3188,13 @@ runner$o.test('partial: defaultOption with --option=value and combined short opt
     { name: 'one', type: Boolean },
     { name: 'two', alias: 't', defaultValue: 2 }
   ];
-  const argv = [ 'file1', '--one', 'file2', '-t', '--two=3', 'file3', '-ab' ];
+  const argv = ['file1', '--one', 'file2', '-t', '--two=3', 'file3', '-ab'];
   const options = commandLineArgs(definitions, { argv, partial: true });
   a.deepStrictEqual(options, {
-    files: [ 'file1', 'file2', 'file3' ],
+    files: ['file1', 'file2', 'file3'],
     two: '3',
     one: true,
-    _unknown: [ '-a', '-b' ]
+    _unknown: ['-a', '-b']
   });
 });
 
@@ -3198,11 +3202,11 @@ runner$o.test('partial: defaultOption with value equal to defaultValue', functio
   const definitions = [
     { name: 'file', type: String, defaultOption: true, defaultValue: 'file1' }
   ];
-  const argv = [ 'file1', '--two=3', '--four', '5' ];
+  const argv = ['file1', '--two=3', '--four', '5'];
   const options = commandLineArgs(definitions, { argv, partial: true });
   a.deepStrictEqual(options, {
     file: 'file1',
-    _unknown: [ '--two=3', '--four', '5' ]
+    _unknown: ['--two=3', '--four', '5']
   });
 });
 
@@ -3210,11 +3214,11 @@ runner$o.test('partial: string defaultOption can be set by argv once', function 
   const definitions = [
     { name: 'file', type: String, defaultOption: true, defaultValue: 'file1' }
   ];
-  const argv = [ '--file', '--file=file2', '--two=3', '--four', '5' ];
+  const argv = ['--file', '--file=file2', '--two=3', '--four', '5'];
   const options = commandLineArgs(definitions, { argv, partial: true });
   a.deepStrictEqual(options, {
     file: 'file2',
-    _unknown: [ '--two=3', '--four', '5' ]
+    _unknown: ['--two=3', '--four', '5']
   });
 });
 
@@ -3222,11 +3226,11 @@ runner$o.test('partial: string defaultOption can not be set by argv twice', func
   const definitions = [
     { name: 'file', type: String, defaultOption: true, defaultValue: 'file1' }
   ];
-  const argv = [ '--file', '--file=file2', '--two=3', '--four', '5', 'file3' ];
+  const argv = ['--file', '--file=file2', '--two=3', '--four', '5', 'file3'];
   const options = commandLineArgs(definitions, { argv, partial: true });
   a.deepStrictEqual(options, {
     file: 'file2',
-    _unknown: [ '--two=3', '--four', '5', 'file3' ]
+    _unknown: ['--two=3', '--four', '5', 'file3']
   });
 });
 
@@ -3234,11 +3238,11 @@ runner$o.test('partial: defaultOption with value equal to defaultValue 3', funct
   const definitions = [
     { name: 'file', type: String, defaultOption: true, defaultValue: 'file1' }
   ];
-  const argv = [ 'file1', 'file2', '--two=3', '--four', '5' ];
+  const argv = ['file1', 'file2', '--two=3', '--four', '5'];
   const options = commandLineArgs(definitions, { argv, partial: true });
   a.deepStrictEqual(options, {
     file: 'file1',
-    _unknown: [ 'file2', '--two=3', '--four', '5' ]
+    _unknown: ['file2', '--two=3', '--four', '5']
   });
 });
 
@@ -3246,11 +3250,11 @@ runner$o.test('partial: multiple', function () {
   const definitions = [
     { name: 'files', type: String, multiple: true }
   ];
-  const argv = [ 'file1', '--files', 'file2', '-t', '--two=3', 'file3', '-ab', '--files=file4' ];
+  const argv = ['file1', '--files', 'file2', '-t', '--two=3', 'file3', '-ab', '--files=file4'];
   const options = commandLineArgs(definitions, { argv, partial: true });
   a.deepStrictEqual(options, {
-    files: [ 'file2', 'file4' ],
-    _unknown: [ 'file1', '-t', '--two=3', 'file3', '-a', '-b' ]
+    files: ['file2', 'file4'],
+    _unknown: ['file1', '-t', '--two=3', 'file3', '-a', '-b']
   });
 });
 
@@ -3260,13 +3264,13 @@ runner$o.test('unknown options: rejected defaultOption values end up in _unknown
     { name: 'verbose', alias: 'v', type: Boolean },
     { name: 'libs', type: String, defaultOption: true }
   ];
-  const argv = [ '--foo', 'bar', '-v', 'libfn', '--libarg', 'val1', '-r' ];
+  const argv = ['--foo', 'bar', '-v', 'libfn', '--libarg', 'val1', '-r'];
   const options = commandLineArgs(definitions, { argv, partial: true });
   a.deepStrictEqual(options, {
     foo: 'bar',
     verbose: true,
     libs: 'libfn',
-    _unknown: [ '--libarg', 'val1', '-r' ]
+    _unknown: ['--libarg', 'val1', '-r']
   });
 });
 
@@ -3274,11 +3278,11 @@ runner$o.test('partial: defaultOption with --option=value notation', function ()
   const definitions = [
     { name: 'files', type: String, multiple: true, defaultOption: true }
   ];
-  const argv = [ 'file1', 'file2', '--unknown=something' ];
+  const argv = ['file1', 'file2', '--unknown=something'];
   const options = commandLineArgs(definitions, { argv, partial: true });
   a.deepStrictEqual(options, {
-    files: [ 'file1', 'file2' ],
-    _unknown: [ '--unknown=something' ]
+    files: ['file1', 'file2'],
+    _unknown: ['--unknown=something']
   });
 });
 
@@ -3286,11 +3290,11 @@ runner$o.test('partial: defaultOption with --option=value notation 2', function 
   const definitions = [
     { name: 'files', type: String, multiple: true, defaultOption: true }
   ];
-  const argv = [ 'file1', 'file2', '--unknown=something', '--files', 'file3', '--files=file4' ];
+  const argv = ['file1', 'file2', '--unknown=something', '--files', 'file3', '--files=file4'];
   const options = commandLineArgs(definitions, { argv, partial: true });
   a.deepStrictEqual(options, {
-    files: [ 'file1', 'file2', 'file3', 'file4' ],
-    _unknown: [ '--unknown=something' ]
+    files: ['file1', 'file2', 'file3', 'file4'],
+    _unknown: ['--unknown=something']
   });
 });
 
@@ -3298,11 +3302,11 @@ runner$o.test('partial: defaultOption with --option=value notation 3', function 
   const definitions = [
     { name: 'files', type: String, multiple: true, defaultOption: true }
   ];
-  const argv = [ '--unknown', 'file1', '--another', 'something', 'file2', '--unknown=something', '--files', 'file3', '--files=file4' ];
+  const argv = ['--unknown', 'file1', '--another', 'something', 'file2', '--unknown=something', '--files', 'file3', '--files=file4'];
   const options = commandLineArgs(definitions, { argv, partial: true });
   a.deepStrictEqual(options, {
-    files: [ 'file1', 'something', 'file2', 'file3', 'file4' ],
-    _unknown: [ '--unknown', '--another', '--unknown=something' ]
+    files: ['file1', 'something', 'file2', 'file3', 'file4'],
+    _unknown: ['--unknown', '--another', '--unknown=something']
   });
 });
 
@@ -3310,11 +3314,11 @@ runner$o.test('partial: mulitple unknowns with same name', function () {
   const definitions = [
     { name: 'file' }
   ];
-  const argv = [ '--unknown', '--unknown=something', '--file=file1', '--unknown' ];
+  const argv = ['--unknown', '--unknown=something', '--file=file1', '--unknown'];
   const options = commandLineArgs(definitions, { argv, partial: true });
   a.deepStrictEqual(options, {
     file: 'file1',
-    _unknown: [ '--unknown', '--unknown=something', '--unknown' ]
+    _unknown: ['--unknown', '--unknown=something', '--unknown']
   });
 });
 
@@ -3322,10 +3326,10 @@ runner$o.test('defaultOption: single string', function () {
   const optionDefinitions = [
     { name: 'files', defaultOption: true }
   ];
-  const argv = [ 'file1', 'file2' ];
+  const argv = ['file1', 'file2'];
   a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv, partial: true }), {
     files: 'file1',
-    _unknown: [ 'file2' ]
+    _unknown: ['file2']
   });
 });
 
@@ -3336,11 +3340,11 @@ runner$p.test('stopAtFirstUnknown', function () {
     { name: 'one', type: Boolean },
     { name: 'two', type: Boolean }
   ];
-  const argv = [ '--one', 'a', '--two' ];
+  const argv = ['--one', 'a', '--two'];
   const result = commandLineArgs(optionDefinitions, { argv, stopAtFirstUnknown: true, partial: true });
   a.deepStrictEqual(result, {
     one: true,
-    _unknown: [ 'a', '--two' ]
+    _unknown: ['a', '--two']
   });
 });
 
@@ -3349,11 +3353,11 @@ runner$p.test('stopAtFirstUnknown: with a singlular defaultOption', function () 
     { name: 'one', defaultOption: true },
     { name: 'two' }
   ];
-  const argv = [ '--one', '1', '--', '--two', '2' ];
+  const argv = ['--one', '1', '--', '--two', '2'];
   const result = commandLineArgs(optionDefinitions, { argv, stopAtFirstUnknown: true });
   a.deepStrictEqual(result, {
     one: '1',
-    _unknown: [ '--', '--two', '2' ]
+    _unknown: ['--', '--two', '2']
   });
 });
 
@@ -3362,11 +3366,11 @@ runner$p.test('stopAtFirstUnknown: with a singlular defaultOption and partial', 
     { name: 'one', defaultOption: true },
     { name: 'two' }
   ];
-  const argv = [ '--one', '1', '--', '--two', '2' ];
+  const argv = ['--one', '1', '--', '--two', '2'];
   const result = commandLineArgs(optionDefinitions, { argv, stopAtFirstUnknown: true, partial: true });
   a.deepStrictEqual(result, {
     one: '1',
-    _unknown: [ '--', '--two', '2' ]
+    _unknown: ['--', '--two', '2']
   });
 });
 
@@ -3378,7 +3382,7 @@ runner$q.test('type-boolean: simple', function () {
   ];
 
   a.deepStrictEqual(
-    commandLineArgs(optionDefinitions, { argv: [ '--one' ] }),
+    commandLineArgs(optionDefinitions, { argv: ['--one'] }),
     { one: true }
   );
 });
@@ -3396,7 +3400,7 @@ runner$q.test('type-boolean: global Boolean overridden', function () {
   ];
 
   a.deepStrictEqual(
-    commandLineArgs(optionDefinitions, { argv: [ '--one' ] }),
+    commandLineArgs(optionDefinitions, { argv: ['--one'] }),
     { one: true }
   );
 });
@@ -3405,10 +3409,10 @@ runner$q.test('type-boolean-multiple: 1', function () {
   const optionDefinitions = [
     { name: 'array', type: Boolean, multiple: true }
   ];
-  const argv = [ '--array', '--array', '--array' ];
+  const argv = ['--array', '--array', '--array'];
   const result = commandLineArgs(optionDefinitions, { argv });
   a.deepStrictEqual(result, {
-    array: [ true, true, true ]
+    array: [true, true, true]
   });
 });
 
@@ -3426,7 +3430,7 @@ runner$r.test('name: no argv values', function () {
 });
 
 runner$r.test('name: just names, no values', function () {
-  const argv = [ '--one', '--two' ];
+  const argv = ['--one', '--two'];
   const result = commandLineArgs(definitions, { argv });
   a.deepStrictEqual(result, {
     one: null,
@@ -3435,7 +3439,7 @@ runner$r.test('name: just names, no values', function () {
 });
 
 runner$r.test('name: just names, one value, one unpassed value', function () {
-  const argv = [ '--one', 'one', '--two' ];
+  const argv = ['--one', 'one', '--two'];
   const result = commandLineArgs(definitions, { argv });
   a.deepStrictEqual(result, {
     one: 'one',
@@ -3444,7 +3448,7 @@ runner$r.test('name: just names, one value, one unpassed value', function () {
 });
 
 runner$r.test('name: just names, two values', function () {
-  const argv = [ '--one', 'one', '--two', 'two' ];
+  const argv = ['--one', 'one', '--two', 'two'];
   const result = commandLineArgs(definitions, { argv });
   a.deepStrictEqual(result, {
     one: 'one',
@@ -3459,18 +3463,18 @@ runner$s.test('type-number: different values', function () {
     { name: 'one', type: Number }
   ];
   a.deepStrictEqual(
-    commandLineArgs(optionDefinitions, { argv: [ '--one', '1' ] }),
+    commandLineArgs(optionDefinitions, { argv: ['--one', '1'] }),
     { one: 1 }
   );
   a.deepStrictEqual(
-    commandLineArgs(optionDefinitions, { argv: [ '--one' ] }),
+    commandLineArgs(optionDefinitions, { argv: ['--one'] }),
     { one: null }
   );
   a.deepStrictEqual(
-    commandLineArgs(optionDefinitions, { argv: [ '--one', '-1' ] }),
+    commandLineArgs(optionDefinitions, { argv: ['--one', '-1'] }),
     { one: -1 }
   );
-  const result = commandLineArgs(optionDefinitions, { argv: [ '--one', 'asdf' ] });
+  const result = commandLineArgs(optionDefinitions, { argv: ['--one', 'asdf'] });
   a.ok(isNaN(result.one));
 });
 
@@ -3478,13 +3482,13 @@ runner$s.test('number multiple: 1', function () {
   const optionDefinitions = [
     { name: 'array', type: Number, multiple: true }
   ];
-  const argv = [ '--array', '1', '2', '3' ];
+  const argv = ['--array', '1', '2', '3'];
   const result = commandLineArgs(optionDefinitions, { argv });
   a.deepStrictEqual(result, {
-    array: [ 1, 2, 3 ]
+    array: [1, 2, 3]
   });
   a.notDeepStrictEqual(result, {
-    array: [ '1', '2', '3' ]
+    array: ['1', '2', '3']
   });
 });
 
@@ -3492,13 +3496,13 @@ runner$s.test('number multiple: 2', function () {
   const optionDefinitions = [
     { name: 'array', type: Number, multiple: true }
   ];
-  const argv = [ '--array', '1', '--array', '2', '--array', '3' ];
+  const argv = ['--array', '1', '--array', '2', '--array', '3'];
   const result = commandLineArgs(optionDefinitions, { argv });
   a.deepStrictEqual(result, {
-    array: [ 1, 2, 3 ]
+    array: [1, 2, 3]
   });
   a.notDeepStrictEqual(result, {
-    array: [ '1', '2', '3' ]
+    array: ['1', '2', '3']
   });
 });
 
@@ -3515,11 +3519,11 @@ runner$t.test('type-other: different values', function () {
   ];
 
   a.deepStrictEqual(
-    commandLineArgs(definitions, { argv: [ '--file', 'one.js' ] }),
+    commandLineArgs(definitions, { argv: ['--file', 'one.js'] }),
     { file: 'one.js' }
   );
   a.deepStrictEqual(
-    commandLineArgs(definitions, { argv: [ '--file' ] }),
+    commandLineArgs(definitions, { argv: ['--file'] }),
     { file: null }
   );
 });
@@ -3534,7 +3538,7 @@ runner$t.test('type-other: broken custom type function', function () {
     }
   ];
   a.throws(function () {
-    commandLineArgs(definitions, { argv: [ '--file', 'one.js' ] });
+    commandLineArgs(definitions, { argv: ['--file', 'one.js'] });
   });
 });
 
@@ -3550,15 +3554,15 @@ runner$t.test('type-other-multiple: different values', function () {
   ];
 
   a.deepStrictEqual(
-    commandLineArgs(definitions, { argv: [ '--file', 'one.js' ] }),
-    { file: [ 'one.js' ] }
+    commandLineArgs(definitions, { argv: ['--file', 'one.js'] }),
+    { file: ['one.js'] }
   );
   a.deepStrictEqual(
-    commandLineArgs(definitions, { argv: [ '--file', 'one.js', 'two.js' ] }),
-    { file: [ 'one.js', 'two.js' ] }
+    commandLineArgs(definitions, { argv: ['--file', 'one.js', 'two.js'] }),
+    { file: ['one.js', 'two.js'] }
   );
   a.deepStrictEqual(
-    commandLineArgs(definitions, { argv: [ '--file' ] }),
+    commandLineArgs(definitions, { argv: ['--file'] }),
     { file: [] }
   );
 });
@@ -3570,15 +3574,15 @@ runner$u.test('type-string: different values', function () {
     { name: 'one', type: String }
   ];
   a.deepStrictEqual(
-    commandLineArgs(optionDefinitions, { argv: [ '--one', 'yeah' ] }),
+    commandLineArgs(optionDefinitions, { argv: ['--one', 'yeah'] }),
     { one: 'yeah' }
   );
   a.deepStrictEqual(
-    commandLineArgs(optionDefinitions, { argv: [ '--one' ] }),
+    commandLineArgs(optionDefinitions, { argv: ['--one'] }),
     { one: null }
   );
   a.deepStrictEqual(
-    commandLineArgs(optionDefinitions, { argv: [ '--one', '3' ] }),
+    commandLineArgs(optionDefinitions, { argv: ['--one', '3'] }),
     { one: '3' }
   );
 });

@@ -15,11 +15,11 @@ runner.test('type-other: different values', function () {
   ]
 
   a.deepStrictEqual(
-    commandLineArgs(definitions, { argv: [ '--file', 'one.js' ] }),
+    commandLineArgs(definitions, { argv: ['--file', 'one.js'] }),
     { file: 'one.js' }
   )
   a.deepStrictEqual(
-    commandLineArgs(definitions, { argv: [ '--file' ] }),
+    commandLineArgs(definitions, { argv: ['--file'] }),
     { file: null }
   )
 })
@@ -34,7 +34,7 @@ runner.test('type-other: broken custom type function', function () {
     }
   ]
   a.throws(function () {
-    commandLineArgs(definitions, { argv: [ '--file', 'one.js' ] })
+    commandLineArgs(definitions, { argv: ['--file', 'one.js'] })
   })
 })
 
@@ -50,15 +50,15 @@ runner.test('type-other-multiple: different values', function () {
   ]
 
   a.deepStrictEqual(
-    commandLineArgs(definitions, { argv: [ '--file', 'one.js' ] }),
-    { file: [ 'one.js' ] }
+    commandLineArgs(definitions, { argv: ['--file', 'one.js'] }),
+    { file: ['one.js'] }
   )
   a.deepStrictEqual(
-    commandLineArgs(definitions, { argv: [ '--file', 'one.js', 'two.js' ] }),
-    { file: [ 'one.js', 'two.js' ] }
+    commandLineArgs(definitions, { argv: ['--file', 'one.js', 'two.js'] }),
+    { file: ['one.js', 'two.js'] }
   )
   a.deepStrictEqual(
-    commandLineArgs(definitions, { argv: [ '--file' ] }),
+    commandLineArgs(definitions, { argv: ['--file'] }),
     { file: [] }
   )
 })

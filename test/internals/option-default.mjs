@@ -12,10 +12,10 @@ runner.test('option.set(): defaultValue', function () {
 })
 
 runner.test('option.set(): multiple defaultValue', function () {
-  const option = new Option({ name: 'two', multiple: true, defaultValue: [ 'two', 'zwei' ] })
-  a.deepStrictEqual(option.get(), [ 'two', 'zwei' ])
+  const option = new Option({ name: 'two', multiple: true, defaultValue: ['two', 'zwei'] })
+  a.deepStrictEqual(option.get(), ['two', 'zwei'])
   option.set('duo')
-  a.deepStrictEqual(option.get(), [ 'duo' ])
+  a.deepStrictEqual(option.get(), ['duo'])
 })
 
 runner.test('option.set(): falsy defaultValue', function () {
@@ -30,5 +30,5 @@ runner.test('option.set(): falsy defaultValue 2', function () {
 
 runner.test('option.set(): falsy defaultValue multiple', function () {
   const option = new Option({ name: 'one', defaultValue: 0, multiple: true })
-  a.deepStrictEqual(option.get(), [ 0 ])
+  a.deepStrictEqual(option.get(), [0])
 })

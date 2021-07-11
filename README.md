@@ -1,17 +1,19 @@
-[![view on npm](https://img.shields.io/npm/v/command-line-args.svg)](https://www.npmjs.org/package/command-line-args)
-[![npm module downloads](https://img.shields.io/npm/dt/command-line-args.svg)](https://www.npmjs.org/package/command-line-args)
-[![Build Status](https://travis-ci.org/75lb/command-line-args.svg?branch=master)](https://travis-ci.org/75lb/command-line-args)
-[![Coverage Status](https://coveralls.io/repos/github/75lb/command-line-args/badge.svg?branch=master)](https://coveralls.io/github/75lb/command-line-args?branch=master)
-[![Dependency Status](https://david-dm.org/75lb/command-line-args.svg)](https://david-dm.org/75lb/command-line-args)
+[![view on npm](https://badgen.net/npm/v/command-line-args)](https://www.npmjs.org/package/command-line-args)
+[![npm module downloads](https://badgen.net/npm/dt/command-line-args)](https://www.npmjs.org/package/command-line-args)
+[![Gihub repo dependents](https://badgen.net/github/dependents-repo/75lb/command-line-args)](https://github.com/75lb/command-line-args/network/dependents?dependent_type=REPOSITORY)
+[![Gihub package dependents](https://badgen.net/github/dependents-pkg/75lb/command-line-args)](https://github.com/75lb/command-line-args/network/dependents?dependent_type=PACKAGE)
+[![Node.js CI](https://github.com/75lb/command-line-args/actions/workflows/node.js.yml/badge.svg)](https://github.com/75lb/command-line-args/actions/workflows/node.js.yml)
+[![Coverage Status](https://coveralls.io/repos/github/75lb/command-line-args/badge.svg)](https://coveralls.io/github/75lb/command-line-args)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](https://github.com/feross/standard)
-[![Join the chat at https://gitter.im/75lb/command-line-args](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/75lb/command-line-args?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 ***Upgraders, please read the [release notes](https://github.com/75lb/command-line-args/releases)***
 
 # command-line-args
+
 A mature, feature-complete library to parse command-line options.
 
 ## Synopsis
+
 You can set options using the main notation standards ([learn more](https://github.com/75lb/command-line-args/wiki/Notation-rules)). These commands are all equivalent, setting the same values:
 ```
 $ example --verbose --timeout=1000 --src one.js --src two.js
@@ -100,4 +102,4 @@ $ npm install command-line-args --save
 
 * * *
 
-&copy; 2014-19 Lloyd Brookes \<75pound@gmail.com\>. Documented by [jsdoc-to-markdown](https://github.com/75lb/jsdoc-to-markdown).
+&copy; 2014-21 Lloyd Brookes \<75pound@gmail.com\>. Documented by [jsdoc-to-markdown](https://github.com/75lb/jsdoc-to-markdown).

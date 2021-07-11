@@ -11,7 +11,7 @@ runner.test('alias-cluster: two flags, one option', function () {
     { name: 'three', alias: 'c' }
   ]
 
-  const argv = [ '-abc', 'yeah' ]
+  const argv = ['-abc', 'yeah']
   a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv }), {
     flagA: true,
     flagB: true,
@@ -26,7 +26,7 @@ runner.test('alias-cluster: two flags, one option 2', function () {
     { name: 'three', alias: 'c' }
   ]
 
-  const argv = [ '-c', 'yeah', '-ab' ]
+  const argv = ['-c', 'yeah', '-ab']
   a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv }), {
     flagA: true,
     flagB: true,
@@ -41,7 +41,7 @@ runner.test('alias-cluster: three string options', function () {
     { name: 'three', alias: 'c' }
   ]
 
-  const argv = [ '-abc', 'yeah' ]
+  const argv = ['-abc', 'yeah']
   a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv }), {
     flagA: null,
     flagB: null,

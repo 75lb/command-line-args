@@ -9,7 +9,7 @@ runner.test('exceptions-unknowns: unknown option', function () {
     { name: 'one', type: Number }
   ]
   a.throws(
-    () => commandLineArgs(optionDefinitions, { argv: [ '--one', '--two' ] }),
+    () => commandLineArgs(optionDefinitions, { argv: ['--one', '--two'] }),
     err => err.name === 'UNKNOWN_OPTION' && err.optionName === '--two'
   )
 })
@@ -19,7 +19,7 @@ runner.test('exceptions-unknowns: 1 unknown option, 1 unknown value', function (
     { name: 'one', type: Number }
   ]
   a.throws(
-    () => commandLineArgs(optionDefinitions, { argv: [ '--one', '2', '--two', 'two' ] }),
+    () => commandLineArgs(optionDefinitions, { argv: ['--one', '2', '--two', 'two'] }),
     err => err.name === 'UNKNOWN_OPTION' && err.optionName === '--two'
   )
 })
@@ -29,7 +29,7 @@ runner.test('exceptions-unknowns: unknown alias', function () {
     { name: 'one', type: Number }
   ]
   a.throws(
-    () => commandLineArgs(optionDefinitions, { argv: [ '-a', '2' ] }),
+    () => commandLineArgs(optionDefinitions, { argv: ['-a', '2'] }),
     err => err.name === 'UNKNOWN_OPTION' && err.optionName === '-a'
   )
 })
@@ -39,7 +39,7 @@ runner.test('exceptions-unknowns: unknown combined aliases', function () {
     { name: 'one', type: Number }
   ]
   a.throws(
-    () => commandLineArgs(optionDefinitions, { argv: [ '-sdf' ] }),
+    () => commandLineArgs(optionDefinitions, { argv: ['-sdf'] }),
     err => err.name === 'UNKNOWN_OPTION' && err.optionName === '-s'
   )
 })
@@ -48,7 +48,7 @@ runner.test('exceptions-unknowns: unknown value', function () {
   const optionDefinitions = [
     { name: 'one' }
   ]
-  const argv = [ '--one', 'arg1', 'arg2' ]
+  const argv = ['--one', 'arg1', 'arg2']
   a.throws(
     () => commandLineArgs(optionDefinitions, { argv }),
     err => err.name === 'UNKNOWN_VALUE' && err.value === 'arg2'
@@ -59,7 +59,7 @@ runner.test('exceptions-unknowns: unknown value with singular defaultOption', fu
   const optionDefinitions = [
     { name: 'one', defaultOption: true }
   ]
-  const argv = [ 'arg1', 'arg2' ]
+  const argv = ['arg1', 'arg2']
   a.throws(
     () => commandLineArgs(optionDefinitions, { argv }),
     err => err.name === 'UNKNOWN_VALUE' && err.value === 'arg2'
@@ -70,7 +70,7 @@ runner.test('exceptions-unknowns: no unknown value exception with multiple defau
   const optionDefinitions = [
     { name: 'one', defaultOption: true, multiple: true }
   ]
-  const argv = [ 'arg1', 'arg2' ]
+  const argv = ['arg1', 'arg2']
   a.doesNotThrow(() => {
     commandLineArgs(optionDefinitions, { argv })
   })
@@ -82,7 +82,7 @@ runner.test('exceptions-unknowns: non-multiple defaultOption should take first v
     { name: 'one', type: Boolean },
     { name: 'two', type: Boolean }
   ]
-  const argv = [ '--two', 'file1', '--one', 'file2' ]
+  const argv = ['--two', 'file1', '--one', 'file2']
   a.throws(
     () => commandLineArgs(optionDefinitions, { argv }),
     err => err.name === 'UNKNOWN_VALUE' && err.value === 'file2'

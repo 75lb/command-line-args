@@ -1,6 +1,6 @@
 import TestRunner from 'test-runner'
 import a from 'assert'
-import ArgvParser from '../../lib/argv-parser'
+import ArgvParser from '../../lib/argv-parser.mjs'
 
 const runner = new TestRunner()
 
@@ -8,7 +8,7 @@ runner.test('argv-parser: long option, string', function () {
   const optionDefinitions = [
     { name: 'one' }
   ]
-  const argv = [ '--one', '1' ]
+  const argv = ['--one', '1']
   const parser = new ArgvParser(optionDefinitions, { argv })
   const result = Array.from(parser)
   a.ok(result[0].def)
@@ -24,7 +24,7 @@ runner.test('argv-parser: long option, string repeated', function () {
   const optionDefinitions = [
     { name: 'one' }
   ]
-  const argv = [ '--one', '1', '--one', '2' ]
+  const argv = ['--one', '1', '--one', '2']
   const parser = new ArgvParser(optionDefinitions, { argv })
   const result = Array.from(parser)
   a.ok(result[0].def)
@@ -44,7 +44,7 @@ runner.test('argv-parser: long option, string multiple', function () {
   const optionDefinitions = [
     { name: 'one', multiple: true }
   ]
-  const argv = [ '--one', '1', '2' ]
+  const argv = ['--one', '1', '2']
   const parser = new ArgvParser(optionDefinitions, { argv })
   const result = Array.from(parser)
   a.ok(result[0].def)
@@ -63,7 +63,7 @@ runner.test('argv-parser: long option, string multiple then boolean', function (
     { name: 'one', multiple: true },
     { name: 'two', type: Boolean }
   ]
-  const argv = [ '--one', '1', '2', '--two' ]
+  const argv = ['--one', '1', '2', '--two']
   const parser = new ArgvParser(optionDefinitions, { argv })
   const result = Array.from(parser)
   a.ok(result[0].def)
@@ -83,7 +83,7 @@ runner.test('argv-parser: long option, boolean', function () {
   const optionDefinitions = [
     { name: 'one', type: Boolean }
   ]
-  const argv = [ '--one', '1' ]
+  const argv = ['--one', '1']
   const parser = new ArgvParser(optionDefinitions, { argv })
   const result = Array.from(parser)
   a.ok(result[0].def)
@@ -99,7 +99,7 @@ runner.test('argv-parser: simple, with unknown values', function () {
   const optionDefinitions = [
     { name: 'one', type: Number }
   ]
-  const argv = [ 'clive', '--one', '1', 'yeah' ]
+  const argv = ['clive', '--one', '1', 'yeah']
   const parser = new ArgvParser(optionDefinitions, { argv })
   const result = Array.from(parser)
   a.ok(!result[0].def)
@@ -120,7 +120,7 @@ runner.test('argv-parser: simple, with singular defaultOption', function () {
     { name: 'one', type: Number },
     { name: 'two', defaultOption: true }
   ]
-  const argv = [ 'clive', '--one', '1', 'yeah' ]
+  const argv = ['clive', '--one', '1', 'yeah']
   const parser = new ArgvParser(optionDefinitions, { argv })
   const result = Array.from(parser)
   a.ok(result[0].def)
@@ -141,7 +141,7 @@ runner.test('argv-parser: simple, with multiple defaultOption', function () {
     { name: 'one', type: Number },
     { name: 'two', defaultOption: true, multiple: true }
   ]
-  const argv = [ 'clive', '--one', '1', 'yeah' ]
+  const argv = ['clive', '--one', '1', 'yeah']
   const parser = new ArgvParser(optionDefinitions, { argv })
   const result = Array.from(parser)
   a.ok(result[0].def)
@@ -161,7 +161,7 @@ runner.test('argv-parser: long option, string lazyMultiple bad', function () {
   const optionDefinitions = [
     { name: 'one', lazyMultiple: true }
   ]
-  const argv = [ '--one', '1', '2' ]
+  const argv = ['--one', '1', '2']
   const parser = new ArgvParser(optionDefinitions, { argv })
   const result = Array.from(parser)
   a.ok(result[0].def)
@@ -179,7 +179,7 @@ runner.test('argv-parser: long option, string lazyMultiple good', function () {
   const optionDefinitions = [
     { name: 'one', lazyMultiple: true }
   ]
-  const argv = [ '--one', '1', '--one', '2' ]
+  const argv = ['--one', '1', '--one', '2']
   const parser = new ArgvParser(optionDefinitions, { argv })
   const result = Array.from(parser)
   a.ok(result[0].def)
@@ -200,7 +200,7 @@ runner.test('argv-parser: long option, stopAtFirstUnknown', function () {
     { name: 'one' },
     { name: 'two' }
   ]
-  const argv = [ '--one', '1', 'asdf', '--two', '2' ]
+  const argv = ['--one', '1', 'asdf', '--two', '2']
   const parser = new ArgvParser(optionDefinitions, { argv, stopAtFirstUnknown: true })
   const result = Array.from(parser)
   a.ok(result[0].def)
@@ -223,7 +223,7 @@ runner.test('argv-parser: long option, stopAtFirstUnknown with defaultOption', f
     { name: 'one', defaultOption: true },
     { name: 'two' }
   ]
-  const argv = [ '1', 'asdf', '--two', '2' ]
+  const argv = ['1', 'asdf', '--two', '2']
   const parser = new ArgvParser(optionDefinitions, { argv, stopAtFirstUnknown: true })
   const result = Array.from(parser)
   a.ok(result[0].def)
@@ -244,7 +244,7 @@ runner.test('argv-parser: long option, stopAtFirstUnknown with defaultOption 2',
     { name: 'one', defaultOption: true },
     { name: 'two' }
   ]
-  const argv = [ '--one', '1', '--', '--two', '2' ]
+  const argv = ['--one', '1', '--', '--two', '2']
   const parser = new ArgvParser(optionDefinitions, { argv, stopAtFirstUnknown: true })
   const result = Array.from(parser)
   a.ok(result[0].def)
@@ -267,7 +267,7 @@ runner.test('argv-parser: --option=value', function () {
     { name: 'one' },
     { name: 'two' }
   ]
-  const argv = [ '--one=1', '--two=2', '--two=' ]
+  const argv = ['--one=1', '--two=2', '--two=']
   const parser = new ArgvParser(optionDefinitions, { argv })
   const result = Array.from(parser)
   a.ok(result[0].def)
@@ -285,7 +285,7 @@ runner.test('argv-parser: --option=value, unknown option', function () {
   const optionDefinitions = [
     { name: 'one' }
   ]
-  const argv = [ '--three=3' ]
+  const argv = ['--three=3']
   const parser = new ArgvParser(optionDefinitions, { argv })
   const result = Array.from(parser)
   a.ok(!result[0].def)
@@ -299,7 +299,7 @@ runner.test('argv-parser: --option=value where option is boolean', function () {
   const optionDefinitions = [
     { name: 'one', type: Boolean }
   ]
-  const argv = [ '--one=1' ]
+  const argv = ['--one=1']
   const parser = new ArgvParser(optionDefinitions, { argv })
   const result = Array.from(parser)
   a.ok(result[0].def)
@@ -315,7 +315,7 @@ runner.test('argv-parser: short option, string', function () {
   const optionDefinitions = [
     { name: 'one', alias: 'o' }
   ]
-  const argv = [ '-o', '1' ]
+  const argv = ['-o', '1']
   const parser = new ArgvParser(optionDefinitions, { argv })
   const result = Array.from(parser)
   a.ok(result[0].def)
@@ -332,7 +332,7 @@ runner.test('argv-parser: combined short option, string', function () {
     { name: 'one', alias: 'o' },
     { name: 'two', alias: 't' }
   ]
-  const argv = [ '-ot', '1' ]
+  const argv = ['-ot', '1']
   const parser = new ArgvParser(optionDefinitions, { argv })
   const result = Array.from(parser)
   a.ok(result[0].def)
@@ -351,7 +351,7 @@ runner.test('argv-parser: combined short option, one unknown', function () {
     { name: 'one', alias: 'o' },
     { name: 'two', alias: 't' }
   ]
-  const argv = [ '-xt', '1' ]
+  const argv = ['-xt', '1']
   const parser = new ArgvParser(optionDefinitions, { argv })
   const result = Array.from(parser)
   a.ok(!result[0].def)

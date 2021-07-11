@@ -8,9 +8,9 @@ runner.test('defaultOption: multiple string', function () {
   const optionDefinitions = [
     { name: 'files', defaultOption: true, multiple: true }
   ]
-  const argv = [ 'file1', 'file2' ]
+  const argv = ['file1', 'file2']
   a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv }), {
-    files: [ 'file1', 'file2' ]
+    files: ['file1', 'file2']
   })
 })
 
@@ -20,7 +20,7 @@ runner.test('defaultOption: after a boolean', function () {
     { name: 'two', defaultOption: true }
   ]
   a.deepStrictEqual(
-    commandLineArgs(definitions, { argv: [ '--one', 'sfsgf' ] }),
+    commandLineArgs(definitions, { argv: ['--one', 'sfsgf'] }),
     { one: true, two: 'sfsgf' }
   )
 })
@@ -31,11 +31,11 @@ runner.test('defaultOption: multiple-defaultOption values spread out', function 
     { name: 'two' },
     { name: 'files', defaultOption: true, multiple: true }
   ]
-  const argv = [ '--one', '1', 'file1', 'file2', '--two', '2' ]
+  const argv = ['--one', '1', 'file1', 'file2', '--two', '2']
   a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv }), {
     one: '1',
     two: '2',
-    files: [ 'file1', 'file2' ]
+    files: ['file1', 'file2']
   })
 })
 
@@ -45,10 +45,10 @@ runner.test('defaultOption: multiple-defaultOption values spread out 2', functio
     { name: 'two' },
     { name: 'files', defaultOption: true, multiple: true }
   ]
-  const argv = [ 'file0', '--one', 'file1', '--files', 'file2', '--two', '2', 'file3' ]
+  const argv = ['file0', '--one', 'file1', '--files', 'file2', '--two', '2', 'file3']
   a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv }), {
     one: true,
     two: '2',
-    files: [ 'file0', 'file1', 'file2', 'file3' ]
+    files: ['file0', 'file1', 'file2', 'file3']
   })
 })

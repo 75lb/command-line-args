@@ -9,7 +9,7 @@ runner.test('default value', function () {
     { name: 'one' },
     { name: 'two', defaultValue: 'two' }
   ]
-  const argv = [ '--one', '1' ]
+  const argv = ['--one', '1']
   a.deepStrictEqual(commandLineArgs(defs, { argv }), {
     one: '1',
     two: 'two'
@@ -17,21 +17,21 @@ runner.test('default value', function () {
 })
 
 runner.test('default value 2', function () {
-  const defs = [ { name: 'two', defaultValue: 'two' } ]
+  const defs = [{ name: 'two', defaultValue: 'two' }]
   const argv = []
   a.deepStrictEqual(commandLineArgs(defs, { argv }), { two: 'two' })
 })
 
 runner.test('default value 3', function () {
-  const defs = [ { name: 'two', defaultValue: 'two' } ]
-  const argv = [ '--two', 'zwei' ]
+  const defs = [{ name: 'two', defaultValue: 'two' }]
+  const argv = ['--two', 'zwei']
   a.deepStrictEqual(commandLineArgs(defs, { argv }), { two: 'zwei' })
 })
 
 runner.test('default value 4', function () {
-  const defs = [ { name: 'two', multiple: true, defaultValue: [ 'two', 'zwei' ] } ]
-  const argv = [ '--two', 'duo' ]
-  a.deepStrictEqual(commandLineArgs(defs, { argv }), { two: [ 'duo' ] })
+  const defs = [{ name: 'two', multiple: true, defaultValue: ['two', 'zwei'] }]
+  const argv = ['--two', 'duo']
+  a.deepStrictEqual(commandLineArgs(defs, { argv }), { two: ['duo'] })
 })
 
 runner.test('default value 5', function () {
@@ -40,15 +40,15 @@ runner.test('default value 5', function () {
   ]
   const argv = []
   const result = commandLineArgs(defs, { argv })
-  a.deepStrictEqual(result, { two: [ 'two', 'zwei' ] })
+  a.deepStrictEqual(result, { two: ['two', 'zwei'] })
 })
 
 runner.test('default value: array as defaultOption', function () {
   const defs = [
     { name: 'two', multiple: true, defaultValue: ['two', 'zwei'], defaultOption: true }
   ]
-  const argv = [ 'duo' ]
-  a.deepStrictEqual(commandLineArgs(defs, { argv }), { two: [ 'duo' ] })
+  const argv = ['duo']
+  a.deepStrictEqual(commandLineArgs(defs, { argv }), { two: ['duo'] })
 })
 
 runner.test('default value: falsy default values', function () {
@@ -71,11 +71,11 @@ runner.test('default value: is arrayifed if multiple set', function () {
 
   let argv = []
   a.deepStrictEqual(commandLineArgs(defs, { argv }), {
-    one: [ 0 ]
+    one: [0]
   })
-  argv = [ '--one', '2' ]
+  argv = ['--one', '2']
   a.deepStrictEqual(commandLineArgs(defs, { argv }), {
-    one: [ '2' ]
+    one: ['2']
   })
 })
 
@@ -84,15 +84,15 @@ runner.test('default value: combined with defaultOption', function () {
     { name: 'path', defaultOption: true, defaultValue: './' }
   ]
 
-  let argv = [ '--path', 'test' ]
+  let argv = ['--path', 'test']
   a.deepStrictEqual(commandLineArgs(defs, { argv }), {
     path: 'test'
   })
-  argv = [ 'test' ]
+  argv = ['test']
   a.deepStrictEqual(commandLineArgs(defs, { argv }), {
     path: 'test'
   })
-  argv = [ ]
+  argv = []
   a.deepStrictEqual(commandLineArgs(defs, { argv }), {
     path: './'
   })
@@ -103,51 +103,51 @@ runner.test('default value: combined with multiple and defaultOption', function 
     { name: 'path', multiple: true, defaultOption: true, defaultValue: './' }
   ]
 
-  let argv = [ '--path', 'test1', 'test2' ]
+  let argv = ['--path', 'test1', 'test2']
   a.deepStrictEqual(commandLineArgs(defs, { argv }), {
-    path: [ 'test1', 'test2' ]
+    path: ['test1', 'test2']
   })
-  argv = [ '--path', 'test' ]
+  argv = ['--path', 'test']
   a.deepStrictEqual(commandLineArgs(defs, { argv }), {
-    path: [ 'test' ]
+    path: ['test']
   })
-  argv = [ 'test1', 'test2' ]
+  argv = ['test1', 'test2']
   a.deepStrictEqual(commandLineArgs(defs, { argv }), {
-    path: [ 'test1', 'test2' ]
+    path: ['test1', 'test2']
   })
-  argv = [ 'test' ]
+  argv = ['test']
   a.deepStrictEqual(commandLineArgs(defs, { argv }), {
-    path: [ 'test' ]
+    path: ['test']
   })
-  argv = [ ]
+  argv = []
   a.deepStrictEqual(commandLineArgs(defs, { argv }), {
-    path: [ './' ]
+    path: ['./']
   })
 })
 
 runner.test('default value: array default combined with multiple and defaultOption', function () {
   const defs = [
-    { name: 'path', multiple: true, defaultOption: true, defaultValue: [ './' ] }
+    { name: 'path', multiple: true, defaultOption: true, defaultValue: ['./'] }
   ]
 
-  let argv = [ '--path', 'test1', 'test2' ]
+  let argv = ['--path', 'test1', 'test2']
   a.deepStrictEqual(commandLineArgs(defs, { argv }), {
-    path: [ 'test1', 'test2' ]
+    path: ['test1', 'test2']
   })
-  argv = [ '--path', 'test' ]
+  argv = ['--path', 'test']
   a.deepStrictEqual(commandLineArgs(defs, { argv }), {
-    path: [ 'test' ]
+    path: ['test']
   })
-  argv = [ 'test1', 'test2' ]
+  argv = ['test1', 'test2']
   a.deepStrictEqual(commandLineArgs(defs, { argv }), {
-    path: [ 'test1', 'test2' ]
+    path: ['test1', 'test2']
   })
-  argv = [ 'test' ]
+  argv = ['test']
   a.deepStrictEqual(commandLineArgs(defs, { argv }), {
-    path: [ 'test' ]
+    path: ['test']
   })
-  argv = [ ]
+  argv = []
   a.deepStrictEqual(commandLineArgs(defs, { argv }), {
-    path: [ './' ]
+    path: ['./']
   })
 })
