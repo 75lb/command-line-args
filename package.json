@@ -44,7 +44,7 @@
     "test-runner": "^0.5.1"
   },
   "dependencies": {
-    "array-back": "^6.1.2",
+    "array-back": "^3.1.0",
     "find-replace": "^3.0.0",
     "lodash.camelcase": "^4.3.0",
     "typical": "^4.0.0"
