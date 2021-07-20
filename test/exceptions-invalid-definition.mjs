@@ -94,6 +94,42 @@ runner.test('err-invalid-definition: duplicate name', function () {
   )
 })
 
+runner.test('err-invalid-definition: duplicate name caused by case insensitivity 1', function () {
+  const optionDefinitions = [
+    { name: 'colours' },
+    { name: 'coloURS', caseSensitive: false }
+  ]
+  const argv = ['--colours', 'red']
+  a.throws(
+    () => commandLineArgs(optionDefinitions, { argv }),
+    err => err.name === 'INVALID_DEFINITIONS'
+  )
+})
+
+runner.test('err-invalid-definition: duplicate name caused by case insensitivity 2', function () {
+  const optionDefinitions = [
+    { name: 'COLOurs', caseSensitive: false },
+    { name: 'coloURS', caseSensitive: false }
+  ]
+  const argv = ['--coloURS', 'red']
+  a.throws(
+    () => commandLineArgs(optionDefinitions, { argv }),
+    err => err.name === 'INVALID_DEFINITIONS'
+  )
+})
+
+runner.test('err-invalid-definition: duplicate name caused by case insensitivity 3', function () {
+  const optionDefinitions = [
+    { name: 'colours' },
+    { name: 'coloURS' }
+  ]
+  const argv = ['--colours', 'red', '--coloURS', 'green']
+  a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv }), {
+    colours: 'red',
+    coloURS: 'green'
+  })
+})
+
 runner.test('err-invalid-definition: duplicate alias', function () {
   const optionDefinitions = [
     { name: 'one', alias: 'a' },

@@ -1,16 +1,16 @@
-'use strict'
+'use strict';
 
-function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex.default : ex }
+function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
 
-const camelCase = _interopDefault(require('lodash.camelcase'))
+var camelCase = _interopDefault(require('lodash.camelcase'));
 
 /**
  * Takes any input and guarantees an array back.
  *
- * - converts array-like objects (e.g. `arguments`) to a real array
- * - converts `undefined` to an empty array
- * - converts any another other, singular value (including `null`) into an array containing that value
- * - ignores input which is already an array
+ * - Converts array-like objects (e.g. `arguments`, `Set`) to a real array.
+ * - Converts `undefined` to an empty array.
+ * - Converts any another other, singular value (including `null`, objects and iterables other than `Set`) into an array containing that value.
+ * - Ignores input which is already an array.
  *
  * @module array-back
  * @example
@@ -28,6 +28,9 @@ const camelCase = _interopDefault(require('lodash.camelcase'))
  * > arrayify([ 1, 2 ])
  * [ 1, 2 ]
  *
+ * > arrayify(new Set([ 1, 2 ]))
+ * [ 1, 2 ]
+ *
  * > function f(){ return arrayify(arguments); }
  * > f(1,2,3)
  * [ 1, 2, 3 ]
@@ -42,22 +45,24 @@ function isArrayLike (input) {
 }
 
 /**
- * @param {*} - the input value to convert to an array
+ * @param {*} - The input value to convert to an array
  * @returns {Array}
  * @alias module:array-back
  */
 function arrayify (input) {
   if (Array.isArray(input)) {
     return input
-  } else {
-    if (input === undefined) {
-      return []
-    } else if (isArrayLike(input)) {
-      return Array.prototype.slice.call(input)
-    } else {
-      return [input]
-    }
   }
+
+  if (input === undefined) {
+    return []
+  }
+
+  if (isArrayLike(input) || input instanceof Set) {
+    return Array.from(input)
+  }
+
+  return [ input ]
 }
 
 /**
@@ -111,7 +116,7 @@ function arrayify$1 (input) {
     } else if (isArrayLike$1(input)) {
       return Array.prototype.slice.call(input)
     } else {
-      return [input]
+      return [ input ]
     }
   }
 }
@@ -145,32 +150,32 @@ function arrayify$1 (input) {
  * @alias module:find-replace
  */
 function findReplace (array, testFn) {
-  const found = []
-  const replaceWiths = arrayify$1(arguments)
-  replaceWiths.splice(0, 2)
+  const found = [];
+  const replaceWiths = arrayify$1(arguments);
+  replaceWiths.splice(0, 2);
 
   arrayify$1(array).forEach((value, index) => {
-    let expanded = []
+    let expanded = [];
     replaceWiths.forEach(replaceWith => {
       if (typeof replaceWith === 'function') {
-        expanded = expanded.concat(replaceWith(value))
+        expanded = expanded.concat(replaceWith(value));
       } else {
-        expanded.push(replaceWith)
+        expanded.push(replaceWith);
       }
-    })
+    });
 
     if (testFn(value)) {
       found.push({
         index: index,
         replaceWithValue: expanded
-      })
+      });
     }
-  })
+  });
 
   found.reverse().forEach(item => {
-    const spliceArgs = [item.index, 1].concat(item.replaceWithValue)
-    array.splice.apply(array, spliceArgs)
-  })
+    const spliceArgs = [ item.index, 1 ].concat(item.replaceWithValue);
+    array.splice.apply(array, spliceArgs);
+  });
 
   return array
 }
@@ -193,7 +198,7 @@ const re = {
   long: /^--(\S+)/,
   combinedShort: /^-[^\d-]{2,}$/,
   optEquals: /^(--\S+?)=(.*)/
-}
+};
 
 /**
  * Array subclass encapsulating common operations on `process.argv`.
@@ -205,23 +210,23 @@ class ArgvArray extends Array {
    * @param {string[]} argv - The argv list to load. Defaults to `process.argv`.
    */
   load (argv) {
-    this.clear()
+    this.clear();
     if (argv && argv !== process.argv) {
-      argv = arrayify(argv)
+      argv = arrayify(argv);
     } else {
       /* if no argv supplied, assume we are parsing process.argv */
-      argv = process.argv.slice(0)
-      const deleteCount = process.execArgv.some(isExecArg) ? 1 : 2
-      argv.splice(0, deleteCount)
+      argv = process.argv.slice(0);
+      const deleteCount = process.execArgv.some(isExecArg) ? 1 : 2;
+      argv.splice(0, deleteCount);
     }
-    argv.forEach(arg => this.push(String(arg)))
+    argv.forEach(arg => this.push(String(arg)));
   }
 
   /**
    * Clear the array.
    */
   clear () {
-    this.length = 0
+    this.length = 0;
   }
 
   /**
@@ -229,17 +234,17 @@ class ArgvArray extends Array {
    */
   expandOptionEqualsNotation () {
     if (this.some(arg => re.optEquals.test(arg))) {
-      const expandedArgs = []
+      const expandedArgs = [];
       this.forEach(arg => {
-        const matches = arg.match(re.optEquals)
+        const matches = arg.match(re.optEquals);
         if (matches) {
-          expandedArgs.push(matches[1], matches[2])
+          expandedArgs.push(matches[1], matches[2]);
         } else {
-          expandedArgs.push(arg)
+          expandedArgs.push(arg);
         }
-      })
-      this.clear()
-      this.load(expandedArgs)
+      });
+      this.clear();
+      this.load(expandedArgs);
     }
   }
 
@@ -248,7 +253,7 @@ class ArgvArray extends Array {
    */
   expandGetoptNotation () {
     if (this.hasCombinedShortOptions()) {
-      findReplace(this, re.combinedShort, expandCombinedShortArg)
+      findReplace(this, re.combinedShort, expandCombinedShortArg);
     }
   }
 
@@ -261,8 +266,8 @@ class ArgvArray extends Array {
   }
 
   static from (argv) {
-    const result = new this()
-    result.load(argv)
+    const result = new this();
+    result.load(argv);
     return result
   }
 }
@@ -275,7 +280,7 @@ class ArgvArray extends Array {
  */
 function expandCombinedShortArg (arg) {
   /* remove initial hypen */
-  arg = arg.slice(1)
+  arg = arg.slice(1);
   return arg.split('').map(letter => '-' + letter)
 }
 
@@ -508,8 +513,8 @@ function isPrimitive (input) {
  */
 function isPromise (input) {
   if (input) {
-    const isPromise = isDefined(Promise) && input instanceof Promise
-    const isThenable = input.then && typeof input.then === 'function'
+    const isPromise = isDefined(Promise) && input instanceof Promise;
+    const isThenable = input.then && typeof input.then === 'function';
     return !!(isPromise || isThenable)
   } else {
     return false
@@ -566,7 +571,7 @@ function isIterable (input) {
   }
 }
 
-const t = {
+var t = {
   isNumber,
   isString,
   isBoolean,
@@ -579,7 +584,7 @@ const t = {
   isPrimitive,
   isPromise,
   isIterable
-}
+};
 
 /**
  * @module option-definition
@@ -620,7 +625,7 @@ class OptionDefinition {
     * ```
     * @type {string}
     */
-    this.name = definition.name
+    this.name = definition.name;
 
     /**
     * The `type` value is a setter function (you receive the output from this), enabling you to be specific about the type and value received.
@@ -657,7 +662,7 @@ class OptionDefinition {
     * @type {function}
     * @default String
     */
-    this.type = definition.type || String
+    this.type = definition.type || String;
 
     /**
     * getopt-style short option names. Can be any single character (unicode included) except a digit or hyphen.
@@ -677,7 +682,7 @@ class OptionDefinition {
     *
     * @type {string}
     */
-    this.alias = definition.alias
+    this.alias = definition.alias;
 
     /**
     * Set this flag if the option takes a list of values. You will receive an array of values, each passed through the `type` function (if specified).
@@ -698,7 +703,7 @@ class OptionDefinition {
     *
     * @type {boolean}
     */
-    this.multiple = definition.multiple
+    this.multiple = definition.multiple;
 
     /**
      * Identical to `multiple` but with greedy parsing disabled.
@@ -717,7 +722,7 @@ class OptionDefinition {
      *
      * @type {boolean}
      */
-    this.lazyMultiple = definition.lazyMultiple
+    this.lazyMultiple = definition.lazyMultiple;
 
     /**
     * Any values unaccounted for by an option definition will be set on the `defaultOption`. This flag is typically set on the most commonly-used option to make for more concise usage (i.e. `$ example *.js` instead of `$ example --files *.js`).
@@ -736,7 +741,7 @@ class OptionDefinition {
     *
     * @type {boolean}
     */
-    this.defaultOption = definition.defaultOption
+    this.defaultOption = definition.defaultOption;
 
     /**
     * An initial value for the option.
@@ -756,7 +761,7 @@ class OptionDefinition {
     *
     * @type {*}
     */
-    this.defaultValue = definition.defaultValue
+    this.defaultValue = definition.defaultValue;
 
     /**
     * When your app has a large amount of options it makes sense to organise them in groups.
@@ -821,11 +826,36 @@ class OptionDefinition {
     *
     * @type {string|string[]}
     */
-    this.group = definition.group
+    this.group = definition.group;
+
+    /**
+    * Whether the option is case sensitive. Defaults to true. The UNIX-based command line is traditionally case sensitive, but the Windows command line is not.
+    *
+    * When case insensitivity is used, all defined options must have unambiguous names.
+    * An invalid definition error is thrown if any option definition names conflict due to the use of case insensitivity.
+    *
+    * Note that this option does NOT apply to aliases - aliases are always case sensitive.
+    *
+    * ```js
+    * const optionDefinitions = [
+    *   { name: 'file' }
+    * ]
+    * ```
+    *
+    * | #   | argv input | commandLineArgs() output |
+    * | --- | -------------------- | ------------ |
+    * | 1   | `--file` | `{ file: null }` |
+    * | 2   | `--FILE=Lib.js` | `{ file: 'Lib.js' }` |
+    * | 3   | `--fILe 2` | `{ file: '2' }` |
+    *
+    * @type {boolean}
+    * @default true
+    */
+    this.caseSensitive = t.isDefined(definition.caseSensitive) ? definition.caseSensitive : true;
 
     /* pick up any remaining properties */
     for (const prop in definition) {
-      if (!this[prop]) this[prop] = definition[prop]
+      if (!this[prop]) this[prop] = definition[prop];
     }
   }
 
@@ -838,7 +868,7 @@ class OptionDefinition {
   }
 
   static create (def) {
-    const result = new this(def)
+    const result = new this(def);
     return result
   }
 }
@@ -856,90 +886,105 @@ class Definitions extends Array {
    * @returns {string}
    */
   validate () {
-    const someHaveNoName = this.some(def => !def.name)
+    const someHaveNoName = this.some(def => !def.name);
     if (someHaveNoName) {
       halt(
         'INVALID_DEFINITIONS',
         'Invalid option definitions: the `name` property is required on each definition'
-      )
+      );
     }
 
-    const someDontHaveFunctionType = this.some(def => def.type && typeof def.type !== 'function')
+    const someDontHaveFunctionType = this.some(def => def.type && typeof def.type !== 'function');
     if (someDontHaveFunctionType) {
       halt(
         'INVALID_DEFINITIONS',
         'Invalid option definitions: the `type` property must be a setter fuction (default: `Boolean`)'
-      )
+      );
     }
 
-    let invalidOption
+    let invalidOption;
 
     const numericAlias = this.some(def => {
-      invalidOption = def
+      invalidOption = def;
       return t.isDefined(def.alias) && t.isNumber(def.alias)
-    })
+    });
     if (numericAlias) {
       halt(
         'INVALID_DEFINITIONS',
         'Invalid option definition: to avoid ambiguity an alias cannot be numeric [--' + invalidOption.name + ' alias is -' + invalidOption.alias + ']'
-      )
+      );
     }
 
     const multiCharacterAlias = this.some(def => {
-      invalidOption = def
+      invalidOption = def;
       return t.isDefined(def.alias) && def.alias.length !== 1
-    })
+    });
     if (multiCharacterAlias) {
       halt(
         'INVALID_DEFINITIONS',
         'Invalid option definition: an alias must be a single character'
-      )
+      );
     }
 
     const hypenAlias = this.some(def => {
-      invalidOption = def
+      invalidOption = def;
       return def.alias === '-'
-    })
+    });
     if (hypenAlias) {
       halt(
         'INVALID_DEFINITIONS',
         'Invalid option definition: an alias cannot be "-"'
-      )
+      );
     }
 
-    const duplicateName = hasDuplicates(this.map(def => def.name))
+    const duplicateName = hasDuplicates(this.map(def => def.name));
     if (duplicateName) {
       halt(
         'INVALID_DEFINITIONS',
         'Two or more option definitions have the same name'
-      )
+      );
     }
 
-    const duplicateAlias = hasDuplicates(this.map(def => def.alias))
+    const caseSensitiveLowercaseNames = this.filter(def => def.caseSensitive).map(def => def.name.toLowerCase());
+    const caseInsensitiveLowercaseNames = this.filter(def => !def.caseSensitive).map(def => def.name.toLowerCase());
+
+    const conflictingCaseInsensitiveNames = hasDuplicates(caseInsensitiveLowercaseNames);
+    // tests if a case insensitive option definition conflicts with a case sensitive option definition
+    // (disallowed because a match to the case sensitive option would also match the case insensitive option)
+    const conflictingCaseInsensitiveCaseSensitiveName = caseInsensitiveLowercaseNames.find(
+      caseInsensitiveLowercaseName => caseSensitiveLowercaseNames.includes(caseInsensitiveLowercaseName));
+    if (conflictingCaseInsensitiveNames || conflictingCaseInsensitiveCaseSensitiveName) {
+      halt(
+        'INVALID_DEFINITIONS',
+        'Due to the use of case insensitivity, two or more option definitions have conflicting names'
+      );
+    }
+
+    const duplicateAlias = hasDuplicates(this.map(def => def.alias));
     if (duplicateAlias) {
       halt(
         'INVALID_DEFINITIONS',
         'Two or more option definitions have the same alias'
-      )
+      );
     }
 
-    const duplicateDefaultOption = hasDuplicates(this.map(def => def.defaultOption))
+    const duplicateDefaultOption = hasDuplicates(this.map(def => def.defaultOption));
     if (duplicateDefaultOption) {
       halt(
         'INVALID_DEFINITIONS',
         'Only one option definition can be the defaultOption'
-      )
+      );
     }
 
     const defaultBoolean = this.some(def => {
-      invalidOption = def
+      invalidOption = def;
       return def.isBoolean() && def.defaultOption
-    })
+    });
     if (defaultBoolean) {
       halt(
         'INVALID_DEFINITIONS',
         `A boolean option ["${invalidOption.name}"] can not also be the defaultOption.`
-      )
+      );
     }
   }
 
@@ -950,9 +995,20 @@ class Definitions extends Array {
    */
   get (arg) {
     if (isOption(arg)) {
-      return re.short.test(arg)
-        ? this.find(def => def.alias === getOptionName(arg))
-        : this.find(def => def.name === getOptionName(arg))
+      if (re.short.test(arg)) {
+        // case sensitivity does not apply to aliases
+        return this.find(def => def.alias === getOptionName(arg))
+      } else {
+        const optionName = getOptionName(arg);
+        const lowercaseOptionName = optionName.toLowerCase();
+        return this.find(def => {
+          if (def.caseSensitive) {
+            return def.name === optionName
+          } else {
+            return def.name.toLowerCase() == lowercaseOptionName
+          }
+        })
+      }
     } else {
       return this.find(def => def.name === arg)
     }
@@ -980,15 +1036,15 @@ class Definitions extends Array {
 
   static from (definitions) {
     if (definitions instanceof this) return definitions
-    const result = super.from(arrayify(definitions), def => OptionDefinition.create(def))
-    result.validate()
+    const result = super.from(arrayify(definitions), def => OptionDefinition.create(def));
+    result.validate();
     return result
   }
 }
 
 function halt (name, message) {
-  const err = new Error(message)
-  err.name = name
+  const err = new Error(message);
+  err.name = name;
   throw err
 }
 
@@ -997,13 +1053,13 @@ function containsValidGroup (def) {
 }
 
 function hasDuplicates (array) {
-  const items = {}
+  const items = {};
   for (let i = 0; i < array.length; i++) {
-    const value = array[i]
+    const value = array[i];
     if (items[value]) {
       return true
     } else {
-      if (t.isDefined(value)) items[value] = true
+      if (t.isDefined(value)) items[value] = true;
     }
   }
 }
@@ -1023,21 +1079,21 @@ class ArgvParser {
    * @param {boolean} [options.stopAtFirstUnknown] -
    */
   constructor (definitions, options) {
-    this.options = Object.assign({}, options)
+    this.options = Object.assign({}, options);
     /**
      * Option Definitions
      */
-    this.definitions = Definitions.from(definitions)
+    this.definitions = Definitions.from(definitions);
 
     /**
      * Argv
      */
-    this.argv = ArgvArray.from(this.options.argv)
+    this.argv = ArgvArray.from(this.options.argv);
     if (this.argv.hasCombinedShortOptions()) {
       findReplace(this.argv, re.combinedShort.test.bind(re.combinedShort), arg => {
-        arg = arg.slice(1)
+        arg = arg.slice(1);
         return arg.split('').map(letter => ({ origArg: `-${arg}`, arg: '-' + letter }))
-      })
+      });
     }
   }
 
@@ -1045,111 +1101,111 @@ class ArgvParser {
    * Yields one `{ event, name, value, arg, def }` argInfo object for each arg in `process.argv` (or `options.argv`).
    */
   * [Symbol.iterator] () {
-    const definitions = this.definitions
+    const definitions = this.definitions;
 
-    let def
-    let value
-    let name
-    let event
-    let singularDefaultSet = false
-    let unknownFound = false
-    let origArg
+    let def;
+    let value;
+    let name;
+    let event;
+    let singularDefaultSet = false;
+    let unknownFound = false;
+    let origArg;
 
     for (let arg of this.argv) {
       if (t.isPlainObject(arg)) {
-        origArg = arg.origArg
-        arg = arg.arg
+        origArg = arg.origArg;
+        arg = arg.arg;
       }
 
       if (unknownFound && this.options.stopAtFirstUnknown) {
-        yield { event: 'unknown_value', arg, name: '_unknown', value: undefined }
+        yield { event: 'unknown_value', arg, name: '_unknown', value: undefined };
         continue
       }
 
       /* handle long or short option */
       if (isOption(arg)) {
-        def = definitions.get(arg)
-        value = undefined
+        def = definitions.get(arg);
+        value = undefined;
         if (def) {
-          value = def.isBoolean() ? true : null
-          event = 'set'
+          value = def.isBoolean() ? true : null;
+          event = 'set';
         } else {
-          event = 'unknown_option'
+          event = 'unknown_option';
         }
 
       /* handle --option-value notation */
       } else if (isOptionEqualsNotation(arg)) {
-        const matches = arg.match(re.optEquals)
-        def = definitions.get(matches[1])
+        const matches = arg.match(re.optEquals);
+        def = definitions.get(matches[1]);
         if (def) {
           if (def.isBoolean()) {
-            yield { event: 'unknown_value', arg, name: '_unknown', value, def }
-            event = 'set'
-            value = true
+            yield { event: 'unknown_value', arg, name: '_unknown', value, def };
+            event = 'set';
+            value = true;
           } else {
-            event = 'set'
-            value = matches[2]
+            event = 'set';
+            value = matches[2];
           }
         } else {
-          event = 'unknown_option'
+          event = 'unknown_option';
         }
 
       /* handle value */
       } else if (isValue(arg)) {
         if (def) {
-          value = arg
-          event = 'set'
+          value = arg;
+          event = 'set';
         } else {
           /* get the defaultOption */
-          def = this.definitions.getDefault()
+          def = this.definitions.getDefault();
           if (def && !singularDefaultSet) {
-            value = arg
-            event = 'set'
+            value = arg;
+            event = 'set';
           } else {
-            event = 'unknown_value'
-            def = undefined
+            event = 'unknown_value';
+            def = undefined;
           }
         }
       }
 
-      name = def ? def.name : '_unknown'
-      const argInfo = { event, arg, name, value, def }
+      name = def ? def.name : '_unknown';
+      const argInfo = { event, arg, name, value, def };
       if (origArg) {
-        argInfo.subArg = arg
-        argInfo.arg = origArg
+        argInfo.subArg = arg;
+        argInfo.arg = origArg;
       }
-      yield argInfo
+      yield argInfo;
 
       /* unknownFound logic */
-      if (name === '_unknown') unknownFound = true
+      if (name === '_unknown') unknownFound = true;
 
       /* singularDefaultSet logic */
-      if (def && def.defaultOption && !def.isMultiple() && event === 'set') singularDefaultSet = true
+      if (def && def.defaultOption && !def.isMultiple() && event === 'set') singularDefaultSet = true;
 
       /* reset values once consumed and yielded */
-      if (def && def.isBoolean()) def = undefined
+      if (def && def.isBoolean()) def = undefined;
       /* reset the def if it's a singular which has been set */
       if (def && !def.multiple && t.isDefined(value) && value !== null) {
-        def = undefined
+        def = undefined;
       }
-      value = undefined
-      event = undefined
-      name = undefined
-      origArg = undefined
+      value = undefined;
+      event = undefined;
+      name = undefined;
+      origArg = undefined;
     }
   }
 }
 
-const _value = new WeakMap()
+const _value = new WeakMap();
 
 /**
  * Encapsulates behaviour (defined by an OptionDefinition) when setting values
  */
 class Option {
   constructor (definition) {
-    this.definition = new OptionDefinition(definition)
-    this.state = null /* set or default */
-    this.resetToDefault()
+    this.definition = new OptionDefinition(definition);
+    this.state = null; /* set or default */
+    this.resetToDefault();
   }
 
   get () {
@@ -1157,36 +1213,36 @@ class Option {
   }
 
   set (val) {
-    this._set(val, 'set')
+    this._set(val, 'set');
   }
 
   _set (val, state) {
-    const def = this.definition
+    const def = this.definition;
     if (def.isMultiple()) {
       /* don't add null or undefined to a multiple */
       if (val !== null && val !== undefined) {
-        const arr = this.get()
-        if (this.state === 'default') arr.length = 0
-        arr.push(def.type(val))
-        this.state = state
+        const arr = this.get();
+        if (this.state === 'default') arr.length = 0;
+        arr.push(def.type(val));
+        this.state = state;
       }
     } else {
       /* throw if already set on a singlar defaultOption */
       if (!def.isMultiple() && this.state === 'set') {
-        const err = new Error(`Singular option already set [${this.definition.name}=${this.get()}]`)
-        err.name = 'ALREADY_SET'
-        err.value = val
-        err.optionName = def.name
+        const err = new Error(`Singular option already set [${this.definition.name}=${this.get()}]`);
+        err.name = 'ALREADY_SET';
+        err.value = val;
+        err.optionName = def.name;
         throw err
       } else if (val === null || val === undefined) {
-        _value.set(this, val)
+        _value.set(this, val);
         // /* required to make 'partial: defaultOption with value equal to defaultValue 2' pass */
         // if (!(def.defaultOption && !def.isMultiple())) {
         //   this.state = state
         // }
       } else {
-        _value.set(this, def.type(val))
-        this.state = state
+        _value.set(this, def.type(val));
+        this.state = state;
       }
     }
   }
@@ -1194,22 +1250,22 @@ class Option {
   resetToDefault () {
     if (t.isDefined(this.definition.defaultValue)) {
       if (this.definition.isMultiple()) {
-        _value.set(this, arrayify(this.definition.defaultValue).slice())
+        _value.set(this, arrayify(this.definition.defaultValue).slice());
       } else {
-        _value.set(this, this.definition.defaultValue)
+        _value.set(this, this.definition.defaultValue);
       }
     } else {
       if (this.definition.isMultiple()) {
-        _value.set(this, [])
+        _value.set(this, []);
       } else {
-        _value.set(this, null)
+        _value.set(this, null);
       }
     }
-    this.state = 'default'
+    this.state = 'default';
   }
 
   static create (definition) {
-    definition = new OptionDefinition(definition)
+    definition = new OptionDefinition(definition);
     if (definition.isBoolean()) {
       return FlagOption.create(definition)
     } else {
@@ -1220,7 +1276,7 @@ class Option {
 
 class FlagOption extends Option {
   set (val) {
-    super.set(true)
+    super.set(true);
   }
 
   static create (def) {
@@ -1233,64 +1289,64 @@ class FlagOption extends Option {
  */
 class Output extends Map {
   constructor (definitions) {
-    super()
+    super();
     /**
      * @type {OptionDefinitions}
      */
-    this.definitions = Definitions.from(definitions)
+    this.definitions = Definitions.from(definitions);
 
     /* by default, an Output has an `_unknown` property and any options with defaultValues */
-    this.set('_unknown', Option.create({ name: '_unknown', multiple: true }))
+    this.set('_unknown', Option.create({ name: '_unknown', multiple: true }));
     for (const def of this.definitions.whereDefaultValueSet()) {
-      this.set(def.name, Option.create(def))
+      this.set(def.name, Option.create(def));
     }
   }
 
   toObject (options) {
-    options = options || {}
-    const output = {}
+    options = options || {};
+    const output = {};
     for (const item of this) {
-      const name = options.camelCase && item[0] !== '_unknown' ? camelCase(item[0]) : item[0]
-      const option = item[1]
+      const name = options.camelCase && item[0] !== '_unknown' ? camelCase(item[0]) : item[0];
+      const option = item[1];
       if (name === '_unknown' && !option.get().length) continue
-      output[name] = option.get()
+      output[name] = option.get();
     }
 
-    if (options.skipUnknown) delete output._unknown
+    if (options.skipUnknown) delete output._unknown;
     return output
   }
 }
 
 class GroupedOutput extends Output {
   toObject (options) {
-    const superOutputNoCamel = super.toObject({ skipUnknown: options.skipUnknown })
-    const superOutput = super.toObject(options)
-    const unknown = superOutput._unknown
-    delete superOutput._unknown
+    const superOutputNoCamel = super.toObject({ skipUnknown: options.skipUnknown });
+    const superOutput = super.toObject(options);
+    const unknown = superOutput._unknown;
+    delete superOutput._unknown;
     const grouped = {
       _all: superOutput
-    }
-    if (unknown && unknown.length) grouped._unknown = unknown
+    };
+    if (unknown && unknown.length) grouped._unknown = unknown;
 
     this.definitions.whereGrouped().forEach(def => {
-      const name = options.camelCase ? camelCase(def.name) : def.name
-      const outputValue = superOutputNoCamel[def.name]
+      const name = options.camelCase ? camelCase(def.name) : def.name;
+      const outputValue = superOutputNoCamel[def.name];
       for (const groupName of arrayify(def.group)) {
-        grouped[groupName] = grouped[groupName] || {}
+        grouped[groupName] = grouped[groupName] || {};
         if (t.isDefined(outputValue)) {
-          grouped[groupName][name] = outputValue
+          grouped[groupName][name] = outputValue;
         }
       }
-    })
+    });
 
     this.definitions.whereNotGrouped().forEach(def => {
-      const name = options.camelCase ? camelCase(def.name) : def.name
-      const outputValue = superOutputNoCamel[def.name]
+      const name = options.camelCase ? camelCase(def.name) : def.name;
+      const outputValue = superOutputNoCamel[def.name];
       if (t.isDefined(outputValue)) {
-        if (!grouped._none) grouped._none = {}
-        grouped._none[name] = outputValue
+        if (!grouped._none) grouped._none = {};
+        grouped._none[name] = outputValue;
       }
-    })
+    });
     return grouped
   }
 }
@@ -1325,51 +1381,51 @@ class GroupedOutput extends Output {
  * @alias module:command-line-args
  */
 function commandLineArgs (optionDefinitions, options) {
-  options = options || {}
-  if (options.stopAtFirstUnknown) options.partial = true
-  optionDefinitions = Definitions.from(optionDefinitions)
+  options = options || {};
+  if (options.stopAtFirstUnknown) options.partial = true;
+  optionDefinitions = Definitions.from(optionDefinitions);
 
   const parser = new ArgvParser(optionDefinitions, {
     argv: options.argv,
     stopAtFirstUnknown: options.stopAtFirstUnknown
-  })
+  });
 
-  const OutputClass = optionDefinitions.isGrouped() ? GroupedOutput : Output
-  const output = new OutputClass(optionDefinitions)
+  const OutputClass = optionDefinitions.isGrouped() ? GroupedOutput : Output;
+  const output = new OutputClass(optionDefinitions);
 
   /* Iterate the parser setting each known value to the output. Optionally, throw on unknowns. */
   for (const argInfo of parser) {
-    const arg = argInfo.subArg || argInfo.arg
+    const arg = argInfo.subArg || argInfo.arg;
     if (!options.partial) {
       if (argInfo.event === 'unknown_value') {
-        const err = new Error(`Unknown value: ${arg}`)
-        err.name = 'UNKNOWN_VALUE'
-        err.value = arg
+        const err = new Error(`Unknown value: ${arg}`);
+        err.name = 'UNKNOWN_VALUE';
+        err.value = arg;
         throw err
       } else if (argInfo.event === 'unknown_option') {
-        const err = new Error(`Unknown option: ${arg}`)
-        err.name = 'UNKNOWN_OPTION'
-        err.optionName = arg
+        const err = new Error(`Unknown option: ${arg}`);
+        err.name = 'UNKNOWN_OPTION';
+        err.optionName = arg;
         throw err
       }
     }
 
-    let option
+    let option;
     if (output.has(argInfo.name)) {
-      option = output.get(argInfo.name)
+      option = output.get(argInfo.name);
     } else {
-      option = Option.create(argInfo.def)
-      output.set(argInfo.name, option)
+      option = Option.create(argInfo.def);
+      output.set(argInfo.name, option);
     }
 
     if (argInfo.name === '_unknown') {
-      option.set(arg)
+      option.set(arg);
     } else {
-      option.set(argInfo.value)
+      option.set(argInfo.value);
     }
   }
 
   return output.toObject({ skipUnknown: !options.partial, camelCase: options.camelCase })
 }
 
-module.exports = commandLineArgs
+module.exports = commandLineArgs;
