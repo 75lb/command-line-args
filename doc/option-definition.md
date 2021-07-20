@@ -12,6 +12,7 @@
         * [.defaultOption](#module_option-definition--OptionDefinition+defaultOption) : <code>boolean</code>
         * [.defaultValue](#module_option-definition--OptionDefinition+defaultValue) : <code>\*</code>
         * [.group](#module_option-definition--OptionDefinition+group) : <code>string</code> \| <code>Array.&lt;string&gt;</code>
+        * [.caseSensitive](#module_option-definition--OptionDefinition+caseSensitive) : <code>boolean</code>
 
 <a name="exp_module_option-definition--OptionDefinition"></a>
 
@@ -242,3 +243,27 @@ const optionDefinitions = [
 </table>
 
 **Kind**: instance property of [<code>OptionDefinition</code>](#exp_module_option-definition--OptionDefinition)  
+<a name="module_option-definition--OptionDefinition+caseSensitive"></a>
+
+#### option.caseSensitive : <code>boolean</code>
+Whether the option is case sensitive. Defaults to true. The UNIX-based command line is traditionally case sensitive, but the Windows command line is not.
+
+When case insensitivity is used, all defined options must have unambiguous names.
+An invalid definition error is thrown if any option definition names conflict due to the use of case insensitivity.
+
+Note that this option does NOT apply to aliases - aliases are always case sensitive.
+
+```js
+const optionDefinitions = [
+  { name: 'file' }
+]
+```
+
+| #   | argv input | commandLineArgs() output |
+| --- | -------------------- | ------------ |
+| 1   | `--file` | `{ file: null }` |
+| 2   | `--FILE=Lib.js` | `{ file: 'Lib.js' }` |
+| 3   | `--fILe 2` | `{ file: '2' }` |
+
+**Kind**: instance property of [<code>OptionDefinition</code>](#exp_module_option-definition--OptionDefinition)  
+**Default**: <code>true</code>  

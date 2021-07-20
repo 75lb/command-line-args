@@ -26,9 +26,9 @@ Parsing is strict by default - an exception is thrown if the user sets a singula
 
 | Param | Type | Description |
 | --- | --- | --- |
-| optionDefinitions | <code>Array.&lt;module:definition&gt;</code> | An array of [OptionDefinition](https://github.com/75lb/command-line-args/blob/master/doc/option-definition.md) objects |
+| optionDefinitions | <code>[ &#x27;Array&#x27; ].&lt;module:definition&gt;</code> | An array of [OptionDefinition](https://github.com/75lb/command-line-args/blob/master/doc/option-definition.md) objects |
 | [options] | <code>object</code> | Options. |
-| [options.argv] | <code>Array.&lt;string&gt;</code> | An array of strings which, if present will be parsed instead  of `process.argv`. |
+| [options.argv] | <code>[ &#x27;Array&#x27; ].&lt;string&gt;</code> | An array of strings which, if present will be parsed instead  of `process.argv`. |
 | [options.partial] | <code>boolean</code> | If `true`, an array of unknown arguments is returned in the `_unknown` property of the output. |
 | [options.stopAtFirstUnknown] | <code>boolean</code> | If `true`, parsing will stop at the first unknown argument and the remaining arguments returned in `_unknown`. When set, `partial: true` is also implied. |
 | [options.camelCase] | <code>boolean</code> | If `true`, options with hypenated names (e.g. `move-to`) will be returned in camel-case (e.g. `moveTo`). |
