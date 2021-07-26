@@ -861,7 +861,7 @@ class Definitions extends Array {
    * @param {boolean} [caseInsensitive=false] - whether arguments will be parsed in a case insensitive manner
    * @returns {string}
    */
-  validate (caseInsensitive = false) {
+  validate (caseInsensitive) {
     const someHaveNoName = this.some(def => !def.name);
     if (someHaveNoName) {
       halt(
@@ -952,10 +952,10 @@ class Definitions extends Array {
   /**
    * Get definition by option arg (e.g. `--one` or `-o`)
    * @param {string} [arg] the argument name to get the definition for
-   * @param {boolean} [caseInsensitive=false] whether to use case insensitive comparisons when finding the appropriate definition
+   * @param {boolean} [caseInsensitive] whether to use case insensitive comparisons when finding the appropriate definition
    * @returns {Definition}
    */
-  get (arg, caseInsensitive = false) {
+  get (arg, caseInsensitive) {
     if (isOption(arg)) {
       if (re.short.test(arg)) {
         const shortOptionName = getOptionName(arg);
@@ -999,7 +999,7 @@ class Definitions extends Array {
     return this.filter(def => t.isDefined(def.defaultValue))
   }
 
-  static from (definitions, caseInsensitive = false) {
+  static from (definitions, caseInsensitive) {
     if (definitions instanceof this) return definitions
     const result = super.from(arrayify(definitions), def => OptionDefinition.create(def));
     result.validate(caseInsensitive);
