@@ -94,31 +94,19 @@ runner.test('err-invalid-definition: duplicate name', function () {
   )
 })
 
-runner.test('err-invalid-definition: duplicate name caused by case insensitivity 1', function () {
+runner.test('err-invalid-definition: duplicate name caused by case insensitivity', function () {
   const optionDefinitions = [
     { name: 'colours' },
-    { name: 'coloURS', caseSensitive: false }
+    { name: 'coloURS' }
   ]
   const argv = ['--colours', 'red']
   a.throws(
-    () => commandLineArgs(optionDefinitions, { argv }),
+    () => commandLineArgs(optionDefinitions, { argv, caseInsensitive: true }),
     err => err.name === 'INVALID_DEFINITIONS'
   )
 })
 
-runner.test('err-invalid-definition: duplicate name caused by case insensitivity 2', function () {
-  const optionDefinitions = [
-    { name: 'COLOurs', caseSensitive: false },
-    { name: 'coloURS', caseSensitive: false }
-  ]
-  const argv = ['--coloURS', 'red']
-  a.throws(
-    () => commandLineArgs(optionDefinitions, { argv }),
-    err => err.name === 'INVALID_DEFINITIONS'
-  )
-})
-
-runner.test('err-invalid-definition: duplicate name caused by case insensitivity 3', function () {
+runner.test('err-invalid-definition: case sensitive names in different case', function () {
   const optionDefinitions = [
     { name: 'colours' },
     { name: 'coloURS' }
@@ -140,6 +128,29 @@ runner.test('err-invalid-definition: duplicate alias', function () {
     () => commandLineArgs(optionDefinitions, { argv }),
     err => err.name === 'INVALID_DEFINITIONS'
   )
+})
+
+runner.test('err-invalid-definition: duplicate alias caused by case insensitivity', function () {
+  const optionDefinitions = [
+    { name: 'one', alias: 'a' },
+    { name: 'two', alias: 'A' }
+  ]
+  const argv = ['-a', 'red']
+  a.throws(
+    () => commandLineArgs(optionDefinitions, { argv, caseInsensitive: true }),
+    err => err.name === 'INVALID_DEFINITIONS'
+  )
+})
+
+runner.test('err-invalid-definition: case sensitive aliases in different case', function () {
+  const optionDefinitions = [
+    { name: 'one', alias: 'a' },
+    { name: 'two', alias: 'A' }
+  ]
+  const argv = ['-a', 'red']
+  a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv }), {
+    one: 'red'
+  })
 })
 
 runner.test('err-invalid-definition: multiple defaultOption', function () {

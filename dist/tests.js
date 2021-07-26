@@ -830,31 +830,6 @@ class OptionDefinition {
     */
     this.group = definition.group;
 
-    /**
-    * Whether the option is case sensitive. Defaults to true. The UNIX-based command line is traditionally case sensitive, but the Windows command line is not.
-    *
-    * When case insensitivity is used, all defined options must have unambiguous names.
-    * An invalid definition error is thrown if any option definition names conflict due to the use of case insensitivity.
-    *
-    * Note that this option does NOT apply to aliases - aliases are always case sensitive.
-    *
-    * ```js
-    * const optionDefinitions = [
-    *   { name: 'file' }
-    * ]
-    * ```
-    *
-    * | #   | argv input | commandLineArgs() output |
-    * | --- | -------------------- | ------------ |
-    * | 1   | `--file` | `{ file: null }` |
-    * | 2   | `--FILE=Lib.js` | `{ file: 'Lib.js' }` |
-    * | 3   | `--fILe 2` | `{ file: '2' }` |
-    *
-    * @type {boolean}
-    * @default true
-    */
-    this.caseSensitive = t.isDefined(definition.caseSensitive) ? definition.caseSensitive : true;
-
     /* pick up any remaining properties */
     for (const prop in definition) {
       if (!this[prop]) this[prop] = definition[prop];
@@ -885,9 +860,10 @@ class OptionDefinition {
 class Definitions extends Array {
   /**
    * validate option definitions
+   * @param {boolean} [caseInsensitive=false] - whether arguments will be parsed in a case insensitive manner
    * @returns {string}
    */
-  validate () {
+  validate (caseInsensitive = false) {
     const someHaveNoName = this.some(def => !def.name);
     if (someHaveNoName) {
       halt(
@@ -939,7 +915,7 @@ class Definitions extends Array {
       );
     }
 
-    const duplicateName = hasDuplicates(this.map(def => def.name));
+    const duplicateName = hasDuplicates(this.map(def => caseInsensitive ? def.name.toLowerCase() : def.name));
     if (duplicateName) {
       halt(
         'INVALID_DEFINITIONS',
@@ -947,22 +923,7 @@ class Definitions extends Array {
       );
     }
 
-    const caseSensitiveLowercaseNames = this.filter(def => def.caseSensitive).map(def => def.name.toLowerCase());
-    const caseInsensitiveLowercaseNames = this.filter(def => !def.caseSensitive).map(def => def.name.toLowerCase());
-
-    const conflictingCaseInsensitiveNames = hasDuplicates(caseInsensitiveLowercaseNames);
-    // tests if a case insensitive option definition conflicts with a case sensitive option definition
-    // (disallowed because a match to the case sensitive option would also match the case insensitive option)
-    const conflictingCaseInsensitiveCaseSensitiveName = caseInsensitiveLowercaseNames.find(
-      caseInsensitiveLowercaseName => caseSensitiveLowercaseNames.includes(caseInsensitiveLowercaseName));
-    if (conflictingCaseInsensitiveNames || conflictingCaseInsensitiveCaseSensitiveName) {
-      halt(
-        'INVALID_DEFINITIONS',
-        'Due to the use of case insensitivity, two or more option definitions have conflicting names'
-      );
-    }
-
-    const duplicateAlias = hasDuplicates(this.map(def => def.alias));
+    const duplicateAlias = hasDuplicates(this.map(def => caseInsensitive && t.isDefined(def.alias) ? def.alias.toLowerCase() : def.alias));
     if (duplicateAlias) {
       halt(
         'INVALID_DEFINITIONS',
@@ -992,24 +953,28 @@ class Definitions extends Array {
 
   /**
    * Get definition by option arg (e.g. `--one` or `-o`)
-   * @param {string}
+   * @param {string} [arg] the argument name to get the definition for
+   * @param {boolean} [caseInsensitive=false] whether to use case insensitive comparisons when finding the appropriate definition
    * @returns {Definition}
    */
-  get (arg) {
+  get (arg, caseInsensitive = false) {
     if (isOption(arg)) {
       if (re.short.test(arg)) {
-        // case sensitivity does not apply to aliases
-        return this.find(def => def.alias === getOptionName(arg))
+        const shortOptionName = getOptionName(arg);
+        if (caseInsensitive) {
+          const lowercaseShortOptionName = shortOptionName.toLowerCase();
+          return this.find(def => t.isDefined(def.alias) && def.alias.toLowerCase() === lowercaseShortOptionName)
+        } else {
+          return this.find(def => def.alias === shortOptionName)
+        }
       } else {
         const optionName = getOptionName(arg);
-        const lowercaseOptionName = optionName.toLowerCase();
-        return this.find(def => {
-          if (def.caseSensitive) {
-            return def.name === optionName
-          } else {
-            return def.name.toLowerCase() == lowercaseOptionName
-          }
-        })
+        if (caseInsensitive) {
+          const lowercaseOptionName = optionName.toLowerCase();
+          return this.find(def => def.name.toLowerCase() === lowercaseOptionName)
+        } else {
+          return this.find(def => def.name === optionName)
+        }
       }
     } else {
       return this.find(def => def.name === arg)
@@ -1036,10 +1001,10 @@ class Definitions extends Array {
     return this.filter(def => t.isDefined(def.defaultValue))
   }
 
-  static from (definitions) {
+  static from (definitions, caseInsensitive = false) {
     if (definitions instanceof this) return definitions
     const result = super.from(arrayify(definitions), def => OptionDefinition.create(def));
-    result.validate();
+    result.validate(caseInsensitive);
     return result
   }
 }
@@ -1079,13 +1044,14 @@ class ArgvParser {
    * @param {object} [options] - Options
    * @param {string[]} [options.argv] - Overrides `process.argv`
    * @param {boolean} [options.stopAtFirstUnknown] -
+   * @param {boolean} [options.caseInsensitive] - Arguments will be parsed in a case insensitive manner. Defaults to false.
    */
   constructor (definitions, options) {
     this.options = Object.assign({}, options);
     /**
      * Option Definitions
      */
-    this.definitions = Definitions.from(definitions);
+    this.definitions = Definitions.from(definitions, this.options.caseInsensitive);
 
     /**
      * Argv
@@ -1126,7 +1092,7 @@ class ArgvParser {
 
       /* handle long or short option */
       if (isOption(arg)) {
-        def = definitions.get(arg);
+        def = definitions.get(arg, this.options.caseInsensitive);
         value = undefined;
         if (def) {
           value = def.isBoolean() ? true : null;
@@ -1138,7 +1104,7 @@ class ArgvParser {
       /* handle --option-value notation */
       } else if (isOptionEqualsNotation(arg)) {
         const matches = arg.match(re.optEquals);
-        def = definitions.get(matches[1]);
+        def = definitions.get(matches[1], this.options.caseInsensitive);
         if (def) {
           if (def.isBoolean()) {
             yield { event: 'unknown_value', arg, name: '_unknown', value, def };
@@ -1962,6 +1928,7 @@ class GroupedOutput extends Output {
  * @param {boolean} [options.partial] - If `true`, an array of unknown arguments is returned in the `_unknown` property of the output.
  * @param {boolean} [options.stopAtFirstUnknown] - If `true`, parsing will stop at the first unknown argument and the remaining arguments returned in `_unknown`. When set, `partial: true` is also implied.
  * @param {boolean} [options.camelCase] - If `true`, options with hypenated names (e.g. `move-to`) will be returned in camel-case (e.g. `moveTo`).
+ * @param {boolean} [options.caseInsensitive] - If `true`, options will be parsed in a case insensitive manner. Also applies to option aliases. Defaults to false.
  * @returns {object}
  * @throws `UNKNOWN_OPTION` If `options.partial` is false and the user set an undefined option. The `err.optionName` property contains the arg that specified an unknown option, e.g. `--one`.
  * @throws `UNKNOWN_VALUE` If `options.partial` is false and the user set a value unaccounted for by an option definition. The `err.value` property contains the unknown value, e.g. `5`.
@@ -1971,6 +1938,7 @@ class GroupedOutput extends Output {
  *   - If an option definition has a `type` value that's not a function
  *   - If an alias is numeric, a hyphen or a length other than 1
  *   - If an option definition name was used more than once
+ *     - If case insensitive parsing is enabled (see `options.caseInsensitive`), an option definition name cannot be reused with a different case
  *   - If an option definition alias was used more than once
  *   - If more than one option definition has `defaultOption: true`
  *   - If a `Boolean` option is also set as the `defaultOption`.
@@ -1979,11 +1947,12 @@ class GroupedOutput extends Output {
 function commandLineArgs (optionDefinitions, options) {
   options = options || {};
   if (options.stopAtFirstUnknown) options.partial = true;
-  optionDefinitions = Definitions.from(optionDefinitions);
+  optionDefinitions = Definitions.from(optionDefinitions, options.caseInsensitive);
 
   const parser = new ArgvParser(optionDefinitions, {
     argv: options.argv,
-    stopAtFirstUnknown: options.stopAtFirstUnknown
+    stopAtFirstUnknown: options.stopAtFirstUnknown,
+    caseInsensitive: options.caseInsensitive
   });
 
   const OutputClass = optionDefinitions.isGrouped() ? GroupedOutput : Output;
@@ -2278,72 +2247,72 @@ runner$a.test('camel-case: grouped with unknowns', function () {
 
 const runner$b = new TestRunner();
 
+runner$b.test('case-insensitive: disabled', function () {
+  const optionDefinitions = [
+    { name: 'dryRun', type: Boolean, alias: 'd' }];
+
+  a.throws(
+    () => commandLineArgs(optionDefinitions, { argv: ['--DRYrun'] }),
+    err => err.name === 'UNKNOWN_OPTION' && err.optionName === '--DRYrun'
+  );
+  a.throws(
+    () => commandLineArgs(optionDefinitions, { argv: ['-D'] }),
+    err => err.name === 'UNKNOWN_OPTION' && err.optionName === '-D'
+  );
+});
+
 runner$b.test('case-insensitive: option no value', function () {
   const optionDefinitions = [
-    { name: 'caseInsensitiveOption', type: Boolean, caseSensitive: false },
-    { name: 'caseSensitiveOption', type: String }
-  ];
-  const argv = ['--CASEinsensitiveOPTION', '--caseSensitiveOption', 'val1'];
-  const result = commandLineArgs(optionDefinitions, { argv });
+    { name: 'dryRun', type: Boolean }];
+  const argv = ['--DRYrun'];
+  const result = commandLineArgs(optionDefinitions, { argv, caseInsensitive: true });
   a.deepStrictEqual(result, {
-    caseInsensitiveOption: true,
-    caseSensitiveOption: 'val1'
+    dryRun: true
   });
 });
 
 runner$b.test('case-insensitive: option with value', function () {
-    const optionDefinitions = [
-      { name: 'caseInsensitiveOption1', type: String, caseSensitive: false },
-      { name: 'caseInsensitiveOption2', type: String, caseSensitive: false },
-      { name: 'caseSensitiveArg', type: String }
-    ];
-    const argv = ['--caseINsensITiveOption1', 'val1', '--caseinsensitiveoption2=val2', '--caseSensitiveArg', 'val3'];
-    const result = commandLineArgs(optionDefinitions, { argv });
-    a.deepStrictEqual(result, {
-      caseInsensitiveOption1: 'val1',
-      caseInsensitiveOption2: 'val2',
-      caseSensitiveArg: 'val3'
-    });
+  const optionDefinitions = [
+    { name: 'colour', type: String }
+  ];
+  const argv = ['--coLour', 'red'];
+  const result = commandLineArgs(optionDefinitions, { argv, caseInsensitive: true });
+  a.deepStrictEqual(result, {
+    colour: 'red'
   });
+});
 
-  runner$b.test('case-insensitive: does not apply to alias', function () {
-    const optionDefinitions = [
-      { name: 'caseInsensitiveSwitch', type: Boolean, caseSensitive: false, alias: 'c' }
-    ];
-    const result = commandLineArgs(optionDefinitions, { argv: ['-c'] });
-    a.deepStrictEqual(result, {
-      caseInsensitiveSwitch: true
-    });
-
-    a.throws(
-      () => commandLineArgs(optionDefinitions, { argv: ['C'] }),
-      err => err.name === 'UNKNOWN_VALUE' && err.value === 'C'
-    );
+runner$b.test('case-insensitive: alias', function () {
+  const optionDefinitions = [
+    { name: 'dryRun', type: Boolean, alias: 'd' }];
+  const argv = ['-D'];
+  const result = commandLineArgs(optionDefinitions, { argv, caseInsensitive: true });
+  a.deepStrictEqual(result, {
+    dryRun: true
   });
+});
 
-  runner$b.test('case-insensitive: multiple', function () {
-    const optionDefinitions = [
-      { name: 'caseInsensitiveOption', type: String, caseSensitive: false, multiple: true }
-    ];
-    const argv = ['--caseInsensitiveOption=a', '--caseinsensitiveoption', 'b', '--CASEINSENSITIVEOPTION', 'c'];
-    const result = commandLineArgs(optionDefinitions, { argv });
-    a.deepStrictEqual(result, {
-      caseInsensitiveOption: ['a', 'b', 'c']
-    });
+runner$b.test('case-insensitive: multiple', function () {
+  const optionDefinitions = [
+    { name: 'colour', type: String, multiple: true }
+  ];
+  const argv = ['--colour=red', '--COLOUR', 'green', '--colOUR', 'blue'];
+  const result = commandLineArgs(optionDefinitions, { argv, caseInsensitive: true });
+  a.deepStrictEqual(result, {
+    colour: ['red', 'green', 'blue']
   });
+});
 
-  runner$b.test('case-insensitive: camelCase', function () {
-    const optionDefinitions = [
-      { name: 'case-insensitive-option', type: Boolean, caseSensitive: false },
-      { name: 'case-sensitive-option', type: String },
-    ];
-    const argv = ['--case-INSENSITIVE-option', '--case-sensitive-option', 'val1'];
-    const result = commandLineArgs(optionDefinitions, { argv, camelCase: true });
-    a.deepStrictEqual(result, {
-      caseInsensitiveOption: true,
-      caseSensitiveOption: 'val1'
-    });
+runner$b.test('case-insensitive: camelCase', function () {
+  const optionDefinitions = [
+    { name: 'dry-run', type: Boolean }
+  ];
+  const argv = ['--dry-RUN'];
+  const result = commandLineArgs(optionDefinitions, { argv, camelCase: true, caseInsensitive: true });
+  a.deepStrictEqual(result, {
+    dryRun: true
   });
+});
 
 const runner$c = new TestRunner();
 
@@ -2722,31 +2691,19 @@ runner$h.test('err-invalid-definition: duplicate name', function () {
   );
 });
 
-runner$h.test('err-invalid-definition: duplicate name caused by case insensitivity 1', function () {
+runner$h.test('err-invalid-definition: duplicate name caused by case insensitivity', function () {
   const optionDefinitions = [
     { name: 'colours' },
-    { name: 'coloURS', caseSensitive: false }
+    { name: 'coloURS' }
   ];
   const argv = ['--colours', 'red'];
   a.throws(
-    () => commandLineArgs(optionDefinitions, { argv }),
+    () => commandLineArgs(optionDefinitions, { argv, caseInsensitive: true }),
     err => err.name === 'INVALID_DEFINITIONS'
   );
 });
 
-runner$h.test('err-invalid-definition: duplicate name caused by case insensitivity 2', function () {
-  const optionDefinitions = [
-    { name: 'COLOurs', caseSensitive: false },
-    { name: 'coloURS', caseSensitive: false }
-  ];
-  const argv = ['--coloURS', 'red'];
-  a.throws(
-    () => commandLineArgs(optionDefinitions, { argv }),
-    err => err.name === 'INVALID_DEFINITIONS'
-  );
-});
-
-runner$h.test('err-invalid-definition: duplicate name caused by case insensitivity 3', function () {
+runner$h.test('err-invalid-definition: case sensitive names in different case', function () {
   const optionDefinitions = [
     { name: 'colours' },
     { name: 'coloURS' }
@@ -2768,6 +2725,29 @@ runner$h.test('err-invalid-definition: duplicate alias', function () {
     () => commandLineArgs(optionDefinitions, { argv }),
     err => err.name === 'INVALID_DEFINITIONS'
   );
+});
+
+runner$h.test('err-invalid-definition: duplicate alias caused by case insensitivity', function () {
+  const optionDefinitions = [
+    { name: 'one', alias: 'a' },
+    { name: 'two', alias: 'A' }
+  ];
+  const argv = ['-a', 'red'];
+  a.throws(
+    () => commandLineArgs(optionDefinitions, { argv, caseInsensitive: true }),
+    err => err.name === 'INVALID_DEFINITIONS'
+  );
+});
+
+runner$h.test('err-invalid-definition: case sensitive aliases in different case', function () {
+  const optionDefinitions = [
+    { name: 'one', alias: 'a' },
+    { name: 'two', alias: 'A' }
+  ];
+  const argv = ['-a', 'red'];
+  a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv }), {
+    one: 'red'
+  });
 });
 
 runner$h.test('err-invalid-definition: multiple defaultOption', function () {
