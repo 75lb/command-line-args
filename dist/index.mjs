@@ -32,12 +32,12 @@ import camelCase from 'lodash.camelcase';
  * [ 1, 2, 3 ]
  */
 
-function isObject$2 (input) {
+function isObject (input) {
   return typeof input === 'object' && input !== null
 }
 
-function isArrayLike$2 (input) {
-  return isObject$2(input) && typeof input.length === 'number'
+function isArrayLike (input) {
+  return isObject(input) && typeof input.length === 'number'
 }
 
 /**
@@ -45,7 +45,7 @@ function isArrayLike$2 (input) {
  * @returns {Array}
  * @alias module:array-back
  */
-function arrayify$1 (input) {
+function arrayify (input) {
   if (Array.isArray(input)) {
     return input
   }
@@ -54,7 +54,7 @@ function arrayify$1 (input) {
     return []
   }
 
-  if (isArrayLike$2(input) || input instanceof Set) {
+  if (isArrayLike(input) || input instanceof Set) {
     return Array.from(input)
   }
 
@@ -103,7 +103,7 @@ function isArrayLike$1 (input) {
  * @returns {Array}
  * @alias module:array-back
  */
-function arrayify (input) {
+function arrayify$1 (input) {
   if (Array.isArray(input)) {
     return input
   } else {
@@ -147,10 +147,10 @@ function arrayify (input) {
  */
 function findReplace (array, testFn) {
   const found = [];
-  const replaceWiths = arrayify(arguments);
+  const replaceWiths = arrayify$1(arguments);
   replaceWiths.splice(0, 2);
 
-  arrayify(array).forEach((value, index) => {
+  arrayify$1(array).forEach((value, index) => {
     let expanded = [];
     replaceWiths.forEach(replaceWith => {
       if (typeof replaceWith === 'function') {
@@ -208,7 +208,7 @@ class ArgvArray extends Array {
   load (argv) {
     this.clear();
     if (argv && argv !== process.argv) {
-      argv = arrayify$1(argv);
+      argv = arrayify(argv);
     } else {
       /* if no argv supplied, assume we are parsing process.argv */
       argv = process.argv.slice(0);
@@ -413,8 +413,8 @@ function isPlainObject (input) {
  *     // prints `true`
  * }
  */
-function isArrayLike (input) {
-  return isObject(input) && typeof input.length === 'number'
+function isArrayLike$2 (input) {
+  return isObject$2(input) && typeof input.length === 'number'
 }
 
 /**
@@ -423,7 +423,7 @@ function isArrayLike (input) {
  * @returns {boolean}
  * @static
  */
-function isObject (input) {
+function isObject$2 (input) {
   return typeof input === 'object' && input !== null
 }
 
@@ -572,8 +572,8 @@ var t = {
   isString,
   isBoolean,
   isPlainObject,
-  isArrayLike,
-  isObject,
+  isArrayLike: isArrayLike$2,
+  isObject: isObject$2,
   isDefined,
   isFunction,
   isClass,
@@ -997,7 +997,7 @@ class Definitions extends Array {
 
   static from (definitions, caseInsensitive) {
     if (definitions instanceof this) return definitions
-    const result = super.from(arrayify$1(definitions), def => OptionDefinition.create(def));
+    const result = super.from(arrayify(definitions), def => OptionDefinition.create(def));
     result.validate(caseInsensitive);
     return result
   }
@@ -1010,7 +1010,7 @@ function halt (name, message) {
 }
 
 function containsValidGroup (def) {
-  return arrayify$1(def.group).some(group => group)
+  return arrayify(def.group).some(group => group)
 }
 
 function hasDuplicates (array) {
@@ -1212,7 +1212,7 @@ class Option {
   resetToDefault () {
     if (t.isDefined(this.definition.defaultValue)) {
       if (this.definition.isMultiple()) {
-        _value.set(this, arrayify$1(this.definition.defaultValue).slice());
+        _value.set(this, arrayify(this.definition.defaultValue).slice());
       } else {
         _value.set(this, this.definition.defaultValue);
       }
@@ -1293,7 +1293,7 @@ class GroupedOutput extends Output {
     this.definitions.whereGrouped().forEach(def => {
       const name = options.camelCase ? camelCase(def.name) : def.name;
       const outputValue = superOutputNoCamel[def.name];
-      for (const groupName of arrayify$1(def.group)) {
+      for (const groupName of arrayify(def.group)) {
         grouped[groupName] = grouped[groupName] || {};
         if (t.isDefined(outputValue)) {
           grouped[groupName][name] = outputValue;
@@ -1392,4 +1392,4 @@ function commandLineArgs (optionDefinitions, options) {
   return output.toObject({ skipUnknown: !options.partial, camelCase: options.camelCase })
 }
 
-export { commandLineArgs as default };
+export default commandLineArgs;

@@ -5,12 +5,12 @@
   "repository": "https://github.com/75lb/command-line-args",
   "scripts": {
     "test": "npm run dist && npm run test:js && npm run test:mjs",
-    "test:js": "rollup test/tests.mjs -f cjs -e 'test-runner,assert,lodash.camelcase' -o dist/tests.js && node dist/tests.js",
+    "test:js": "node dist/tests.js",
     "test:mjs": "node --experimental-modules test/tests.mjs",
     "test:ci": "npm run test:js",
     "docs": "jsdoc2md -c jsdoc.conf index.mjs > doc/API.md && jsdoc2md -c jsdoc.conf lib/option-definition.mjs > doc/option-definition.md",
     "cover": "nyc --reporter=text-lcov test-runner test/*.js test/internals/*.js | coveralls",
-    "dist": "rollup index.mjs -f cjs -e 'lodash.camelcase' -o dist/index.js && rollup index.mjs -f esm -e 'lodash.camelcase' -o dist/index.mjs"
+    "dist": "rollup index.mjs -f cjs -e 'lodash.camelcase' -o dist/index.js && rollup index.mjs -f esm -e 'lodash.camelcase' -o dist/index.mjs && rollup test/tests.mjs -f cjs -e 'test-runner,assert,lodash.camelcase' -o dist/tests.js"
   },
   "main": "dist/index.js",
   "keywords": [
@@ -40,7 +40,7 @@
   "devDependencies": {
     "coveralls": "^3.1.1",
     "jsdoc-to-markdown": "^7.0.1",
-    "rollup": "~2.55.1",
+    "rollup": "~1.7.4",
     "test-runner": "^0.5.1"
   },
   "dependencies": {
