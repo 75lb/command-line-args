@@ -1,8 +1,10 @@
 'use strict';
 
-function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
+var camelCase = require('lodash.camelcase');
 
-var camelCase = _interopDefault(require('lodash.camelcase'));
+function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
+
+var camelCase__default = /*#__PURE__*/_interopDefaultLegacy(camelCase);
 
 /**
  * Takes any input and guarantees an array back.
@@ -36,12 +38,12 @@ var camelCase = _interopDefault(require('lodash.camelcase'));
  * [ 1, 2, 3 ]
  */
 
-function isObject (input) {
+function isObject$2 (input) {
   return typeof input === 'object' && input !== null
 }
 
-function isArrayLike (input) {
-  return isObject(input) && typeof input.length === 'number'
+function isArrayLike$2 (input) {
+  return isObject$2(input) && typeof input.length === 'number'
 }
 
 /**
@@ -49,7 +51,7 @@ function isArrayLike (input) {
  * @returns {Array}
  * @alias module:array-back
  */
-function arrayify (input) {
+function arrayify$1 (input) {
   if (Array.isArray(input)) {
     return input
   }
@@ -58,7 +60,7 @@ function arrayify (input) {
     return []
   }
 
-  if (isArrayLike(input) || input instanceof Set) {
+  if (isArrayLike$2(input) || input instanceof Set) {
     return Array.from(input)
   }
 
@@ -107,7 +109,7 @@ function isArrayLike$1 (input) {
  * @returns {Array}
  * @alias module:array-back
  */
-function arrayify$1 (input) {
+function arrayify (input) {
   if (Array.isArray(input)) {
     return input
   } else {
@@ -151,10 +153,10 @@ function arrayify$1 (input) {
  */
 function findReplace (array, testFn) {
   const found = [];
-  const replaceWiths = arrayify$1(arguments);
+  const replaceWiths = arrayify(arguments);
   replaceWiths.splice(0, 2);
 
-  arrayify$1(array).forEach((value, index) => {
+  arrayify(array).forEach((value, index) => {
     let expanded = [];
     replaceWiths.forEach(replaceWith => {
       if (typeof replaceWith === 'function') {
@@ -212,7 +214,7 @@ class ArgvArray extends Array {
   load (argv) {
     this.clear();
     if (argv && argv !== process.argv) {
-      argv = arrayify(argv);
+      argv = arrayify$1(argv);
     } else {
       /* if no argv supplied, assume we are parsing process.argv */
       argv = process.argv.slice(0);
@@ -417,8 +419,8 @@ function isPlainObject (input) {
  *     // prints `true`
  * }
  */
-function isArrayLike$2 (input) {
-  return isObject$2(input) && typeof input.length === 'number'
+function isArrayLike (input) {
+  return isObject(input) && typeof input.length === 'number'
 }
 
 /**
@@ -427,7 +429,7 @@ function isArrayLike$2 (input) {
  * @returns {boolean}
  * @static
  */
-function isObject$2 (input) {
+function isObject (input) {
   return typeof input === 'object' && input !== null
 }
 
@@ -576,8 +578,8 @@ var t = {
   isString,
   isBoolean,
   isPlainObject,
-  isArrayLike: isArrayLike$2,
-  isObject: isObject$2,
+  isArrayLike,
+  isObject,
   isDefined,
   isFunction,
   isClass,
@@ -1001,7 +1003,7 @@ class Definitions extends Array {
 
   static from (definitions, caseInsensitive) {
     if (definitions instanceof this) return definitions
-    const result = super.from(arrayify(definitions), def => OptionDefinition.create(def));
+    const result = super.from(arrayify$1(definitions), def => OptionDefinition.create(def));
     result.validate(caseInsensitive);
     return result
   }
@@ -1014,7 +1016,7 @@ function halt (name, message) {
 }
 
 function containsValidGroup (def) {
-  return arrayify(def.group).some(group => group)
+  return arrayify$1(def.group).some(group => group)
 }
 
 function hasDuplicates (array) {
@@ -1216,7 +1218,7 @@ class Option {
   resetToDefault () {
     if (t.isDefined(this.definition.defaultValue)) {
       if (this.definition.isMultiple()) {
-        _value.set(this, arrayify(this.definition.defaultValue).slice());
+        _value.set(this, arrayify$1(this.definition.defaultValue).slice());
       } else {
         _value.set(this, this.definition.defaultValue);
       }
@@ -1272,7 +1274,7 @@ class Output extends Map {
     options = options || {};
     const output = {};
     for (const item of this) {
-      const name = options.camelCase && item[0] !== '_unknown' ? camelCase(item[0]) : item[0];
+      const name = options.camelCase && item[0] !== '_unknown' ? camelCase__default['default'](item[0]) : item[0];
       const option = item[1];
       if (name === '_unknown' && !option.get().length) continue
       output[name] = option.get();
@@ -1295,9 +1297,9 @@ class GroupedOutput extends Output {
     if (unknown && unknown.length) grouped._unknown = unknown;
 
     this.definitions.whereGrouped().forEach(def => {
-      const name = options.camelCase ? camelCase(def.name) : def.name;
+      const name = options.camelCase ? camelCase__default['default'](def.name) : def.name;
       const outputValue = superOutputNoCamel[def.name];
-      for (const groupName of arrayify(def.group)) {
+      for (const groupName of arrayify$1(def.group)) {
         grouped[groupName] = grouped[groupName] || {};
         if (t.isDefined(outputValue)) {
           grouped[groupName][name] = outputValue;
@@ -1306,7 +1308,7 @@ class GroupedOutput extends Output {
     });
 
     this.definitions.whereNotGrouped().forEach(def => {
-      const name = options.camelCase ? camelCase(def.name) : def.name;
+      const name = options.camelCase ? camelCase__default['default'](def.name) : def.name;
       const outputValue = superOutputNoCamel[def.name];
       if (t.isDefined(outputValue)) {
         if (!grouped._none) grouped._none = {};
@@ -1326,13 +1328,13 @@ class GroupedOutput extends Output {
  *
  * Parsing is strict by default - an exception is thrown if the user sets a singular option more than once or sets an unknown value or option (one without a valid [definition](https://github.com/75lb/command-line-args/blob/master/doc/option-definition.md)). To be more permissive, enabling [partial](https://github.com/75lb/command-line-args/wiki/Partial-mode-example) or [stopAtFirstUnknown](https://github.com/75lb/command-line-args/wiki/stopAtFirstUnknown) modes will return known options in the usual manner while collecting unknown arguments in a separate `_unknown` property.
  *
- * @param {module:definition[]} - An array of [OptionDefinition](https://github.com/75lb/command-line-args/blob/master/doc/option-definition.md) objects
+ * @param {Array<OptionDefinition>} - An array of [OptionDefinition](https://github.com/75lb/command-line-args/blob/master/doc/option-definition.md) objects
  * @param {object} [options] - Options.
  * @param {string[]} [options.argv] - An array of strings which, if present will be parsed instead  of `process.argv`.
  * @param {boolean} [options.partial] - If `true`, an array of unknown arguments is returned in the `_unknown` property of the output.
  * @param {boolean} [options.stopAtFirstUnknown] - If `true`, parsing will stop at the first unknown argument and the remaining arguments returned in `_unknown`. When set, `partial: true` is also implied.
  * @param {boolean} [options.camelCase] - If `true`, options with hypenated names (e.g. `move-to`) will be returned in camel-case (e.g. `moveTo`).
- * @param {boolean} [options.caseInsensitive] - If `true`, options will be parsed in a case insensitive manner. Also applies to option aliases. Defaults to false.
+ * @param {boolean} [options.caseInsensitive] - If `true`, the case of each option name or alias parsed will be insignificant. For example, both `--Verbose` and `--verbose` would mean the same thing. Same applies to aliases so both `-V` and `-v` would be equivalent. Defaults to false.
  * @returns {object}
  * @throws `UNKNOWN_OPTION` If `options.partial` is false and the user set an undefined option. The `err.optionName` property contains the arg that specified an unknown option, e.g. `--one`.
  * @throws `UNKNOWN_VALUE` If `options.partial` is false and the user set a value unaccounted for by an option definition. The `err.value` property contains the unknown value, e.g. `5`.
@@ -1342,7 +1344,6 @@ class GroupedOutput extends Output {
  *   - If an option definition has a `type` value that's not a function
  *   - If an alias is numeric, a hyphen or a length other than 1
  *   - If an option definition name was used more than once
- *     - If case insensitive parsing is enabled (see `options.caseInsensitive`), an option definition name cannot be reused with a different case
  *   - If an option definition alias was used more than once
  *   - If more than one option definition has `defaultOption: true`
  *   - If a `Boolean` option is also set as the `defaultOption`.

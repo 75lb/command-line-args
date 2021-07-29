@@ -19,7 +19,6 @@ Parsing is strict by default - an exception is thrown if the user sets a singula
   - If an option definition has a `type` value that's not a function
   - If an alias is numeric, a hyphen or a length other than 1
   - If an option definition name was used more than once
-    - If case insensitive parsing is enabled (see `options.caseInsensitive`), an option definition name cannot be reused with a different case
   - If an option definition alias was used more than once
   - If more than one option definition has `defaultOption: true`
   - If a `Boolean` option is also set as the `defaultOption`.
@@ -27,11 +26,11 @@ Parsing is strict by default - an exception is thrown if the user sets a singula
 
 | Param | Type | Description |
 | --- | --- | --- |
-| optionDefinitions | <code>[ &#x27;Array&#x27; ].&lt;module:definition&gt;</code> | An array of [OptionDefinition](https://github.com/75lb/command-line-args/blob/master/doc/option-definition.md) objects |
+| optionDefinitions | <code>Array.&lt;OptionDefinition&gt;</code> | An array of [OptionDefinition](https://github.com/75lb/command-line-args/blob/master/doc/option-definition.md) objects |
 | [options] | <code>object</code> | Options. |
-| [options.argv] | <code>[ &#x27;Array&#x27; ].&lt;string&gt;</code> | An array of strings which, if present will be parsed instead  of `process.argv`. |
+| [options.argv] | <code>Array.&lt;string&gt;</code> | An array of strings which, if present will be parsed instead  of `process.argv`. |
 | [options.partial] | <code>boolean</code> | If `true`, an array of unknown arguments is returned in the `_unknown` property of the output. |
 | [options.stopAtFirstUnknown] | <code>boolean</code> | If `true`, parsing will stop at the first unknown argument and the remaining arguments returned in `_unknown`. When set, `partial: true` is also implied. |
 | [options.camelCase] | <code>boolean</code> | If `true`, options with hypenated names (e.g. `move-to`) will be returned in camel-case (e.g. `moveTo`). |
-| [options.caseInsensitive] | <code>boolean</code> | If `true`, options will be parsed in a case insensitive manner. Also applies to option aliases. Defaults to false. |
+| [options.caseInsensitive] | <code>boolean</code> | If `true`, the case of each option name or alias parsed will be insignificant. For example, both `--Verbose` and `--verbose` would mean the same thing. Same applies to aliases so both `-V` and `-v` would be equivalent. Defaults to false. |
 

@@ -13,13 +13,13 @@ import Output from './lib/output.mjs'
  *
  * Parsing is strict by default - an exception is thrown if the user sets a singular option more than once or sets an unknown value or option (one without a valid [definition](https://github.com/75lb/command-line-args/blob/master/doc/option-definition.md)). To be more permissive, enabling [partial](https://github.com/75lb/command-line-args/wiki/Partial-mode-example) or [stopAtFirstUnknown](https://github.com/75lb/command-line-args/wiki/stopAtFirstUnknown) modes will return known options in the usual manner while collecting unknown arguments in a separate `_unknown` property.
  *
- * @param {module:definition[]} - An array of [OptionDefinition](https://github.com/75lb/command-line-args/blob/master/doc/option-definition.md) objects
+ * @param {Array<OptionDefinition>} - An array of [OptionDefinition](https://github.com/75lb/command-line-args/blob/master/doc/option-definition.md) objects
  * @param {object} [options] - Options.
  * @param {string[]} [options.argv] - An array of strings which, if present will be parsed instead  of `process.argv`.
  * @param {boolean} [options.partial] - If `true`, an array of unknown arguments is returned in the `_unknown` property of the output.
  * @param {boolean} [options.stopAtFirstUnknown] - If `true`, parsing will stop at the first unknown argument and the remaining arguments returned in `_unknown`. When set, `partial: true` is also implied.
  * @param {boolean} [options.camelCase] - If `true`, options with hypenated names (e.g. `move-to`) will be returned in camel-case (e.g. `moveTo`).
- * @param {boolean} [options.caseInsensitive] - If `true`, options will be parsed in a case insensitive manner. Also applies to option aliases. Defaults to false.
+ * @param {boolean} [options.caseInsensitive] - If `true`, the case of each option name or alias parsed will be insignificant. For example, both `--Verbose` and `--verbose` would mean the same thing. Same applies to aliases so both `-V` and `-v` would be equivalent. Defaults to false.
  * @returns {object}
  * @throws `UNKNOWN_OPTION` If `options.partial` is false and the user set an undefined option. The `err.optionName` property contains the arg that specified an unknown option, e.g. `--one`.
  * @throws `UNKNOWN_VALUE` If `options.partial` is false and the user set a value unaccounted for by an option definition. The `err.value` property contains the unknown value, e.g. `5`.
@@ -29,7 +29,6 @@ import Output from './lib/output.mjs'
  *   - If an option definition has a `type` value that's not a function
  *   - If an alias is numeric, a hyphen or a length other than 1
  *   - If an option definition name was used more than once
- *     - If case insensitive parsing is enabled (see `options.caseInsensitive`), an option definition name cannot be reused with a different case
  *   - If an option definition alias was used more than once
  *   - If more than one option definition has `defaultOption: true`
  *   - If a `Boolean` option is also set as the `defaultOption`.
