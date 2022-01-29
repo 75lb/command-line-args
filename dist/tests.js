@@ -931,7 +931,7 @@ class Definitions extends Array {
       );
     }
 
-    const duplicateDefaultOption = hasDuplicates(this.map(def => def.defaultOption));
+    const duplicateDefaultOption = this.filter(def => def.defaultOption === true).length > 1;
     if (duplicateDefaultOption) {
       halt(
         'INVALID_DEFINITIONS',
@@ -2350,6 +2350,20 @@ runner$c.test('defaultOption: multiple-defaultOption values spread out', functio
   });
 });
 
+runner$c.test('defaultOption: can be false', function () {
+  const optionDefinitions = [
+    { name: 'one', defaultOption: false },
+    { name: 'two', defaultOption: false },
+    { name: 'files', defaultOption: true, multiple: true }
+  ];
+  const argv = ['--one', '1', 'file1', 'file2', '--two', '2'];
+  a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv }), {
+    one: '1',
+    two: '2',
+    files: ['file1', 'file2']
+  });
+});
+
 runner$c.test('defaultOption: multiple-defaultOption values spread out 2', function () {
   const optionDefinitions = [
     { name: 'one', type: Boolean },
@@ -2755,6 +2769,20 @@ runner$h.test('err-invalid-definition: multiple defaultOption', function () {
     { name: 'two', defaultOption: true }
   ];
   const argv = ['--one', 'red'];
+  a.throws(
+    () => commandLineArgs(optionDefinitions, { argv }),
+    err => err.name === 'INVALID_DEFINITIONS'
+  );
+});
+
+runner$h.test('err-invalid-definition: multiple defaultOptions 2', function () {
+  const optionDefinitions = [
+    { name: 'one', defaultOption: undefined },
+    { name: 'two', defaultOption: false },
+    { name: 'files', defaultOption: true, multiple: true },
+    { name: 'files2', defaultOption: true }
+  ];
+  const argv = ['--one', '1', 'file1', 'file2', '--two', '2'];
   a.throws(
     () => commandLineArgs(optionDefinitions, { argv }),
     err => err.name === 'INVALID_DEFINITIONS'

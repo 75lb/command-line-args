@@ -39,6 +39,20 @@ runner.test('defaultOption: multiple-defaultOption values spread out', function 
   })
 })
 
+runner.test('defaultOption: can be false', function () {
+  const optionDefinitions = [
+    { name: 'one', defaultOption: false },
+    { name: 'two', defaultOption: false },
+    { name: 'files', defaultOption: true, multiple: true }
+  ]
+  const argv = ['--one', '1', 'file1', 'file2', '--two', '2']
+  a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv }), {
+    one: '1',
+    two: '2',
+    files: ['file1', 'file2']
+  })
+})
+
 runner.test('defaultOption: multiple-defaultOption values spread out 2', function () {
   const optionDefinitions = [
     { name: 'one', type: Boolean },

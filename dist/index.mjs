@@ -925,7 +925,7 @@ class Definitions extends Array {
       );
     }
 
-    const duplicateDefaultOption = hasDuplicates(this.map(def => def.defaultOption));
+    const duplicateDefaultOption = this.filter(def => def.defaultOption === true).length > 1;
     if (duplicateDefaultOption) {
       halt(
         'INVALID_DEFINITIONS',

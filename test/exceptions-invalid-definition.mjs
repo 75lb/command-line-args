@@ -165,6 +165,20 @@ runner.test('err-invalid-definition: multiple defaultOption', function () {
   )
 })
 
+runner.test('err-invalid-definition: multiple defaultOptions 2', function () {
+  const optionDefinitions = [
+    { name: 'one', defaultOption: undefined },
+    { name: 'two', defaultOption: false },
+    { name: 'files', defaultOption: true, multiple: true },
+    { name: 'files2', defaultOption: true }
+  ]
+  const argv = ['--one', '1', 'file1', 'file2', '--two', '2']
+  a.throws(
+    () => commandLineArgs(optionDefinitions, { argv }),
+    err => err.name === 'INVALID_DEFINITIONS'
+  )
+})
+
 runner.test('err-invalid-defaultOption: defaultOption on a Boolean type', function () {
   const optionDefinitions = [
     { name: 'one', type: Boolean, defaultOption: true }
