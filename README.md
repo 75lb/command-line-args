@@ -102,4 +102,4 @@ $ npm install command-line-args --save
 
 * * *
 
-&copy; 2014-21 Lloyd Brookes \<75pound@gmail.com\>. Documented by [jsdoc-to-markdown](https://github.com/75lb/jsdoc-to-markdown).
+&copy; 2014-22 Lloyd Brookes \<75pound@gmail.com\>. Documented by [jsdoc-to-markdown](https://github.com/75lb/jsdoc-to-markdown).
