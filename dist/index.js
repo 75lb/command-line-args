@@ -62,7 +62,7 @@ function arrayify (input) {
     return Array.from(input)
   }
 
-  return [ input ]
+  return [input]
 }
 
 /**
@@ -341,15 +341,17 @@ function isExecArg (arg) {
 }
 
 /**
- * For type-checking Javascript values.
+ * Isomorphic, functional type-checking for Javascript.
  * @module typical
  * @typicalname t
  * @example
  * const t = require('typical')
+ * const allDefined = array.every(t.isDefined)
  */
 
 /**
- * Returns true if input is a number
+ * Returns true if input is a number. It is a more reasonable alternative to `typeof n` which returns `number` for `NaN` and `Infinity`.
+ *
  * @param {*} - the input to test
  * @returns {boolean}
  * @static
@@ -406,15 +408,15 @@ function isPlainObject (input) {
 }
 
 /**
- * An array-like value has all the properties of an array, but is not an array instance. Examples in the `arguments` object. Returns true if the input value is an object, not null and has a `length` property with a numeric value.
+ * An array-like value has all the properties of an array yet is not an array instance. An example is the `arguments` object. Returns `true`` if the input value is an object, not `null`` and has a `length` property set with a numeric value.
  *
  * @param {*} - the input to test
  * @returns {boolean}
  * @static
  * @example
  * function sum(x, y){
- *     console.log(t.isArrayLike(arguments))
- *     // prints `true`
+ *   console.log(t.isArrayLike(arguments))
+ *   // prints `true`
  * }
  */
 function isArrayLike$2 (input) {
@@ -422,7 +424,7 @@ function isArrayLike$2 (input) {
 }
 
 /**
- * returns true if the typeof input is `'object'`, but not null!
+ * Returns true if the typeof input is `'object'` but not null.
  * @param {*} - the input to test
  * @returns {boolean}
  * @static
@@ -432,7 +434,7 @@ function isObject$2 (input) {
 }
 
 /**
- * Returns true if the input value is defined
+ * Returns true if the input value is defined.
  * @param {*} - the input to test
  * @returns {boolean}
  * @static
@@ -442,43 +444,43 @@ function isDefined (input) {
 }
 
 /**
- * Returns true if the input value is a string
+ * Returns true if the input value is undefined.
  * @param {*} - the input to test
  * @returns {boolean}
  * @static
  */
-function isString (input) {
-  return typeof input === 'string'
+function isUndefined (input) {
+  return !isDefined(input)
 }
 
 /**
- * Returns true if the input value is a boolean
+ * Returns true if the input value is null.
  * @param {*} - the input to test
  * @returns {boolean}
  * @static
  */
-function isBoolean (input) {
-  return typeof input === 'boolean'
+function isNull (input) {
+ return input === null
 }
 
 /**
- * Returns true if the input value is a function
+ * Returns true if the input value is not one of `undefined`, `null`, or `NaN`.
  * @param {*} - the input to test
  * @returns {boolean}
  * @static
  */
-function isFunction (input) {
-  return typeof input === 'function'
+function isDefinedValue (input) {
+ return isDefined(input) && !isNull(input) && !Number.isNaN(input)
 }
 
 /**
- * Returns true if the input value is an es2015 `class`.
+ * Returns true if the input value is an ES2015 `class`.
  * @param {*} - the input to test
  * @returns {boolean}
  * @static
  */
 function isClass (input) {
-  if (isFunction(input)) {
+  if (typeof input === 'function') {
     return /^class /.test(Function.prototype.toString.call(input))
   } else {
     return false
@@ -571,19 +573,41 @@ function isIterable (input) {
   }
 }
 
+/**
+ * Returns true if the input value is a string. The equivalent of `typeof input === 'string'` for use in funcitonal contexts.
+ * @param {*} - the input to test
+ * @returns {boolean}
+ * @static
+ */
+function isString (input) {
+  return typeof input === 'string'
+}
+
+/**
+ * Returns true if the input value is a function. The equivalent of `typeof input === 'function'` for use in funcitonal contexts.
+ * @param {*} - the input to test
+ * @returns {boolean}
+ * @static
+ */
+function isFunction (input) {
+  return typeof input === 'function'
+}
+
 var t = {
   isNumber,
-  isString,
-  isBoolean,
   isPlainObject,
   isArrayLike: isArrayLike$2,
   isObject: isObject$2,
   isDefined,
-  isFunction,
+  isUndefined,
+  isNull,
+  isDefinedValue,
   isClass,
   isPrimitive,
   isPromise,
-  isIterable
+  isIterable,
+  isString,
+  isFunction
 };
 
 /**
