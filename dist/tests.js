@@ -949,6 +949,16 @@ class Definitions extends Array {
         `A boolean option ["${invalidOption.name}"] can not also be the defaultOption.`
       );
     }
+
+    const multipleAndLazyMultiple = this.some(def => {
+      return def.multiple && def.lazyMultiple
+    });
+    if (multipleAndLazyMultiple) {
+      halt(
+        'INVALID DEFINITIONS',
+        'Multiple and LazyMultiple are exclusive options.'
+      );
+    }
   }
 
   /**
@@ -3216,6 +3226,17 @@ runner$l.test('multiple: string, defaultOption', function () {
   a.deepStrictEqual(result, {
     one: ['1', '2']
   });
+});
+
+runner$l.test('multiple: with lazyMultiple throws exception', function () {
+  const optionDefinitions = [
+    { name: 'one', multiple: true, lazyMultiple: true }
+  ];
+  const argv = [];
+  const errorThrowingWrapper = () => {
+    commandLineArgs(optionDefinitions, { argv });
+  };
+  a.throws(errorThrowingWrapper);
 });
 
 const runner$m = new TestRunner();

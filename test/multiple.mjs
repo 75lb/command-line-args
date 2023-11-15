@@ -74,3 +74,14 @@ runner.test('multiple: string, defaultOption', function () {
     one: ['1', '2']
   })
 })
+
+runner.test('multiple: with lazyMultiple throws exception', function () {
+  const optionDefinitions = [
+    { name: 'one', multiple: true, lazyMultiple: true }
+  ]
+  const argv = []
+  const errorThrowingWrapper = () => {
+    commandLineArgs(optionDefinitions, { argv })
+  }
+  a.throws(errorThrowingWrapper)
+})
