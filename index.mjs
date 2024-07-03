@@ -18,6 +18,7 @@ import Output from './lib/output.mjs'
  * @param {string[]} [options.argv] - An array of strings which, if present will be parsed instead  of `process.argv`.
  * @param {boolean} [options.partial] - If `true`, an array of unknown arguments is returned in the `_unknown` property of the output.
  * @param {boolean} [options.stopAtFirstUnknown] - If `true`, parsing will stop at the first unknown argument and the remaining arguments returned in `_unknown`. When set, `partial: true` is also implied.
+ * @param {boolean} [options.retainInputs] - If `true`, then will retain the original string inputs in `_inputs`. These names are also affected by the `camelCase` option.
  * @param {boolean} [options.camelCase] - If `true`, options with hypenated names (e.g. `move-to`) will be returned in camel-case (e.g. `moveTo`).
  * @param {boolean} [options.caseInsensitive] - If `true`, the case of each option name or alias parsed is insignificant. In other words, both `--Verbose` and `--verbose`, `-V` and `-v` would be equivalent. Defaults to false.
  * @returns {object}
@@ -80,7 +81,7 @@ function commandLineArgs (optionDefinitions, options) {
     }
   }
 
-  return output.toObject({ skipUnknown: !options.partial, camelCase: options.camelCase })
+  return output.toObject({ skipUnknown: !options.partial, camelCase: options.camelCase, skipInputs: !options.retainInputs })
 }
 
 export default commandLineArgs

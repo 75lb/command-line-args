@@ -1159,6 +1159,7 @@ class ArgvParser {
 }
 
 const _value = new WeakMap();
+const _inputs = new WeakMap();
 
 /**
  * Encapsulates behaviour (defined by an OptionDefinition) when setting values
@@ -1174,6 +1175,10 @@ class Option {
     return _value.get(this)
   }
 
+  getInput () {
+    return _inputs.get(this)
+  }
+
   set (val) {
     this._set(val, 'set');
   }
@@ -1185,6 +1190,10 @@ class Option {
       if (val !== null && val !== undefined) {
         const arr = this.get();
         if (this.state === 'default') arr.length = 0;
+        else {
+          const inputs = this.getInput();
+          inputs.push(this instanceof FlagOption ? null : val);
+        }
         arr.push(def.type(val));
         this.state = state;
       }
@@ -1198,12 +1207,14 @@ class Option {
         throw err
       } else if (val === null || val === undefined) {
         _value.set(this, val);
+        _inputs.set(this, val);
         // /* required to make 'partial: defaultOption with value equal to defaultValue 2' pass */
         // if (!(def.defaultOption && !def.isMultiple())) {
         //   this.state = state
         // }
       } else {
         _value.set(this, def.type(val));
+        _inputs.set(this, this instanceof FlagOption ? null : val);
         this.state = state;
       }
     }
@@ -1222,6 +1233,11 @@ class Option {
       } else {
         _value.set(this, null);
       }
+    }
+    if (this.definition.isMultiple()) {
+      _inputs.set(this, []);
+    } else {
+      _inputs.set(this, null);
     }
     this.state = 'default';
   }
@@ -1259,6 +1275,7 @@ class Output extends Map {
 
     /* by default, an Output has an `_unknown` property and any options with defaultValues */
     this.set('_unknown', Option.create({ name: '_unknown', multiple: true }));
+    this.set('_inputs', Option.create({ name: '_inputs', defaultValue: {}, type: (val) => val }));
     for (const def of this.definitions.whereDefaultValueSet()) {
       this.set(def.name, Option.create(def));
     }
@@ -1268,27 +1285,34 @@ class Output extends Map {
     options = options || {};
     const output = {};
     for (const item of this) {
-      const name = options.camelCase && item[0] !== '_unknown' ? camelCase(item[0]) : item[0];
+      const name = options.camelCase && item[0] !== '_unknown' && item[0] !== '_inputs' ? camelCase(item[0]) : item[0];
       const option = item[1];
       if (name === '_unknown' && !option.get().length) continue
       output[name] = option.get();
+      if (options.skipInputs !== true && name !== '_unknown' && name !== '_inputs')
+        output._inputs[name] = option.getInput();
     }
 
+    if (options.skipInputs) delete output._inputs;
     if (options.skipUnknown) delete output._unknown;
+
     return output
   }
 }
 
 class GroupedOutput extends Output {
   toObject (options) {
-    const superOutputNoCamel = super.toObject({ skipUnknown: options.skipUnknown });
+    const superOutputNoCamel = super.toObject({ skipUnknown: options.skipUnknown, skipInputs: true });
     const superOutput = super.toObject(options);
     const unknown = superOutput._unknown;
     delete superOutput._unknown;
+    const inputs = superOutput._inputs;
+    delete superOutput._inputs;
     const grouped = {
       _all: superOutput
     };
     if (unknown && unknown.length) grouped._unknown = unknown;
+    if (inputs && Object.keys(inputs).length) grouped._inputs = inputs;
 
     this.definitions.whereGrouped().forEach(def => {
       const name = options.camelCase ? camelCase(def.name) : def.name;
@@ -1327,6 +1351,7 @@ class GroupedOutput extends Output {
  * @param {string[]} [options.argv] - An array of strings which, if present will be parsed instead  of `process.argv`.
  * @param {boolean} [options.partial] - If `true`, an array of unknown arguments is returned in the `_unknown` property of the output.
  * @param {boolean} [options.stopAtFirstUnknown] - If `true`, parsing will stop at the first unknown argument and the remaining arguments returned in `_unknown`. When set, `partial: true` is also implied.
+ * @param {boolean} [options.retainInputs] - If `true`, then will retain the original string inputs in `_inputs`. These names are also affected by the `camelCase` option.
  * @param {boolean} [options.camelCase] - If `true`, options with hypenated names (e.g. `move-to`) will be returned in camel-case (e.g. `moveTo`).
  * @param {boolean} [options.caseInsensitive] - If `true`, the case of each option name or alias parsed is insignificant. In other words, both `--Verbose` and `--verbose`, `-V` and `-v` would be equivalent. Defaults to false.
  * @returns {object}
@@ -1389,7 +1414,7 @@ function commandLineArgs (optionDefinitions, options) {
     }
   }
 
-  return output.toObject({ skipUnknown: !options.partial, camelCase: options.camelCase })
+  return output.toObject({ skipUnknown: !options.partial, camelCase: options.camelCase, skipInputs: !options.retainInputs })
 }
 
 export default commandLineArgs;

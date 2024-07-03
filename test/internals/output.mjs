@@ -7,7 +7,7 @@ test('output.toObject(): no defs set', function () {
   const output = new Output([
     { name: 'one' }
   ])
-  a.deepStrictEqual(output.toObject(), {})
+  a.deepStrictEqual(output.toObject(), { _inputs: {} })
 })
 
 test('output.toObject(): one def set', function () {
@@ -18,6 +18,7 @@ test('output.toObject(): one def set', function () {
   option.set('yeah')
   output.set('one', option)
   a.deepStrictEqual(output.toObject(), {
+    _inputs: { one: 'yeah' },
     one: 'yeah'
   })
 })
