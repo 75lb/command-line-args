@@ -41,6 +41,18 @@ test('retain-inputs: Boolean is null', function () {
   })
 })
 
+test('retain-inputs: multiple input', function () {
+  const optionDefinitions = [
+    { name: 'one-two', type: Number, multiple: true }
+  ]
+  const argv = ['--one-two', '1', '--one-two', '2']
+  const result = commandLineArgs(optionDefinitions, { argv, retainInputs: true })
+  a.deepStrictEqual(result, {
+    _inputs: { 'one-two': ['1', '2'] },
+    'one-two': [1, 2]
+  })
+})
+
 test('retain-inputs: grouped, camelCase', function () {
   const optionDefinitions = [
     { name: 'one-one', group: 'a' },
