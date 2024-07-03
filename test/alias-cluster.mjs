@@ -1,10 +1,7 @@
-import TestRunner from 'test-runner'
 import commandLineArgs from '../index.mjs'
 import a from 'assert'
 
-const runner = new TestRunner()
-
-runner.test('alias-cluster: two flags, one option', function () {
+test('alias-cluster: two flags, one option', function () {
   const optionDefinitions = [
     { name: 'flagA', alias: 'a', type: Boolean },
     { name: 'flagB', alias: 'b', type: Boolean },
@@ -19,7 +16,7 @@ runner.test('alias-cluster: two flags, one option', function () {
   })
 })
 
-runner.test('alias-cluster: two flags, one option 2', function () {
+test('alias-cluster: two flags, one option 2', function () {
   const optionDefinitions = [
     { name: 'flagA', alias: 'a', type: Boolean },
     { name: 'flagB', alias: 'b', type: Boolean },
@@ -34,7 +31,7 @@ runner.test('alias-cluster: two flags, one option 2', function () {
   })
 })
 
-runner.test('alias-cluster: three string options', function () {
+test('alias-cluster: three string options', function () {
   const optionDefinitions = [
     { name: 'flagA', alias: 'a' },
     { name: 'flagB', alias: 'b' },

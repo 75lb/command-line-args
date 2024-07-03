@@ -1,10 +1,8 @@
-import TestRunner from 'test-runner'
 import commandLineArgs from '../index.mjs'
 import a from 'assert'
 
-const runner = new TestRunner()
 
-runner.test('groups', function () {
+test('groups', function () {
   const definitions = [
     { name: 'one', group: 'a' },
     { name: 'two', group: 'a' },
@@ -28,7 +26,7 @@ runner.test('groups', function () {
   })
 })
 
-runner.test('groups: multiple and _none', function () {
+test('groups: multiple and _none', function () {
   const definitions = [
     { name: 'one', group: ['a', 'f'] },
     { name: 'two', group: ['a', 'g'] },
@@ -57,7 +55,7 @@ runner.test('groups: multiple and _none', function () {
   })
 })
 
-runner.test('groups: nothing set', function () {
+test('groups: nothing set', function () {
   const definitions = [
     { name: 'one', group: 'a' },
     { name: 'two', group: 'a' },
@@ -72,7 +70,7 @@ runner.test('groups: nothing set', function () {
   })
 })
 
-runner.test('groups: nothing set with one ungrouped', function () {
+test('groups: nothing set with one ungrouped', function () {
   const definitions = [
     { name: 'one', group: 'a' },
     { name: 'two', group: 'a' },
@@ -86,7 +84,7 @@ runner.test('groups: nothing set with one ungrouped', function () {
   })
 })
 
-runner.test('groups: two ungrouped, one set', function () {
+test('groups: two ungrouped, one set', function () {
   const definitions = [
     { name: 'one', group: 'a' },
     { name: 'two', group: 'a' },
@@ -102,7 +100,7 @@ runner.test('groups: two ungrouped, one set', function () {
   })
 })
 
-runner.test('groups: two ungrouped, both set', function () {
+test('groups: two ungrouped, both set', function () {
   const definitions = [
     { name: 'one', group: 'a' },
     { name: 'two', group: 'a' },
@@ -118,7 +116,7 @@ runner.test('groups: two ungrouped, both set', function () {
   })
 })
 
-runner.test('groups: with partial', function () {
+test('groups: with partial', function () {
   const definitions = [
     { name: 'one', group: 'a' },
     { name: 'two', group: 'a' },
@@ -142,7 +140,7 @@ runner.test('groups: with partial', function () {
   })
 })
 
-runner.test('partial: with partial, multiple groups and _none', function () {
+test('partial: with partial, multiple groups and _none', function () {
   const definitions = [
     { name: 'one', group: ['a', 'f'] },
     { name: 'two', group: ['a', 'g'] },

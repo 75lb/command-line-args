@@ -1,21 +1,19 @@
-import TestRunner from 'test-runner'
 import commandLineArgs from '../index.mjs'
 import a from 'assert'
 
-const runner = new TestRunner()
 
 const definitions = [
   { name: 'one' },
   { name: 'two' }
 ]
 
-runner.test('name: no argv values', function () {
+test('name: no argv values', function () {
   const argv = []
   const result = commandLineArgs(definitions, { argv })
   a.deepStrictEqual(result, {})
 })
 
-runner.test('name: just names, no values', function () {
+test('name: just names, no values', function () {
   const argv = ['--one', '--two']
   const result = commandLineArgs(definitions, { argv })
   a.deepStrictEqual(result, {
@@ -24,7 +22,7 @@ runner.test('name: just names, no values', function () {
   })
 })
 
-runner.test('name: just names, one value, one unpassed value', function () {
+test('name: just names, one value, one unpassed value', function () {
   const argv = ['--one', 'one', '--two']
   const result = commandLineArgs(definitions, { argv })
   a.deepStrictEqual(result, {
@@ -33,7 +31,7 @@ runner.test('name: just names, one value, one unpassed value', function () {
   })
 })
 
-runner.test('name: just names, two values', function () {
+test('name: just names, two values', function () {
   const argv = ['--one', 'one', '--two', 'two']
   const result = commandLineArgs(definitions, { argv })
   a.deepStrictEqual(result, {

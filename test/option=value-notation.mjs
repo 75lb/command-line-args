@@ -1,10 +1,8 @@
-import TestRunner from 'test-runner'
 import commandLineArgs from '../index.mjs'
 import a from 'assert'
 
-const runner = new TestRunner()
 
-runner.test('--option=value notation: two plus a regular notation', function () {
+test('--option=value notation: two plus a regular notation', function () {
   const optionDefinitions = [
     { name: 'one' },
     { name: 'two' },
@@ -18,7 +16,7 @@ runner.test('--option=value notation: two plus a regular notation', function () 
   a.strictEqual(result.three, '3')
 })
 
-runner.test('--option=value notation: value contains "="', function () {
+test('--option=value notation: value contains "="', function () {
   const optionDefinitions = [
     { name: 'url' },
     { name: 'two' },

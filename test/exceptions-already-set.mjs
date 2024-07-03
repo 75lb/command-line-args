@@ -1,10 +1,8 @@
-import TestRunner from 'test-runner'
 import commandLineArgs from '../index.mjs'
 import a from 'assert'
 
-const runner = new TestRunner()
 
-runner.test('exceptions-already-set: long option', function () {
+test('exceptions-already-set: long option', function () {
   const optionDefinitions = [
     { name: 'one', type: Boolean }
   ]
@@ -15,7 +13,7 @@ runner.test('exceptions-already-set: long option', function () {
   )
 })
 
-runner.test('exceptions-already-set: short option', function () {
+test('exceptions-already-set: short option', function () {
   const optionDefinitions = [
     { name: 'one', type: Boolean, alias: 'o' }
   ]
@@ -26,7 +24,7 @@ runner.test('exceptions-already-set: short option', function () {
   )
 })
 
-runner.test('exceptions-already-set: --option=value', function () {
+test('exceptions-already-set: --option=value', function () {
   const optionDefinitions = [
     { name: 'one' }
   ]
@@ -37,7 +35,7 @@ runner.test('exceptions-already-set: --option=value', function () {
   )
 })
 
-runner.test('exceptions-already-set: combined short option', function () {
+test('exceptions-already-set: combined short option', function () {
   const optionDefinitions = [
     { name: 'one', type: Boolean, alias: 'o' }
   ]

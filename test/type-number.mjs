@@ -1,10 +1,8 @@
-import TestRunner from 'test-runner'
 import commandLineArgs from '../index.mjs'
 import a from 'assert'
 
-const runner = new TestRunner()
 
-runner.test('type-number: different values', function () {
+test('type-number: different values', function () {
   const optionDefinitions = [
     { name: 'one', type: Number }
   ]
@@ -24,7 +22,7 @@ runner.test('type-number: different values', function () {
   a.ok(isNaN(result.one))
 })
 
-runner.test('number multiple: 1', function () {
+test('number multiple: 1', function () {
   const optionDefinitions = [
     { name: 'array', type: Number, multiple: true }
   ]
@@ -38,7 +36,7 @@ runner.test('number multiple: 1', function () {
   })
 })
 
-runner.test('number multiple: 2', function () {
+test('number multiple: 2', function () {
   const optionDefinitions = [
     { name: 'array', type: Number, multiple: true }
   ]

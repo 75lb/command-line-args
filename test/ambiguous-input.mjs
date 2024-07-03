@@ -1,10 +1,8 @@
-import TestRunner from 'test-runner'
 import commandLineArgs from '../index.mjs'
 import a from 'assert'
 
-const runner = new TestRunner()
 
-runner.test('ambiguous input: value looks like an option 1', function () {
+test('ambiguous input: value looks like an option 1', function () {
   const optionDefinitions = [
     { name: 'colour', type: String, alias: 'c' }
   ]
@@ -13,7 +11,7 @@ runner.test('ambiguous input: value looks like an option 1', function () {
   })
 })
 
-runner.test('ambiguous input: value looks like an option 2', function () {
+test('ambiguous input: value looks like an option 2', function () {
   const optionDefinitions = [
     { name: 'colour', type: String, alias: 'c' }
   ]
@@ -24,7 +22,7 @@ runner.test('ambiguous input: value looks like an option 2', function () {
   )
 })
 
-runner.test('ambiguous input: value looks like an option 3', function () {
+test('ambiguous input: value looks like an option 3', function () {
   const optionDefinitions = [
     { name: 'colour', type: String, alias: 'c' }
   ]
@@ -33,7 +31,7 @@ runner.test('ambiguous input: value looks like an option 3', function () {
   })
 })
 
-runner.test('ambiguous input: value looks like an option 4', function () {
+test('ambiguous input: value looks like an option 4', function () {
   const optionDefinitions = [
     { name: 'colour', type: String, alias: 'c' }
   ]

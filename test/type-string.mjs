@@ -1,10 +1,8 @@
-import TestRunner from 'test-runner'
 import commandLineArgs from '../index.mjs'
 import a from 'assert'
 
-const runner = new TestRunner()
 
-runner.test('type-string: different values', function () {
+test('type-string: different values', function () {
   const optionDefinitions = [
     { name: 'one', type: String }
   ]

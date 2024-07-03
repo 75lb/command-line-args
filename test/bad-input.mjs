@@ -1,10 +1,8 @@
-import TestRunner from 'test-runner'
 import commandLineArgs from '../index.mjs'
 import a from 'assert'
 
-const runner = new TestRunner()
 
-runner.test('bad-input: missing option value should be null', function () {
+test('bad-input: missing option value should be null', function () {
   const optionDefinitions = [
     { name: 'colour', type: String },
     { name: 'files' }
@@ -18,7 +16,7 @@ runner.test('bad-input: missing option value should be null', function () {
   })
 })
 
-runner.test('bad-input: handles arrays with relative paths', function () {
+test('bad-input: handles arrays with relative paths', function () {
   const optionDefinitions = [
     { name: 'colours', type: String, multiple: true }
   ]
@@ -28,7 +26,7 @@ runner.test('bad-input: handles arrays with relative paths', function () {
   })
 })
 
-runner.test('bad-input: empty string added to unknown values', function () {
+test('bad-input: empty string added to unknown values', function () {
   const optionDefinitions = [
     { name: 'one', type: String },
     { name: 'two', type: Number },
@@ -50,7 +48,7 @@ runner.test('bad-input: empty string added to unknown values', function () {
   })
 })
 
-runner.test('bad-input: non-strings in argv', function () {
+test('bad-input: non-strings in argv', function () {
   const optionDefinitions = [
     { name: 'one', type: Number }
   ]

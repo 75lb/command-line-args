@@ -1,10 +1,8 @@
-import TestRunner from 'test-runner'
 import commandLineArgs from '../index.mjs'
 import a from 'assert'
 
-const runner = new TestRunner()
 
-runner.test('default value', function () {
+test('default value', function () {
   const defs = [
     { name: 'one' },
     { name: 'two', defaultValue: 'two' }
@@ -16,25 +14,25 @@ runner.test('default value', function () {
   })
 })
 
-runner.test('default value 2', function () {
+test('default value 2', function () {
   const defs = [{ name: 'two', defaultValue: 'two' }]
   const argv = []
   a.deepStrictEqual(commandLineArgs(defs, { argv }), { two: 'two' })
 })
 
-runner.test('default value 3', function () {
+test('default value 3', function () {
   const defs = [{ name: 'two', defaultValue: 'two' }]
   const argv = ['--two', 'zwei']
   a.deepStrictEqual(commandLineArgs(defs, { argv }), { two: 'zwei' })
 })
 
-runner.test('default value 4', function () {
+test('default value 4', function () {
   const defs = [{ name: 'two', multiple: true, defaultValue: ['two', 'zwei'] }]
   const argv = ['--two', 'duo']
   a.deepStrictEqual(commandLineArgs(defs, { argv }), { two: ['duo'] })
 })
 
-runner.test('default value 5', function () {
+test('default value 5', function () {
   const defs = [
     { name: 'two', multiple: true, defaultValue: ['two', 'zwei'] }
   ]
@@ -43,7 +41,7 @@ runner.test('default value 5', function () {
   a.deepStrictEqual(result, { two: ['two', 'zwei'] })
 })
 
-runner.test('default value: array as defaultOption', function () {
+test('default value: array as defaultOption', function () {
   const defs = [
     { name: 'two', multiple: true, defaultValue: ['two', 'zwei'], defaultOption: true }
   ]
@@ -51,7 +49,7 @@ runner.test('default value: array as defaultOption', function () {
   a.deepStrictEqual(commandLineArgs(defs, { argv }), { two: ['duo'] })
 })
 
-runner.test('default value: falsy default values', function () {
+test('default value: falsy default values', function () {
   const defs = [
     { name: 'one', defaultValue: 0 },
     { name: 'two', defaultValue: false }
@@ -64,7 +62,7 @@ runner.test('default value: falsy default values', function () {
   })
 })
 
-runner.test('default value: is arrayifed if multiple set', function () {
+test('default value: is arrayifed if multiple set', function () {
   const defs = [
     { name: 'one', defaultValue: 0, multiple: true }
   ]
@@ -79,7 +77,7 @@ runner.test('default value: is arrayifed if multiple set', function () {
   })
 })
 
-runner.test('default value: combined with defaultOption', function () {
+test('default value: combined with defaultOption', function () {
   const defs = [
     { name: 'path', defaultOption: true, defaultValue: './' }
   ]
@@ -98,7 +96,7 @@ runner.test('default value: combined with defaultOption', function () {
   })
 })
 
-runner.test('default value: combined with multiple and defaultOption', function () {
+test('default value: combined with multiple and defaultOption', function () {
   const defs = [
     { name: 'path', multiple: true, defaultOption: true, defaultValue: './' }
   ]
@@ -125,7 +123,7 @@ runner.test('default value: combined with multiple and defaultOption', function 
   })
 })
 
-runner.test('default value: array default combined with multiple and defaultOption', function () {
+test('default value: array default combined with multiple and defaultOption', function () {
   const defs = [
     { name: 'path', multiple: true, defaultOption: true, defaultValue: ['./'] }
   ]

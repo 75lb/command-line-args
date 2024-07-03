@@ -1,10 +1,8 @@
-import TestRunner from 'test-runner'
 import commandLineArgs from '../index.mjs'
 import a from 'assert'
 
-const runner = new TestRunner()
 
-runner.test('name-unicode: unicode names and aliases are permitted', function () {
+test('name-unicode: unicode names and aliases are permitted', function () {
   const optionDefinitions = [
     { name: 'один' },
     { name: '两' },

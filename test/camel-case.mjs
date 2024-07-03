@@ -1,10 +1,8 @@
-import TestRunner from 'test-runner'
 import commandLineArgs from '../index.mjs'
 import a from 'assert'
 
-const runner = new TestRunner()
 
-runner.test('camel-case: regular', function () {
+test('camel-case: regular', function () {
   const optionDefinitions = [
     { name: 'one-two' },
     { name: 'three', type: Boolean }
@@ -17,7 +15,7 @@ runner.test('camel-case: regular', function () {
   })
 })
 
-runner.test('camel-case: grouped', function () {
+test('camel-case: grouped', function () {
   const optionDefinitions = [
     { name: 'one-one', group: 'a' },
     { name: 'two-two', group: 'a' },
@@ -46,7 +44,7 @@ runner.test('camel-case: grouped', function () {
   })
 })
 
-runner.test('camel-case: grouped with unknowns', function () {
+test('camel-case: grouped with unknowns', function () {
   const optionDefinitions = [
     { name: 'one-one', group: 'a' },
     { name: 'two-two', group: 'a' },

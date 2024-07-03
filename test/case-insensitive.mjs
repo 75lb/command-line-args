@@ -1,10 +1,8 @@
-import TestRunner from 'test-runner'
 import commandLineArgs from '../index.mjs'
 import a from 'assert'
 
-const runner = new TestRunner()
 
-runner.test('case-insensitive: disabled', function () {
+test('case-insensitive: disabled', function () {
   const optionDefinitions = [
     { name: 'dryRun', type: Boolean, alias: 'd' }]
 
@@ -18,7 +16,7 @@ runner.test('case-insensitive: disabled', function () {
   )
 })
 
-runner.test('case-insensitive: option no value', function () {
+test('case-insensitive: option no value', function () {
   const optionDefinitions = [
     { name: 'dryRun', type: Boolean }]
   const argv = ['--DRYrun']
@@ -28,7 +26,7 @@ runner.test('case-insensitive: option no value', function () {
   })
 })
 
-runner.test('case-insensitive: option with value', function () {
+test('case-insensitive: option with value', function () {
   const optionDefinitions = [
     { name: 'colour', type: String }
   ]
@@ -39,7 +37,7 @@ runner.test('case-insensitive: option with value', function () {
   })
 })
 
-runner.test('case-insensitive: alias', function () {
+test('case-insensitive: alias', function () {
   const optionDefinitions = [
     { name: 'dryRun', type: Boolean, alias: 'd' }]
   const argv = ['-D']
@@ -49,7 +47,7 @@ runner.test('case-insensitive: alias', function () {
   })
 })
 
-runner.test('case-insensitive: multiple', function () {
+test('case-insensitive: multiple', function () {
   const optionDefinitions = [
     { name: 'colour', type: String, multiple: true }
   ]
@@ -60,7 +58,7 @@ runner.test('case-insensitive: multiple', function () {
   })
 })
 
-runner.test('case-insensitive: camelCase', function () {
+test('case-insensitive: camelCase', function () {
   const optionDefinitions = [
     { name: 'dry-run', type: Boolean }
   ]

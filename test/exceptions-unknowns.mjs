@@ -1,10 +1,8 @@
-import TestRunner from 'test-runner'
 import commandLineArgs from '../index.mjs'
 import a from 'assert'
 
-const runner = new TestRunner()
 
-runner.test('exceptions-unknowns: unknown option', function () {
+test('exceptions-unknowns: unknown option', function () {
   const optionDefinitions = [
     { name: 'one', type: Number }
   ]
@@ -14,7 +12,7 @@ runner.test('exceptions-unknowns: unknown option', function () {
   )
 })
 
-runner.test('exceptions-unknowns: 1 unknown option, 1 unknown value', function () {
+test('exceptions-unknowns: 1 unknown option, 1 unknown value', function () {
   const optionDefinitions = [
     { name: 'one', type: Number }
   ]
@@ -24,7 +22,7 @@ runner.test('exceptions-unknowns: 1 unknown option, 1 unknown value', function (
   )
 })
 
-runner.test('exceptions-unknowns: unknown alias', function () {
+test('exceptions-unknowns: unknown alias', function () {
   const optionDefinitions = [
     { name: 'one', type: Number }
   ]
@@ -34,7 +32,7 @@ runner.test('exceptions-unknowns: unknown alias', function () {
   )
 })
 
-runner.test('exceptions-unknowns: unknown combined aliases', function () {
+test('exceptions-unknowns: unknown combined aliases', function () {
   const optionDefinitions = [
     { name: 'one', type: Number }
   ]
@@ -44,7 +42,7 @@ runner.test('exceptions-unknowns: unknown combined aliases', function () {
   )
 })
 
-runner.test('exceptions-unknowns: unknown value', function () {
+test('exceptions-unknowns: unknown value', function () {
   const optionDefinitions = [
     { name: 'one' }
   ]
@@ -55,7 +53,7 @@ runner.test('exceptions-unknowns: unknown value', function () {
   )
 })
 
-runner.test('exceptions-unknowns: unknown value with singular defaultOption', function () {
+test('exceptions-unknowns: unknown value with singular defaultOption', function () {
   const optionDefinitions = [
     { name: 'one', defaultOption: true }
   ]
@@ -66,7 +64,7 @@ runner.test('exceptions-unknowns: unknown value with singular defaultOption', fu
   )
 })
 
-runner.test('exceptions-unknowns: no unknown value exception with multiple defaultOption', function () {
+test('exceptions-unknowns: no unknown value exception with multiple defaultOption', function () {
   const optionDefinitions = [
     { name: 'one', defaultOption: true, multiple: true }
   ]
@@ -76,7 +74,7 @@ runner.test('exceptions-unknowns: no unknown value exception with multiple defau
   })
 })
 
-runner.test('exceptions-unknowns: non-multiple defaultOption should take first value 2', function () {
+test('exceptions-unknowns: non-multiple defaultOption should take first value 2', function () {
   const optionDefinitions = [
     { name: 'file', defaultOption: true },
     { name: 'one', type: Boolean },

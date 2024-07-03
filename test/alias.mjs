@@ -1,10 +1,8 @@
-import TestRunner from 'test-runner'
 import commandLineArgs from '../index.mjs'
 import a from 'assert'
 
-const runner = new TestRunner()
 
-runner.test('alias: one string alias', function () {
+test('alias: one string alias', function () {
   const optionDefinitions = [
     { name: 'verbose', alias: 'v' }
   ]
@@ -14,7 +12,7 @@ runner.test('alias: one string alias', function () {
   })
 })
 
-runner.test('alias: one boolean alias', function () {
+test('alias: one boolean alias', function () {
   const optionDefinitions = [
     { name: 'dry-run', alias: 'd', type: Boolean }
   ]
@@ -24,7 +22,7 @@ runner.test('alias: one boolean alias', function () {
   })
 })
 
-runner.test('alias: one boolean, one string', function () {
+test('alias: one boolean, one string', function () {
   const optionDefinitions = [
     { name: 'verbose', alias: 'v', type: Boolean },
     { name: 'colour', alias: 'c' }

@@ -1,10 +1,8 @@
-import TestRunner from 'test-runner'
 import commandLineArgs from '../index.mjs'
 import a from 'assert'
 
-const runner = new TestRunner()
 
-runner.test('type-other: different values', function () {
+test('type-other: different values', function () {
   const definitions = [
     {
       name: 'file',
@@ -24,7 +22,7 @@ runner.test('type-other: different values', function () {
   )
 })
 
-runner.test('type-other: broken custom type function', function () {
+test('type-other: broken custom type function', function () {
   const definitions = [
     {
       name: 'file',
@@ -38,7 +36,7 @@ runner.test('type-other: broken custom type function', function () {
   })
 })
 
-runner.test('type-other-multiple: different values', function () {
+test('type-other-multiple: different values', function () {
   const definitions = [
     {
       name: 'file',

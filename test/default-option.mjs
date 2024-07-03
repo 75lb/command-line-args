@@ -1,10 +1,8 @@
-import TestRunner from 'test-runner'
 import commandLineArgs from '../index.mjs'
 import a from 'assert'
 
-const runner = new TestRunner()
 
-runner.test('defaultOption: multiple string', function () {
+test('defaultOption: multiple string', function () {
   const optionDefinitions = [
     { name: 'files', defaultOption: true, multiple: true }
   ]
@@ -14,7 +12,7 @@ runner.test('defaultOption: multiple string', function () {
   })
 })
 
-runner.test('defaultOption: after a boolean', function () {
+test('defaultOption: after a boolean', function () {
   const definitions = [
     { name: 'one', type: Boolean },
     { name: 'two', defaultOption: true }
@@ -25,7 +23,7 @@ runner.test('defaultOption: after a boolean', function () {
   )
 })
 
-runner.test('defaultOption: multiple-defaultOption values spread out', function () {
+test('defaultOption: multiple-defaultOption values spread out', function () {
   const optionDefinitions = [
     { name: 'one' },
     { name: 'two' },
@@ -39,7 +37,7 @@ runner.test('defaultOption: multiple-defaultOption values spread out', function 
   })
 })
 
-runner.test('defaultOption: can be false', function () {
+test('defaultOption: can be false', function () {
   const optionDefinitions = [
     { name: 'one', defaultOption: false },
     { name: 'two', defaultOption: false },
@@ -53,7 +51,7 @@ runner.test('defaultOption: can be false', function () {
   })
 })
 
-runner.test('defaultOption: multiple-defaultOption values spread out 2', function () {
+test('defaultOption: multiple-defaultOption values spread out 2', function () {
   const optionDefinitions = [
     { name: 'one', type: Boolean },
     { name: 'two' },

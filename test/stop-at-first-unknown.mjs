@@ -1,10 +1,8 @@
-import TestRunner from 'test-runner'
 import commandLineArgs from '../index.mjs'
 import a from 'assert'
 
-const runner = new TestRunner()
 
-runner.test('stopAtFirstUnknown', function () {
+test('stopAtFirstUnknown', function () {
   const optionDefinitions = [
     { name: 'one', type: Boolean },
     { name: 'two', type: Boolean }
@@ -17,7 +15,7 @@ runner.test('stopAtFirstUnknown', function () {
   })
 })
 
-runner.test('stopAtFirstUnknown: with a singlular defaultOption', function () {
+test('stopAtFirstUnknown: with a singlular defaultOption', function () {
   const optionDefinitions = [
     { name: 'one', defaultOption: true },
     { name: 'two' }
@@ -30,7 +28,7 @@ runner.test('stopAtFirstUnknown: with a singlular defaultOption', function () {
   })
 })
 
-runner.test('stopAtFirstUnknown: with a singlular defaultOption and partial', function () {
+test('stopAtFirstUnknown: with a singlular defaultOption and partial', function () {
   const optionDefinitions = [
     { name: 'one', defaultOption: true },
     { name: 'two' }
