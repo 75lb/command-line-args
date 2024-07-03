@@ -29,7 +29,7 @@
   "author": "Lloyd Brookes <75pound@gmail.com>",
   "license": "MIT",
   "engines": {
-    "node": "^10 || ^12 || ^14.15.x || ^16.10.x || ^17 || ^20 || ^22"
+    "node": "^10 || ^12 || ^14.15.x || ^16.10.x || ^17 || ^18 || ^20 || ^22"
   },
   "files": [
     "index.mjs",
