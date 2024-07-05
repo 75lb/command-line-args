@@ -1,36 +1,18 @@
 import TestRunner from 'test-runner'
-import commandLineArgs from '../index.js'
+import commandLineArgs from 'command-line-args'
 import a from 'assert'
 
-const tom = new TestRunner.Tom('bad-input')
-
-tom.test('an unset option should not be defined', function () {
-  const optionDefinitions = [
-    { name: 'colour' }
-  ]
-  const argv = []
-  const result = commandLineArgs(optionDefinitions, { argv })
-  a.strictEqual(result.colour, undefined)
-})
+const tom = new TestRunner.Tom()
 
 tom.test('missing option value should be null', function () {
   const optionDefinitions = [
-    { name: 'colour' },
+    { name: 'colour', type: String },
     { name: 'files' }
   ]
-  const argv = ['--colour']
-  a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv }), {
+  a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv: ['--colour'] }), {
     colour: null
   })
-})
-
-tom.test('missing option value should be null 2', function () {
-  const optionDefinitions = [
-    { name: 'colour' },
-    { name: 'files' }
-  ]
-  const argv = ['--colour', '--files', 'yeah']
-  a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv }), {
+  a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv: ['--colour', '--files', 'yeah'] }), {
     colour: null,
     files: 'yeah'
   })
@@ -38,11 +20,33 @@ tom.test('missing option value should be null 2', function () {
 
 tom.test('handles arrays with relative paths', function () {
   const optionDefinitions = [
-    { name: 'colours', multiple: true }
+    { name: 'colours', type: String, multiple: true }
   ]
   const argv = ['--colours', '../what', '../ever']
   a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv }), {
     colours: ['../what', '../ever']
+  })
+})
+
+tom.test('empty string added to unknown values', function () {
+  const optionDefinitions = [
+    { name: 'one', type: String },
+    { name: 'two', type: Number },
+    { name: 'three', type: Number, multiple: true },
+    { name: 'four', type: String },
+    { name: 'five', type: Boolean }
+  ]
+  const argv = ['--one', '', '', '--two', '0', '--three=', '', '--four=', '--five=']
+  a.throws(() => {
+    commandLineArgs(optionDefinitions, { argv })
+  })
+  a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv, partial: true }), {
+    one: '',
+    two: 0,
+    three: [0, 0],
+    four: '',
+    five: true,
+    _unknown: ['', '--five=']
   })
 })
 

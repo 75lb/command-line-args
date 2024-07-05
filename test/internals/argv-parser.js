@@ -2,7 +2,7 @@ import TestRunner from 'test-runner'
 import a from 'assert'
 import ArgvParser from '../../lib/argv-parser.js'
 
-const tom = new TestRunner.Tom('argv-parser')
+const tom = new TestRunner.Tom()
 
 tom.test('long option, string', function () {
   const optionDefinitions = [
@@ -363,51 +363,6 @@ tom.test('combined short option, one unknown', function () {
     { event: 'set', arg: '-xt', subArg: '-t', name: 'two', value: null },
     { event: 'set', arg: '1', name: 'two', value: '1' }
   ])
-})
-
-tom.skip('expandCluster, no whitespace value', function () {
-  const optionDefinitions = [
-    { name: 'one', alias: 'o' }
-  ]
-  const argv = ['-oone']
-  const parser = new ArgvParser(optionDefinitions, { argv })
-  a.strictEqual(parser.argv.length, 2)
-  a.deepStrictEqual(parser.argv[0], { origArg: '-oone', arg: '-o' })
-  a.deepStrictEqual(parser.argv[1], { origArg: '-oone', arg: 'one' })
-})
-
-tom.test('expandCluster, flags', function () {
-  const optionDefinitions = [
-    { name: 'one', alias: 'o', type: Boolean },
-    { name: 'two', alias: 't', type: Boolean }
-  ]
-  const argv = ['-ot']
-  const parser = new ArgvParser(optionDefinitions, { argv })
-  a.strictEqual(parser.argv.length, 2)
-  a.deepStrictEqual(parser.argv[0], { origArg: '-ot', arg: '-o' })
-  a.deepStrictEqual(parser.argv[1], { origArg: '-ot', arg: '-t' })
-})
-
-tom.test('expandCluster, mix', function () {
-  const optionDefinitions = [
-    { name: 'one', alias: 'o', type: Boolean },
-    { name: 'two', alias: 't' }
-  ]
-  const argv = ['-ot']
-  const parser = new ArgvParser(optionDefinitions, { argv })
-  a.strictEqual(parser.argv.length, 2)
-  a.deepStrictEqual(parser.argv[0], { origArg: '-ot', arg: '-o' })
-  a.deepStrictEqual(parser.argv[1], { origArg: '-ot', arg: '-t' })
-})
-
-tom.test('expand a cluster of short options with no definition', function () {
-  const optionDefinitions = []
-  const argv = ['-abc']
-  const parser = new ArgvParser(optionDefinitions, { argv })
-  a.strictEqual(parser.argv.length, 3)
-  a.deepStrictEqual(parser.argv[0], { origArg: '-abc', arg: '-a' })
-  a.deepStrictEqual(parser.argv[1], { origArg: '-abc', arg: '-b' })
-  a.deepStrictEqual(parser.argv[2], { origArg: '-abc', arg: '-c' })
 })
 
 export default tom

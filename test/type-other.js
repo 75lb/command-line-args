@@ -1,8 +1,8 @@
 import TestRunner from 'test-runner'
-import commandLineArgs from '../index.js'
+import commandLineArgs from 'command-line-args'
 import a from 'assert'
 
-const tom = new TestRunner.Tom('type-other')
+const tom = new TestRunner.Tom()
 
 tom.test('different values', function () {
   const definitions = [
@@ -38,7 +38,7 @@ tom.test('broken custom type function', function () {
   })
 })
 
-tom.test('type-other-multiple: different values', function () {
+tom.test('multiple: different values', function () {
   const definitions = [
     {
       name: 'file',

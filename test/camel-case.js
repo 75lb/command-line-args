@@ -1,8 +1,8 @@
 import TestRunner from 'test-runner'
-import commandLineArgs from '../index.js'
+import commandLineArgs from 'command-line-args'
 import a from 'assert'
 
-const tom = new TestRunner.Tom('camel-case')
+const tom = new TestRunner.Tom()
 
 tom.test('regular', function () {
   const optionDefinitions = [

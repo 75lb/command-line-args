@@ -1,8 +1,8 @@
 import TestRunner from 'test-runner'
-import commandLineArgs from '../index.js'
+import commandLineArgs from 'command-line-args'
 import a from 'assert'
 
-const tom = new TestRunner.Tom('exceptions-invalid-definition')
+const tom = new TestRunner.Tom()
 
 tom.test('throws when no definition.name specified', function () {
   const optionDefinitions = [
@@ -94,6 +94,30 @@ tom.test('duplicate name', function () {
   )
 })
 
+tom.test('duplicate name caused by case insensitivity', function () {
+  const optionDefinitions = [
+    { name: 'colours' },
+    { name: 'coloURS' }
+  ]
+  const argv = ['--colours', 'red']
+  a.throws(
+    () => commandLineArgs(optionDefinitions, { argv, caseInsensitive: true }),
+    err => err.name === 'INVALID_DEFINITIONS'
+  )
+})
+
+tom.test('case sensitive names in different case', function () {
+  const optionDefinitions = [
+    { name: 'colours' },
+    { name: 'coloURS' }
+  ]
+  const argv = ['--colours', 'red', '--coloURS', 'green']
+  a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv }), {
+    colours: 'red',
+    coloURS: 'green'
+  })
+})
+
 tom.test('duplicate alias', function () {
   const optionDefinitions = [
     { name: 'one', alias: 'a' },
@@ -104,6 +128,29 @@ tom.test('duplicate alias', function () {
     () => commandLineArgs(optionDefinitions, { argv }),
     err => err.name === 'INVALID_DEFINITIONS'
   )
+})
+
+tom.test('duplicate alias caused by case insensitivity', function () {
+  const optionDefinitions = [
+    { name: 'one', alias: 'a' },
+    { name: 'two', alias: 'A' }
+  ]
+  const argv = ['-a', 'red']
+  a.throws(
+    () => commandLineArgs(optionDefinitions, { argv, caseInsensitive: true }),
+    err => err.name === 'INVALID_DEFINITIONS'
+  )
+})
+
+tom.test('case sensitive aliases in different case', function () {
+  const optionDefinitions = [
+    { name: 'one', alias: 'a' },
+    { name: 'two', alias: 'A' }
+  ]
+  const argv = ['-a', 'red']
+  a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv }), {
+    one: 'red'
+  })
 })
 
 tom.test('multiple defaultOption', function () {
@@ -118,7 +165,21 @@ tom.test('multiple defaultOption', function () {
   )
 })
 
-tom.test('err-invalid-defaultOption: defaultOption on a Boolean type', function () {
+tom.test('multiple defaultOptions 2', function () {
+  const optionDefinitions = [
+    { name: 'one', defaultOption: undefined },
+    { name: 'two', defaultOption: false },
+    { name: 'files', defaultOption: true, multiple: true },
+    { name: 'files2', defaultOption: true }
+  ]
+  const argv = ['--one', '1', 'file1', 'file2', '--two', '2']
+  a.throws(
+    () => commandLineArgs(optionDefinitions, { argv }),
+    err => err.name === 'INVALID_DEFINITIONS'
+  )
+})
+
+tom.test('defaultOption on a Boolean type', function () {
   const optionDefinitions = [
     { name: 'one', type: Boolean, defaultOption: true }
   ]

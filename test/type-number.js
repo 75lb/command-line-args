@@ -1,8 +1,8 @@
 import TestRunner from 'test-runner'
-import commandLineArgs from '../index.js'
+import commandLineArgs from 'command-line-args'
 import a from 'assert'
 
-const tom = new TestRunner.Tom('type-number')
+const tom = new TestRunner.Tom()
 
 tom.test('different values', function () {
   const optionDefinitions = [

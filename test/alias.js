@@ -1,8 +1,8 @@
 import TestRunner from 'test-runner'
-import commandLineArgs from '../index.js'
+import commandLineArgs from 'command-line-args'
 import a from 'assert'
 
-const tom = new TestRunner.Tom('alias')
+const tom = new TestRunner.Tom()
 
 tom.test('one string alias', function () {
   const optionDefinitions = [

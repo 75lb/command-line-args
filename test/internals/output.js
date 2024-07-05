@@ -3,16 +3,16 @@ import a from 'assert'
 import Output from '../../lib/output.js'
 import Option from '../../lib/option.js'
 
-const tom = new TestRunner.Tom('output')
+const tom = new TestRunner.Tom()
 
-tom.test('output.toObject(): no defs set', function () {
+tom.test('no defs set', function () {
   const output = new Output([
     { name: 'one' }
   ])
   a.deepStrictEqual(output.toObject(), {})
 })
 
-tom.test('output.toObject(): one def set', function () {
+tom.test('one def set', function () {
   const output = new Output([
     { name: 'one' }
   ])

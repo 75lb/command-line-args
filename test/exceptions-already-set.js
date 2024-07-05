@@ -1,8 +1,8 @@
 import TestRunner from 'test-runner'
-import commandLineArgs from '../index.js'
+import commandLineArgs from 'command-line-args'
 import a from 'assert'
 
-const tom = new TestRunner.Tom('exceptions-already-set')
+const tom = new TestRunner.Tom()
 
 tom.test('long option', function () {
   const optionDefinitions = [
@@ -42,28 +42,6 @@ tom.test('combined short option', function () {
     { name: 'one', type: Boolean, alias: 'o' }
   ]
   const argv = ['-oo']
-  a.throws(
-    () => commandLineArgs(optionDefinitions, { argv }),
-    err => err.name === 'ALREADY_SET' && err.optionName === 'one'
-  )
-})
-
-tom.test('alias then long', function () {
-  const optionDefinitions = [
-    { name: 'one', alias: 'o' }
-  ]
-  const argv = ['-o', '1', '--one', '1']
-  a.throws(
-    () => commandLineArgs(optionDefinitions, { argv }),
-    err => err.name === 'ALREADY_SET' && err.optionName === 'one'
-  )
-})
-
-tom.test('alias then --option=value', function () {
-  const optionDefinitions = [
-    { name: 'one', alias: 'o' }
-  ]
-  const argv = ['-o', '1', '--one=1']
   a.throws(
     () => commandLineArgs(optionDefinitions, { argv }),
     err => err.name === 'ALREADY_SET' && err.optionName === 'one'

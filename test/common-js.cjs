@@ -1,10 +1,10 @@
-import TestRunner from 'test-runner'
-import commandLineArgs from 'command-line-args'
-import a from 'assert'
+const TestRunner = require('test-runner')
+const commandLineArgs = require('command-line-args')
+const a = require('assert')
 
 const tom = new TestRunner.Tom()
 
-tom.test('different values', function () {
+tom.test('CommonJS build works correctly', function () {
   const optionDefinitions = [
     { name: 'one', type: String }
   ]
@@ -22,4 +22,4 @@ tom.test('different values', function () {
   )
 })
 
-export default tom
+module.exports = tom

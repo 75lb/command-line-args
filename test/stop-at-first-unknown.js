@@ -1,10 +1,10 @@
 import TestRunner from 'test-runner'
-import commandLineArgs from '../index.js'
+import commandLineArgs from 'command-line-args'
 import a from 'assert'
 
-const tom = new TestRunner.Tom('stop-at-first-unknown')
+const tom = new TestRunner.Tom()
 
-tom.test('simple', function () {
+tom.test('stopAtFirstUnknown', function () {
   const optionDefinitions = [
     { name: 'one', type: Boolean },
     { name: 'two', type: Boolean }

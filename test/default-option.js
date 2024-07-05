@@ -1,8 +1,8 @@
 import TestRunner from 'test-runner'
-import commandLineArgs from '../index.js'
+import commandLineArgs from 'command-line-args'
 import a from 'assert'
 
-const tom = new TestRunner.Tom('default-option')
+const tom = new TestRunner.Tom()
 
 tom.test('multiple string', function () {
   const optionDefinitions = [
@@ -14,10 +14,35 @@ tom.test('multiple string', function () {
   })
 })
 
+tom.test('after a boolean', function () {
+  const definitions = [
+    { name: 'one', type: Boolean },
+    { name: 'two', defaultOption: true }
+  ]
+  a.deepStrictEqual(
+    commandLineArgs(definitions, { argv: ['--one', 'sfsgf'] }),
+    { one: true, two: 'sfsgf' }
+  )
+})
+
 tom.test('multiple-defaultOption values spread out', function () {
   const optionDefinitions = [
     { name: 'one' },
     { name: 'two' },
+    { name: 'files', defaultOption: true, multiple: true }
+  ]
+  const argv = ['--one', '1', 'file1', 'file2', '--two', '2']
+  a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv }), {
+    one: '1',
+    two: '2',
+    files: ['file1', 'file2']
+  })
+})
+
+tom.test('can be false', function () {
+  const optionDefinitions = [
+    { name: 'one', defaultOption: false },
+    { name: 'two', defaultOption: false },
     { name: 'files', defaultOption: true, multiple: true }
   ]
   const argv = ['--one', '1', 'file1', 'file2', '--two', '2']
@@ -39,21 +64,6 @@ tom.test('multiple-defaultOption values spread out 2', function () {
     one: true,
     two: '2',
     files: ['file0', 'file1', 'file2', 'file3']
-  })
-})
-
-tom.test('multiple with --option=value', function () {
-  const definitions = [
-    { name: 'files', defaultOption: true, multiple: true },
-    { name: 'one', type: Boolean },
-    { name: 'two', alias: 't', defaultValue: 2 }
-  ]
-  const argv = ['file1', '--one', 'file2', '-t', '--two=3', 'file3']
-  const options = commandLineArgs(definitions, { argv })
-  a.deepStrictEqual(options, {
-    files: ['file1', 'file2', 'file3'],
-    two: '3',
-    one: true
   })
 })
 

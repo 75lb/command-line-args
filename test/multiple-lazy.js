@@ -1,8 +1,8 @@
 import TestRunner from 'test-runner'
-import commandLineArgs from '../index.js'
+import commandLineArgs from 'command-line-args'
 import a from 'assert'
 
-const tom = new TestRunner.Tom('multiple-lazy')
+const tom = new TestRunner.Tom()
 
 tom.test('string', function () {
   const argv = ['--one', 'a', '--one', 'b', '--one', 'd']

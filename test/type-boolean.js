@@ -1,10 +1,10 @@
 import TestRunner from 'test-runner'
-import commandLineArgs from '../index.js'
+import commandLineArgs from 'command-line-args'
 import a from 'assert'
 
-const tom = new TestRunner.Tom('type-boolean')
+const tom = new TestRunner.Tom()
 
-tom.test('simple', function () {
+tom.test('type-boolean: simple', function () {
   const optionDefinitions = [
     { name: 'one', type: Boolean }
   ]
@@ -18,16 +18,17 @@ tom.test('simple', function () {
 const origBoolean = Boolean
 
 /* test in contexts which override the standard global Boolean constructor */
-tom.test('global Boolean overridden', function () {
+tom.test('type-boolean: global Boolean overridden', function () {
   function Boolean () {
     return origBoolean.apply(origBoolean, arguments)
   }
+
   const optionDefinitions = [
     { name: 'one', type: Boolean }
   ]
-  const argv = ['--one']
+
   a.deepStrictEqual(
-    commandLineArgs(optionDefinitions, { argv }),
+    commandLineArgs(optionDefinitions, { argv: ['--one'] }),
     { one: true }
   )
 })

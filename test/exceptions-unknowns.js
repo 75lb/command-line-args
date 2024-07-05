@@ -1,8 +1,8 @@
 import TestRunner from 'test-runner'
-import commandLineArgs from '../index.js'
+import commandLineArgs from 'command-line-args'
 import a from 'assert'
 
-const tom = new TestRunner.Tom('exceptions-unknowns')
+const tom = new TestRunner.Tom()
 
 tom.test('unknown option', function () {
   const optionDefinitions = [
@@ -38,9 +38,8 @@ tom.test('unknown combined aliases', function () {
   const optionDefinitions = [
     { name: 'one', type: Number }
   ]
-  const argv = ['-sdf']
   a.throws(
-    () => commandLineArgs(optionDefinitions, { argv }),
+    () => commandLineArgs(optionDefinitions, { argv: ['-sdf'] }),
     err => err.name === 'UNKNOWN_OPTION' && err.optionName === '-s'
   )
 })

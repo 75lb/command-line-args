@@ -2,7 +2,7 @@ import TestRunner from 'test-runner'
 import a from 'assert'
 import Option from '../../lib/option.js'
 
-const tom = new TestRunner.Tom('option-default')
+const tom = new TestRunner.Tom()
 
 tom.test('defaultValue', function () {
   const option = new Option({ name: 'two', defaultValue: 'two' })

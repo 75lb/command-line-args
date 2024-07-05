@@ -1,8 +1,8 @@
 import TestRunner from 'test-runner'
-import commandLineArgs from '../index.js'
+import commandLineArgs from 'command-line-args'
 import a from 'assert'
 
-const tom = new TestRunner.Tom('output-grouping')
+const tom = new TestRunner.Tom()
 
 tom.test('groups', function () {
   const definitions = [

@@ -2,7 +2,7 @@ import TestRunner from 'test-runner'
 import a from 'assert'
 import Option from '../../lib/option.js'
 
-const tom = new TestRunner.Tom('option')
+const tom = new TestRunner.Tom()
 
 tom.test('simple set string', function () {
   const option = Option.create({ name: 'two' })
@@ -60,7 +60,7 @@ tom.test('string multiple', function () {
   a.strictEqual(option.state, 'set')
 })
 
-tom.test('lazyMultiple', function () {
+tom.test('option.set: lazyMultiple', function () {
   const option = Option.create({ name: 'one', lazyMultiple: true })
   a.deepStrictEqual(option.get(), [])
   a.strictEqual(option.state, 'default')

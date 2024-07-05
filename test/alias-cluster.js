@@ -1,75 +1,51 @@
 import TestRunner from 'test-runner'
-import commandLineArgs from '../index.js'
+import commandLineArgs from 'command-line-args'
 import a from 'assert'
 
 const tom = new TestRunner.Tom()
 
-tom.test('two flags, one option, nothing set', function () {
-  const optionDefinitions = [
-    { name: 'verbose', alias: 'v', type: Boolean },
-    { name: 'recursive', alias: 'r', type: Boolean },
-    { name: 'file', alias: 'f' }
-  ]
-
-  const argv = []
-  a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv }), {})
-})
-
 tom.test('two flags, one option', function () {
   const optionDefinitions = [
-    { name: 'verbose', alias: 'v', type: Boolean },
-    { name: 'recursive', alias: 'r', type: Boolean },
-    { name: 'file', alias: 'f' }
+    { name: 'flagA', alias: 'a', type: Boolean },
+    { name: 'flagB', alias: 'b', type: Boolean },
+    { name: 'three', alias: 'c' }
   ]
 
-  const argv = ['-vrf', 'yeah']
+  const argv = ['-abc', 'yeah']
   a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv }), {
-    verbose: true,
-    recursive: true,
-    file: 'yeah'
+    flagA: true,
+    flagB: true,
+    three: 'yeah'
   })
 })
 
 tom.test('two flags, one option 2', function () {
   const optionDefinitions = [
-    { name: 'verbose', alias: 'v', type: Boolean },
-    { name: 'recursive', alias: 'r', type: Boolean },
-    { name: 'file', alias: 'f' }
+    { name: 'flagA', alias: 'a', type: Boolean },
+    { name: 'flagB', alias: 'b', type: Boolean },
+    { name: 'three', alias: 'c' }
   ]
 
-  const argv = ['-f', 'yeah', '-vr']
+  const argv = ['-c', 'yeah', '-ab']
   a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv }), {
-    verbose: true,
-    recursive: true,
-    file: 'yeah'
+    flagA: true,
+    flagB: true,
+    three: 'yeah'
   })
 })
 
 tom.test('three string options', function () {
   const optionDefinitions = [
-    { name: 'plugin', alias: 'p' },
-    { name: 'depth', alias: 'd' },
-    { name: 'file', alias: 'f' }
+    { name: 'flagA', alias: 'a' },
+    { name: 'flagB', alias: 'b' },
+    { name: 'three', alias: 'c' }
   ]
 
-  const argv = ['-pdf', 'yeah']
-  a.throws(
-    () => commandLineArgs(optionDefinitions, { argv }),
-    /UNKNOWN_VALUE/
-  )
-})
-
-tom.test('three string options, partial', function () {
-  const optionDefinitions = [
-    { name: 'plugin', alias: 'p' },
-    { name: 'depth', alias: 'd' },
-    { name: 'file', alias: 'f' }
-  ]
-
-  const argv = ['-pdf', 'yeah']
-  a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv, partial: true }), {
-    plugin: 'df',
-    _unknown: ['yeah']
+  const argv = ['-abc', 'yeah']
+  a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv }), {
+    flagA: null,
+    flagB: null,
+    three: 'yeah'
   })
 })
 

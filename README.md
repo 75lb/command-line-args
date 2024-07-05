@@ -3,7 +3,6 @@
 [![Gihub repo dependents](https://badgen.net/github/dependents-repo/75lb/command-line-args)](https://github.com/75lb/command-line-args/network/dependents?dependent_type=REPOSITORY)
 [![Gihub package dependents](https://badgen.net/github/dependents-pkg/75lb/command-line-args)](https://github.com/75lb/command-line-args/network/dependents?dependent_type=PACKAGE)
 [![Node.js CI](https://github.com/75lb/command-line-args/actions/workflows/node.js.yml/badge.svg)](https://github.com/75lb/command-line-args/actions/workflows/node.js.yml)
-[![Coverage Status](https://coveralls.io/repos/github/75lb/command-line-args/badge.svg)](https://coveralls.io/github/75lb/command-line-args)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](https://github.com/feross/standard)
 
 ***Upgraders, please read the [release notes](https://github.com/75lb/command-line-args/releases)***

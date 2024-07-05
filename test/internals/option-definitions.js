@@ -2,7 +2,7 @@ import TestRunner from 'test-runner'
 import a from 'assert'
 import Definitions from '../../lib/option-definitions.js'
 
-const tom = new TestRunner.Tom('option-definitions')
+const tom = new TestRunner.Tom()
 
 tom.test('.get(long option)', function () {
   const definitions = Definitions.from([{ name: 'one' }])

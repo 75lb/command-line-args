@@ -1,22 +1,21 @@
 import TestRunner from 'test-runner'
-import commandLineArgs from '../index.js'
+import commandLineArgs from 'command-line-args'
 import a from 'assert'
 
-const tom = new TestRunner.Tom('bad-input-ambiguous')
+const tom = new TestRunner.Tom()
 
 tom.test('value looks like an option 1', function () {
   const optionDefinitions = [
-    { name: 'colour', alias: 'c' }
+    { name: 'colour', type: String, alias: 'c' }
   ]
-  const argv = ['-c', 'red']
-  a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv }), {
+  a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv: ['-c', 'red'] }), {
     colour: 'red'
   })
 })
 
 tom.test('value looks like an option 2', function () {
   const optionDefinitions = [
-    { name: 'colour', alias: 'c' }
+    { name: 'colour', type: String, alias: 'c' }
   ]
   const argv = ['--colour', '--red']
   a.throws(
@@ -27,20 +26,18 @@ tom.test('value looks like an option 2', function () {
 
 tom.test('value looks like an option 3', function () {
   const optionDefinitions = [
-    { name: 'colour', alias: 'c' }
+    { name: 'colour', type: String, alias: 'c' }
   ]
-  const argv = ['--colour=--red']
   a.doesNotThrow(function () {
-    commandLineArgs(optionDefinitions, { argv })
+    commandLineArgs(optionDefinitions, { argv: ['--colour=--red'] })
   })
 })
 
 tom.test('value looks like an option 4', function () {
   const optionDefinitions = [
-    { name: 'colour', alias: 'c' }
+    { name: 'colour', type: String, alias: 'c' }
   ]
-  const argv = ['--colour=--red']
-  a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv }), {
+  a.deepStrictEqual(commandLineArgs(optionDefinitions, { argv: ['--colour=--red'] }), {
     colour: '--red'
   })
 })
