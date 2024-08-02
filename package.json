@@ -2,18 +2,18 @@
   "name": "command-line-args",
   "version": "6.0.0",
   "description": "A mature, feature-complete library to parse command-line options.",
-  "repository": "https://github.com/75lb/command-line-args",
+  "author": "Lloyd Brookes <75pound@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/75lb/command-line-args.git"
+  },
   "scripts": {
     "test": "npm run dist && npm run test:ci",
-    "test:ci": "test-runner 'test/**/*.js' 'test/**/*.cjs'",
-    "docs": "jsdoc2md index.js > doc/API.md && jsdoc2md lib/option-definition.js > doc/option-definition.md",
-    "dist": "rollup -c"
+    "test:ci": "test-runner 'test/**/*.js' 'test/**/*.cjs'"
   },
   "type": "module",
-  "exports": {
-    "import": "./index.js",
-    "require": "./dist/index.cjs"
-  },
+  "exports": "./index.js",
   "keywords": [
     "argv",
     "parse",
@@ -27,8 +27,6 @@
     "command",
     "line"
   ],
-  "author": "Lloyd Brookes <75pound@gmail.com>",
-  "license": "MIT",
   "engines": {
     "node": ">=12.20"
   },
@@ -37,23 +35,9 @@
     "lib",
     "dist"
   ],
-  "devDependencies": {
-    "@rollup/plugin-commonjs": "^26.0.1",
-    "@rollup/plugin-node-resolve": "^15.2.3",
-    "jsdoc-to-markdown": "^8.0.1",
-    "rollup": "~4.18.0",
-    "test-runner": "^0.10.1"
-  },
-  "dependencies": {
-    "array-back": "^6.2.2",
-    "find-replace": "^5.0.1",
-    "lodash.camelcase": "^4.3.0",
-    "typical": "^7.1.1"
-  },
   "standard": {
     "ignore": [
       "dist"
-    ],
-    "envs": []
+    ]
   }
 }
