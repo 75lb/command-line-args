@@ -1,6 +1,7 @@
 class CommandLineArgs {
   constructor (args, optionDefinitions) {
-    this.args = args
+    this.origArgv = args.slice()
+    this.args = args.slice()
     this.optionDefinitions = optionDefinitions
   }
 
@@ -22,11 +23,21 @@ class CommandLineArgs {
   }
 
   parse () {
-    const extractions = Array.from(this.extractions())
-    const matches = Array.from(this.matches(extractions))
+    const extractions = this.getExtractions()
+    const matches = this.getMatches(extractions)
     return this.buildOutput(matches)
   }
 
+  /**
+   * Operates on the extractions, input args not touched. Map an option to one or more values. Currently does some processing if `name` and/or `type` are provided. What if they are not, what should the defaults be?
+   * Uses `def.from` to match with the first arg of the extraction (as the same def.from was originally used to create the extraction)
+   * Uses def.def, def.name, def.type. Not def.to.
+   * Output:
+   [
+     [<name-result>, [...typeResults]]
+     [<name-result>, [...typeResults]]
+   ]
+   */
   * matches (extractions) {
     for (const extraction of extractions) {
       const def = this.optionDefinitions.find(def => def.from(extraction[0]))
@@ -43,7 +54,13 @@ class CommandLineArgs {
     }
   }
 
-  * extractions () {
+  /**
+   * Loop through the defs using `def.from` and `def.to` to compute `args` start and end indices for extraction.
+   * Output:
+   * [<from-arg>, <...arg>, <to-arg>]
+   */
+  getExtractions () {
+    const result = []
     for (const def of this.optionDefinitions) {
       let scanning = true
       while (scanning) {
@@ -59,12 +76,20 @@ class CommandLineArgs {
             dynamicDef = def
           }
           const toIndex = dynamicDef.to ? this.toIndex(this.args, dynamicDef.to, fromIndex) : fromIndex
-          yield this.extract(this.args, fromIndex, toIndex)
+          result.push(this.extract(this.args, fromIndex, toIndex))
         }
       }
     }
+    return result
   }
 
+  getMatches (extractions) {
+    return Array.from(this.matches(extractions))
+  }
+
+  /**
+   * No hints or config in the def. User decides, hand-rolled preference.
+   */
   buildOutput (matches) {
     const output = {}
     for (const [name, values] of matches) {
