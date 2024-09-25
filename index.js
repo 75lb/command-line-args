@@ -1,3 +1,7 @@
+import fromTo from './lib/from-to.js'
+
+/* TODO: add `noFurtherThan` function as an alternative, or replacement, for `to`.. Might result in easier code, e.g. "no further than a --option", rather than "stop here if the next item is an option or the end" */
+
 class CommandLineArgs {
   constructor (args, optionDefinitions) {
     this.origArgv = args.slice()
@@ -5,53 +9,10 @@ class CommandLineArgs {
     this.optionDefinitions = optionDefinitions
   }
 
-  fromIndex (input, from) {
-    return input.findIndex(from)
-  }
-
-  toIndex (input, to, fromIndex) {
-    return input.findIndex((arg, index, arr) => {
-      if ((index > fromIndex) && to) {
-        const valueIndex = index - fromIndex
-        return to(valueIndex, arg, index, arr)
-      }
-    })
-  }
-
-  extract (input, fromIndex, toIndex) {
-    return input.splice(fromIndex, toIndex === -1 ? 1 : toIndex - fromIndex + 1)
-  }
-
   parse () {
     const extractions = this.getExtractions()
     const matches = this.getMatches(extractions)
     return this.buildOutput(matches)
-  }
-
-  /**
-   * Operates on the extractions, input args not touched. Map an option to one or more values. Currently does some processing if `name` and/or `type` are provided. What if they are not, what should the defaults be?
-   * Uses `def.from` to match with the first arg of the extraction (as the same def.from was originally used to create the extraction)
-   * Uses def.def, def.name, def.type. Not def.to.
-   * Output:
-   [
-     [<name-result>, [...typeResults]]
-     [<name-result>, [...typeResults]]
-   ]
-   */
-  * matches (extractions) {
-    for (const extraction of extractions) {
-      const def = this.optionDefinitions.find(def => def.from(extraction[0]))
-      let dynamicDef
-      if (def.def) {
-        dynamicDef = def.def(extraction[0])
-        Object.assign(dynamicDef, def)
-      } else {
-        dynamicDef = def
-      }
-      const name = typeof dynamicDef.name === 'string' ? dynamicDef.name : dynamicDef.name(extraction)
-      const typeResult = dynamicDef.type ? dynamicDef.type(extraction.slice(1)) : extraction.slice(1)
-      yield [name, typeResult]
-    }
   }
 
   /**
@@ -64,7 +25,7 @@ class CommandLineArgs {
     for (const def of this.optionDefinitions) {
       let scanning = true
       while (scanning) {
-        const fromIndex = this.fromIndex(this.args, def.from)
+        const fromIndex = this.args.findIndex(def.from)
         if (fromIndex === -1) {
           scanning = false
         } else {
@@ -75,16 +36,47 @@ class CommandLineArgs {
           } else {
             dynamicDef = def
           }
-          const toIndex = dynamicDef.to ? this.toIndex(this.args, dynamicDef.to, fromIndex) : fromIndex
-          result.push(this.extract(this.args, fromIndex, toIndex))
+          result.push(fromTo(this.args, {
+            from: dynamicDef.from,
+            to: dynamicDef.to,
+            remove: true
+          }))
         }
       }
     }
     return result
   }
 
+  /**
+   * Operates on the extractions, input args not touched. Map an option to one or more values. Currently does some processing if `name` and/or `type` are provided. What if they are not, what should the defaults be?
+   * Uses `def.from` to match with the first arg of the extraction (as the same def.from was originally used to create the extraction)
+   * Uses def.def, def.name, def.type. Not def.to.
+   * Output:
+   [
+     [<name>, [...typeResults]]
+     [<name>, [...typeResults]]
+   ]
+   */
   getMatches (extractions) {
-    return Array.from(this.matches(extractions))
+    const result = []
+    for (const extraction of extractions) {
+      /* the from arg is the one matched by def.from()  */
+      const fromArg = extraction[0]
+      const def = this.optionDefinitions.find(def => def.from(fromArg))
+      let dynamicDef = def
+      if (def.def) {
+        dynamicDef = def.def(fromArg)
+        Object.assign(dynamicDef, def)
+      }
+      const name = dynamicDef.name === undefined
+        ? fromArg
+        : typeof dynamicDef.name === 'string'
+          ? dynamicDef.name
+          : dynamicDef.name(extraction)
+      const typeResult = dynamicDef.type ? dynamicDef.type(extraction.slice(1)) : extraction.slice(1)
+      result.push([name, typeResult])
+    }
+    return result
   }
 
   /**

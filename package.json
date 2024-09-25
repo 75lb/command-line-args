@@ -10,10 +10,14 @@
   },
   "scripts": {
     "test": "npm run dist && npm run test:ci",
-    "test:ci": "test-runner 'test/**/*.js' 'test/**/*.cjs'"
+    "test:ci": "75lb-nature test-runner test.js",
+    "dist": "75lb-nature cjs-build index.js"
   },
   "type": "module",
-  "exports": "./index.js",
+  "exports": {
+    ".": "./index.js",
+    "./fromTo": "./lib/from-to.js"
+  },
   "keywords": [
     "argv",
     "parse",
@@ -30,6 +34,14 @@
   "engines": {
     "node": ">=12.20"
   },
+  "peerDependencies": {
+    "@75lb/nature": "latest"
+  },
+  "peerDependenciesMeta": {
+    "@75lb/nature": {
+      "optional": true
+    }
+  },
   "files": [
     "index.js",
     "lib",
@@ -37,7 +49,8 @@
   ],
   "standard": {
     "ignore": [
-      "dist"
+      "dist",
+      "tmp"
     ]
   }
 }
