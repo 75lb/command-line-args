@@ -146,4 +146,54 @@ test.set('dynamic definition function receives fromArg', async function () {
   a.deepEqual(cla.args, ['one', 'two', '--two'])
 })
 
+test.set('noFurtherThan', async function () {
+  const argv = ['command1', 'arg', '--option', 'value', '--flag', 'command2', 'arg2']
+  const commands = ['command1', 'command2']
+  const optionDefinitions = [
+    {
+      from: arg => commands.includes(arg),
+      noFurtherThan: (valueIndex, arg, index, argv) => commands.includes(arg)
+    }
+  ]
+  const cla = new CommandLineArgs(argv, optionDefinitions)
+  const result = cla.parse()
+  // this.data = result
+  a.deepEqual(result, {
+    command1: ['arg', '--option', 'value', '--flag'],
+    command2: ['arg2']
+  })
+})
+
+test.set('to not found: no args matched', async function () {
+  const argv = ['command1', 'arg', '--option', 'value', '--flag']
+  const optionDefinitions = [
+    {
+      from: arg => arg === 'command1',
+      to: () => false
+    }
+  ]
+  const cla = new CommandLineArgs(argv, optionDefinitions)
+  const result = cla.parse()
+  // this.data = result
+  a.deepEqual(result, {
+    command1: []
+  })
+})
+
+test.set('noFurtherThan not found: all args matched until the end', async function () {
+  const argv = ['command1', 'arg', '--option', 'value', '--flag']
+  const optionDefinitions = [
+    {
+      from: arg => arg === 'command1',
+      noFurtherThan: () => false
+    }
+  ]
+  const cla = new CommandLineArgs(argv, optionDefinitions)
+  const result = cla.parse()
+  // this.data = result
+  a.deepEqual(result, {
+    command1: [ 'arg', '--option', 'value', '--flag' ]
+  })
+})
+
 export { test, only, skip }

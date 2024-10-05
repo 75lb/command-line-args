@@ -1,7 +1,5 @@
 import fromTo from './lib/from-to.js'
 
-/* TODO: add `noFurtherThan` function as an alternative, or replacement, for `to`.. Might result in easier code, e.g. "no further than a --option", rather than "stop here if the next item is an option or the end" */
-
 class CommandLineArgs {
   constructor (args, optionDefinitions) {
     this.origArgv = args.slice()
@@ -39,6 +37,7 @@ class CommandLineArgs {
           result.push(fromTo(this.args, {
             from: dynamicDef.from,
             to: dynamicDef.to,
+            noFurtherThan: dynamicDef.noFurtherThan,
             remove: true
           }))
         }

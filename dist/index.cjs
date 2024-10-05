@@ -16,18 +16,32 @@
  * @returns string[]
  */
 function fromTo (arr, options = {}) {
-  const { from: fromFn, to: toFn, remove } = options;
+  const { from: fromFn, to: toFn, noFurtherThan, remove } = options;
   const fromIndex = arr.findIndex(fromFn);
   let toIndex;
   if (toFn) {
     toIndex = arr.findIndex((item, index, arr) => {
-      if ((index > fromIndex) && toFn) {
+      if (index > fromIndex) {
         const valueIndex = index - fromIndex;
         return toFn(valueIndex, item, index, arr)
       } else {
         return false
       }
     });
+  } else if (noFurtherThan) {
+    toIndex = arr.findIndex((item, index, arr) => {
+      if (index > fromIndex) {
+        const valueIndex = index - fromIndex;
+        return noFurtherThan(valueIndex, item, index, arr)
+      } else {
+        return false
+      }
+    });
+    if (toIndex > 0) {
+      toIndex -= 1;
+    } else if (toIndex === -1) {
+      toIndex = arr.length - 1;
+    }
   } else {
     toIndex = fromIndex;
   }
@@ -40,7 +54,10 @@ function fromTo (arr, options = {}) {
   }
 }
 
-/* TODO: add `noFurtherThan` function as an alternative, or replacement, for `to`.. Might result in easier code, e.g. "no further than a --option", rather than "stop here if the next item is an option or the end" */
+/*
+TODO: add `noFurtherThan` function as an additional alternative, or replacement, for `to`.. Might result in easier code, e.g. "no further than a --option", rather than "stop here if the next item is an option or the end". This is also how slice() works: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/slice
+
+*/
 
 class CommandLineArgs {
   constructor (args, optionDefinitions) {
@@ -79,6 +96,7 @@ class CommandLineArgs {
           result.push(fromTo(this.args, {
             from: dynamicDef.from,
             to: dynamicDef.to,
+            noFurtherThan: dynamicDef.noFurtherThan,
             remove: true
           }));
         }
