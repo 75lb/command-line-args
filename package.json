@@ -5,9 +5,9 @@
   "repository": "https://github.com/75lb/command-line-args",
   "scripts": {
     "test": "npm run dist && npm run test:ci",
-    "test:ci": "test-runner 'test/**/*.js' 'test/**/*.cjs'",
-    "docs": "jsdoc2md index.js > doc/API.md && jsdoc2md lib/option-definition.js > doc/option-definition.md",
-    "dist": "rollup -c"
+    "test:ci": "test-runner test/*.js test/*.cjs test/internals/*.js",
+    "docs": "75lb-nature jsdoc2md index.js > doc/API.md && 75lb-nature jsdoc2md lib/option-definition.js > doc/option-definition.md",
+    "dist": "75lb-nature cjs-build index.js"
   },
   "type": "module",
   "exports": {
@@ -27,7 +27,7 @@
     "command",
     "line"
   ],
-  "author": "Lloyd Brookes <75pound@gmail.com>",
+  "author": "Lloyd Brookes <opensource@75lb.com>",
   "license": "MIT",
   "engines": {
     "node": ">=12.20"
@@ -37,23 +37,27 @@
     "lib",
     "dist"
   ],
-  "devDependencies": {
-    "@rollup/plugin-commonjs": "^26.0.1",
-    "@rollup/plugin-node-resolve": "^15.2.3",
-    "jsdoc-to-markdown": "^8.0.1",
-    "rollup": "~4.18.0",
-    "test-runner": "^0.10.1"
-  },
   "dependencies": {
     "array-back": "^6.2.2",
-    "find-replace": "^5.0.1",
+    "find-replace": "^5.0.2",
     "lodash.camelcase": "^4.3.0",
-    "typical": "^7.1.1"
+    "typical": "^7.2.0"
+  },
+  "peerDependencies": {
+    "@75lb/nature": "latest"
+  },
+  "peerDependenciesMeta": {
+    "@75lb/nature": {
+      "optional": true
+    }
   },
   "standard": {
     "ignore": [
       "dist"
     ],
     "envs": []
+  },
+  "devDependencies": {
+    "test-runner": "^0.10.1"
   }
 }

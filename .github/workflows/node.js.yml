@@ -1,4 +1,4 @@
-# See: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
 
 name: Node.js CI
 
@@ -11,11 +11,12 @@ on:
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
 
     strategy:
       matrix:
-        node-version: [12, 14, 16, 18, 20, 22]
+        os: [ubuntu-latest, windows-latest]
+        node-version: [12, 14, 16, 18, 20, 22, 23]
 
     steps:
     - uses: actions/checkout@v4
@@ -25,5 +26,5 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: npm install
-    - name: Run tests
-      run: npm run test:ci
+    - run: npm i -g @75lb/nature
+    - run: npm run test:ci

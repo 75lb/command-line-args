@@ -32,12 +32,14 @@ const optionDefinitions = [
 ```
 
 Next, parse the options using [commandLineArgs()](https://github.com/75lb/command-line-args/blob/master/doc/API.md#commandlineargsoptiondefinitions-options--object-):
+
 ```js
-const commandLineArgs = require('command-line-args')
+import commandLineArgs from 'command-line-args'
 const options = commandLineArgs(optionDefinitions)
 ```
 
 `options` now looks like this:
+
 ```js
 {
   src: [
@@ -98,7 +100,8 @@ There is plenty more to learn, please see [the wiki](https://github.com/75lb/com
 ```sh
 $ npm install command-line-args --save
 ```
-
 * * *
 
-&copy; 2014-24 Lloyd Brookes \<75pound@gmail.com\>. Documented by [jsdoc-to-markdown](https://github.com/75lb/jsdoc-to-markdown).
+&copy; 2014-24 [Lloyd Brookes](https://github.com/75lb) \<opensource@75lb.com\>.
+
+Documented by [jsdoc-to-markdown](https://github.com/jsdoc2md/jsdoc-to-markdown).
