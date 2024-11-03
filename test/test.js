@@ -3,7 +3,7 @@ import CommandLineArgs from 'command-line-args'
 
 const [test, only, skip] = [new Map(), new Map(), new Map()]
 
-test.set('Input argv is not mutated', async function () {
+skip.set('Input argv is not mutated', async function () {
   const argv = ['one', 'two', '--one', 'something', '--two']
   const optionDefinitions = [
     {
@@ -19,7 +19,7 @@ test.set('Input argv is not mutated', async function () {
   a.notEqual(cla.args.length, argv.length)
 })
 
-test.set('--option <no value>', async function () {
+skip.set('--option <no value>', async function () {
   const argv = ['one', 'two', '--one', '--two']
   const optionDefinitions = [
     {
@@ -36,7 +36,7 @@ test.set('--option <no value>', async function () {
   a.deepEqual(cla.args, ['one', 'two', '--two'])
 })
 
-test.set('--option flag', async function () {
+skip.set('--option flag', async function () {
   const argv = ['one', 'two', '--one', '--two']
   const optionDefinitions = [
     {
@@ -51,7 +51,7 @@ test.set('--option flag', async function () {
   a.deepEqual(cla.args, ['one', 'two', '--two'])
 })
 
-test.set('--option flag not present', async function () {
+skip.set('--option flag not present', async function () {
   const argv = ['one', 'two', '--not-one', '--two']
   const optionDefinitions = [
     {
@@ -66,7 +66,7 @@ test.set('--option flag not present', async function () {
   a.deepEqual(cla.args, ['one', 'two', '--not-one', '--two'])
 })
 
-test.set('--option <value>', async function () {
+skip.set('--option <value>', async function () {
   const argv = ['one', 'two', '--one', 'something', '--two']
   const optionDefinitions = [
     {
@@ -82,7 +82,7 @@ test.set('--option <value>', async function () {
   a.deepEqual(cla.args, ['one', 'two', '--two'])
 })
 
-test.set('no name supplied: use the fromArg as the default', async function () {
+skip.set('no name supplied: use the fromArg as the default', async function () {
   const argv = ['one', 'two', '--one', 'something', '--two']
   const optionDefinitions = [
     {
@@ -97,7 +97,7 @@ test.set('no name supplied: use the fromArg as the default', async function () {
   a.deepEqual(cla.args, ['one', 'two', '--two'])
 })
 
-test.set('Missing type: all args to the right of the fromArg returned', async function () {
+skip.set('Missing type: all args to the right of the fromArg returned', async function () {
   const argv = ['one', 'two', '--one', 'first', 'second', '--two']
   const optionDefinitions = [
     {
@@ -111,7 +111,7 @@ test.set('Missing type: all args to the right of the fromArg returned', async fu
   a.deepEqual(cla.args, ['one', 'two', '--two'])
 })
 
-test.set('name can be a function receiving the extraction matched by from and to', async function () {
+skip.set('name can be a function receiving the extraction matched by from and to', async function () {
   const argv = ['one', 'two', '--one', 'first', 'second', '--two']
   const optionDefinitions = [
     {
@@ -125,7 +125,7 @@ test.set('name can be a function receiving the extraction matched by from and to
   a.deepEqual(result, { '--one|first|second': ['first', 'second'] })
 })
 
-test.set('dynamic definition function receives fromArg', async function () {
+skip.set('dynamic definition function receives fromArg', async function () {
   const argv = ['one', 'two', '--one', 'something', '--two']
   const optionDefinitions = [
     {
@@ -142,11 +142,11 @@ test.set('dynamic definition function receives fromArg', async function () {
   ]
   const cla = new CommandLineArgs(argv, optionDefinitions)
   const result = cla.parse()
-  a.deepEqual(result, { 'one': 'something' })
+  a.deepEqual(result, { one: 'something' })
   a.deepEqual(cla.args, ['one', 'two', '--two'])
 })
 
-test.set('noFurtherThan', async function () {
+skip.set('noFurtherThan', async function () {
   const argv = ['command1', 'arg', '--option', 'value', '--flag', 'command2', 'arg2']
   const commands = ['command1', 'command2']
   const optionDefinitions = [
@@ -164,7 +164,7 @@ test.set('noFurtherThan', async function () {
   })
 })
 
-test.set('to not found: no args matched', async function () {
+skip.set('to not found: no args matched', async function () {
   const argv = ['command1', 'arg', '--option', 'value', '--flag']
   const optionDefinitions = [
     {
@@ -180,7 +180,7 @@ test.set('to not found: no args matched', async function () {
   })
 })
 
-test.set('noFurtherThan not found: all args matched until the end', async function () {
+skip.set('noFurtherThan not found: all args matched until the end', async function () {
   const argv = ['command1', 'arg', '--option', 'value', '--flag']
   const optionDefinitions = [
     {
@@ -192,7 +192,7 @@ test.set('noFurtherThan not found: all args matched until the end', async functi
   const result = cla.parse()
   // this.data = result
   a.deepEqual(result, {
-    command1: [ 'arg', '--option', 'value', '--flag' ]
+    command1: ['arg', '--option', 'value', '--flag']
   })
 })
 

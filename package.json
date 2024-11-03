@@ -2,7 +2,7 @@
   "name": "command-line-args",
   "version": "6.0.0",
   "description": "A mature, feature-complete library to parse command-line options.",
-  "author": "Lloyd Brookes <75pound@gmail.com>",
+  "author": "Lloyd Brookes <opensource@75lb.com>",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -10,7 +10,7 @@
   },
   "scripts": {
     "test": "npm run dist && npm run test:ci",
-    "test:ci": "75lb-nature test-runner test.js",
+    "test:ci": "75lb-nature test-runner test/*.js",
     "dist": "75lb-nature cjs-build index.js"
   },
   "type": "module",
@@ -52,5 +52,11 @@
       "dist",
       "tmp"
     ]
+  },
+  "dependencies": {
+    "array-back": "^6.2.2"
+  },
+  "devDependencies": {
+    "test-runner": "^0.12.0-8"
   }
 }
