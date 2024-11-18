@@ -11,6 +11,9 @@ on:
 jobs:
   build:
 
+    permissions:
+      contents: read
+
     runs-on: ${{ matrix.os }}
 
     strategy:
@@ -20,6 +23,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+      with:
+        persist-credentials: false    
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v4
       with:
