@@ -8,6 +8,10 @@
     "type": "git",
     "url": "git+https://github.com/75lb/command-line-args.git"
   },
+  "homepage": "https://github.com/75lb/command-line-args",
+  "bugs": {
+    "url": "https://github.com/75lb/command-line-args/issues"
+  },
   "scripts": {
     "test": "npm run dist && npm run test:ci",
     "test:ci": "75lb-nature test-runner test/*.js",
