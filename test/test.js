@@ -102,7 +102,7 @@ skip.set('Missing type: all args to the right of the fromArg returned', async fu
   const optionDefinitions = [
     {
       from: arg => arg === '--one',
-      to: (valueIndex, arg, index, argv) => argv[index + 1]?.startsWith('--')
+      to: (valueIndex, arg, index, argv) => argv[index + 1] && argv[index + 1].startsWith('--')
     }
   ]
   const cla = new CommandLineArgs(argv, optionDefinitions)
@@ -116,7 +116,7 @@ skip.set('name can be a function receiving the extraction matched by from and to
   const optionDefinitions = [
     {
       from: arg => arg === '--one',
-      to: (valueIndex, arg, index, argv) => argv[index + 1]?.startsWith('--'),
+      to: (valueIndex, arg, index, argv) => argv[index + 1] && argv[index + 1].startsWith('--'),
       name: (extraction) => extraction.join('|')
     }
   ]
