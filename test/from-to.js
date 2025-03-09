@@ -74,7 +74,7 @@ skip.set('from second occurance', async function () {
   const arr = ['one', 'here', '--', '--', '--', 'here', '--', '--', '--', 'there']
   const result = fromTo(arr, {
     from: 'here',
-    fromOccurance: 2,
+    fromOccurance: 2, // DEPRECATED
     toEnd: true
   })
   a.deepEqual(result, ['here', '--', '--', '--', 'here', '--', '--', '--', 'there'])
@@ -91,14 +91,38 @@ test.set('flag', async function () {
 })
 
 test.set('--option value', async function () {
-  const arr = ['one', 'here', '--option', 'there']
+  const arr = ['one', 'here', '--option', 'there', 'more']
+  const result = fromTo(arr, {
+    from: '--option',
+    to: (val, i, a, valueIndex) => valueIndex > 1 || val.startsWith('--'),
+    remove: true
+  })
+  a.deepEqual(result, ['--option', 'there'])
+  a.deepEqual(arr, ['one', 'here', 'more'])
+})
+
+/* TODO: GET RID of noFurtherThan and inclusive - too confusing to use and code. Stick with "stop here", "no further than here" behaviour which is not inclusive. (default behaviour used by array.slice) */
+only.set('--option value without remove', async function () {
+  const arr = ['one', 'here', '--option', 'there', 'more']
+  const result = fromTo(arr, {
+    from: '--option',
+    noFurtherThan: (val, i, a, valueIndex) => valueIndex > 1 || val.startsWith('--'),
+    remove: false
+  })
+  a.deepEqual(result, ['--option', 'there'])
+  a.deepEqual(arr, ['one', 'here', '--option', 'there', 'more'])
+})
+
+test.set('--option value value ...', async function () {
+  const arr = ['one', 'here', '--option', 'there', 'more']
   const result = fromTo(arr, {
     from: '--option',
     to: (val) => val.startsWith('--'),
     remove: true
   })
-  a.deepEqual(result, ['--option', 'there'])
+  a.deepEqual(result, ['--option', 'there', 'more'])
   a.deepEqual(arr, ['one', 'here'])
 })
+
 
 export { test, only, skip }

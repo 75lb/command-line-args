@@ -12,16 +12,19 @@ var arrayBack = require('array-back');
  * - Find one or more items, return them, remove them from the input array
  *
  * arr {string[]} - Input array. Only mutated if `options.remove` is set.
- * [options.rtol] {boolean} - Enable right-to-left scans. Either that or pass in a custom iterator.
+ * [options.rtol] {boolean} - Enable right-to-left scans. Either that or pass in a custom iterator. TODO.
  * [options.remove] {boolean} - Remove from source array
  * [options.inclusive] {boolean} - If `true` includes the to item.
- * [options.from] {function}
- * [options.to] {function}
+ * [options.from] {string[]|function[]}
+ * [options.to] {string[]|function[]} - A "Stop Here" function. Set one or more strings as the terminating arg. Or, from the function `fn(arg, index, argv, valueIndex)`, return true for the first arg that is out of range. Set `inclusive` to also include it.
+ * [options.toInclude] {string[]|function[]} - From the function `fn(arg, index, argv, valueIndex)`, return true for the first arg that is out of range. Set `inclusive` to also include it.
  * [options.noFurtherThan] {function}
+ * [options.toEnd] {boolean}
  * @returns string[]
  */
 function fromTo (arr, options = {}) {
   let { from: fromFn, to: toFn, noFurtherThan, remove, inclusive, toEnd } = options;
+
   if (inclusive === undefined && !noFurtherThan && toFn) {
     inclusive = true;
   }
@@ -33,9 +36,14 @@ function fromTo (arr, options = {}) {
       return fn
     }
   });
+
+  if (fromFn.length === 0) {
+    throw new Error('from required')
+  }
+
   toFn = arrayBack(toFn).map(fn => {
     if (typeof fn === 'string') {
-      return function (item, index, arr, valueIndex) { return item === fn }
+      return function (item) { return item === fn }
     } else {
       return fn
     }
