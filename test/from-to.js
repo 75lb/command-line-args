@@ -1,5 +1,5 @@
 import { strict as a } from 'assert'
-import fromTo from 'command-line-args/fromTo'
+import { fromTo, single } from 'command-line-args/fromTo'
 
 const [test, only, skip] = [new Map(), new Map(), new Map()]
 
@@ -7,65 +7,26 @@ test.set('from and to: string inputs', async function () {
   const arr = ['one', 'here', '--', '--', '--', 'here', '--', '--', '--', 'there']
   const result = fromTo(arr, {
     from: 'here',
-    to: ['rabbit', 'here', 'there'],
-    inclusive: false
+    to: ['rabbit', 'here', 'there'], // "to" implies one or more values expected. TODO: multiplicity config instread? E.g. `1..*` like UML.
   })
   a.deepEqual(result, ['here', '--', '--', '--'])
-})
-
-test.set('from and to: string inputs, inclusive', async function () {
-  const arr = ['one', 'here', '--', '--', '--', 'here', '--', '--', '--', 'there']
-  const result = fromTo(arr, {
-    from: 'here',
-    to: ['here', 'there'],
-    inclusive: true
-  })
-  a.deepEqual(result, ['here', '--', '--', '--', 'here'])
+  a.deepEqual(arr, ['one', 'here', '--', '--', '--', 'here', '--', '--', '--', 'there'])
 })
 
 test.set('from and to: function inputs', async function () {
   const arr = ['one', 'here', '--', '--', '--', 'here', '--', '--', '--', 'there']
   const result = fromTo(arr, {
     from: (val) => val === 'here',
-    to: (val) => val === 'here' || val === 'there',
-    inclusive: false
+    to: (val) => val === 'here' || val === 'there'
   })
   a.deepEqual(result, ['here', '--', '--', '--'])
+  a.deepEqual(arr, ['one', 'here', '--', '--', '--', 'here', '--', '--', '--', 'there'])
 })
 
-test.set('from and to: function inputs, inclusive', async function () {
-  const arr = ['one', 'here', '--', '--', '--', 'here', '--', '--', '--', 'there']
-  const result = fromTo(arr, {
-    from: (val) => val === 'here',
-    to: (val) => val === 'here' || val === 'there',
-    inclusive: true
-  })
-  a.deepEqual(result, ['here', '--', '--', '--', 'here'])
-})
-
-test.set('from, no to', async function () {
+test.set('no to, returns all items', async function () {
   const arr = ['one', 'here', '--', '--', '--', 'here', '--', '--', '--', 'there']
   const result = fromTo(arr, {
     from: 'here'
-  })
-  a.deepEqual(result, ['here'])
-})
-
-test.set('from, to end', async function () {
-  const arr = ['one', 'here', '--', '--', '--', 'here', '--', '--', '--', 'there']
-  const result = fromTo(arr, {
-    from: 'here',
-    toEnd: true
-  })
-  a.deepEqual(result, ['here', '--', '--', '--', 'here', '--', '--', '--', 'there'])
-})
-
-skip.set('start point', async function () {
-  const arr = ['one', 'here', '--', '--', '--', 'here', '--', '--', '--', 'there']
-  const result = fromTo(arr, {
-    // start: // second "here"
-    from: 'here',
-    toEnd: true
   })
   a.deepEqual(result, ['here', '--', '--', '--', 'here', '--', '--', '--', 'there'])
 })
@@ -74,18 +35,22 @@ skip.set('from second occurance', async function () {
   const arr = ['one', 'here', '--', '--', '--', 'here', '--', '--', '--', 'there']
   const result = fromTo(arr, {
     from: 'here',
-    fromOccurance: 2, // DEPRECATED
-    toEnd: true
+    fromOccurance: 2 // TODO: NOT IMPLEMENTED. DEPRECATED? Implement by passing in an array which already starts from the second occurance?
   })
   a.deepEqual(result, ['here', '--', '--', '--', 'here', '--', '--', '--', 'there'])
 })
 
-test.set('flag', async function () {
+/* Useful for parsing a --flag. Create new config called "once" and make "from" always imply `toEnd`. Remove toEnd. */
+test.set('single, no remove', async function () {
+  const arr = ['one', 'here', '--', '--', '--', 'here', '--', '--', '--', 'there']
+  const result = single(arr, 'here')
+  a.deepEqual(result, ['here'])
+  a.deepEqual(arr, ['one', 'here', '--', '--', '--', 'here', '--', '--', '--', 'there'])
+})
+
+test.set('single, remove', async function () {
   const arr = ['one', 'here', '--flag', 'there']
-  const result = fromTo(arr, {
-    from: ['--flag', '-f'],
-    remove: true
-  })
+  const result = single(arr, ['--flag', '-f'], { remove: true })
   a.deepEqual(result, ['--flag'])
   a.deepEqual(arr, ['one', 'here', 'there'])
 })
@@ -101,17 +66,17 @@ test.set('--option value', async function () {
   a.deepEqual(arr, ['one', 'here', 'more'])
 })
 
-/* TODO: GET RID of noFurtherThan and inclusive - too confusing to use and code. Stick with "stop here", "no further than here" behaviour which is not inclusive. (default behaviour used by array.slice) */
-only.set('--option value without remove', async function () {
+test.set('--option value, no remove', async function () {
   const arr = ['one', 'here', '--option', 'there', 'more']
   const result = fromTo(arr, {
     from: '--option',
-    noFurtherThan: (val, i, a, valueIndex) => valueIndex > 1 || val.startsWith('--'),
+    to: (val, i, a, valueIndex) => valueIndex > 1 || val.startsWith('--'),
     remove: false
   })
   a.deepEqual(result, ['--option', 'there'])
   a.deepEqual(arr, ['one', 'here', '--option', 'there', 'more'])
 })
+
 
 test.set('--option value value ...', async function () {
   const arr = ['one', 'here', '--option', 'there', 'more']
@@ -124,5 +89,26 @@ test.set('--option value value ...', async function () {
   a.deepEqual(arr, ['one', 'here'])
 })
 
+skip.set('from many, to many', async function () {
+  const validCommands = [
+    '/help',
+    '/users',
+    '/rooms',
+    '/clientSessions',
+    '/roomSessions',
+    '/members',
+    '/nick',
+    '/join',
+  ]
+
+  const arr = [ '/join', 'r', '/nick', 'lloyd' ]
+  const result = fromTo(arr, {
+    from: validCommands,
+    to: validCommands
+  })
+  /* Priority should be given to "first in the array", not "first in the from list". Is order in the argv more meaningful than order in the from list? */
+  a.deepEqual(result, ['/join', 'r'])
+  // a.deepEqual(arr, ['one', 'here'])
+})
 
 export { test, only, skip }
