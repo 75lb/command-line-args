@@ -21,7 +21,18 @@ var arrayBack = require('array-back');
 
 /* TODO: rename to extractFromTo? Rename `options.remove` to `extract`. */
 function fromTo (arr, options = {}) {
-  const fromIndex = getFromIndex(arr, options.from);
+  /* step 1: compute from and to index */
+  const fromIndex = arr.findIndex(item => {
+    return arrayBack(options.from).some(fr => {
+      if (typeof fr === 'function') {
+        return fr(item)
+      } else if (fr instanceof RegExp) {
+        return fr.test(item)
+      } else {
+        return fr === item
+      }
+    })
+  });
 
   const toFn = arrayBack(options.to).map(convertToFunction);
   let toIndex = -1;
@@ -42,10 +53,12 @@ function fromTo (arr, options = {}) {
     }
   }
 
+  /* step 2: extract items between the from and to indices */
   const output = toIndex === -1
     ? arr.slice(fromIndex) /* Return all to the end */
     : arr.slice(fromIndex, toIndex);
 
+  /* step 3: optionally remove from input array */
   if (options.remove) {
     if (toIndex === -1) {
       arr.splice(fromIndex);

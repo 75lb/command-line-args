@@ -1,16 +1,7 @@
 import { strict as a } from 'assert'
 import CommandLineArgs from 'command-line-args'
-import { fromTo, single, positional } from '../lib/from-to.js'
 
 const [test, only, skip] = [new Map(), new Map(), new Map()]
-
-function singleOptionValuePreset (arg, index, argv, valueIndex) {
-  return valueIndex > 1 || arg.startsWith('--')
-}
-
-function multipleOptionValuePreset (arg, index, argv, valueIndex) {
-  return arg.startsWith('--')
-}
 
 test.set('Input argv is not mutated', async function () {
   const argv = ['one', 'two', '--one', 'something', '--two']
@@ -180,7 +171,7 @@ test.set('Magic arg values: file1 file2 extra-large verbose output final', async
 })
 
 skip.set('Preprocessing', async function () {
-  const argv = ['b25lIHR3byAtLW9uZSBzb21ldGhpbmcgLS10d28K'] // or a JWT
+  // const argv = ['b25lIHR3byAtLW9uZSBzb21ldGhpbmcgLS10d28K'] // or a JWT
   // echo 'one two --one something --two' | base64
 })
 
@@ -245,13 +236,13 @@ test.set('self-defining options', async function () {
       from: /^--server\.string\./,
       to: 'singleOptionValue',
       output: e => e[1]
-    },
+    }
   ]
 
   const cla = new CommandLineArgs(argv)
   const result = cla.parse(optionDefinitions)
   a.deepEqual(result, {
-    one: [ 'one', 'uno', 'ein' ],
+    one: ['one', 'uno', 'ein'],
     two: undefined,
     broke: 1,
     three: true,

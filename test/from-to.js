@@ -1,5 +1,5 @@
 import { strict as a } from 'assert'
-import { fromTo, single, positional } from '../lib/from-to.js'
+import { fromTo, single } from '../lib/from-to.js'
 
 const [test, only, skip] = [new Map(), new Map(), new Map()]
 
@@ -88,7 +88,7 @@ test.set('--option value value ...', async function () {
   a.deepEqual(arr, ['one', 'here'])
 })
 
-skip.set('from many, to many', async function () {
+test.set('from many, to many', async function () {
   const validCommands = [
     '/help',
     '/users',
@@ -100,14 +100,21 @@ skip.set('from many, to many', async function () {
     '/join'
   ]
 
-  const arr = ['/join', 'r', '/nick', 'lloyd']
+  const arr = ['/join', 'roomA', '/nick', 'lloyd']
   const result = fromTo(arr, {
     from: validCommands,
-    to: validCommands
+    to: validCommands,
+    remove: true
+  })
+  const result2 = fromTo(arr, {
+    from: validCommands,
+    to: validCommands,
+    remove: true
   })
   /* Priority should be given to "first in the array", not "first in the from list". Is order in the argv more meaningful than order in the from list? */
-  a.deepEqual(result, ['/join', 'r'])
-  // a.deepEqual(arr, ['one', 'here'])
+  a.deepEqual(result, ['/join', 'roomA'])
+  a.deepEqual(result2, ['/nick', 'lloyd'])
+  // this.data = { result, result2 }
 })
 
 export { test, only, skip }
