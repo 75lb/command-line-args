@@ -1,4 +1,4 @@
-import fromTo from './lib/from-to.js'
+import { fromTo } from './lib/from-to.js'
 
 class CommandLineArgs {
   constructor (args, optionDefinitions) {

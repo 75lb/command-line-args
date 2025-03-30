@@ -7,7 +7,7 @@ test.set('from and to: string inputs', async function () {
   const arr = ['one', 'here', '--', '--', '--', 'here', '--', '--', '--', 'there']
   const result = fromTo(arr, {
     from: 'here',
-    to: ['rabbit', 'here', 'there'], // "to" implies one or more values expected. TODO: multiplicity config instread? E.g. `1..*` like UML.
+    to: ['rabbit', 'here', 'there'] // "to" implies one or more values expected. TODO: multiplicity config instread? E.g. `1..*` like UML.
   })
   a.deepEqual(result, ['here', '--', '--', '--'])
   a.deepEqual(arr, ['one', 'here', '--', '--', '--', 'here', '--', '--', '--', 'there'])
@@ -77,7 +77,6 @@ test.set('--option value, no remove', async function () {
   a.deepEqual(arr, ['one', 'here', '--option', 'there', 'more'])
 })
 
-
 test.set('--option value value ...', async function () {
   const arr = ['one', 'here', '--option', 'there', 'more']
   const result = fromTo(arr, {
@@ -98,10 +97,10 @@ skip.set('from many, to many', async function () {
     '/roomSessions',
     '/members',
     '/nick',
-    '/join',
+    '/join'
   ]
 
-  const arr = [ '/join', 'r', '/nick', 'lloyd' ]
+  const arr = ['/join', 'r', '/nick', 'lloyd']
   const result = fromTo(arr, {
     from: validCommands,
     to: validCommands
