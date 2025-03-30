@@ -1,92 +1,57 @@
-import { fromTo } from './lib/from-to.js'
+import { fromTo, single, positional } from './lib/from-to.js'
+
+const toPresets = {
+  singleOptionValue (arg, index, argv, valueIndex) {
+    return valueIndex > 1 || arg.startsWith('--')
+  },
+
+  multipleOptionValue (arg, index, argv, valueIndex) {
+    return arg.startsWith('--')
+  }
+}
 
 class CommandLineArgs {
-  constructor (args, optionDefinitions) {
-    this.origArgv = args.slice()
-    this.args = args.slice()
-    this.optionDefinitions = optionDefinitions
+  constructor (argv = process.argv) {
+    this.origArgv = argv.slice()
+    this.argv = argv.slice()
   }
 
-  parse () {
-    const extractions = this.getExtractions()
-    const matches = this.getMatches(extractions)
-    return this.buildOutput(matches)
-  }
+  parse (optionDefinitions) {
+    const result = {}
 
-  /**
-   * Loop through the defs using `def.from` and `def.to` to compute `args` start and end indices for extraction.
-   * Output:
-   * [<from-arg>, <...arg>, <to-arg>]
-   */
-  getExtractions () {
-    const result = []
-    for (const def of this.optionDefinitions) {
-      let scanning = true
-      while (scanning) {
-        const fromIndex = this.args.findIndex(def.from)
-        if (fromIndex === -1) {
-          scanning = false
-        } else {
-          let dynamicDef
-          if (def.def) {
-            dynamicDef = def.def(this.args[fromIndex])
-            Object.assign(dynamicDef, def)
-          } else {
-            dynamicDef = def
-          }
-          result.push(fromTo(this.args, {
-            from: dynamicDef.from,
-            to: dynamicDef.to,
-            noFurtherThan: dynamicDef.noFurtherThan,
-            remove: true
-          }))
+    /* Do the positionals backwards, so removing them doesn't mess up the position config */
+    const positionals = optionDefinitions.filter(d => d.extractor === 'positional')
+    positionals.sort((a, b) => b.position - a.position)
+
+    if (positionals.length) {
+      for (const def of positionals) {
+        const extraction = positional(this.argv, def.position - 1, { remove: true })
+        if (extraction.length) {
+          result[def.name] = def.output(extraction)
         }
       }
     }
-    return result
-  }
 
-  /**
-   * Operates on the extractions, input args not touched. Map an option to one or more values. Currently does some processing if `name` and/or `type` are provided. What if they are not, what should the defaults be?
-   * Uses `def.from` to match with the first arg of the extraction (as the same def.from was originally used to create the extraction)
-   * Uses def.def, def.name, def.type. Not def.to.
-   * Output:
-   [
-     [<name>, [...typeResults]]
-     [<name>, [...typeResults]]
-   ]
-   */
-  getMatches (extractions) {
-    const result = []
-    for (const extraction of extractions) {
-      /* the from arg is the one matched by def.from()  */
-      const fromArg = extraction[0]
-      const def = this.optionDefinitions.find(def => def.from(fromArg))
-      let dynamicDef = def
-      if (def.def) {
-        dynamicDef = def.def(fromArg)
-        Object.assign(dynamicDef, def)
+    const notPositionals = optionDefinitions.filter(d => d.extractor !== 'positional')
+    for (const def of notPositionals) {
+      let extraction
+      if (def.extractor === 'fromTo') {
+        extraction = fromTo(this.argv, {
+          from: def.from,
+          to: toPresets[def.to],
+          remove: true
+        })
+      } else if (def.extractor === 'single') {
+        extraction = single(this.argv, def.single, { remove: true })
+      } else {
+        throw new Error('Extractor not found: ' + def.extractor)
       }
-      const name = dynamicDef.name === undefined
-        ? fromArg
-        : typeof dynamicDef.name === 'string'
-          ? dynamicDef.name
-          : dynamicDef.name(extraction)
-      const typeResult = dynamicDef.type ? dynamicDef.type(extraction.slice(1)) : extraction.slice(1)
-      result.push([name, typeResult])
+      if (extraction.length) {
+        result[def.name] = def.output(extraction)
+      }
     }
-    return result
-  }
 
-  /**
-   * No hints or config in the def. User decides, hand-rolled preference.
-   */
-  buildOutput (matches) {
-    const output = {}
-    for (const [name, values] of matches) {
-      output[name] = values
-    }
-    return output
+    return result
   }
 }
 

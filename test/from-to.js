@@ -1,5 +1,5 @@
 import { strict as a } from 'assert'
-import { fromTo, single } from 'command-line-args/fromTo'
+import { fromTo, single, positional } from '../lib/from-to.js'
 
 const [test, only, skip] = [new Map(), new Map(), new Map()]
 
