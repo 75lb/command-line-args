@@ -10,9 +10,8 @@ test.set('Input argv is not mutated', async function () {
       name: 'one',
       extractor: 'fromTo',
       from: '--one',
-      to: 'singleOptionValue',
-      type: String,
-      output: extraction => extraction[1]
+      to: 'singleOptionValue', // TODO: Rename as "toPreset" to be more explicit we're using a preset.
+      output: extraction => extraction[1] // TODO: Define a FromToExtractor derived class which already includes this specific output value by default.
     }
   ]
   const cla = new CommandLineArgs(argv)
@@ -116,6 +115,46 @@ test.set('Positionals must be args 1 and 2, with options following', async funct
   })
 
   // this.data = { result }
+})
+
+test.set('Positional with one single', async function () {
+  const argv = ['AAPL', '--contract']
+  const cla = new CommandLineArgs(argv)
+  const result = cla.parse([
+    {
+      name: 'contract',
+      extractor: 'single',
+      single: '--contract',
+      output: extraction => true
+    },
+    {
+      name: 'symbol',
+      extractor: 'positional',
+      position: 1,
+      output: extraction => extraction[0]
+    }
+  ])
+  a.deepEqual(result, { symbol: 'AAPL', contract: true })
+})
+
+test.set('Missing positional with one single', async function () {
+  const argv = ['--contract']
+  const cla = new CommandLineArgs(argv)
+  const result = cla.parse([
+    {
+      name: 'contract',
+      extractor: 'single',
+      single: '--contract',
+      output: extraction => true
+    },
+    {
+      name: 'symbol',
+      extractor: 'positional',
+      position: 1,
+      output: extraction => extraction[0]
+    }
+  ])
+  a.deepEqual(result, { contract: true })
 })
 
 test.set('Magic arg values: file1 file2 extra-large verbose output final', async function () {

@@ -103,6 +103,7 @@ function getFromIndex (arr, find) {
 
 /**
  * Return a single item from an array, optionally removing it from the input.
+ * @param [options.remove] {booolean}
  */
 function single (arr, item, options = {}) {
   const fromIndex = getFromIndex(arr, item);
@@ -116,6 +117,7 @@ function single (arr, item, options = {}) {
 
 /**
  * Return a single item by index, optionally removing it from the input.
+ * @param [options.remove] {booolean}
  */
 function positional (arr, fromIndex, options = {}) {
   const output = arr.slice(fromIndex, fromIndex + 1);
@@ -125,6 +127,7 @@ function positional (arr, fromIndex, options = {}) {
   return output
 }
 
+/* TODO: factor out into a FromTo Extractor-derived class as relevant only to from-to. */
 const toPresets = {
   singleOptionValue (arg, index, argv, valueIndex) {
     return valueIndex > 1 || arg.startsWith('--')
@@ -136,26 +139,20 @@ const toPresets = {
 };
 
 class CommandLineArgs {
-  constructor (argv = process.argv) {
-    this.origArgv = argv.slice();
-    this.argv = argv.slice();
+  constructor (argv) {
+    if (argv) {
+      this.argv = argv.slice();
+    } else {
+      this.argv = process.argv.slice(2);
+    }
+    this.origArgv = this.argv.slice();
   }
 
+  /**
+   * @param {OptionDefinition[]}
+   */
   parse (optionDefinitions) {
     const result = {};
-
-    /* Do the positionals backwards, so removing them doesn't mess up the position config */
-    const positionals = optionDefinitions.filter(d => d.extractor === 'positional');
-    positionals.sort((a, b) => b.position - a.position);
-
-    if (positionals.length) {
-      for (const def of positionals) {
-        const extraction = positional(this.argv, def.position - 1, { remove: true });
-        if (extraction.length) {
-          result[def.name] = def.output(extraction);
-        }
-      }
-    }
 
     const notPositionals = optionDefinitions.filter(d => d.extractor !== 'positional');
     for (const def of notPositionals) {
@@ -173,6 +170,22 @@ class CommandLineArgs {
       }
       if (extraction.length) {
         result[def.name] = def.output(extraction);
+      }
+    }
+
+    /* Do the positionals backwards, so removing them doesn't mess up the position config */
+    /* TODO: factor this behaviour out into a specialised Extractor derived Positional class. Remove hard-coded logic switches like 'positional', logic & behaviour should be passed in. */
+    /* TODO: Need a "pre-processing" step for Extractor-specific steps like changing the sort order */
+    /* TODO: Should positionals be processed last to avoid extracting fromTo or single definitions (e.g. --option value) */
+    const positionals = optionDefinitions.filter(d => d.extractor === 'positional');
+    positionals.sort((a, b) => b.position - a.position);
+
+    if (positionals.length) {
+      for (const def of positionals) {
+        const extraction = positional(this.argv, def.position - 1, { remove: true });
+        if (extraction.length) {
+          result[def.name] = def.output(extraction);
+        }
       }
     }
 
