@@ -66,6 +66,17 @@ test.set('--option value', async function () {
   a.deepEqual(arr, ['one', 'here', 'more'])
 })
 
+test.set('--option value, from not found with remove set', async function () {
+  const arr = ['one', 'here', '--option', 'there', 'more']
+  const result = fromTo(arr, {
+    from: '--not-found',
+    to: (val, i, a, valueIndex) => valueIndex > 1 || val.startsWith('--'),
+    remove: true
+  })
+  a.deepEqual(result, [])
+  a.deepEqual(arr, ['one', 'here', '--option', 'there', 'more'])
+})
+
 test.set('--option value, no remove', async function () {
   const arr = ['one', 'here', '--option', 'there', 'more']
   const result = fromTo(arr, {

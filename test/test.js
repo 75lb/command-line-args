@@ -137,6 +137,33 @@ test.set('Positional with one single', async function () {
   a.deepEqual(result, { symbol: 'AAPL', contract: true })
 })
 
+test.set('Positional, one single, one from-to', async function () {
+  const argv = ['AAPL', '--contract']
+  const cla = new CommandLineArgs(argv)
+  const result = cla.parse([
+    {
+      name: 'contract',
+      extractor: 'single',
+      single: '--contract',
+      output: extraction => true
+    },
+    {
+      name: 'symbol',
+      extractor: 'positional',
+      position: 1,
+      output: extraction => extraction[0]
+    },
+    {
+      name: 'exchange',
+      extractor: 'fromTo',
+      from: '--exchange',
+      to: 'singleOptionValue',
+      output: extraction => extraction[1]
+    },
+  ])
+  a.deepEqual(result, { symbol: 'AAPL', contract: true })
+})
+
 test.set('Missing positional with one single', async function () {
   const argv = ['--contract']
   const cla = new CommandLineArgs(argv)
