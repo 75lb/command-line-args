@@ -13,11 +13,29 @@ test.set('from and to: string inputs', async function () {
   a.deepEqual(arr, ['one', 'here', '--', '--', '--', 'here', '--', '--', '--', 'there'])
 })
 
+test.set('from and to: from array', async function () {
+  const arr = ['one', '-o', 'two', '-v']
+  const result = fromTo(arr, {
+    from: ['--option', '-o'],
+    to: ['--version', '-v']
+  })
+  a.deepEqual(result, [ '-o', 'two' ])
+})
+
+test.set('from and to: from array 2', async function () {
+  const arr = ['one', '-o', 'two', '--version']
+  const result = fromTo(arr, {
+    from: ['--option', '-o'],
+    to: ['--version', '-v']
+  })
+  a.deepEqual(result, [ '-o', 'two' ])
+})
+
 test.set('from and to: function inputs', async function () {
   const arr = ['one', 'here', '--', '--', '--', 'here', '--', '--', '--', 'there']
   const result = fromTo(arr, {
     from: (val) => val === 'here',
-    to: (val) => val === 'here' || val === 'there'
+    to: (val) => val === 'here' || val === 'there' // equivalent to [here, there]
   })
   a.deepEqual(result, ['here', '--', '--', '--'])
   a.deepEqual(arr, ['one', 'here', '--', '--', '--', 'here', '--', '--', '--', 'there'])

@@ -10,8 +10,8 @@ test.set('Input argv is not mutated', async function () {
       name: 'one',
       extractor: 'fromTo',
       from: '--one',
-      to: 'singleOptionValue', // TODO: Rename as "toPreset" to be more explicit we're using a preset.
-      output: extraction => extraction[1] // TODO: Define a FromToExtractor derived class which already includes this specific output value by default.
+      toPreset: 'singleOptionValue',
+      output: extraction => extraction[1]
     }
   ]
   const cla = new CommandLineArgs(argv)
@@ -28,7 +28,7 @@ test.set('--option <no value>', async function () {
       name: 'one',
       extractor: 'fromTo',
       from: '--one',
-      to: 'singleOptionValue',
+      toPreset: 'singleOptionValue',
       output: extraction => extraction[1]
     }
   ]
@@ -38,7 +38,7 @@ test.set('--option <no value>', async function () {
   a.deepEqual(cla.argv, ['one', 'two', '--two', 'three'])
 })
 
-test.set('--option flag', async function () {
+test.set('single --option flag', async function () {
   const argv = ['one', 'two', '--one', '--two']
   const optionDefinitions = [
     {
@@ -50,6 +50,28 @@ test.set('--option flag', async function () {
   ]
   const cla = new CommandLineArgs(argv)
   const result = cla.parse(optionDefinitions)
+  a.deepEqual(result, { one: true })
+  a.deepEqual(cla.argv, ['one', 'two', '--two'])
+})
+
+test.set('single regex', async function () {
+  const argv = ['one', 'two', '--one', '--two']
+  const optionDefinitions = [
+    {
+      name: 'one',
+      extractor: 'single',
+      single: /--o[n]+e/,
+      output: extraction => true
+    }
+  ]
+  const cla = new CommandLineArgs(argv)
+  const result = cla.parse(optionDefinitions)
+  a.deepEqual(result, { one: true })
+  a.deepEqual(cla.argv, ['one', 'two', '--two'])
+
+  const argv2 = ['one', 'two', '--onnnnne', '--two']
+  const cla2 = new CommandLineArgs(argv2)
+  const result2 = cla2.parse(optionDefinitions)
   a.deepEqual(result, { one: true })
   a.deepEqual(cla.argv, ['one', 'two', '--two'])
 })
@@ -90,7 +112,7 @@ test.set('Positionals must be args 1 and 2, with options following', async funct
       name: 'option',
       extractor: 'fromTo',
       from: ['--option', '-o'],
-      to: 'singleOptionValue',
+      toPreset: 'singleOptionValue',
       output: extraction => extraction[1]
     },
     {
@@ -157,7 +179,7 @@ test.set('Positional, one single, one from-to', async function () {
       name: 'exchange',
       extractor: 'fromTo',
       from: '--exchange',
-      to: 'singleOptionValue',
+      toPreset: 'singleOptionValue',
       output: extraction => extraction[1]
     },
   ])
@@ -216,7 +238,7 @@ test.set('Magic arg values: file1 file2 extra-large verbose output final', async
       name: 'output',
       extractor: 'fromTo',
       from: 'output',
-      to: 'singleOptionValue',
+      toPreset: 'singleOptionValue',
       output: extraction => extraction[1]
     }
     // {
@@ -265,7 +287,7 @@ test.set('self-defining options', async function () {
     '3000'
   ]
 
-  /* Instead of "dynamic definition" magic, just run the parser over argv multiple times, one for each desire result object */
+  /* Instead of "dynamic definition" magic, just run the parser over argv multiple times, one for each desired result object */
   /* Parse the args first for `--configName.optionName.optionValueType` format args, creating option definitions */
 
   const optionDefinitions = [
@@ -273,21 +295,21 @@ test.set('self-defining options', async function () {
       name: 'one',
       extractor: 'fromTo',
       from: /^--server\.string\[\]/,
-      to: 'multipleOptionValue',
+      toPreset: 'multipleOptionValue',
       output: e => e.slice(1)
     },
     {
       name: 'two',
       extractor: 'fromTo',
       from: /^--server\.number\./,
-      to: 'singleOptionValue',
+      toPreset: 'singleOptionValue',
       output: e => e[1]
     },
     {
       name: 'broke',
       extractor: 'fromTo',
       from: /^--server\.number\./,
-      to: 'singleOptionValue',
+      toPreset: 'singleOptionValue',
       output: e => Number(e[1])
     },
     {
@@ -300,7 +322,7 @@ test.set('self-defining options', async function () {
       name: 'four',
       extractor: 'fromTo',
       from: /^--server\.string\./,
-      to: 'singleOptionValue',
+      toPreset: 'singleOptionValue',
       output: e => e[1]
     }
   ]
@@ -363,6 +385,31 @@ skip.set('to not found: no args matched', async function () {
   a.deepEqual(result, {
     command1: []
   })
+})
+
+test.set('Multiple parses to consume all args', async function () {
+  const argv = ['server', '--option', 'value', 'clive', 'server', '--verbose']
+  const commandLineArgs = new CommandLineArgs(argv)
+  const result1 = commandLineArgs.parse([
+    {
+      name: 'extraction',
+      extractor: 'fromTo',
+      from: 'server',
+      to: 'server'
+    }
+  ])
+  const result2 = commandLineArgs.parse([
+    {
+      name: 'extraction',
+      extractor: 'fromTo',
+      from: 'server',
+      to: 'server'
+    }
+  ])
+  // this.data = { result1, result2 }
+
+  a.deepEqual(result1, { extraction: [ 'server', '--option', 'value', 'clive' ] })
+  a.deepEqual(result2, { extraction: [ 'server', '--verbose'] })
 })
 
 export { test, only, skip }

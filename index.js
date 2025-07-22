@@ -1,5 +1,7 @@
 import { fromTo, single, positional } from './lib/from-to.js'
 
+function defaultOutput (val) { return val }
+
 /* TODO: factor out into a FromTo Extractor-derived class as relevant only to from-to. */
 const toPresets = {
   singleOptionValue (arg, index, argv, valueIndex) {
@@ -29,13 +31,11 @@ class CommandLineArgs {
 
     const notPositionals = optionDefinitions.filter(d => d.extractor !== 'positional')
     for (const def of notPositionals) {
+      def.output ||= defaultOutput
       let extraction
       if (def.extractor === 'fromTo') {
-        extraction = fromTo(this.argv, {
-          from: def.from,
-          to: toPresets[def.to],
-          remove: true
-        })
+        const to = def.toPreset ? toPresets[def.toPreset] : def.to
+        extraction = fromTo(this.argv, { from: def.from, to, remove: true })
       } else if (def.extractor === 'single') {
         extraction = single(this.argv, def.single, { remove: true })
       } else {
@@ -55,6 +55,7 @@ class CommandLineArgs {
 
     if (positionals.length) {
       for (const def of positionals) {
+        def.output ||= defaultOutput
         const extraction = positional(this.argv, def.position - 1, { remove: true })
         if (extraction.length) {
           result[def.name] = def.output(extraction)
