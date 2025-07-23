@@ -12,14 +12,12 @@ var arrayBack = require('array-back');
  * - Find one or more items, return them, remove them from the input array
  *
  * arr {string[]} - Input array. Only mutated if `options.remove` is set.
- * [options.rtol] {boolean} - Enable right-to-left scans. Either that or pass in a custom iterator. TODO.
  * [options.remove] {boolean} - Remove from source array
  * [options.from] {string[]|function[]} - String literal or a [findIndex](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/findIndex) callback function.
  * [options.to] {string[]|function[]} - A "Stop Here" function. Set one or more strings as the terminating arg. Or, from the function `fn(arg, index, argv, valueIndex)`, return true for the first arg that is out of range. Set `inclusive` to also include it. To will always search to the end of the input array.
  * @returns string[]
  */
 
-/* TODO: rename to extractFromTo? Rename `options.remove` to `extract`. */
 function fromTo (arr, options = {}) {
   /* step 1: compute from and to index */
   const fromIndex = arr.findIndex(item => {
@@ -92,7 +90,7 @@ function getFromIndex (arr, find) {
   const fromFns = arrayBack(find).map(convertToFunction);
 
   if (fromFns.length === 0) {
-    throw new Error('from/single required') // TODO: obviously broken semantically
+    throw new Error('from/single required')
   }
 
   let fromIndex;
@@ -134,7 +132,6 @@ function positional (arr, fromIndex, options = {}) {
 
 function defaultOutput (val) { return val }
 
-/* TODO: factor out into a FromTo Extractor-derived class as relevant only to from-to. */
 const toPresets = {
   singleOptionValue (arg, index, argv, valueIndex) {
     return valueIndex > 1 || arg.startsWith('--')
@@ -179,9 +176,6 @@ class CommandLineArgs {
     }
 
     /* Do the positionals backwards, so removing them doesn't mess up the position config */
-    /* TODO: factor this behaviour out into a specialised Extractor derived Positional class. Remove hard-coded logic switches like 'positional', logic & behaviour should be passed in. */
-    /* TODO: Need a "pre-processing" step for Extractor-specific steps like changing the sort order */
-    /* TODO: Should positionals be processed last to avoid extracting fromTo or single definitions (e.g. --option value) */
     const positionals = optionDefinitions.filter(d => d.extractor === 'positional');
     positionals.sort((a, b) => b.position - a.position);
 

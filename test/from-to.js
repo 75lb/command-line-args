@@ -7,7 +7,7 @@ test.set('from and to: string inputs', async function () {
   const arr = ['one', 'here', '--', '--', '--', 'here', '--', '--', '--', 'there']
   const result = fromTo(arr, {
     from: 'here',
-    to: ['rabbit', 'here', 'there'] // "to" implies one or more values expected. TODO: multiplicity config instread? E.g. `1..*` like UML.
+    to: ['rabbit', 'here', 'there']
   })
   a.deepEqual(result, ['here', '--', '--', '--'])
   a.deepEqual(arr, ['one', 'here', '--', '--', '--', 'here', '--', '--', '--', 'there'])
@@ -45,15 +45,6 @@ test.set('no to, returns all items', async function () {
   const arr = ['one', 'here', '--', '--', '--', 'here', '--', '--', '--', 'there']
   const result = fromTo(arr, {
     from: 'here'
-  })
-  a.deepEqual(result, ['here', '--', '--', '--', 'here', '--', '--', '--', 'there'])
-})
-
-skip.set('from second occurance', async function () {
-  const arr = ['one', 'here', '--', '--', '--', 'here', '--', '--', '--', 'there']
-  const result = fromTo(arr, {
-    from: 'here',
-    fromOccurance: 2 // TODO: NOT IMPLEMENTED. DEPRECATED? Implement by passing in an array which already starts from the second occurance?
   })
   a.deepEqual(result, ['here', '--', '--', '--', 'here', '--', '--', '--', 'there'])
 })

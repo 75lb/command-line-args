@@ -2,7 +2,6 @@ import { fromTo, single, positional } from './lib/from-to.js'
 
 function defaultOutput (val) { return val }
 
-/* TODO: factor out into a FromTo Extractor-derived class as relevant only to from-to. */
 const toPresets = {
   singleOptionValue (arg, index, argv, valueIndex) {
     return valueIndex > 1 || arg.startsWith('--')
@@ -47,9 +46,6 @@ class CommandLineArgs {
     }
 
     /* Do the positionals backwards, so removing them doesn't mess up the position config */
-    /* TODO: factor this behaviour out into a specialised Extractor derived Positional class. Remove hard-coded logic switches like 'positional', logic & behaviour should be passed in. */
-    /* TODO: Need a "pre-processing" step for Extractor-specific steps like changing the sort order */
-    /* TODO: Should positionals be processed last to avoid extracting fromTo or single definitions (e.g. --option value) */
     const positionals = optionDefinitions.filter(d => d.extractor === 'positional')
     positionals.sort((a, b) => b.position - a.position)
 
