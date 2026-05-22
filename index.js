@@ -37,9 +37,7 @@ class CommandLineArgs {
       } else {
         throw new Error('Extractor not found: ' + def.extractor)
       }
-      if (extraction.length) {
-        result[def.name] = await def.output(extraction)
-      }
+      result[def.name] = await def.output(extraction)
     }
 
     /* Do the positionals backwards, so removing them doesn't mess up the position config */
@@ -50,9 +48,7 @@ class CommandLineArgs {
       for (const def of positionals) {
         def.output ||= defaultOutput
         const extraction = positional(this.argv, def.position - 1, { remove: true })
-        if (extraction.length) {
-          result[def.name] = await def.output(extraction)
-        }
+        result[def.name] = await def.output(extraction)
       }
     }
 
