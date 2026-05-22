@@ -1,6 +1,6 @@
 import { fromTo, single, positional } from './lib/from-to.js'
 
-function defaultOutput (val) { return val }
+async function defaultOutput (val) { return val }
 
 const toPresets = {
   singleOptionValue (arg, index, argv, valueIndex) {
@@ -22,10 +22,7 @@ class CommandLineArgs {
     this.origArgv = this.argv.slice()
   }
 
-  /**
-   * @param {OptionDefinition[]}
-   */
-  parse (optionDefinitions) {
+  async parse (optionDefinitions) {
     const result = {}
 
     const notPositionals = optionDefinitions.filter(d => d.extractor !== 'positional')
@@ -41,7 +38,7 @@ class CommandLineArgs {
         throw new Error('Extractor not found: ' + def.extractor)
       }
       if (extraction.length) {
-        result[def.name] = def.output(extraction)
+        result[def.name] = await def.output(extraction)
       }
     }
 
@@ -54,7 +51,7 @@ class CommandLineArgs {
         def.output ||= defaultOutput
         const extraction = positional(this.argv, def.position - 1, { remove: true })
         if (extraction.length) {
-          result[def.name] = def.output(extraction)
+          result[def.name] = await def.output(extraction)
         }
       }
     }
