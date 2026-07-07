@@ -15,7 +15,7 @@ test.set('Input argv is not mutated', async function () {
     }
   ]
   const cla = new CommandLineArgs(argv)
-  const result = cla.parse(optionDefinitions)
+  const result = await cla.parse(optionDefinitions)
   a.notEqual(cla.argv, argv)
   a.notEqual(cla.argv.length, argv.length)
   a.deepEqual(result, { one: 'something' })
@@ -33,7 +33,7 @@ test.set('--option <no value>', async function () {
     }
   ]
   const cla = new CommandLineArgs(argv)
-  const result = cla.parse(optionDefinitions)
+  const result = await cla.parse(optionDefinitions)
   a.deepEqual(result, { one: undefined })
   a.deepEqual(cla.argv, ['one', 'two', '--two', 'three'])
 })
@@ -49,7 +49,7 @@ test.set('single --option flag', async function () {
     }
   ]
   const cla = new CommandLineArgs(argv)
-  const result = cla.parse(optionDefinitions)
+  const result = await cla.parse(optionDefinitions)
   a.deepEqual(result, { one: true })
   a.deepEqual(cla.argv, ['one', 'two', '--two'])
 })
@@ -65,7 +65,7 @@ test.set('single regex', async function () {
     }
   ]
   const cla = new CommandLineArgs(argv)
-  const result = cla.parse(optionDefinitions)
+  const result = await cla.parse(optionDefinitions)
   a.deepEqual(result, { one: true })
   a.deepEqual(cla.argv, ['one', 'two', '--two'])
 
@@ -83,12 +83,12 @@ test.set('--option flag not present', async function () {
       name: 'one',
       extractor: 'single',
       single: '--one',
-      output: extraction => true
+      output: extraction => extraction.length === 1
     }
   ]
   const cla = new CommandLineArgs(argv)
-  const result = cla.parse(optionDefinitions)
-  a.deepEqual(result, {})
+  const result = await cla.parse(optionDefinitions)
+  a.deepEqual(result, { one: false })
   a.deepEqual(cla.argv, ['one', 'two', '--not-one', '--two'])
 })
 
@@ -128,7 +128,7 @@ test.set('Positionals must be args 1 and 2, with options following', async funct
   ]
 
   const cla = new CommandLineArgs(argv)
-  const result = cla.parse(optionDefinitions)
+  const result = await cla.parse(optionDefinitions)
   a.deepEqual(result, {
     positional2: '100',
     positional1: 'positional1',
@@ -142,7 +142,7 @@ test.set('Positionals must be args 1 and 2, with options following', async funct
 test.set('Positional with one single', async function () {
   const argv = ['AAPL', '--contract']
   const cla = new CommandLineArgs(argv)
-  const result = cla.parse([
+  const result = await cla.parse([
     {
       name: 'contract',
       extractor: 'single',
@@ -162,7 +162,7 @@ test.set('Positional with one single', async function () {
 test.set('Positional, one single, one from-to', async function () {
   const argv = ['AAPL', '--contract']
   const cla = new CommandLineArgs(argv)
-  const result = cla.parse([
+  const result = await cla.parse([
     {
       name: 'contract',
       extractor: 'single',
@@ -183,13 +183,13 @@ test.set('Positional, one single, one from-to', async function () {
       output: extraction => extraction[1]
     },
   ])
-  a.deepEqual(result, { symbol: 'AAPL', contract: true })
+  a.deepEqual(result, { symbol: 'AAPL', contract: true, exchange: undefined })
 })
 
 test.set('Missing positional with one single', async function () {
   const argv = ['--contract']
   const cla = new CommandLineArgs(argv)
-  const result = cla.parse([
+  const result = await cla.parse([
     {
       name: 'contract',
       extractor: 'single',
@@ -203,7 +203,7 @@ test.set('Missing positional with one single', async function () {
       output: extraction => extraction[0]
     }
   ])
-  a.deepEqual(result, { contract: true })
+  a.deepEqual(result, { contract: true, symbol: undefined })
 })
 
 test.set('Magic arg values: file1 file2 extra-large verbose output final', async function () {
@@ -247,7 +247,7 @@ test.set('Magic arg values: file1 file2 extra-large verbose output final', async
   ]
 
   const cla = new CommandLineArgs(argv)
-  const result = cla.parse(optionDefinitions)
+  const result = await cla.parse(optionDefinitions)
   a.deepEqual(result, {
     dest: 'destFile',
     src: 'srcFile',
@@ -328,7 +328,7 @@ test.set('self-defining options', async function () {
   ]
 
   const cla = new CommandLineArgs(argv)
-  const result = cla.parse(optionDefinitions)
+  const result = await cla.parse(optionDefinitions)
   a.deepEqual(result, {
     one: ['one', 'uno', 'ein'],
     two: undefined,
@@ -349,7 +349,7 @@ skip.set('no name supplied: use the fromArg as the default', async function () {
     }
   ]
   const cla = new CommandLineArgs(argv, optionDefinitions)
-  const result = cla.parse()
+  const result = await cla.parse()
   a.deepEqual(result, { '--one': 'something' })
   a.deepEqual(cla.argv, ['one', 'two', '--two'])
 })
@@ -367,7 +367,7 @@ skip.set('name can be a function receiving the extraction matched by from and to
     }
   ]
   const cla = new CommandLineArgs(argv, optionDefinitions)
-  const result = cla.parse()
+  const result = await cla.parse()
   a.deepEqual(result, { '--one|first|second': ['first', 'second'] })
 })
 
@@ -380,7 +380,7 @@ skip.set('to not found: no args matched', async function () {
     }
   ]
   const cla = new CommandLineArgs(argv, optionDefinitions)
-  const result = cla.parse()
+  const result = await cla.parse()
   // this.data = result
   a.deepEqual(result, {
     command1: []
@@ -389,8 +389,8 @@ skip.set('to not found: no args matched', async function () {
 
 test.set('Multiple parses to consume all args', async function () {
   const argv = ['server', '--option', 'value', 'clive', 'server', '--verbose']
-  const commandLineArgs = new CommandLineArgs(argv)
-  const result1 = commandLineArgs.parse([
+  const cla = new CommandLineArgs(argv)
+  const result1 = await cla.parse([
     {
       name: 'extraction',
       extractor: 'fromTo',
@@ -398,7 +398,7 @@ test.set('Multiple parses to consume all args', async function () {
       to: 'server'
     }
   ])
-  const result2 = commandLineArgs.parse([
+  const result2 = await cla.parse([
     {
       name: 'extraction',
       extractor: 'fromTo',

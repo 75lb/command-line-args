@@ -2,21 +2,37 @@
 
 var arrayBack = require('array-back');
 
-/**
- * Similar to find-replace with two exceptions:
- * - fromTo finds multiple items, find-replace finds single items
- * - fromTo offers the option to remove, find-replace offers option to remove and/or replace.
- *
- * Scenarios you can perform
- * - Find one or more items and return (all return values are arrays)
- * - Find one or more items, return them, remove them from the input array
- *
- * arr {string[]} - Input array. Only mutated if `options.remove` is set.
- * [options.remove] {boolean} - Remove from source array
- * [options.from] {string[]|function[]} - String literal or a [findIndex](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/findIndex) callback function.
- * [options.to] {string[]|function[]} - A "Stop Here" function. Set one or more strings as the terminating arg. Or, from the function `fn(arg, index, argv, valueIndex)`, return true for the first arg that is out of range. Set `inclusive` to also include it. To will always search to the end of the input array.
- * @returns string[]
- */
+/*☭
+## from-to
+
+Similar to find-replace with two exceptions:
+
+- fromTo finds multiple items, find-replace finds single items
+- fromTo offers the option to remove, find-replace offers option to remove and/or replace.
+
+Scenarios you can perform
+
+- Find one or more items and return (all return values are arrays)
+- Find one or more items, return them, remove them from the input array
+
+- **Type:** `function`
+- **Returns:** `string[]`
+
+arr {string[]} - Input array. Only mutated if `options.remove` is set.
+[options.remove] {boolean} - Remove from source array
+[options.from] {string[]|function[]} - String literal or a [findIndex](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/findIndex) callback function.
+[options.to] {string[]|function[]} - A "Stop Here" function. Set one or more strings as the terminating arg. Or, from the function `fn(arg, index, argv, valueIndex)`, return true for the first arg that is out of range. Set `inclusive` to also include it. To will always search to the end of the input array.
+
+¬
+  Param
+  Type
+  Description
+¬
+  [options]
+  `object`
+  Description
+¬
+*/
 
 function fromTo (arr, options = {}) {
   /* step 1: compute from and to index */
@@ -86,8 +102,8 @@ function convertToFunction (fn) {
 /**
  * Find the first value which matches the supplied `find` definition (one or more string or functions).
  */
-function getFromIndex (arr, find) {
-  const fromFns = arrayBack(find).map(convertToFunction);
+function getFromIndex (arr, itemsToFind) {
+  const fromFns = arrayBack(itemsToFind).map(convertToFunction);
 
   if (fromFns.length === 0) {
     throw new Error('from/single required')
@@ -111,6 +127,7 @@ function getFromIndex (arr, find) {
 function single (arr, item, options = {}) {
   const fromIndex = getFromIndex(arr, item);
 
+  /* TODO: could this use array.find? */
   const output = arr.slice(fromIndex, fromIndex + 1);
   if (options.remove && fromIndex > -1) {
     arr.splice(fromIndex, 1);
@@ -130,7 +147,7 @@ function positional (arr, fromIndex, options = {}) {
   return output
 }
 
-function defaultOutput (val) { return val }
+async function defaultOutput (val) { return val }
 
 const toPresets = {
   singleOptionValue (arg, index, argv, valueIndex) {
@@ -152,10 +169,7 @@ class CommandLineArgs {
     this.origArgv = this.argv.slice();
   }
 
-  /**
-   * @param {OptionDefinition[]}
-   */
-  parse (optionDefinitions) {
+  async parse (optionDefinitions) {
     const result = {};
 
     const notPositionals = optionDefinitions.filter(d => d.extractor !== 'positional');
@@ -170,9 +184,7 @@ class CommandLineArgs {
       } else {
         throw new Error('Extractor not found: ' + def.extractor)
       }
-      if (extraction.length) {
-        result[def.name] = def.output(extraction);
-      }
+      result[def.name] = await def.output(extraction);
     }
 
     /* Do the positionals backwards, so removing them doesn't mess up the position config */
@@ -183,9 +195,7 @@ class CommandLineArgs {
       for (const def of positionals) {
         def.output ||= defaultOutput;
         const extraction = positional(this.argv, def.position - 1, { remove: true });
-        if (extraction.length) {
-          result[def.name] = def.output(extraction);
-        }
+        result[def.name] = await def.output(extraction);
       }
     }
 
