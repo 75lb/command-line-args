@@ -131,10 +131,115 @@ test.set('from many, to many', async function () {
     to: validCommands,
     remove: true
   })
-  /* Priority should be given to "first in the array", not "first in the from list". Is order in the argv more meaningful than order in the from list? */
+  /* Priority should be given to "first in the argv", not "first in the from list". Is order in the argv more meaningful than order in the from list? */
   a.deepEqual(result, ['/join', 'roomA'])
   a.deepEqual(result2, ['/nick', 'lloyd'])
   // this.data = { result, result2 }
+})
+
+test.set('from many, to many: order bug', async function () {
+  const validCommands = [
+    'dcdoc-parse',
+    'add-contents',
+    'add-package-list',
+    'add-package-list-template',
+    'body-to-file',
+    'body-to-stdout',
+    'combine-content',
+    'combine-one-file-per-group',
+    'combine-trees-single-file',
+    'insert-into-template',
+    'io-read',
+    'io-write',
+    'package-info',
+    'quick-table',
+    'render-block',
+    'read-step-data',
+    'filter-blocks',
+  ]
+
+  const arr = ['io-read', '--inputs', 'clive.json', 'dcdoc-parse', 'combine-content', 'insert-into-template', '--template', 'clive.template']
+  const result = fromTo(arr, {
+    from: validCommands,
+    to: validCommands,
+    remove: true
+  })
+  const result2 = fromTo(arr, {
+    from: validCommands,
+    to: validCommands,
+    remove: true
+  })
+  const result3 = fromTo(arr, {
+    from: validCommands,
+    to: validCommands,
+    remove: true
+  })
+  const result4 = fromTo(arr, {
+    from: validCommands,
+    to: validCommands,
+    remove: true
+  })
+  /* Priority should be given to "first in the argv", not "first in the from list". Is order in the argv more meaningful than order in the from list? */
+  // this.data = { result, result2, result3, result4 }
+  a.deepEqual({ result, result2, result3, result4 }, {
+    result: [ 'io-read', '--inputs', 'clive.json' ],
+    result2: [ 'dcdoc-parse' ],
+    result3: [ 'combine-content' ],
+    result4: [ 'insert-into-template', '--template', 'clive.template' ]
+  })
+})
+
+test.set('from many, to many: order bug, dcdoc-parse moved to end of list', async function () {
+  const validCommands = [
+    'add-contents',
+    'add-package-list',
+    'add-package-list-template',
+    'body-to-file',
+    'body-to-stdout',
+    'combine-content',
+    'combine-one-file-per-group',
+    'combine-trees-single-file',
+    'insert-into-template',
+    'io-read',
+    'io-write',
+    'package-info',
+    'quick-table',
+    'render-block',
+    'read-step-data',
+    'filter-blocks',
+    'dcdoc-parse',
+  ]
+
+  const arr = ['io-read', '--inputs', 'clive.json', 'dcdoc-parse', 'combine-content', 'insert-into-template', '--template', 'clive.template']
+  debugger
+  const result = fromTo(arr, {
+    from: validCommands,
+    to: validCommands,
+    remove: true
+  })
+  const result2 = fromTo(arr, {
+    from: validCommands,
+    to: validCommands,
+    remove: true
+  })
+  const result3 = fromTo(arr, {
+    from: validCommands,
+    to: validCommands,
+    remove: true
+  })
+  const result4 = fromTo(arr, {
+    from: validCommands,
+    to: validCommands,
+    remove: true
+  })
+  /* Priority should be given to "first in the argv", not "first in the from list". Is order in the argv more meaningful than order in the from list? */
+  // this.data = { result, result2, result3, result4 }
+  a.deepEqual({ result, result2, result3, result4 }, {
+    result: [ 'io-read', '--inputs', 'clive.json' ],
+    result2: [ 'dcdoc-parse' ],
+    result3: [ 'combine-content' ],
+    result4: [ 'insert-into-template', '--template', 'clive.template' ]
+  })
 })
 
 export { test, only, skip }
