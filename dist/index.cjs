@@ -178,7 +178,23 @@ class CommandLineArgs {
       let extraction;
       if (def.extractor === 'fromTo') {
         const to = def.toPreset ? toPresets[def.toPreset] : def.to;
-        extraction = fromTo(this.argv, { from: def.from, to, remove: true });
+        if (def.repeatable) {
+          extraction = [];
+          let keepGoing = true;
+          while (keepGoing) {
+            const argLength = this.argv.length;
+            const extractionStep = fromTo(this.argv, { from: def.from, to, remove: true });
+            if (extractionStep.length) {
+              extraction.push(extractionStep);
+            }
+            keepGoing = argLength !== this.argv.length;
+          }
+          console.log(extraction);
+          // extraction = extraction.flat()
+          // extraction = [extraction[0], ...extraction.slice(1).filter(e => e !== extraction[0])]
+        } else {
+          extraction = fromTo(this.argv, { from: def.from, to, remove: true });
+        }
       } else if (def.extractor === 'single') {
         extraction = single(this.argv, def.single, { remove: true });
       } else {

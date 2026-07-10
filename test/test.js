@@ -1,5 +1,9 @@
 import { strict as a } from 'assert'
 import CommandLineArgs from 'command-line-args'
+import util from 'node:util'
+util.inspect.defaultOptions.depth = 6
+util.inspect.defaultOptions.breakLength = process?.stdout?.columns || 80
+util.inspect.defaultOptions.maxArrayLength = Infinity
 
 const [test, only, skip] = [new Map(), new Map(), new Map()]
 
@@ -410,6 +414,24 @@ test.set('Multiple parses to consume all args', async function () {
 
   a.deepEqual(result1, { extraction: [ 'server', '--option', 'value', 'clive' ] })
   a.deepEqual(result2, { extraction: [ 'server', '--verbose'] })
+})
+
+test.set('Repeating options', async function () {
+  const argv = ['--var', 'one', 'something', '--var', 'two', 'another']
+  const cla = new CommandLineArgs(argv)
+  const result = await cla.parse([
+    {
+      name: 'var',
+      extractor: 'fromTo',
+      from: '--var',
+      toPreset: 'multipleOptionValue',
+      repeatable: true,
+      output: e => Object.fromEntries(e.map(args => args.slice(1)))
+    }
+  ])
+
+  // this.data = { result }
+  a.deepEqual(result, { var: { one: 'something', two: 'another' } })
 })
 
 export { test, only, skip }
