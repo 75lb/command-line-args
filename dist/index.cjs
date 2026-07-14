@@ -189,14 +189,24 @@ class CommandLineArgs {
             }
             keepGoing = argLength !== this.argv.length;
           }
-          console.log(extraction);
-          // extraction = extraction.flat()
-          // extraction = [extraction[0], ...extraction.slice(1).filter(e => e !== extraction[0])]
         } else {
           extraction = fromTo(this.argv, { from: def.from, to, remove: true });
         }
       } else if (def.extractor === 'single') {
-        extraction = single(this.argv, def.single, { remove: true });
+        if (def.repeatable) {
+          extraction = [];
+          let keepGoing = true;
+          while (keepGoing) {
+            const argLength = this.argv.length;
+            const extractionStep = single(this.argv, def.single, { remove: true });
+            if (extractionStep.length) {
+              extraction.push(extractionStep);
+            }
+            keepGoing = argLength !== this.argv.length;
+          }
+        } else {
+          extraction = single(this.argv, def.single, { remove: true });
+        }
       } else {
         throw new Error('Extractor not found: ' + def.extractor)
       }

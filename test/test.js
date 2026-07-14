@@ -185,7 +185,7 @@ test.set('Positional, one single, one from-to', async function () {
       from: '--exchange',
       toPreset: 'singleOptionValue',
       output: extraction => extraction[1]
-    },
+    }
   ])
   a.deepEqual(result, { symbol: 'AAPL', contract: true, exchange: undefined })
 })
@@ -412,11 +412,28 @@ test.set('Multiple parses to consume all args', async function () {
   ])
   // this.data = { result1, result2 }
 
-  a.deepEqual(result1, { extraction: [ 'server', '--option', 'value', 'clive' ] })
-  a.deepEqual(result2, { extraction: [ 'server', '--verbose'] })
+  a.deepEqual(result1, { extraction: ['server', '--option', 'value', 'clive'] })
+  a.deepEqual(result2, { extraction: ['server', '--verbose'] })
 })
 
-test.set('Repeating options', async function () {
+test.set('Repeatable multis', async function () {
+  const argv = ['--var', 'one', 'something', '--var', 'two', 'another']
+  const cla = new CommandLineArgs(argv)
+  const result = await cla.parse([
+    {
+      name: 'var',
+      extractor: 'fromTo',
+      from: '--var',
+      toPreset: 'multipleOptionValue',
+      repeatable: true,
+      output: e => e
+    }
+  ])
+  // this.data = result
+  a.deepEqual(result, { var: [['--var', 'one', 'something'], ['--var', 'two', 'another']] })
+})
+
+test.set('Repeatable multis, converted to object', async function () {
   const argv = ['--var', 'one', 'something', '--var', 'two', 'another']
   const cla = new CommandLineArgs(argv)
   const result = await cla.parse([
@@ -430,8 +447,76 @@ test.set('Repeating options', async function () {
     }
   ])
 
-  // this.data = { result }
   a.deepEqual(result, { var: { one: 'something', two: 'another' } })
+})
+
+test.set('Repeatable single option values', async function () {
+  const argv = ['--var', 'one', 'something', '--var', 'two', 'another', '--var']
+  const cla = new CommandLineArgs(argv)
+  const result = await cla.parse([
+    {
+      name: 'var',
+      extractor: 'fromTo',
+      from: '--var',
+      toPreset: 'singleOptionValue',
+      repeatable: true,
+      output: e => e
+    }
+  ])
+
+  // this.data = result
+  a.deepEqual(result, { var: [['--var', 'one'], ['--var', 'two'], ['--var']] })
+})
+
+test.set('Repeating single option values without repeatable set', async function () {
+  const argv = ['--var', 'one', 'something', '--var', 'two', 'another', '--var']
+  const cla = new CommandLineArgs(argv)
+  const result = await cla.parse([
+    {
+      name: 'var',
+      extractor: 'fromTo',
+      from: '--var',
+      toPreset: 'singleOptionValue',
+      output: e => e
+    }
+  ])
+
+  // this.data = result
+  a.deepEqual(result, { var: ['--var', 'one'] })
+})
+
+test.set('Repeatable singles, raw output', async function () {
+  const argv = ['--var', 'one', 'something', '--var', 'two', 'another', '--var']
+  const cla = new CommandLineArgs(argv)
+  const result = await cla.parse([
+    {
+      name: 'var',
+      extractor: 'single',
+      single: '--var',
+      repeatable: true,
+      output: e => e
+    }
+  ])
+
+  // this.data = result
+  a.deepEqual(result, { var: [['--var'], ['--var'], ['--var']] })
+})
+
+test.set('Repeatable singles, boolean output', async function () {
+  const argv = ['--var', 'one', 'something', '--var', 'two', 'another', '--var']
+  const cla = new CommandLineArgs(argv)
+  const result = await cla.parse([
+    {
+      name: 'var',
+      extractor: 'single',
+      single: '--var',
+      repeatable: true,
+      output: e => e.map(i => i.length === 1)
+    }
+  ])
+
+  // this.data = result
+  a.deepEqual(result, { var: [true, true, true] })
 })
 
 export { test, only, skip }

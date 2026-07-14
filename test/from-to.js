@@ -19,7 +19,7 @@ test.set('from and to: from array', async function () {
     from: ['--option', '-o'],
     to: ['--version', '-v']
   })
-  a.deepEqual(result, [ '-o', 'two' ])
+  a.deepEqual(result, ['-o', 'two'])
 })
 
 test.set('from and to: from array 2', async function () {
@@ -28,7 +28,7 @@ test.set('from and to: from array 2', async function () {
     from: ['--option', '-o'],
     to: ['--version', '-v']
   })
-  a.deepEqual(result, [ '-o', 'two' ])
+  a.deepEqual(result, ['-o', 'two'])
 })
 
 test.set('from and to: function inputs', async function () {
@@ -155,7 +155,7 @@ test.set('from many, to many: order bug', async function () {
     'quick-table',
     'render-block',
     'read-step-data',
-    'filter-blocks',
+    'filter-blocks'
   ]
 
   const arr = ['io-read', '--inputs', 'clive.json', 'dcdoc-parse', 'combine-content', 'insert-into-template', '--template', 'clive.template']
@@ -182,10 +182,10 @@ test.set('from many, to many: order bug', async function () {
   /* Priority should be given to "first in the argv", not "first in the from list". Is order in the argv more meaningful than order in the from list? */
   // this.data = { result, result2, result3, result4 }
   a.deepEqual({ result, result2, result3, result4 }, {
-    result: [ 'io-read', '--inputs', 'clive.json' ],
-    result2: [ 'dcdoc-parse' ],
-    result3: [ 'combine-content' ],
-    result4: [ 'insert-into-template', '--template', 'clive.template' ]
+    result: ['io-read', '--inputs', 'clive.json'],
+    result2: ['dcdoc-parse'],
+    result3: ['combine-content'],
+    result4: ['insert-into-template', '--template', 'clive.template']
   })
 })
 
@@ -207,7 +207,7 @@ test.set('from many, to many: order bug, dcdoc-parse moved to end of list', asyn
     'render-block',
     'read-step-data',
     'filter-blocks',
-    'dcdoc-parse',
+    'dcdoc-parse'
   ]
 
   const arr = ['io-read', '--inputs', 'clive.json', 'dcdoc-parse', 'combine-content', 'insert-into-template', '--template', 'clive.template']
@@ -235,10 +235,10 @@ test.set('from many, to many: order bug, dcdoc-parse moved to end of list', asyn
   /* Priority should be given to "first in the argv", not "first in the from list". Is order in the argv more meaningful than order in the from list? */
   // this.data = { result, result2, result3, result4 }
   a.deepEqual({ result, result2, result3, result4 }, {
-    result: [ 'io-read', '--inputs', 'clive.json' ],
-    result2: [ 'dcdoc-parse' ],
-    result3: [ 'combine-content' ],
-    result4: [ 'insert-into-template', '--template', 'clive.template' ]
+    result: ['io-read', '--inputs', 'clive.json'],
+    result2: ['dcdoc-parse'],
+    result3: ['combine-content'],
+    result4: ['insert-into-template', '--template', 'clive.template']
   })
 })
 
