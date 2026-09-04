@@ -42,19 +42,51 @@ test.set('--option <no value>', async function () {
   a.deepEqual(cla.argv, ['one', 'two', '--two', 'three'])
 })
 
-test.set('single --option flag', async function () {
+test.set('single --option flag, value set', async function () {
   const argv = ['one', 'two', '--one', '--two']
   const optionDefinitions = [
     {
       name: 'one',
       extractor: 'single',
       single: '--one',
-      output: extraction => true
+      output: extraction => extraction.length === 1 ? true : undefined
     }
   ]
   const cla = new CommandLineArgs(argv)
   const result = await cla.parse(optionDefinitions)
   a.deepEqual(result, { one: true })
+  a.deepEqual(cla.argv, ['one', 'two', '--two'])
+})
+
+test.set('single --option flag, value set not, output returns false', async function () {
+  const argv = ['one', 'two', '--two']
+  const optionDefinitions = [
+    {
+      name: 'one',
+      extractor: 'single',
+      single: '--one',
+      output: extraction => extraction.length === 1
+    }
+  ]
+  const cla = new CommandLineArgs(argv)
+  const result = await cla.parse(optionDefinitions)
+  a.deepEqual(result, { one: false })
+  a.deepEqual(cla.argv, ['one', 'two', '--two'])
+})
+
+test.set('single --option flag, not set. Returning undefined omits option from result.', async function () {
+  const argv = ['one', 'two', '--two']
+  const optionDefinitions = [
+    {
+      name: 'one',
+      extractor: 'single',
+      single: '--one',
+      output: extraction => extraction.length === 1 ? true : undefined
+    }
+  ]
+  const cla = new CommandLineArgs(argv)
+  const result = await cla.parse(optionDefinitions)
+  a.deepEqual(result, {})
   a.deepEqual(cla.argv, ['one', 'two', '--two'])
 })
 

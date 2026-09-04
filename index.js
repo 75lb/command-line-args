@@ -45,6 +45,8 @@ class CommandLineArgs {
         } else {
           extraction = fromTo(this.argv, { from: def.from, to, remove: true })
         }
+        result[def.name] = await def.output(extraction)
+
       } else if (def.extractor === 'single') {
         if (def.repeatable) {
           extraction = []
@@ -60,10 +62,13 @@ class CommandLineArgs {
         } else {
           extraction = single(this.argv, def.single, { remove: true })
         }
+        const output = await def.output(extraction)
+        if (output !== undefined) {
+          result[def.name] = output
+        }
       } else {
         throw new Error('Extractor not found: ' + def.extractor)
       }
-      result[def.name] = await def.output(extraction)
     }
 
     /* Do the positionals backwards, so removing them doesn't mess up the position config */
