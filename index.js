@@ -45,7 +45,10 @@ class CommandLineArgs {
         } else {
           extraction = fromTo(this.argv, { from: def.from, to, remove: true })
         }
-        result[def.name] = await def.output(extraction)
+        const output = await def.output(extraction)
+        if (output !== undefined) {
+          result[def.name] = output
+        }
 
       } else if (def.extractor === 'single') {
         if (def.repeatable) {

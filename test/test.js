@@ -38,7 +38,7 @@ test.set('--option <no value>', async function () {
   ]
   const cla = new CommandLineArgs(argv)
   const result = await cla.parse(optionDefinitions)
-  a.deepEqual(result, { one: undefined })
+  a.deepEqual(result, { })
   a.deepEqual(cla.argv, ['one', 'two', '--two', 'three'])
 })
 
@@ -133,7 +133,7 @@ test.set('Positional, one single, one from-to', async function () {
       output: extraction => extraction[1]
     }
   ])
-  a.deepEqual(result, { symbol: 'AAPL', contract: true, exchange: undefined })
+  a.deepEqual(result, { symbol: 'AAPL', contract: true })
 })
 
 test.set('Missing positional with one single', async function () {
@@ -281,7 +281,6 @@ test.set('self-defining options', async function () {
   const result = await cla.parse(optionDefinitions)
   a.deepEqual(result, {
     one: ['one', 'uno', 'ein'],
-    two: undefined,
     broke: 1,
     three: true,
     four: 'four'
