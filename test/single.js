@@ -1,9 +1,5 @@
 import { strict as a } from 'assert'
 import CommandLineArgs from 'command-line-args'
-import util from 'node:util'
-util.inspect.defaultOptions.depth = 6
-util.inspect.defaultOptions.breakLength = process?.stdout?.columns || 80
-util.inspect.defaultOptions.maxArrayLength = Infinity
 
 const [test, only, skip] = [new Map(), new Map(), new Map()]
 
