@@ -2,7 +2,7 @@
 
 var arrayBack = require('array-back');
 
-/*☭
+/* ☭
 ## from-to
 
 Similar to find-replace with two exceptions:
@@ -174,7 +174,7 @@ class CommandLineArgs {
 
     const notPositionals = optionDefinitions.filter(d => d.extractor !== 'positional');
     for (const def of notPositionals) {
-      def.output ||= defaultOutput;
+      def.output = def.output || defaultOutput;
       let extraction;
       if (def.extractor === 'fromTo') {
         const to = def.toPreset ? toPresets[def.toPreset] : def.to;
@@ -192,6 +192,11 @@ class CommandLineArgs {
         } else {
           extraction = fromTo(this.argv, { from: def.from, to, remove: true });
         }
+        const output = await def.output(extraction);
+        if (output !== undefined) {
+          result[def.name] = output;
+        }
+
       } else if (def.extractor === 'single') {
         if (def.repeatable) {
           extraction = [];
@@ -207,10 +212,13 @@ class CommandLineArgs {
         } else {
           extraction = single(this.argv, def.single, { remove: true });
         }
+        const output = await def.output(extraction);
+        if (output !== undefined) {
+          result[def.name] = output;
+        }
       } else {
         throw new Error('Extractor not found: ' + def.extractor)
       }
-      result[def.name] = await def.output(extraction);
     }
 
     /* Do the positionals backwards, so removing them doesn't mess up the position config */
@@ -219,7 +227,7 @@ class CommandLineArgs {
 
     if (positionals.length) {
       for (const def of positionals) {
-        def.output ||= defaultOutput;
+        def.output = def.output || defaultOutput;
         const extraction = positional(this.argv, def.position - 1, { remove: true });
         result[def.name] = await def.output(extraction);
       }

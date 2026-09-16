@@ -27,7 +27,7 @@ class CommandLineArgs {
 
     const notPositionals = optionDefinitions.filter(d => d.extractor !== 'positional')
     for (const def of notPositionals) {
-      def.output ||= defaultOutput
+      def.output = def.output || defaultOutput
       let extraction
       if (def.extractor === 'fromTo') {
         const to = def.toPreset ? toPresets[def.toPreset] : def.to
@@ -80,7 +80,7 @@ class CommandLineArgs {
 
     if (positionals.length) {
       for (const def of positionals) {
-        def.output ||= defaultOutput
+        def.output = def.output || defaultOutput
         const extraction = positional(this.argv, def.position - 1, { remove: true })
         result[def.name] = await def.output(extraction)
       }
