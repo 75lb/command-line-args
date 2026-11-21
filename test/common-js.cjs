@@ -22,4 +22,14 @@ tom.test('CommonJS build works correctly', function () {
   )
 })
 
+tom.test('CommonJS build stops at double dash with a default option', function () {
+  a.deepStrictEqual(
+    commandLineArgs([
+      { name: 'src', defaultOption: true, multiple: true },
+      { name: 'verbose', alias: 'v', type: Boolean }
+    ], { argv: ['one', '--', '-vv', '--verbose'], stopAtFirstUnknown: true }),
+    { src: ['one'], _unknown: ['--', '-vv', '--verbose'] }
+  )
+})
+
 module.exports = tom

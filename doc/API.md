@@ -30,7 +30,7 @@ Parsing is strict by default - an exception is thrown if the user sets a singula
 | [options] | <code>object</code> | Options. |
 | [options.argv] | <code>Array.&lt;string&gt;</code> | An array of strings which, if present will be parsed instead  of `process.argv`. |
 | [options.partial] | <code>boolean</code> | If `true`, an array of unknown arguments is returned in the `_unknown` property of the output. |
-| [options.stopAtFirstUnknown] | <code>boolean</code> | If `true`, parsing will stop at the first unknown argument and the remaining arguments returned in `_unknown`. When set, `partial: true` is also implied. |
+| [options.stopAtFirstUnknown] | <code>boolean</code> | If `true`, parsing will stop at the first unknown argument and the remaining arguments returned in `_unknown`. A standalone `--` stops parsing even when an option accepts more values. When set, `partial: true` is also implied. |
 | [options.camelCase] | <code>boolean</code> | If `true`, options with hypenated names (e.g. `move-to`) will be returned in camel-case (e.g. `moveTo`). |
 | [options.caseInsensitive] | <code>boolean</code> | If `true`, the case of each option name or alias parsed is insignificant. In other words, both `--Verbose` and `--verbose`, `-V` and `-v` would be equivalent. Defaults to false. |
 
